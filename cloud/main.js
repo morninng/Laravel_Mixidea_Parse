@@ -9,7 +9,8 @@ Parse.Cloud.define("JoinGame", function(request, response) {
   var self = this;
   self.game_id = request.params.game_id;
   self.game_obj = new Object();
-  self.user_id = request.params.user_id;
+  self.user = request.user;
+  self.user_id = self.user.id;
   self.role_name = request.params.role;
   self.parent_event_obj = new Object();
   console.log(self.game_id);
@@ -51,7 +52,7 @@ Parse.Cloud.define("JoinGame", function(request, response) {
         self.game_obj.save().then(function(obj){
           console.log("game object saved");
           self.game_obj = obj;
-          increment_event_participant(request, response, self.parent_event_obj_id, self.user_id, self.game_obj);
+          increment_event_participant(request, response, self.parent_event_obj_id, self.user, self.game_obj);
         },function(error){
           error_response = {code:5, message: "failure to save game data", game_obj: self.game_obj};
           response.error(error_response);
@@ -60,17 +61,17 @@ Parse.Cloud.define("JoinGame", function(request, response) {
     },
     error: function(object, error) {
       error_response = {code:3, message: "game do not exist", game_obj: self.game_obj};
-      
       response.error(error_response);
     }
   });
 });
 
-function increment_event_participant(request, response, event_id, user_id, game_obj){
+function increment_event_participant(request, response, event_id, user, game_obj){
 
   console.log(" event participant data add");
   var self = this;
   self.game_obj = game_obj;
+  self.user = user;
   self.user_id = user_id;
 
   var Event = Parse.Object.extend("Event");
@@ -80,6 +81,8 @@ function increment_event_participant(request, response, event_id, user_id, game_
   event_query.get(event_id, {
     success: function(event_obj){
       console.log("event retrieve success");
+
+
       var participant_array = null;
       var already_participated = false;
     	participant_array = event_obj.get("participants");
@@ -105,9 +108,16 @@ function increment_event_participant(request, response, event_id, user_id, game_
     	event_obj.save().then(function(obj){
         console.log("event data saved");
         console.log(self.game_obj);
-    	  response.success(self.game_obj);
-    	},function(error){
-        console.log("saving game is failed");
+        var game_participate = self.user.relation("game_participate");
+        game_participate.add(self.game_obj);
+        var event_participate = self.user.relation("event_participate");
+        event_participate.add(event_obj);
+        return self.user.save();
+      }).then(function(obj){
+        console.log("saving user relation success");
+        response.success(self.game_obj);
+      },function(error){
+        console.log("saving game is failed or saving user data failed");
         error_response = {code:5, message: "failure to save game data", game_obj: self.game_obj};
         response.error(error_response);
       });
