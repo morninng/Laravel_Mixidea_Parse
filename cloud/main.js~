@@ -1,0 +1,111 @@
+
+
+Parse.Cloud.define("hello", function(request, response) {
+  response.success("Hello world!");
+});
+
+
+
+Parse.Cloud.define("JoinGame", function(request, response) {
+
+  var self = this;
+  
+  self.game_id = request.game_id;
+  self.user_id = request.user_id;
+  self.role_name = request.role;
+  self.parent_event_obj = new Object();
+  
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.get(game_id, {
+    success: function(game_obj){
+      var attendance= null;
+      self.game_obj = game_obj;
+      self.parent_event_obj  = self.game_obj.get("parent_event");
+      var attendance = null;
+      var participant_obj = self.game_obj.get("participant_role");
+      if(participant_obj){
+        attendance = participant_obj[role_name];
+      }else{
+        participant_obj = new Object();
+      }
+      
+      if(attendance){
+        response.error("someone has already joined as" + role_name + "you can find other role or game");
+      }else{
+
+        participant_obj[role_name] = self.user_id;
+        self.game_object.set("participant_role", participant_obj); // add users as a participant
+        self.game_object.save().then(function(obj){
+          self.game_object = obj;
+          increment_event_participant(self.parent_event_obj.id, self.user_id, self.game_object);
+        },function(error){
+          response.error("saving game is failed");
+        });
+      }
+    },
+    error: function(object, error) {
+    }
+});
+
+function increment_event_participant(event_id, user_id, game_obj){
+
+  var participant_array = new Object();
+  var already_participated = false;
+  var Event = Parse.Object.extend("Event");
+  var event_query = new Parse.Query(Event);
+  event_query.get(event_id, {
+    success: function(event_obj){
+    	participant_array = event_obj.get("participants");
+    	for(var key in participant_array ){
+    	  if(key == user_id){
+    	    participant_array[key]= participant_array[key]++;
+    	    already_participated = true;
+    	  }
+    	}
+    	if(!already_participated){
+    	  participant_array[user_id] = 1;
+    	}
+    	event_obj.set("participants", participant_array);
+    	event_obj.save().then(function(obj){
+    	  response.success(game_obj);
+    	},function(error){
+          response.error("saving game is failed");
+        });
+   },
+    error: function(object, error) {
+    }
+});
+
+
+Parse.Cloud.afterSave("Game", function(request) {
+  
+  var game_obj = request.object;
+  var event_obj_id = request.object.get("parent_event");
+  var user_id = request.user.id;
+  var game_participants_role_obj = game_obj.get("participant_role");
+  var participant_flag = false;
+  
+  
+  for(key in game_participants_role_obj ){
+    if(game_participants_role_obj[key] == user_id){
+       participant_flag = true;　//参加する。
+    }
+  } 
+  
+  if(participant_flag){
+   //参加するときには、Eventになかったら追加、あったら変更しない。
+  
+  
+  
+  }else{
+  //不参加になった場合には、Eventで一度削除。
+  //再度、Eventに紐づくGameをたどり、Gameの参加者にいたら再追加する。
+  
+  }
+  
+
+  
+  
+  
+});
