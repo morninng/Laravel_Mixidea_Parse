@@ -18,10 +18,20 @@ function Create_Event(request, response, event_JSON){
   self.param.event_title = event_JSON.event_title;
   self.param.event_description = event_JSON.event_description;
   self.param.event_date = event_JSON.event_date;
-  self.param.event_time = event_JSON.event_time;
   self.param.event_type = event_JSON.event_type;
   self.param.game_obj_array = event_JSON.game_object_array;
-  console.log(self.param.game_obj_array);
+
+  self.param.event_datetime_obj = event_JSON.event_date_time_obj;
+  console.log(self.param.event_datetime_obj);
+  var year = self.param.event_datetime_obj.year;
+  var month = self.param.event_datetime_obj.month;
+  var day = self.param.event_datetime_obj.day;
+  var hour = self.param.event_datetime_obj.hour;
+  var minutes = self.param.event_datetime_obj.minutes;
+
+  self.param.event_datetime = new Date(year, month, day, hour, minutes);
+  console.log("event date time is " + self.param.event_datetime);
+
   self.count = new Object();
   self.count.number_of_round_created = 0;
   self.event_object = new Object();
@@ -30,7 +40,7 @@ function Create_Event(request, response, event_JSON){
 
   var Event = Parse.Object.extend("Event");
   var mixidea_event = new Event();
-//  mixidea_event.set("date_time", self.param.event_date);
+  mixidea_event.set("date_time", self.param.event_datetime);
   mixidea_event.set("title", self.param.event_title);
   mixidea_event.set("type", self.param.event_type);
   mixidea_event.set("description", self.param.event_description);
@@ -69,7 +79,7 @@ Create_Event.prototype.create_round_game = function(request, response,i){
   mixidea_game.set("type", self.param.event_type);
   mixidea_game.set("gernre", self.param.game_obj_array[i].genre);
   mixidea_game.set("motion", self.param.game_obj_array[i].motion);
-//  mixidea_game.set("date_time", self.param.event_date);
+  mixidea_game.set("date_time", self.param.event_datetime);
   mixidea_game.set('parent_event', self.event_object.id);
   console.log("before calling saving mixidea game ")
 
