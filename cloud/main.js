@@ -51,7 +51,7 @@ function Create_Event(request, response, event_JSON){
 
       self.event_object = obj;
       console.log("gambe obj array length is" + self.param.game_obj_array.length);
-      if(self.param.game_obj_array.length >1){
+      if(self.param.game_obj_array.length >0){
         for(var i=0; i< self.param.game_obj_array.length; i++){
           console.log("before calling create round game");
           self.create_round_game(request, response,i);
