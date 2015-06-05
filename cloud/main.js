@@ -120,6 +120,7 @@ Create_Event.prototype.create_event_hierarchy = function(request, response, n){
     var event_obj_for_hierarchy = new Object();
     var round_obj_array = new Array();
     var game_obj_array = new Array();
+    var round_obj_for_hierarchy_array = new Array();
 
     for(var i=0; i<self.round_object_array.length; i++){
       console.log("round obj length is " + self.round_object_array.length);
@@ -135,7 +136,7 @@ Create_Event.prototype.create_event_hierarchy = function(request, response, n){
 
       var round_obj_for_hierarchy = new Object();
       round_obj_for_hierarchy = {round_ID: self.round_object_array[i].id , game_array: game_obj_for_hierarchy_array};
-      round_obj_for_hierarchy_array = new Array();
+
       round_obj_array.push(self.round_object_array[i].id );
       console.log("round obj id is" + self.round_object_array[i].id );
       round_obj_for_hierarchy_array.push(round_obj_for_hierarchy);
