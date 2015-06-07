@@ -154,10 +154,62 @@ Create_Event.prototype.create_event_hierarchy = function(request, response, n){
     }), function(error) {
       console.log("error happen during setting event hierarchy" + error);
     };
-
 }
 
 
+
+Parse.Cloud.define("CancelGame_Audience", function(request, response) {
+  console.log("audience cancel game called");
+
+  var self = this;
+  self.game_id = request.params.game_id;
+  self.game_obj = new Object();
+  self.user = request.user;
+  self.user_id = self.user.id;
+  console.log(self.game_id);
+
+  var error_response = {code:1, message: "default_message", game_obj: self.game_obj};
+  // 1: default message
+  // 2: number of audience reach maximum number
+  // 3: game do not exist
+  // 4: event do not exist
+  // 5: failure to save game data
+
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.get(self.game_id, {
+    success: function(game_obj){  
+      self.game_obj = game_obj;
+      console.log("game obj is" + self.game_obj.id);
+      self.parent_event_obj_id  = self.game_obj.get("parent_event");
+      var audience_participants_array = self.game_obj.get("audience_participants");
+      if(!audience_participants_array){
+        error_response = {code:3, message: "no audience in this game", game_obj: self.game_obj};
+        response.error(error_response);
+      }
+      for(var i=0; i<audience_participants_array.length; i++){
+        if(audience_participants_array[i]==self.user_id){
+          // audience_participants_array.splice(i,1);
+          delete audience_participants_array[i];
+        }
+      }
+      var new_audience_paritipants_array = audience_participants_array.filter(function(e){return e !== "";});
+      self.game_obj.set("audience_participants", new_audience_paritipants_array);
+      self.game_obj.save().then(function(obj){
+            console.log("game object saved");
+            self.game_obj = obj;
+            decrement_event_participant(request, response, self.parent_event_obj_id, self.user, self.game_obj);
+      },function(error){
+            error_response = {code:5, message: "failure to save game data", game_obj: self.game_obj};
+            response.error(error_response);
+      });
+    },
+    error: function(object, error) {
+      error_response = {code:3, message: "game do not exist", game_obj: self.game_obj};
+      response.error(error_response);
+    }
+  });
+});
 
 
 Parse.Cloud.define("CancelGame", function(request, response) {
@@ -270,6 +322,81 @@ function decrement_event_participant(request, response, event_id, user, game_obj
     }
   });
 };
+
+
+
+Parse.Cloud.define("JoinGame_Audience", function(request, response) {
+
+  console.log("Join game as audience is called");
+
+  var self = this;
+  self.game_id = request.params.game_id;
+  self.game_obj = new Object();
+  self.user = request.user;
+  self.user_id = self.user.id;
+  console.log(self.game_id);
+
+  var error_response = {code:1, message: "default_message", game_obj: self.game_obj};
+  // 1: default message
+  // 2: number of audience reach maximum number
+  // 3: game do not exist
+  // 4: event do not exist
+  // 5: failure to save game data
+  var mamimum_audience_num = {NorthAmerica:3, Asian:1};
+
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.get(self.game_id, {
+    success: function(game_obj){  
+      self.game_obj = game_obj;
+
+      console.log("game obj is" + self.game_obj.id);
+      self.parent_event_obj_id  = self.game_obj.get("parent_event");
+      var style  = self.game_obj.get("style");
+      console.log(style);
+
+      var audience_participants_array = self.game_obj.get("audience_participants");
+      if(!audience_participants_array){
+        audience_participants_array = new Array();
+      }
+
+      if(audience_participants_array.length < mamimum_audience_num[style]){
+        var user_exist=false;
+        for(var i=0; i<audience_participants_array.length; i++){
+          if(audience_participants_array[i]==self.user_id){
+            user_exist = true;
+          }
+        }
+        if(!user_exist){
+          self.game_obj.add("audience_participants", self.user_id);
+          self.game_obj.save().then(function(obj){
+            console.log("game object saved");
+            self.game_obj = obj;
+            increment_event_participant(request, response, self.parent_event_obj_id, self.user, self.game_obj);
+          },function(error){
+            error_response = {code:5, message: "failure to save game data", game_obj: self.game_obj};
+            response.error(error_response);
+          });
+
+        }else{
+          error_response = {code:3, message: "you already join as audience", game_obj: self.game_obj};
+          response.error(error_response);
+        }
+
+      }else{
+        error_response = {code:2, message: "number of audience reach maximum number", game_obj: self.game_obj};
+        response.error(error_response);
+      }
+    },
+    error: function(object, error) {
+      error_response = {code:3, message: "game do not exist", game_obj: self.game_obj};
+      response.error(error_response);
+    }
+  });
+});
+
+
+
 
 Parse.Cloud.define("JoinGame", function(request, response) {
 
