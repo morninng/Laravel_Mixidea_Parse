@@ -1,5 +1,3 @@
-require('cloud/event_participate.js');
-require('cloud/create_event.js');
 
 
 Parse.Cloud.define("Cloud_CreateEvent", function(request, response) {
@@ -9,6 +7,7 @@ Parse.Cloud.define("Cloud_CreateEvent", function(request, response) {
   new Create_Event(request, response, event_JSON);
 
 });
+
 
 // this event creation is for creating a online event where only one game exist in one round.
 //the tournament style of event creation function, multiple game exist in one round, should be implemented later.
