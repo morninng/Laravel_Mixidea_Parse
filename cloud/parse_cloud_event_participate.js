@@ -170,7 +170,7 @@ function decrement_event_participant(request, response, event_id, user, game_obj
 
 Parse.Cloud.define("JoinGame_Audience", function(request, response) {
 
-  console.log("Join game as audience is called");
+  console.log("----------Join game as audience is called------");
 
   var self = this;
   self.game_id = request.params.game_id;
@@ -206,6 +206,7 @@ Parse.Cloud.define("JoinGame_Audience", function(request, response) {
       if(audience_participants_array.length < mamimum_audience_num[style]){
         var user_exist=false;
         for(var i=0; i<audience_participants_array.length; i++){
+          console.log("audience participant check i=" + i);
           if(audience_participants_array[i]==self.user_id){
             user_exist = true;
           }
@@ -222,6 +223,7 @@ Parse.Cloud.define("JoinGame_Audience", function(request, response) {
           });
 
         }else{
+          console.log("you already join as audience");
           error_response = {code:3, message: "you already join as audience", game_obj: self.game_obj};
           response.error(error_response);
         }
@@ -243,7 +245,9 @@ Parse.Cloud.define("JoinGame_Audience", function(request, response) {
 
 Parse.Cloud.define("JoinGame", function(request, response) {
 
-  console.log("join game called");
+
+  console.log("----------Join game is called-----");
+
   var self = this;
   self.game_id = request.params.game_id;
   self.game_obj = new Object();
