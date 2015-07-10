@@ -1,0 +1,49 @@
+Parse.Cloud.define("Cloud_GetHangoutGameData_debate", function(request, response) {
+
+  
+  var debate_game_id = request.params.game_id;
+  var debate_motion = request.params.debate_motion;
+  var user_id = request.params.user_id;
+  console.log(user_id);
+  console.log(request.user);
+  var authorized = check_user();
+  
+  if(authorized){
+    new HangoutUpdateMotion(debate_game_id,debate_motion, response);
+  }else{
+      error_response = {code:1, message: "user is not authorized"};
+      response.error(error_response);
+  }
+  
+});
+
+function check_user(){
+  
+  return true;
+}
+
+
+function HangoutUpdateMotion(game_id, str_motion,  response){
+
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.get(self.game_id,{
+  	success: function(game_obj){
+  		game_obj.set("motion", title_sentence);
+  		game_obj.save(null, {
+	          success: function(game_obj) { 
+    		    response.success(game_obj);
+    		
+	          },error: function(myObject, error) {
+                    error_response = {code:3, message:"saving title failed"};
+                    response.error(error_response);
+	        }
+	    });
+  	},
+  	error: function(myObject, error){
+            error_response = {code:4, message:"retrieving game info failed"};
+            response.error(error_response);
+  	}
+  });
+
+
