@@ -1,6 +1,7 @@
 Parse.Cloud.define("Cloud_Hangout_update_motion", function(request, response) {
   
   console.log("Cloud_Hangout_update_motion has been called");
+  Parse.Cloud.useMasterKey();
 
   var debate_game_id = request.params.game_id;
   var debate_motion = request.params.debate_motion;

@@ -3,6 +3,7 @@
 
 Parse.Cloud.define("CancelGame_Audience", function(request, response) {
   console.log("audience cancel game called");
+  Parse.Cloud.useMasterKey();
 
   var self = this;
   self.game_id = request.params.game_id;
@@ -57,6 +58,8 @@ Parse.Cloud.define("CancelGame_Audience", function(request, response) {
 
 Parse.Cloud.define("CancelGame", function(request, response) {
   console.log("cancel game called");
+  Parse.Cloud.useMasterKey();
+  
   var self = this;
   self.game_id = request.params.game_id;
   self.game_obj = new Object();
@@ -171,6 +174,7 @@ function decrement_event_participant(request, response, event_id, user, game_obj
 Parse.Cloud.define("JoinGame_Audience", function(request, response) {
 
   console.log("----------Join game as audience is called------");
+  Parse.Cloud.useMasterKey();
 
   var self = this;
   self.game_id = request.params.game_id;
@@ -247,6 +251,7 @@ Parse.Cloud.define("JoinGame", function(request, response) {
 
 
   console.log("----------Join game is called-----");
+  Parse.Cloud.useMasterKey();
 
   var self = this;
   self.game_id = request.params.game_id;

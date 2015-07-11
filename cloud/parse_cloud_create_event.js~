@@ -72,11 +72,7 @@ function Create_Event(request, response, event_JSON){
 
 
 
-Create_Event.prototype.create_round_game = function(request, response,i){
 
-var HangoutID = Parse.Object.extend("")
-
-}
 
 
 
