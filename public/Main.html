@@ -1,0 +1,316 @@
+<html>
+
+<head>
+	 <meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./style/loading.css">
+	<link rel="stylesheet" href="./style/Debate.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+</head>
+
+<body>
+  <div id="container_top">
+	<div id = "title_area"></div>
+  </div>
+
+  <div id="container_main" style="clear:both">
+	<div id="container_left_pain" data-bind="css: left_column_css_class">
+		<div id="video_area">
+	   </div>
+	</div>
+
+<!-- ko if:center_column_existence -->
+
+	<div id="container_center_pain" data-bind="css: center_column_css_class">
+		<div id="chat_area"></div>
+	</div>
+
+<!-- /ko -->
+	<div id="container_right_pain" data-bind="css: right_column_css_class">
+		<div id="right-top-pain">
+			<div id="participant_table"></div>
+			<p align="center"><strong>Audiences</strong></p>
+			<div id="audience_list"></div>
+		</div>
+		<div id="right-middle-pain"></div>
+	</div>
+  </div>
+
+
+<script type="text/html" id="user_status_template">
+     <div data-bind="css: user_status_css">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}">
+        <div style="float:right;">
+         <p data-bind ="text:role"></p>
+         <p data-bind ="text:user_name"></p>
+        </div>
+        <div style="clear:both" align="center" data-bind = "visible:enable_change">
+          <button data-bind = "visible: decline_visible, event:{click:decline}">decline</button>
+          <button data-bind = "visible: join_visible, event:{click:join}">join</button>
+          <button data-bind = "visible: cancel_visible, event:{click:cancel}">cancel</button>
+        </div>
+        <div style="clear:both" class='loader' align="center" data-bind = "visible:loading_visible"> Loading </div>
+     </div>
+</script>
+
+
+ <script type="text/template" data-template="title_template">
+    <div id="title_template_area">
+	  <form id="title_form">
+		<div id="event_left" >
+		  <p id="event_title_show_out" data-bind="visible:title_show"><strong>motion: </strong><span data-bind="text:title_sentence" id="event_title_show_in"></span></p>
+		  <div data-bind="visible:title_input"><input id="event_title_input" autofocus data-bind=" text:title_sentence, attr:{value:title_value, style:title_width}" type="text"></div>
+		</div>
+		<div id="event_right" style="float:left;">
+		  <button data-bind="visible:title_show, click:activate_updating_title;" >update</button>
+		  <button data-bind="visible:title_input, click:send_title">send</button>
+		  <button data-bind="visible:title_input, click:cancel_updating_title">cancel</button>
+		</div>
+	  </form>
+	</div>
+ </script>
+
+
+<script type="text/template" data-template="chat_template"> 
+  <div id="chat_template_area">
+	<div id="group_hangout_button" data-bind="visible: hangout_visible"><button>hangout</button></div>
+	<div id="chat_window" align="center">
+		The message will be shared only team members.
+		<form id="chat_send_form">
+          <textarea style="width:98%; margin-top:5px" id="chat_textarea" placeholder="message to partner"></textarea>
+		  <div align="right"><button style="margin:3px; margin-right:10px" data-bind = "click:click_sendbutton">send</button></div>
+		</form>
+		<div style="width:98%; height:500px; border:double; margin:2px; background-color: #FFFFFF" align="left" >
+		  <div data-bind="visible:initial_message_visible"> message window </div>
+		  <ul data-bind="foreach: chat_message_array" style="list-style:none;padding-left: 0;">
+		  	<li data-bind="css:chat_class">
+              <strong data-bind="text:sender_name"></strong><span data-bind="text:chat_message"></span>
+            </li>
+		  </ul>
+		</div>
+	</div>
+  </div>
+</script>
+
+
+<script type="text/template" data-template="video_area_template">
+
+  <div id="speach_role_timer" data-bind="visible: speech_visible" style="display:none">
+    <p>
+      <strong><span data-bind="text:speech_role" style="float:left"></span></strong> &nbsp;
+      <span data-bind="text:speaker_name" style="float:left"></span>
+    </p>
+    <div data-bind="text:speech_time" style="float:right"></div>
+  </div>
+  
+  <div data-bind="visible: normal_buttons" style="clear:both">
+	<button data-bind="visible: complete_speech_button, event:{click:click_complete_speech}">Complete Speech</button>
+	<button data-bind="visible: poi_button, event:{click:click_poi}"> Poi</button>
+	<button data-bind="visible: finish_poi_button, event:{click:finish_poi}">Finish Poi</button>
+	<button data-bind="visible: finish_poi_bySpeaker_button, event:{click:finish_poi_bySpeaker}">Finish Poi</button>
+  </div>
+  <div data-bind="visible: start_speech_button_visible">
+  	<div align="right"><strong>Start speech as</strong></div>
+	<ul style="text-align:right;list-style:none" data-bind="foreach: role_name_array">
+	 <li>
+	   <div>
+	   　 	<button data-bind="click:$parent.click_speech_start, text:button_role_name"></button>
+	   <div>
+	  </li>
+	</ul> 
+  </div>
+  <div data-bind="visible: poi_candidate_visible" style="clear:both; border: 1px solid #0000FF;">
+    <strong>poi candidate</strong>
+	<ul data-bind="foreach: poi_candidate_view_array"　style="list-style:none;">
+	  <li >
+	   <div style="padding:2px; border: 1px solid #00FF00; margin:4px;">
+	      <div class="profile_container" style="float:left">
+	     	 <img style="float:left; max-height:30px" data-bind="attr: {src: img_url}">
+	   　 	 <div style="float:left" data-bind = "text:name" ></div>
+	      </div>
+		  <button data-bind="visible: PoiTake_button_visible, click:$parent.take_poi" style = "display:none; float:left"> take poi</button>
+	   　  <button data-bind="visible: cancel_button_visible" style = "display:none; float:left">cancel poi</button> 
+	   	  <div style="clear: both;"></div>
+	   </div>
+	  </li>
+	</ul>
+  </div>
+</script>
+
+
+
+
+
+
+
+<script type="text/template" data-template="NA_Template">
+  <table class='table table-bordered'>
+   <thead><tr><th>Government</th><th>Opposition</th></tr></thead>
+   <tbody>
+   <tr><td><div id='PM_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
+   <td><div id='LO_Container' data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   <tr><td><div id='MG_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
+   <td><div id='MO_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   <tr><td><div id='PMR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
+   <td><div id='LOR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   </tbody>
+  </table>
+</script>
+
+
+<script type="text/template" data-template="Asian_Template">
+  <table class='table table-bordered'>
+   <thead><tr><th>Proposition</th><th>Opposition</th></tr></thead>
+   <tbody>
+   <tr><td><div id='PM_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
+       <td><div id='LO_Container' data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   <tr><td><div id='DPM_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
+       <td><div id='DLO_Container' data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   <tr><td><div id='GW_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
+        <td><div id='OW_Container' data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   <tr><td><div id='GR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
+       <td><div id='OR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   </tbody>
+  </table>
+</script>
+
+
+<script type="text/template" data-template="BP_Template">
+  <table class='table table-bordered'>
+   <thead><tr><th>OpeningGovernment</th><th>OpeningOpposition</th></tr></thead>
+   <tbody>
+   <tr><td><div id='PM_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
+   		<td><div id='LO_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   <tr><td><div id='DPM_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
+   		<td><div id='DLO_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   </tbody>
+   <thead><tr><th>ClosintGovernment</th><th>ClosingOpposition</th></tr></thead>
+   <tbody>
+   <tr><td><div id='MG_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
+   		<td><div id='MO_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   <tr><td><div id='GW_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
+   		<td><div id='OW_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
+   </tbody>
+  </table>
+</script>
+
+
+
+<script type="text/template" data-template="audience_list_template">
+ <% _.each(list, function(e,i){ %>
+  <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}" style="float:left;"></div>
+ <% }); %>
+</script>
+
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+
+<script type="text/javascript" src="./Video_Mgr.js"></script>
+<script type="text/javascript" src="./MainContainerAppViewModel.js"></script>
+<script type="text/javascript" src="./AppMgr.js"></script>
+<script type="text/javascript" src="./ParticipantMgr.js"></script>
+<script type="text/javascript" src="./Participant_TableMgr.js"></script>
+<script type="text/javascript" src="./UserStatus_VM.js"></script>
+<script type="text/javascript" src="./Chat_Mgr.js"></script>
+<script type="text/javascript" src="./title_Mgr.js"></script>
+
+
+<script src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+
+<script type="text/javascript">
+
+ var parse_app_id = "EWPPdrDVaAIqhRazWp8K0ZlmafAAPt93JiOAonvX";
+ var parse_js_key = "US6Lheio8PGcBdIpwGFhFSQVpi5GKunGf6hGq5Ze";
+ Parse.initialize(parse_app_id, parse_js_key);
+
+ var debate_game_id = "6BoVZadmPd";
+ var own_parse_id = "6ZMl4LGKim";
+ var own_hangout_id = "hangout_XXX4";
+
+ var container_modelview = new ContainerMainAppViewModel();
+ ko.applyBindings(container_modelview);
+ var appmgr = new AppMgr(debate_game_id, own_parse_id);
+
+
+  Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: debate_game_id},{
+    success: function(game_obj) {
+ 		appmgr.initialize(game_obj, own_hangout_id);
+
+    },
+    error: function(error) {
+      alert("something happen and creating event failed" + error.message);
+      //data should be vaidated before upload and the error should not happen in server side
+    }
+  });
+
+</script>
+
+
+
+<script type="text/javascript">
+	function change_column(){
+
+		var current_column = container_modelview.left_column_css_class();
+		if(current_column == "three_Column_left_pain"){
+			container_modelview.construct_two_column();
+		}else{
+			container_modelview.construct_three_column();
+		}
+	}
+
+	function get_role(){
+	  var particpant_array = appmgr.participant_manager_object.get_role_array("hangout_XXX2");
+	  console.log(particpant_array);
+	}
+	function getUserFullName(){
+	  var name = appmgr.participant_manager_object.getUserFirstName("ReplyPM");
+	  console.log(name);
+	  var full_name = appmgr.participant_manager_object.getUserFullName("ReplyPM");
+	  console.log(full_name );
+
+	  var pict_src = appmgr.participant_manager_object.getUserPictureSrc("ReplyPM");
+	  console.log(pict_src ); 
+	}
+	function check_isdebate_yourself(){
+		var check = appmgr.participant_manager_object.isDebater_yourself();
+		console.log(check);
+	}
+	function get_own_role_array(){
+		var myrole_array = appmgr.participant_manager_object.get_own_role_array();
+		console.log(myrole_array);
+	}
+
+	function isYourPartner(){
+		var ispartner_flag = appmgr.participant_manager_object.isYourPartner("hangout_XXX4");
+		console.log(ispartner_flag);
+	}
+
+
+	function update_game_status(){
+		appmgr.update_game_status(3);
+	}
+
+</script>
+
+<br><br><br><br><br><br><br><br><br>v
+	<button onclick = "change_column()">aaa</button>
+	<button onclick = "get_role()">get_role</button>
+	<br>
+	<button onclick = "getUserFullName()">getUserFullName</button>
+	<br>
+	<button onclick = "check_isdebate_yourself()">check_isdebate_yourself</button>
+	<br>
+	<button onclick = "get_own_role_array()">get_own_role_array</button>
+	<br>
+	<button onclick = "update_game_status()">update_game_status</button>
+
+
+</body>
+</html>

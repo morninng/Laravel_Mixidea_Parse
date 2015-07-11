@@ -1,0 +1,182 @@
+.login{
+  background-color: #00FF7F;
+}
+
+.logout{
+  background-color: #778899;
+}
+
+.no_applicant{
+  background-color: #FFFACD;
+}
+
+
+.message_css_own{
+  color: red;
+
+}
+
+.message_css_others{
+  color: black;
+
+}
+
+#container_main {
+	background-color: #EEEEEE;
+	width: 1012px;
+}
+
+#event-title{
+	width: 1012px;
+	border-style: solid;
+	border-width: thin;
+	position: relative;
+}
+
+#event_left{
+	max-width: 850px;
+	min-width: 500px;
+	float: left;
+}
+#event_title_input{
+	max-width: 850px;
+	min-width: 500px;
+	float: left;
+}
+
+#event_title_show_out{
+	padding: 5px;
+	float: left;
+	border: 1px solid #000000;
+}
+
+#audience_list{
+	padding: 5px;
+	float: left;
+	border: 1px solid #000000;
+}
+
+#event_title_show_in{
+	padding: 5px;
+	font-weight:normal;
+	max-width: 850px;
+	min-width: 500px;
+}
+
+
+#event_right{
+	width: 120px;
+    top: 50%;
+    margin-top: -0.5em;
+}
+
+
+
+#container_left_pain {
+	background-color: #FFCCCC;
+}
+
+
+
+
+#speech_status {
+	background-color: #FFCCCC;
+	width: 300px;
+	margin: 2px;
+	float: left;
+}
+
+
+
+#container_center_pain {
+	background-color: #FF0000;
+}
+
+#personal_feed {
+	background-color: #CCCCFF;
+	width: 300px;
+	margin: 4px 4px 4px 4px;
+}
+
+#personal_control_1 {
+	background-color: #DDDDFF;
+	width: 280px;
+	margin: 10px 10px 10px 10px;
+}
+
+#personal_control_2 {
+	background-color: #EEEEFF;
+	width: 280px;
+	margin: 10px 10px 10px 10px;
+}
+
+#partner_message {
+background-color: #CCCC00;
+width: 300px;
+margin: 4px 4px 4px 4px;
+}
+
+#partner_hangout {
+	background-color: #DDDDFF;
+	width: 280px;
+	margin: 10px;
+}
+
+#chat_field {
+	background-color: #EEEEFF;
+	width: 280px;
+	margin: 10px;
+}
+
+
+#container_right_pain {
+	background-color: #0000ff;
+}
+
+
+
+
+/* two_column */
+
+
+.two_Column_left_pain {
+	width: 500px;
+	margin: 3px;
+	float: left;
+}
+
+.two_Column_center_pain {
+	width: 0px;
+	margin: 0px;
+	float: left;
+
+}
+
+.two_Column_right_pain {
+	width: 500px;
+	margin: 3px;
+	float: left;
+}
+
+/* three_column */
+
+.three_Column_left_pain {
+	width: 300px;
+	margin: 2px;
+	float: left;
+
+}
+
+.three_Column_center_pain {
+	width: 300px;
+	margin: 2px;
+	float: left;
+
+}
+
+.three_Column_right_pain {
+	width: 400px;
+	margin: 2px;
+	float: left;
+}
+
