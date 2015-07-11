@@ -1,5 +1,4 @@
 
-
 Parse.Cloud.define("Cloud_CreateEvent", function(request, response) {
 
   var str_event_obj = request.params.event_obj;
@@ -7,7 +6,6 @@ Parse.Cloud.define("Cloud_CreateEvent", function(request, response) {
   new Create_Event(request, response, event_JSON);
 
 });
-
 
 // this event creation is for creating a online event where only one game exist in one round.
 //the tournament style of event creation function, multiple game exist in one round, should be implemented later.
@@ -97,6 +95,7 @@ Create_Event.prototype.create_round_game = function(request, response,i){
     console.log( i + "th game has been created");
     self.game_object_array[i] = game_obj;
 
+    new Set_Hangout_obj_inGameObj(game_obj);
     var Round = Parse.Object.extend("Round");
     var mixidea_round = new Round();  
     mixidea_round.add("game",self.game_object_array[i].id);
@@ -165,3 +164,121 @@ Create_Event.prototype.create_event_hierarchy = function(request, response, n){
 }
 
 
+
+
+
+
+
+
+
+
+
+function Set_Hangout_obj_inGameObj(game_obj){
+
+  console.log("set hangout obj is called");
+
+  var self = this;
+  self.game_obj = game_obj;
+  self.game_type = self.game_obj.get("style");
+  console.log(self.game_type);
+  self.num_hangoutid = self.get_hangout_id_num( self.game_type );
+  self.hangout_obj = new Object();
+
+  
+  var HangoutIdList = Parse.Object.extend("HangoutIdList");
+  var hangout_id_query = new Parse.Query(HangoutIdList);
+  hangout_id_query.equalTo("used", false);
+  hangout_id_query.limit(self.num_hangoutid);
+
+  hangout_id_query.find().then(function(results){
+    if(results.length != self.num_hangoutid){ 
+      return false;
+    }
+    self.set_hangoutobj_array_used(results);
+    self.set_each_object(results, self.game_type);
+    self.game_obj.set("hangout_id",self.hangout_obj); 
+    return self.game_obj.save();
+    }).then(function(obj){
+      console.log("success");
+    });
+}
+
+Set_Hangout_obj_inGameObj.prototype.set_hangoutobj_array_used = function(hangout_obj_array){
+
+  var self = this;
+  for(var i=0; i< hangout_obj_array.length; i++){
+    self.set_hangoutobj_used(hangout_obj_array[i]);
+  }
+
+}
+
+Set_Hangout_obj_inGameObj.prototype.set_hangoutobj_used = function(hangout_id_obj){
+  
+  var self = this;
+  hangout_id_obj.set("used", true);
+  hangout_id_obj.save(null, {
+   success: function(obj) {
+     console.log("success to save hangout obj")
+   },
+   error: function(obj, error) {
+    console.log("fail to save hangout obj");
+   }
+  });
+  
+}
+
+
+Set_Hangout_obj_inGameObj.prototype.set_each_object = function(hangout_id_array, game_type){
+
+  var self = this;
+
+  switch (game_type){
+    case "NorthAmerica": 
+      if(hangout_id_array.length != 3){
+        return null;
+      }
+      self.hangout_obj["main"] = hangout_id_array[0].get("HangoutID");
+      self.hangout_obj["Gov"] = hangout_id_array[1].get("HangoutID");
+      self.hangout_obj["Opp"] = hangout_id_array[2].get("HangoutID");
+     break;
+    case "Asian":
+      if(hangout_id_array.length != 3){
+        return null;
+      }
+      self.hangout_obj["main"] = hangout_id_array[0].get("HangoutID");
+      self.hangout_obj["Prop"] = hangout_id_array[1].get("HangoutID");
+      self.hangout_obj["Opp"] = hangout_id_array[2].get("HangoutID");
+     break;
+    case "BP":
+      if(hangout_id_array.length != 5){
+        return null;
+      }
+      self.hangout_obj["main"] = hangout_id_array[0].get("HangoutID");
+      self.hangout_obj["OG"] = hangout_id_array[1].get("HangoutID");
+      self.hangout_obj["OO"] = hangout_id_array[2].get("HangoutID");
+      self.hangout_obj["CG"] = hangout_id_array[3].get("HangoutID");
+      self.hangout_obj["CO"] = hangout_id_array[4].get("HangoutID");
+    
+     break
+   }
+   return;
+} 
+
+
+
+Set_Hangout_obj_inGameObj.prototype.get_hangout_id_num = function(game_type){
+
+  var self = this;
+  switch (game_type){
+    case "NorthAmerica": 
+      return 3;
+     break;
+    case "Asian":
+      return 3;
+     break;
+    case "BP":
+      return 5;
+     break
+  }
+  return 0;
+}
