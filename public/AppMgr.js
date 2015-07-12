@@ -70,7 +70,7 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
     var Video_html_text = Video_html_Template();
     video_element.html(Video_html_text);
 
-    self.video_view_model = new VideoViewModel();
+    self.video_view_model = new VideoViewModel(self.own_hangoutid);
     var video_el = document.getElementById('video_area');
     ko.applyBindings(self.video_view_model, video_el);
 
@@ -95,8 +95,8 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 
 	var hangout_speech_status = self.get_hangout_speech_status();
 	self.hangout_speech_status_counter = self.get_hangout_speech_status_counter();
-	self.video_view_model.update_speaker(hangout_speech_status, self.own_hangoutid);
-	self.video_view_model.update_poi_candidate(hangout_speech_status, self.own_hangoutid);
+	self.video_view_model.update_speaker(hangout_speech_status);
+	self.video_view_model.update_poi_candidate(hangout_speech_status);
 
 
 
@@ -121,18 +121,27 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
     ko.applyBindings(title_view_model, title_el);
     title_view_model.initialize(self.game_id, self.game_obj, self.own_parse_id);
 
+    console.log("")
 }
 
+
+/*  status update by call back*/
+/******************************/
 AppMgr.prototype.update_hangout_status = function(event){
 
 	var self = this;
 
 	if(self.hangout_mapping_changed_counter != self.get_parse_hangout_mapping_data_counter()){
-
+		var parse_hangout_mapping_array = self.get_parse_hangout_mapping_data();
+		self.participant_manager_object.set_parseid_hangoutid_mapping(parse_hangout_mapping_array );
+		self.participant_manager_object.update_participants();	
+		self.participant_manager_object.participant_table.UpdateUserObjAll();
 	}
 
 	if( self.hangout_speech_status_counter != self.get_hangout_speech_status_counter()){
-
+		var hangout_speech_status = self.get_hangout_speech_status();
+		self.video_view_model.update_speaker(hangout_speech_status);
+		self.video_view_model.update_poi_candidate(hangout_speech_status);
 	}
 
 	if(self.game_obj_counter != self.get_game_obj_counter()){

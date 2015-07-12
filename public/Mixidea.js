@@ -17,11 +17,11 @@
 function Mixidea_init(){
 
   var own_hangout_id = gapi.hangout.getLocalParticipantId();
-  update_own_state(own_hangout_id, own_parse_id_fromWeb);
 
   Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: debate_game_id_fromWeb},{
     success: function(game_obj) {
  		appmgr.initialize(game_obj, own_hangout_id);
+    update_own_state(own_hangout_id, own_parse_id_fromWeb);
     },
     error: function(error) {
       alert("something happen and creating event failed" + error.message);
@@ -31,27 +31,34 @@ function Mixidea_init(){
 }
 
 function update_own_state(own_hangout_id, own_parse_id){
-  var parse_hangout_mapping_str = gapi.hangout.data.getValue("parse_hangout_mapping");
-  var parse_hangout_mapping;
+  var parse_hangout_mapping = appmgr.get_parse_hangout_mapping_data();
+  var parse_hangout_mapping_update = new Array();
 
-  if(parse_hangout_mapping_str){
-    parse_hangout_mapping = JSON.parse(parse_hangout_mapping_str);
-  }else{
-    parse_hangout_mapping = new Array();
+  for(var i=0; i<parse_hangout_mapping.length; i++){
+    if(parse_hangout_mapping[i].parse_id != own_parse_id){
+      parse_hangout_mapping_update.push(parse_hangout_mapping[i]);
+    }
   }
+
   
   var own_mapping_data = new Object();
   own_mapping_data["parse_id"] = own_parse_id;
   own_mapping_data["hangout_id"] = own_hangout_id;
-  parse_hangout_mapping.push(own_mapping_data);
-  var parse_hangout_mapping_str_update = JSON.stringify(parse_hangout_mapping);
+  parse_hangout_mapping_update.push(own_mapping_data);
+
+
+  var parse_hangout_mapping_str_update = JSON.stringify(parse_hangout_mapping_update);
+
+  var hangout_mapping_counter = appmgr.get_parse_hangout_mapping_data_counter();
+  hangout_mapping_counter++;
+  var hangout_mapping_counter_str = String(hangout_mapping_counter);
 
   gapi.hangout.data.submitDelta({
-      "parse_hangout_mapping": parse_hangout_mapping_str_update
+      "parse_hangout_mapping": parse_hangout_mapping_str_update,
+      "parse_hangout_mapping_counter": hangout_mapping_counter_str
   });
 
 }
-
 
 function Hangout_Init() {
 
@@ -62,7 +69,7 @@ function Hangout_Init() {
     	gapi.hangout.data.onStateChanged.add(function(event) {
     	  	// mixidea_object.UpdateMixideaStatus(event);
           appmgr.update_hangout_status(event);
-          
+
         });
 
         gapi.hangout.onParticipantsChanged.add(function(participant_change) {

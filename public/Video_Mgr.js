@@ -1,4 +1,4 @@
- function VideoViewModel(){
+ function VideoViewModel(own_hangout_id){
 
   var self = this;
 
@@ -20,16 +20,15 @@
   self.poi_candidate_view_array = ko.observableArray();
 
   self.current_speaker = null;
-  self.own_hangout_id = null;
+  self.own_hangout_id = own_hangout_id;
 
   self.speech_duration = 0;
 
  }
 
-VideoViewModel.prototype.update_speaker = function(hangout_speech_status, own_hangoutid){
+VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
   var self = this;
-  self.own_hangout_id = own_hangoutid;
   var speaker_obj = hangout_speech_status.speaker;
   var poi_speaker_obj = hangout_speech_status.poi_speaker;
   var speaker_type = null;
@@ -120,7 +119,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status, own_ha
  }
 
 
-VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status, own_hangoutid){
+VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
 
   var self = this;
  // var _ = require('lodash');
@@ -180,6 +179,23 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status, 
 
  VideoViewModel.prototype.click_speech_start = function(data, event){
   console.log(data.button_role_name);
+  var speech_obj = appmgr.get_hangout_speech_status();
+  if(!speech_obj){
+    speech_obj = new Object();
+  }
+  var own_speech_obj = {hangout_id :self.own_hangout_id, role : data.button_role_name};
+  speech_obj["speaker"] = own_speech_obj;
+  speech_obj_str = JSON.stringify(speech_obj);
+
+  var speech_counter = appmgr.get_hangout_speech_status_counter();
+  speech_counter++;
+  speech_counter_str = String(speech_counter);
+
+  gapi.hangout.data.submitDelta({
+      "hangout_speech_status": speech_obj_str,
+      "hangout_speech_status_counter":speech_counter_str
+  });
+
  }
 
 

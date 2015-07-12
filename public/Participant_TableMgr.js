@@ -20,6 +20,14 @@ ParticipantTableMgr.prototype.CreateUserObj = function(role_name, container_name
 }
 
 
+ParticipantTableMgr.prototype.UpdateUserObjAll = function(){
+	var self = this;
+	for(var i = 0; i< self.role_array.length; i++){
+		self.UpdateUserObj(self.role_array[i]);
+	}
+}
+
+
 ParticipantTableMgr.prototype.UpdateUserObj = function(role_name){
 	var self = this;
 	eval("self.user_obj_" + role_name + ".update_user_status();");

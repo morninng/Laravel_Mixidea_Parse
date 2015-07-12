@@ -44,13 +44,15 @@ ParticipantMgr.prototype.update_game_status = function(game_status){
 
 ParticipantMgr.prototype.update_participants = function(){
 	var self = this;
-	self.participant_id_array = ["hangout_XXX1", "hangout_XXX2", "hangout_XXX4"];
-	
-	// ここは、こっちが正しいが、hangout上しかできないのであとで入れ替える
-	// var participant_object_array = getparticipants();
-	//for(var i=0; i<  participant_object_array; i++){
-	//	self.participant_id_array.push(participant_object_array[i].id);
-	//}
+
+	var participant_id_array = new Array();
+	var participant_obj_array = gapi.hangout.getParticipants();
+
+	for( var i=0; i < participant_obj_array.length; i++){
+		participant_id_array.push(participant_obj_array[i].id);
+	}
+	self.participant_id_array = participant_id_array;
+
 }
 
 ParticipantMgr.prototype.set_parseid_hangoutid_mapping = function(parse_hangout_mapping){
