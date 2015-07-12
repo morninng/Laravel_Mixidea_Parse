@@ -8,21 +8,18 @@
 
 <![CDATA[ 
 
-<html>
+<script type="text/javascript" src="//plus.google.com/hangouts/_/api/v1/hangout.js">
+</script>
 
-<head>
-	 <meta charset="utf-8">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="./style/loading.css">
-	<link rel="stylesheet" href="./style/Debate.css">
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/loading.css">
+	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/Debate.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
-</head>
 
-<body>
+
   <div id="container_top">
 	<div id = "title_area"></div>
   </div>
@@ -219,120 +216,24 @@
 
 
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+<script type="text/javascript" src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
 
-<script type="text/javascript" src="./Video_Mgr.js"></script>
-<script type="text/javascript" src="./MainContainerAppViewModel.js"></script>
-<script type="text/javascript" src="./AppMgr.js"></script>
-<script type="text/javascript" src="./ParticipantMgr.js"></script>
-<script type="text/javascript" src="./Participant_TableMgr.js"></script>
-<script type="text/javascript" src="./UserStatus_VM.js"></script>
-<script type="text/javascript" src="./Chat_Mgr.js"></script>
-<script type="text/javascript" src="./title_Mgr.js"></script>
-
-
-<script src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
-
-<script type="text/javascript">
-
- var parse_app_id = "EWPPdrDVaAIqhRazWp8K0ZlmafAAPt93JiOAonvX";
- var parse_js_key = "US6Lheio8PGcBdIpwGFhFSQVpi5GKunGf6hGq5Ze";
- Parse.initialize(parse_app_id, parse_js_key);
-
- var debate_game_id = "6BoVZadmPd";
- var own_parse_id = "6ZMl4LGKim";
- var own_hangout_id = "hangout_XXX4";
-
- var container_modelview = new ContainerMainAppViewModel();
- ko.applyBindings(container_modelview);
- var appmgr = new AppMgr(debate_game_id, own_parse_id);
-
-
-  Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: debate_game_id},{
-    success: function(game_obj) {
- 		appmgr.initialize(game_obj, own_hangout_id);
-
-    },
-    error: function(error) {
-      alert("something happen and creating event failed" + error.message);
-      //data should be vaidated before upload and the error should not happen in server side
-    }
-  });
-
-</script>
-
-
+<script type="text/javascript" src="https://mixidea.parseapp.com/Video_Mgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/MainContainerAppViewModel.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/AppMgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/ParticipantMgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/Participant_TableMgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/UserStatus_VM.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/Chat_Mgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/title_Mgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/Mixidea.js"></script>
 
 <script type="text/javascript">
-	function change_column(){
-
-		var current_column = container_modelview.left_column_css_class();
-		if(current_column == "three_Column_left_pain"){
-			container_modelview.construct_two_column();
-		}else{
-			container_modelview.construct_three_column();
-		}
-	}
-
-	function get_role(){
-	  var particpant_array = appmgr.participant_manager_object.get_role_array("hangout_XXX2");
-	  console.log(particpant_array);
-	}
-	function getUserFullName(){
-	  var name = appmgr.participant_manager_object.getUserFirstName("ReplyPM");
-	  console.log(name);
-	  var full_name = appmgr.participant_manager_object.getUserFullName("ReplyPM");
-	  console.log(full_name );
-
-	  var pict_src = appmgr.participant_manager_object.getUserPictureSrc("ReplyPM");
-	  console.log(pict_src ); 
-	}
-	function check_isdebate_yourself(){
-		var check = appmgr.participant_manager_object.isDebater_yourself();
-		console.log(check);
-	}
-	function get_own_role_array(){
-		var myrole_array = appmgr.participant_manager_object.get_own_role_array();
-		console.log(myrole_array);
-	}
-
-	function isYourPartner(){
-		var ispartner_flag = appmgr.participant_manager_object.isYourPartner("hangout_XXX4");
-		console.log(ispartner_flag);
-	}
-
-
-	function update_game_status(){
-		appmgr.update_game_status(3);
-	}
-
+  window.onload = Hangout_Init(); 
 </script>
-
-<br><br><br><br><br><br><br><br><br>v
-	<button onclick = "change_column()">aaa</button>
-	<button onclick = "get_role()">get_role</button>
-	<br>
-	<button onclick = "getUserFullName()">getUserFullName</button>
-	<br>
-	<button onclick = "check_isdebate_yourself()">check_isdebate_yourself</button>
-	<br>
-	<button onclick = "get_own_role_array()">get_own_role_array</button>
-	<br>
-	<button onclick = "update_game_status()">update_game_status</button>
-
-
-</body>
-</html>
-
-
-
-
-
-
-
-
 
 ]]>
+
   </Content>
 </Module>

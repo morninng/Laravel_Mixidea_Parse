@@ -4,7 +4,7 @@ function user_status_VM(role_name){
   self.role_name = role_name;
   self.role = ko.observable();
   self.user_name = ko.observable("no applicant");
-  self.pict_src = ko.observable("./picture/1.jpg");
+  self.pict_src = ko.observable("https://mixidea.parseapp.com/picture/1.jpg");
   self.user_status_css = ko.observable("notapplicant");
   self.parse_id_of_this_role = ko.observable(null);
   self.enable_change = ko.observable(true);
