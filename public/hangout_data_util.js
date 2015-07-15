@@ -1,0 +1,80 @@
+function get_parse_hangout_mapping_data_counter(){
+
+  var counter_str = gapi.hangout.data.getValue("parse_hangout_mapping_counter");
+  var counter = Number(counter_str);
+
+  if(Number.isInteger(counter)){
+    return counter;
+  }
+  return 0;
+
+
+  return counter;
+}
+
+function get_parse_hangout_mapping_data(){
+
+  var parse_hangout_mapping_str = gapi.hangout.data.getValue("parse_hangout_mapping");
+  var parse_hangout_mapping_array;
+
+  if(parse_hangout_mapping_str){
+    parse_hangout_mapping_array = JSON.parse(parse_hangout_mapping_str);
+  }else{
+    parse_hangout_mapping_array = new Array();
+  }
+  console.log("parse_hangout_mapping" + parse_hangout_mapping_array)
+
+  return parse_hangout_mapping_array;
+
+}
+
+
+function get_hangout_speech_status_counter(){
+
+  var counter_str = gapi.hangout.data.getValue("hangout_speech_status_counter");
+  var counter = Number(counter_str);
+  if(Number.isInteger(counter)){
+    return counter;
+  }
+  return 0;
+}
+
+function get_hangout_speech_status(){
+
+  var hangout_speech_status_str = gapi.hangout.data.getValue("hangout_speech_status");
+  var hangout_speech_status_obj;
+
+  if(hangout_speech_status_str){
+    hangout_speech_status_obj = JSON.parse(hangout_speech_status_str);
+  }else{
+    hangout_speech_status_obj = new Object();
+    hangout_speech_status_obj["poi_speaker"] = null;
+    hangout_speech_status_obj["speaker"] = null;
+    hangout_speech_status_obj["poi_candidate"] = new Array();
+  }
+
+  return hangout_speech_status_obj;
+
+}
+
+function get_game_obj_counter(){
+
+  var counter_str = gapi.hangout.data.getValue("game_obj_counter");
+  var counter = Number(counter_str);
+
+  return counter;
+}
+
+
+
+function filter_with_existing_hangouID(in_speaker_obj){
+
+  var participant_array = new Array();
+  var enabled_participants_array = gapi.hangout.getEnabledParticipants();
+  for(var i=0; i< enabled_participants_array.length; i++){
+    if(enabled_participants_array[i].id == in_speaker_obj.hangout_id){
+      return in_speaker_obj;
+    }
+  }
+  return null;
+}

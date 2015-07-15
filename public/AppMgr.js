@@ -10,6 +10,8 @@ function AppMgr(in_game_id, in_own_parse_id ) {
 	self.hangout_mapping_changed_counter = 0;
 	self.hangout_speech_status_counter = 0; 
 	self.game_obj_counter = 0;
+
+	self.first_update_done = false;
 }
 
 AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
@@ -29,8 +31,8 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 		         {parse_id:"6ZMl4LGKim", hangout_id:"hangout_XXX4"}
 		         ];
 */
-	var parse_hangout_mapping_array = self.get_parse_hangout_mapping_data();
-	self.hangout_mapping_changed_counter = self.get_parse_hangout_mapping_data_counter();
+	var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
+	self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
 	self.participant_manager_object.set_parseid_hangoutid_mapping(parse_hangout_mapping_array );
 
 	
@@ -58,7 +60,7 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 */
 
 	self.game_obj = in_game_obj;
-	self.game_obj_counter =	self.get_game_obj_counter();
+	self.game_obj_counter =	get_game_obj_counter();
 	self.participant_manager_object.initialize(self.game_obj, self.own_parse_id, self.own_hangoutid); 
 	
 
@@ -93,8 +95,8 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 	}
 */
 
-	var hangout_speech_status = self.get_hangout_speech_status();
-	self.hangout_speech_status_counter = self.get_hangout_speech_status_counter();
+	var hangout_speech_status = get_hangout_speech_status();
+	self.hangout_speech_status_counter = get_hangout_speech_status_counter();
 	self.video_view_model.update_speaker(hangout_speech_status);
 	self.video_view_model.update_poi_candidate(hangout_speech_status);
 
@@ -131,23 +133,24 @@ AppMgr.prototype.update_hangout_status = function(event){
 
 	var self = this;
 
-	if(self.hangout_mapping_changed_counter != self.get_parse_hangout_mapping_data_counter()){
-		var parse_hangout_mapping_array = self.get_parse_hangout_mapping_data();
+	if(self.first_update_done == false ||   self.hangout_mapping_changed_counter != get_parse_hangout_mapping_data_counter()){
+		var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
 		self.participant_manager_object.set_parseid_hangoutid_mapping(parse_hangout_mapping_array );
 		self.participant_manager_object.update_participants();	
 		self.participant_manager_object.participant_table.UpdateUserObjAll();
 	}
 
-	if( self.hangout_speech_status_counter != self.get_hangout_speech_status_counter()){
-		var hangout_speech_status = self.get_hangout_speech_status();
+	if(self.first_update_done == false || self.hangout_speech_status_counter != get_hangout_speech_status_counter()){
+		var hangout_speech_status = get_hangout_speech_status();
 		self.video_view_model.update_speaker(hangout_speech_status);
 		self.video_view_model.update_poi_candidate(hangout_speech_status);
 	}
 
-	if(self.game_obj_counter != self.get_game_obj_counter()){
+	if(self.first_update_done == false || self.game_obj_counter != get_game_obj_counter()){
 		
 	}
 
+	self.first_update_done = true;
 }
 
 AppMgr.prototype.participants_change = function(participant_change){
@@ -162,37 +165,11 @@ AppMgr.prototype.receive_message = function(received_message){
 
 }
 
-AppMgr.prototype.get_parse_hangout_mapping_data_counter = function(){
-
-  var counter_str = gapi.hangout.data.getValue("parse_hangout_mapping_counter");
-  var counter = Number(counter_str);
-  
-  return counter;
-}
-
-AppMgr.prototype.get_parse_hangout_mapping_data = function(){
-
-  var parse_hangout_mapping_str = gapi.hangout.data.getValue("parse_hangout_mapping");
-  var parse_hangout_mapping_array;
-
-  if(parse_hangout_mapping_str){
-    parse_hangout_mapping_array = JSON.parse(parse_hangout_mapping_str);
-  }else{
-    parse_hangout_mapping_array = new Array();
-  }
-
-  return parse_hangout_mapping_array;
-
-}
 
 
-AppMgr.prototype.get_hangout_speech_status_counter = function(){
 
-  var counter_str = gapi.hangout.data.getValue("hangout_speech_status_counter");
-  var counter = Number(counter_str);
 
-  return counter;
-}
+
 
 AppMgr.prototype.get_hangout_speech_status = function(){
 
@@ -210,12 +187,4 @@ AppMgr.prototype.get_hangout_speech_status = function(){
 
   return hangout_speech_status_obj;
 
-}
-
-AppMgr.prototype.get_game_obj_counter = function(){
-
-  var counter_str = gapi.hangout.data.getValue("game_obj_counter");
-  var counter = Number(counter_str);
-
-  return counter;
 }

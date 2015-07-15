@@ -24,21 +24,54 @@
 
   self.speech_duration = 0;
 
+
+  self.click_speech_start = function(data, event){
+    console.log(data.button_role_name);
+    var speech_obj = get_hangout_speech_status();
+    if(!speech_obj){
+      speech_obj = new Object();
+    }
+    var own_speech_obj = {hangout_id :self.own_hangout_id, role : data.button_role_name};
+    speech_obj["speaker"] = own_speech_obj;
+    speech_obj_str = JSON.stringify(speech_obj);
+
+    var speech_counter = get_hangout_speech_status_counter();
+    speech_counter++;
+    speech_counter_str = String(speech_counter);
+
+    gapi.hangout.data.submitDelta({
+        "hangout_speech_status": speech_obj_str,
+        "hangout_speech_status_counter":speech_counter_str
+    });
+  }
+
+
+
+
  }
 
 VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
   var self = this;
   var speaker_obj = hangout_speech_status.speaker;
+  if(speaker_obj){
+    speaker_obj = filter_with_existing_hangouID(speaker_obj);
+  }
+
   var poi_speaker_obj = hangout_speech_status.poi_speaker;
-  var speaker_type = null;
+  if(poi_speaker_obj){
+    poi_speaker_obj = filter_with_existing_hangouID(poi_speaker_obj);
+  }
+
 
   if(poi_speaker_obj){
     self.show_Speaker(poi_speaker_obj, "poi");
     self.poi_candidate_view_array().splice(0, self.poi_candidate_view_array.length);
+    self.Hide_start_speech_button();
   }else if (speaker_obj){
     self.StartTimer( speaker_obj.hangout_id );
     self.show_Speaker(speaker_obj, "speaker");
+    self.Hide_start_speech_button();
   }else{
     self.show_Speaker(null, "discussion");
     self.StopTimer();
@@ -117,6 +150,12 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.role_name_array.push(obj);
   }
  }
+ VideoViewModel.prototype.Hide_start_speech_button = function(){
+  var self = this;
+  self.start_speech_button_visible(false);
+
+ }
+
 
 
 VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
@@ -169,49 +208,36 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
  }
 
   VideoViewModel.prototype.remove_candidate_all = function(in_hangout_id){
+  var self = this;
   }
 
 
  VideoViewModel.prototype.take_poi = function(data, event){
+  var self = this;
   console.log(data.hangout_id);
  }
 
 
- VideoViewModel.prototype.click_speech_start = function(data, event){
-  console.log(data.button_role_name);
-  var speech_obj = appmgr.get_hangout_speech_status();
-  if(!speech_obj){
-    speech_obj = new Object();
-  }
-  var own_speech_obj = {hangout_id :self.own_hangout_id, role : data.button_role_name};
-  speech_obj["speaker"] = own_speech_obj;
-  speech_obj_str = JSON.stringify(speech_obj);
 
-  var speech_counter = appmgr.get_hangout_speech_status_counter();
-  speech_counter++;
-  speech_counter_str = String(speech_counter);
-
-  gapi.hangout.data.submitDelta({
-      "hangout_speech_status": speech_obj_str,
-      "hangout_speech_status_counter":speech_counter_str
-  });
-
- }
 
 
  VideoViewModel.prototype.click_complete_speech = function(){
+  var self = this;
   
  }
 
  VideoViewModel.prototype.click_poi = function(){
+  var self = this;
  
  }
 
  VideoViewModel.prototype.finish_poi = function(){
+  var self = this;
  
  }
 
  VideoViewModel.prototype.finish_poi_bySpeaker = function(){
+  var self = this;
  
  }
 
