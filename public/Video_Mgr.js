@@ -174,6 +174,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
  VideoViewModel.prototype.hide_start_speech_button = function(){
   var self = this;
+  self.role_name_array.removeAll();
   self.start_speech_button_visible(false);
 
  }
