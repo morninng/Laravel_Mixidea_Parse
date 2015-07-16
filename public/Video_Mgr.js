@@ -66,17 +66,20 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
 
   if(poi_speaker_obj){
-    self.show_Speaker(poi_speaker_obj, "poi");
     self.poi_candidate_view_array().splice(0, self.poi_candidate_view_array.length);
-    self.Hide_start_speech_button();
+    self.hide_start_speech_button();
+    self.show_Speaker(poi_speaker_obj, "poi");
+
   }else if (speaker_obj){
-    self.StartTimer( speaker_obj.hangout_id );
     self.show_Speaker(speaker_obj, "speaker");
-    self.Hide_start_speech_button();
+    self.hide_start_speech_button();
+    self.show_stop_speech_button();
+    self.StartTimer( speaker_obj.hangout_id );
   }else{
-    self.show_Speaker(null, "discussion");
     self.StopTimer();
     self.show_start_speech_button();
+    self.hide_stop_speech_button();
+    self.show_Speaker(null, "discussion");
   }
 }
 
@@ -167,11 +170,27 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.role_name_array.push(obj);
   }
  }
- VideoViewModel.prototype.Hide_start_speech_button = function(){
+
+
+ VideoViewModel.prototype.hide_start_speech_button = function(){
   var self = this;
   self.start_speech_button_visible(false);
 
  }
+
+ VideoViewModel.prototype.show_stop_speech_button = function(){
+  var self = this;
+  self.normal_buttons(true);
+  self.complete_speech_button(true);
+
+ }
+ VideoViewModel.prototype.hide_stop_speech_button = function(){
+  var self = this;
+  self.normal_buttons(false);
+  self.complete_speech_button(false);
+
+ }
+
 
 
 
@@ -241,6 +260,14 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
  VideoViewModel.prototype.click_complete_speech = function(){
   var self = this;
   
+  var speech_counter = get_hangout_speech_status_counter();
+  speech_counter++;
+  speech_counter_str = String(speech_counter);
+
+  gapi.hangout.data.submitDelta({
+        "hangout_speech_status_counter":speech_counter_str
+  },["hangout_speech_status"]);
+
  }
 
  VideoViewModel.prototype.click_poi = function(){
