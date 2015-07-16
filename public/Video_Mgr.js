@@ -23,6 +23,7 @@
   self.own_hangout_id = own_hangout_id;
 
   self.speech_duration = 0;
+  self.canvas = gapi.hangout.layout.getVideoCanvas();
 
 
   self.click_speech_start = function(data, event){
@@ -126,13 +127,29 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.speech_time();
     self.current_speaker = hangout_id;
  //   self.start_speech();
+    self.feed = gapi.hangout.layout.createParticipantVideoFeed(hangout_id);
+
   }else{
     // discussion mode  
     self.speech_visible(true);
     self.speech_role("under discussion: "); 
     self.speaker_name(" anyone can talk");
     self.speech_time();
+    self.feed = gapi.hangout.layout.getDefaultVideoFeed();
   }
+
+  var height_title = $("div#event_left").height() ;
+  console.log("title height = ", height_title);
+  var height_left_container = $("div#container_left_pain").height();
+  console.log("left container height = ", height_left_container);
+  var height_all = height_title + height_left_container;
+  var width = $("div#container_left_pain").width() - 20;
+  self.canvas.setVideoFeed(self.feed);
+  self.canvas.setWidth(width);
+  self.canvas.setPosition(10,height_all + 43);
+  self.canvas.setVisible(true);
+
+
  }
 
  VideoViewModel.prototype.show_start_speech_button = function(){
