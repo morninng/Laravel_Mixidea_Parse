@@ -112,10 +112,11 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
     chat_element.html(Chat_html_text);
 
 
-    chat_view_model = new ChatViewModel();
+    self.chat_view_model = new ChatViewModel();
     var chat_el = document.getElementById('chat_template_area');
-    ko.applyBindings(chat_view_model, chat_el);
-    chat_view_model.initialize(self.own_hangoutid);
+    ko.applyBindings(self.chat_view_model, chat_el);
+    self.chat_view_model.initialize(self.own_hangoutid);
+
 
 	var Title_html_Template = _.template($('[data-template="title_template"]').html());
     var title_element = $("#title_area");
@@ -185,6 +186,7 @@ AppMgr.prototype.participants_change = function(participant_change){
 AppMgr.prototype.receive_message = function(received_message){
 
 	var self = this;
+	self.chat_view_model.receive_message(received_message)
 
 }
 

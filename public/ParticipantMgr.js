@@ -24,6 +24,28 @@ ParticipantMgr.prototype.initialize = function(game_obj, parse_user_id, hangout_
 
 }
 
+
+ParticipantMgr.prototype.retrieve_own_group_hangoutid_array = function(){
+
+	var self = this;
+	var my_role_array = self.get_own_role_array();
+	var my_role = my_role_array[0];
+	var my_group = self.role_group_array[my_role];
+
+	var same_group_role_array = new Array();
+	var same_role_hangoutid_array = new Array();
+
+	for(var key in self.role_group_array ){
+		if(self.role_group_array[key] ==  my_group){
+			var role_name = key;
+			var hangout_id = get_hangout_id(role_name);
+			same_role_hangoutid_array.push(hangout_id);
+		}
+	}
+	return same_role_hangoutid_array;
+}
+
+
 ParticipantMgr.prototype.update_parse_data = function(game_obj ){
 
 	var self = this;
