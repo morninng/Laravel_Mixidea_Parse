@@ -73,10 +73,10 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.show_Speaker(poi_speaker_obj, "poi");
 
   }else if (speaker_obj){
+    self.StartTimer( speaker_obj.hangout_id );
     self.show_Speaker(speaker_obj, "speaker");
     self.hide_start_speech_button();
     self.show_stop_speech_button();
-    self.StartTimer( speaker_obj.hangout_id );
   }else{
     self.StopTimer();
     self.show_start_speech_button();
@@ -90,6 +90,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
   var self = this;
   if(self.current_speaker != hangout_id){
+    self.speech_time("speech start");
     self.timer = setInterval( function(){self.countTimer()},1000)
   }
 
@@ -140,6 +141,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.speech_role("discussion mode: "); 
     self.speaker_name(" anyone can talk");
     self.speech_time();
+    self.current_speaker = null;
     self.feed = gapi.hangout.layout.getDefaultVideoFeed();
   }
 
