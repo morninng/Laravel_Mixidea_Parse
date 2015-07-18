@@ -17,6 +17,7 @@ function user_status_VM(role_name){
   self.join_visible = ko.observable(false);
   self.cancel_visible = ko.observable(false);
   
+  self.participant_visible = ko.observable(true);
 }
 
 user_status_VM.prototype.update_user_status = function(){
@@ -83,7 +84,11 @@ user_status_VM.prototype.update_button_status = function(role_name){
       self.cancel_visible(false);
       self.join_visible(false);
       self.decline_visible(false);
-
+      if(!parse_id_of_this_role){
+      	self.participant_visible(false);
+      }else{
+      	self.participant_visible(true);
+      }
 	}else{
 		if(parse_id_of_this_role){
 			if(is_login){

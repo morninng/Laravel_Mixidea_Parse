@@ -13,6 +13,9 @@ function ParticipantTableMgr(game_style){
 
 }
 
+
+
+
 ParticipantTableMgr.prototype.CreateUserObj = function(role_name, container_name){
 	var self = this;
 	eval("self.user_obj_" + role_name + " = new user_status_VM('" + role_name + "');" );
@@ -76,11 +79,11 @@ ParticipantTableMgr.prototype.create_rolename_array = function(game_style){
 	var number_audience = appmgr.participant_manager_object.get_number_of_audience();
 	var audience_role_array_full = ["audience1","audience2","audience3","audience4"];
 	var audience_container_array_full = ["Audience1_Container","Audience2_Container","Audience3_Container","Audience4_Container"];
-	var audience_role_array = audience_role_array_full.slice(0,number_audience);
-	var audience_container_array = audience_container_array_full.slice(0,number_audience);
+//	var audience_role_array = audience_role_array_full.slice(0,number_audience);
+//	var audience_container_array = audience_container_array_full.slice(0,number_audience);
 
-	self.role_array = self.role_array.concat(audience_role_array);
-	self.container_array = self.container_array.concat(audience_container_array);
+	self.role_array = self.role_array.concat(audience_role_array_full);
+	self.container_array = self.container_array.concat(audience_container_array_full);
 
 }
 
@@ -95,7 +98,8 @@ ParticipantTableMgr.prototype.CreateAudienceTemplate = function(){
 									{container_name:"Audience4_Container"}
 									];
 
-	var audience_data_use = audience_data.slice(0, number_audience);
+	//var audience_data_use = audience_data.slice(0, number_audience);
+	var audience_data_use = audience_data;
 	var audience_data_template = _.template($('[data-template="audience_list_template"]').html());
 	var audience_data_html = audience_data_template({list:audience_data_use});
 

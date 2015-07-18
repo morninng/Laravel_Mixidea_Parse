@@ -49,6 +49,7 @@
 
 
 <script type="text/html" id="user_status_template">
+  <div data-bind= "visible:participant_visible">
      <div data-bind="css: user_status_css">
         <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}">
         <div style="float:right;">
@@ -62,6 +63,7 @@
         </div>
         <div style="clear:both" class='loader' align="center" data-bind = "visible:loading_visible"> Loading </div>
      </div>
+  </div>
 </script>
 
 
