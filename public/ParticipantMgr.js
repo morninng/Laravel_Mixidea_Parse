@@ -18,7 +18,7 @@ ParticipantMgr.prototype.initialize = function(game_obj, parse_user_id, hangout_
 	self.game_style = game_obj.game_style;
 	self.own_parse_id = parse_user_id;
 	self.own_hangout_id = hangout_id;
-	self.update_participants();
+	self.update_hangout_participants();
 	self.setGameData();
 	self.participant_table = new ParticipantTableMgr(self.game_style);
 
@@ -52,7 +52,7 @@ ParticipantMgr.prototype.update_game_status = function(game_status){
 
 //participant changed eventが呼ばれたときに、毎回呼び出す。
 
-ParticipantMgr.prototype.update_participants = function(){
+ParticipantMgr.prototype.update_hangout_participants = function(){
 	var self = this;
 
 	var participant_id_array = new Array();

@@ -141,7 +141,7 @@ AppMgr.prototype.update_hangout_status = function(event){
 		//var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
 		//self.participant_manager_object.set_parseid_hangoutid_mapping(parse_hangout_mapping_array );
 		self.participant_manager_object.update_parseid_hangoutid_mapping();
-		self.participant_manager_object.update_participants();	
+		self.participant_manager_object.update_hangout_participants();	
 		self.participant_manager_object.participant_table.UpdateUserObjAll();
 		self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
 	}
@@ -178,7 +178,8 @@ AppMgr.prototype.update_hangout_status = function(event){
 AppMgr.prototype.participants_change = function(participant_change){
 
 	var self = this;
-
+	self.participant_manager_object.update_hangout_participants();	
+	self.participant_manager_object.participant_table.UpdateUserObjAll();
 }
 
 AppMgr.prototype.receive_message = function(received_message){

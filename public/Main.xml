@@ -132,6 +132,8 @@
 	  </li>
 	</ul> 
   </div>
+  <div style="clear:both"></div>
+  <div id="video_canvas_dummy_layout" data-bind="attr: {style: video_canvas_style_str}"></div>
   <div data-bind="visible: poi_candidate_visible" style="clear:both; border: 1px solid #0000FF;">
     <strong>poi candidate</strong>
 	<ul data-bind="foreach: poi_candidate_view_array"　style="list-style:none;">

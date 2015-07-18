@@ -12,6 +12,8 @@ ChatViewModel.prototype.initialize = function(in_hangout_id){
   
   var self = this;
   self.own_hangout_id = in_hangout_id;
+
+  var group_member_hangoutid_array =  retrieve_group_hangoutid_array();
   
 }
 

@@ -7,6 +7,8 @@
   self.speaker_name = ko.observable(); 
   self.speech_time = ko.observable();
 
+  self.video_canvas_style_str = ko.observable();
+
   self.normal_buttons = ko.observable(false);
   self.complete_speech_button = ko.observable(false); 
   self.poi_button = ko.observable(false); 
@@ -141,17 +143,27 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.feed = gapi.hangout.layout.getDefaultVideoFeed();
   }
 
+/*
   var height_title = $("div#event_left").height() ;
   console.log("title height = ", height_title);
   var height_left_container = $("div#container_left_pain").height();
   console.log("left container height = ", height_left_container);
   var height_all = height_title + height_left_container;
-  var width = $("div#container_left_pain").width() - 20;
+*/
+  var video_width = $("div#container_left_pain").width() - 20;
+  offset = $("div#video_canvas_dummy_layout").offset()
+  var height_all = offset.top + 5;
+
   self.canvas.setVideoFeed(self.feed);
-  self.canvas.setWidth(width);
-  self.canvas.setPosition(10,height_all + 43);
+  self.canvas.setWidth(video_width);
+  self.canvas.setPosition(10,height_all);
   self.canvas.setVisible(true);
 
+  var video_height = self.canvas.getHeight() + 10;
+  var width_str = String(video_width);
+  var height_str = String(video_height);
+
+  self.video_canvas_style_str("width: " + width_str + "px; height: " + height_str + "px;");
 
  }
 
