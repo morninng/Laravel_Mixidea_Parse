@@ -135,7 +135,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   }else{
     // discussion mode  
     self.speech_visible(true);
-    self.speech_role("under discussion: "); 
+    self.speech_role("discussion mode: "); 
     self.speaker_name(" anyone can talk");
     self.speech_time();
     self.feed = gapi.hangout.layout.getDefaultVideoFeed();

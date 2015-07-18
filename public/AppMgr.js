@@ -11,6 +11,8 @@ function AppMgr(in_game_id, in_own_parse_id ) {
 	self.hangout_speech_status_counter = 0; 
 	self.game_obj_counter = 0;
 
+	self.parse_data_changed_counter = 0;
+
 	self.first_update_done = false;
 }
 
@@ -32,8 +34,9 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 		         ];
 */
 	var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
-	self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
-	self.participant_manager_object.set_parseid_hangoutid_mapping(parse_hangout_mapping_array );
+	self.participant_manager_object.update_parseid_hangoutid_mapping();
+//	self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
+//	self.participant_manager_object.set_parseid_hangoutid_mapping(parse_hangout_mapping_array );
 
 	
 /*
@@ -83,6 +86,7 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 		speaker: {hangout_id :"hangout_XXX1", role : "PrimeMinister"},
 		poi_candidate: ["hangout_XXX2", "hangout_XXX3"]
 	}*/
+		self.parse_data_changed_counter = get_parse_data_changed_counter();
 
 /*
 	var hangout_speech_status = {
@@ -134,20 +138,38 @@ AppMgr.prototype.update_hangout_status = function(event){
 	var self = this;
 
 	if(self.first_update_done == false ||   self.hangout_mapping_changed_counter != get_parse_hangout_mapping_data_counter()){
-		var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
-		self.participant_manager_object.set_parseid_hangoutid_mapping(parse_hangout_mapping_array );
+		//var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
+		//self.participant_manager_object.set_parseid_hangoutid_mapping(parse_hangout_mapping_array );
+		self.participant_manager_object.update_parseid_hangoutid_mapping();
 		self.participant_manager_object.update_participants();	
 		self.participant_manager_object.participant_table.UpdateUserObjAll();
+		self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
 	}
 
 	if(self.first_update_done == false || self.hangout_speech_status_counter != get_hangout_speech_status_counter()){
 		var hangout_speech_status = get_hangout_speech_status();
+
 		self.video_view_model.update_speaker(hangout_speech_status);
 		self.video_view_model.update_poi_candidate(hangout_speech_status);
+		self.hangout_speech_status_counter = get_hangout_speech_status_counter();
 	}
 
 	if(self.first_update_done == false || self.game_obj_counter != get_game_obj_counter()){
 		
+	}
+
+	if(self.parse_data_changed_counter = get_parse_data_changed_counter()){
+
+		Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: self.game_id},{
+		    success: function(game_obj) {
+		  		self.participant_manager_object.update_parse_data(game_obj);
+		  		self.parse_data_changed_counter  = get_parse_data_changed_counter()
+		    },
+		    error: function(error) {
+		      
+		    }
+		});
+
 	}
 
 	self.first_update_done = true;

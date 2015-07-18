@@ -24,6 +24,16 @@ ParticipantMgr.prototype.initialize = function(game_obj, parse_user_id, hangout_
 
 }
 
+ParticipantMgr.prototype.update_parse_data = function(game_obj ){
+
+	var self = this;
+	self.debater_obj_array = game_obj.debater_data_array;
+	self.audience_obj_array = game_obj.audience_data_array;
+	self.participant_table.UpdateUserObjAll();
+
+}
+
+
 ParticipantMgr.prototype.update_game_status = function(game_status){
 
 	var self = this;
@@ -55,10 +65,18 @@ ParticipantMgr.prototype.update_participants = function(){
 
 }
 
+
+ParticipantMgr.prototype.update_parseid_hangoutid_mapping = function(){
+	var self = this;
+	var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
+	self.parse_hangout_idmapping_array = parse_hangout_mapping_array;
+}
+/*
 ParticipantMgr.prototype.set_parseid_hangoutid_mapping = function(parse_hangout_mapping){
 	var self = this;
 	self.parse_hangout_idmapping_array = parse_hangout_mapping;
 }
+*/
 
 ParticipantMgr.prototype.refresh_serverdata = function(game_id){
 	

@@ -26,6 +26,8 @@ user_status_VM.prototype.update_user_status = function(){
 	self.update_user_login_status(self.role_name);
 	self.update_button_byGamestatus();
 	self.update_button_status(self.role_name);
+  	self.loading_visible = ko.observable(false);
+
 }
 
 user_status_VM.prototype.update_user_info = function(role_name){
@@ -40,6 +42,8 @@ user_status_VM.prototype.update_user_info = function(role_name){
 	var parse_id_of_this_role = appmgr.participant_manager_object.getParseID_fromRole(role_name);
 	self.parse_id_of_this_role(parse_id_of_this_role);
 	if(parse_id_of_this_role == null){
+		self.user_name("no applicant");
+		self.pict_src("https://mixidea.parseapp.com/picture/1.jpg");
 		return ;
 	}
 
@@ -214,16 +218,29 @@ user_status_VM.prototype.join = function(){
 	  	participant_obj[self.role_name] = self.own_parse_id;
 
 	  	audience_array = game_obj.get("audience_participants");
-	  	for(var i=0; i< audience_array.length; i++){
-	  		if(audience_array[i] == self.own_parse_id){
-	  			audience_array = audience_array.splice(i+1,1);
-	  		}
-	  	}
+	  	if(audience_array){
+		  	for(var i=0; i< audience_array.length; i++){
+		  		if(audience_array[i] == self.own_parse_id){
+		  			audience_array = audience_array.splice(i+1,1);
+		  		}
+		  	}
+		}
 	  	game_obj.set("participant_role",participant_obj);
 	  	game_obj.set("audience_participants",audience_array);
 	  	game_obj.save(null, {
 		  success: function(obj) {
 		    console.log(obj);
+
+			var parse_data_counter = get_parse_data_changed_counter();
+			if(!parse_data_counter){
+				parse_data_counter = 0;
+			}
+			parse_data_counter++;
+			parse_data_counter_str = String(parse_data_counter);
+		    gapi.hangout.data.submitDelta({
+			        "parse_data_changed_counter":parse_data_counter_str
+			});
+
 		  },
 		  error: function(obj, error) {
 		    alert('Failed to save object.' + error.message);
@@ -262,6 +279,23 @@ user_status_VM.prototype.cancel = function(){
 	  	game_obj.save(null, {
 		  success: function(obj) {
 		    console.log(obj);
+
+
+
+			var parse_data_counter = get_parse_data_changed_counter();
+			if(!parse_data_counter){
+				parse_data_counter = 0;
+			}
+			parse_data_counter++;
+			parse_data_counter_str = String(parse_data_counter);
+		    gapi.hangout.data.submitDelta({
+			        "parse_data_changed_counter":parse_data_counter_str
+			});
+
+
+
+
+
 		  },
 		  error: function(obj, error) {
 		    alert('Failed to save object.' + error.message);

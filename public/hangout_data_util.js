@@ -39,6 +39,17 @@ function get_hangout_speech_status_counter(){
   return 0;
 }
 
+
+function get_parse_data_counter(){
+  var counter_str = gapi.hangout.data.getValue("parse_data_counter");
+  var counter = Number(counter_str);
+  if(Number.isInteger(counter)){
+    return counter;
+  }
+  return 0;
+}
+
+
 function get_hangout_speech_status(){
 
   var hangout_speech_status_str = gapi.hangout.data.getValue("hangout_speech_status");
@@ -65,6 +76,13 @@ function get_game_obj_counter(){
   return counter;
 }
 
+function  get_parse_data_changed_counter(){
+
+    var counter_str = gapi.hangout.data.getValue("parse_data_changed_counter");
+    var counter = Number(counter_str);
+
+  return counter;
+}
 
 
 function filter_with_existing_hangouID(in_speaker_obj){
@@ -78,3 +96,5 @@ function filter_with_existing_hangouID(in_speaker_obj){
   }
   return null;
 }
+
+
