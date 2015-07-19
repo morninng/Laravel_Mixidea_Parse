@@ -116,15 +116,15 @@
     <div data-bind="text:speech_time" style="float:right"></div>
   </div>
   
-  <div data-bind="visible: normal_buttons" style="clear:both">
-	<button data-bind="visible: complete_speech_button, event:{click:click_complete_speech}">Complete Speech</button>
-	<button data-bind="visible: poi_button, event:{click:click_poi}"> Poi</button>
-	<button data-bind="visible: finish_poi_button, event:{click:finish_poi}">Finish Poi</button>
-	<button data-bind="visible: finish_poi_bySpeaker_button, event:{click:finish_poi_bySpeaker}">Finish Poi</button>
+  <div style="clear:both">
+  	<button data-bind="visible: complete_speech_button, event:{click:click_complete_speech}">Complete Speech</button>
+  	<button data-bind="visible: poi_button, event:{click:click_poi}"> Poi</button>
+  	<button data-bind="visible: finish_poi_button, event:{click:finish_poi}">Finish Poi</button>
+  	<button data-bind="visible: finish_poi_bySpeaker_button, event:{click:finish_poi_bySpeaker}">Finish Poi</button>
   </div>
   <div data-bind="visible: start_speech_button_visible">
   	<div align="right"><strong>Start speech as</strong></div>
-	<ul style="text-align:right;list-style:none" data-bind="foreach: role_name_array">
+	<ul style="text-align:right;list-style:none" data-bind="foreach: start_speech_role_name_array">
 	 <li>
 	   <div>
 	   　 	<button data-bind="click:$parent.click_speech_start, text:button_role_name"></button>

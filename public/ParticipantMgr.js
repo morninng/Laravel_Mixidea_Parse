@@ -24,6 +24,18 @@ ParticipantMgr.prototype.initialize = function(game_obj, parse_user_id, hangout_
 
 }
 
+ParticipantMgr.prototype.is_your_own_hangoutid = function(in_hangout_id){
+	var self = this;
+	if(!in_hangout_id){
+		return false;
+	}
+
+	if(in_hangout_id == self.own_hangout_id){
+		return true;
+	}
+	return false;
+}
+
 
 ParticipantMgr.prototype.retrieve_own_group_hangoutid_array = function(){
 
@@ -259,6 +271,10 @@ ParticipantMgr.prototype.getRoleGroup = function(role_name){
 ParticipantMgr.prototype.isYourPartner = function(hangout_id){
 
 	var self = this;
+	if(!hangout_id){
+		return false;
+	}
+
 	own_role_array = new Array();
 	own_role_array = self.get_own_role_array();
 	others_role_array = new Array();

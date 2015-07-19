@@ -101,6 +101,7 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 
 	var hangout_speech_status = get_hangout_speech_status();
 	self.hangout_speech_status_counter = get_hangout_speech_status_counter();
+	self.video_view_model.update_button(hangout_speech_status);
 	self.video_view_model.update_speaker(hangout_speech_status);
 	self.video_view_model.update_poi_candidate(hangout_speech_status);
 
@@ -150,6 +151,7 @@ AppMgr.prototype.update_hangout_status = function(event){
 	if(self.first_update_done == false || self.hangout_speech_status_counter != get_hangout_speech_status_counter()){
 		var hangout_speech_status = get_hangout_speech_status();
 
+		self.video_view_model.update_button(hangout_speech_status);
 		self.video_view_model.update_speaker(hangout_speech_status);
 		self.video_view_model.update_poi_candidate(hangout_speech_status);
 		self.hangout_speech_status_counter = get_hangout_speech_status_counter();

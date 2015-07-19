@@ -97,4 +97,24 @@ function filter_with_existing_hangouID(in_speaker_obj){
   return null;
 }
 
+function filter_array_with_existing_hangouID(in_hangoutid_array){
+
+  var new_hangoutid_array = new Array();
+  var enabled_participants_array = gapi.hangout.getEnabledParticipants();
+
+  if(!in_hangoutid_array){
+    return new_hangoutid_array;
+  }
+
+
+  for(var j=0; j<in_hangoutid_array.length; j++){
+    for(var i=0; i< enabled_participants_array.length; i++){
+      if(enabled_participants_array[i].id == in_hangoutid_array[j]){
+        new_hangoutid_array.push(in_hangoutid_array[j]);
+      }
+    }
+  }
+  return new_hangoutid_array;
+}
+
 
