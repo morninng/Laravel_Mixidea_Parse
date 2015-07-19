@@ -166,7 +166,13 @@ AppMgr.prototype.update_hangout_status = function(event){
 		Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: self.game_id},{
 		    success: function(game_obj) {
 		  		self.participant_manager_object.update_parse_data(game_obj);
-		  		self.parse_data_changed_counter  = get_parse_data_changed_counter()
+		  		self.parse_data_changed_counter  = get_parse_data_changed_counter();
+
+		  		var hangout_speech_status = get_hangout_speech_status();
+				self.video_view_model.update_button(hangout_speech_status);
+				self.video_view_model.update_speaker(hangout_speech_status);
+				self.video_view_model.update_poi_candidate(hangout_speech_status);
+				self.hangout_speech_status_counter = get_hangout_speech_status_counter();
 		    },
 		    error: function(error) {
 		      
