@@ -24,6 +24,7 @@
   self.current_speaker = null;
   self.own_hangout_id = own_hangout_id;
   self.hangout_speech_status = null;
+  self.timer = null;
 
   self.speech_duration = 0;
   self.canvas = gapi.hangout.layout.getVideoCanvas();
@@ -52,7 +53,29 @@
 
  self.cancel_poi = function(data, event){
 
- 
+    var speech_obj = get_hangout_speech_status();
+    if(!speech_obj){
+      speech_obj = new Object();
+    }
+    var candidate_array = speech_obj["poi_candidate"];
+    for(var i=0; i<candidate_array.length; i++ ){
+      if(candidate_array[i] == self.own_hangout_id){
+        delete candidate_array[i];
+      }
+    }
+    var new_candidate_array = _.filter(candidate_array, function(hangout_id){ return hangout_id});
+    speech_obj["poi_candidate"] = new_candidate_array;
+    speech_obj_str = JSON.stringify(speech_obj);
+
+    var speech_counter = get_hangout_speech_status_counter();
+    speech_counter++;
+    speech_counter_str = String(speech_counter);
+
+    gapi.hangout.data.submitDelta({
+        "hangout_speech_status": speech_obj_str,
+        "hangout_speech_status_counter":speech_counter_str
+    });
+
  }
 
 
@@ -76,10 +99,6 @@
     });
 
  }
-
-
-
-
 }
 
 VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
@@ -121,7 +140,10 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   var self = this;
   if(self.current_speaker != hangout_id){
     self.speech_time("speech start");
-    self.timer = setInterval( function(){self.countTimer()},1000)
+    if(!self.timer ){
+      self.timer = setInterval( function(){self.countTimer()},1000);
+      console.log("start timer is" + self.timer);
+    }
   }
 
 }
@@ -141,7 +163,9 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     var self = this;
     self.speech_duration = 0;
     self.speech_time("");
+    console.log("clear timer is" + self.timer);
     clearInterval(self.timer);
+    self.timer = null;
  }
 
  VideoViewModel.prototype.show_Speaker = function(speaker_obj, type){
