@@ -39,6 +39,7 @@
     speech_obj["speaker"] = own_speech_obj;
     speech_obj_str = JSON.stringify(speech_obj);
 
+
     var speech_counter = get_hangout_speech_status_counter();
     speech_counter++;
     speech_counter_str = String(speech_counter);
@@ -48,7 +49,38 @@
         "hangout_speech_status_counter":speech_counter_str
     });
   }
+
+ self.cancel_poi = function(data, event){
+
+ 
  }
+
+
+ self.take_poi = function(data, event){
+    var speech_obj = get_hangout_speech_status();
+    if(!speech_obj){
+      speech_obj = new Object();
+    }
+    var poi_speaker_obj = {hangout_id : data.hangout_id    , role : "Poi"};
+    speech_obj["poi_speaker"] = poi_speaker_obj;
+    speech_obj["poi_candidate"].length = 0; 
+    speech_obj_str = JSON.stringify(speech_obj);
+
+    var speech_counter = get_hangout_speech_status_counter();
+    speech_counter++;
+    speech_counter_str = String(speech_counter);
+
+    gapi.hangout.data.submitDelta({
+        "hangout_speech_status": speech_obj_str,
+        "hangout_speech_status_counter":speech_counter_str
+    });
+
+ }
+
+
+
+
+}
 
 VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
@@ -361,12 +393,6 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
   }
 
 
- VideoViewModel.prototype.take_poi = function(data, event){
-  var self = this;
-  console.log(data.hangout_id);
- }
-
-
 
 
 
@@ -410,12 +436,36 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
  VideoViewModel.prototype.finish_poi = function(){
   var self = this;
  
+  var speech_obj = get_hangout_speech_status();
+  if(!speech_obj){
+    speech_obj = new Object();
+  }
+  if(speech_obj["poi_candidate"]){
+    speech_obj["poi_candidate"].length = 0;
+  }
+  speech_obj["poi_speaker"] = null;
+
+  speech_obj_str = JSON.stringify(speech_obj);
+  var speech_counter = get_hangout_speech_status_counter();
+  speech_counter++;
+  speech_counter_str = String(speech_counter);
+
+  gapi.hangout.data.submitDelta({
+        "hangout_speech_status_counter":speech_counter_str,
+        "hangout_speech_status": speech_obj_str
+  });
+
+
  }
 
  VideoViewModel.prototype.finish_poi_bySpeaker = function(){
   var self = this;
+  self.finish_poi();
  
  }
+
+
+
 
  VideoViewModel.prototype.updateModel = function(){
    var self = this;

@@ -144,7 +144,7 @@
 	   　 	 <div style="float:left" data-bind = "text:name" ></div>
 	      </div>
 		  <button data-bind="visible: PoiTake_button_visible, click:$parent.take_poi" style = "display:none; float:left"> take poi</button>
-	   　  <button data-bind="visible: cancel_button_visible" style = "display:none; float:left">cancel poi</button> 
+	   　  <button data-bind="visible: cancel_button_visible, click:$parent.cancel_poi" style = "display:none; float:left">cancel poi</button> 
 	   	  <div style="clear: both;"></div>
 	   </div>
 	  </li>
