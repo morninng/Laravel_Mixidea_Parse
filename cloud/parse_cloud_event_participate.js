@@ -189,7 +189,7 @@ Parse.Cloud.define("JoinGame_Audience", function(request, response) {
   // 3: game do not exist
   // 4: event do not exist
   // 5: failure to save game data
-  var mamimum_audience_num = {NorthAmerica:3, Asian:1};
+  var mamimum_audience_num = {NorthAmerica:4, Asian:2, BP:2};
 
   var Game = Parse.Object.extend("Game");
   var game_query = new Parse.Query(Game);
