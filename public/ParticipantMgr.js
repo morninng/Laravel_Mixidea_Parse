@@ -58,6 +58,18 @@ ParticipantMgr.prototype.retrieve_own_group_hangoutid_array = function(){
 }
 
 
+ParticipantMgr.prototype.get_own_group_name = function( ){
+
+	var self = this;
+
+	own_role_array = new Array();
+	own_role_array = self.get_own_role_array();
+	
+	own_group = self.getRoleGroup(own_role_array[0]);
+
+	return own_group;
+}
+
 ParticipantMgr.prototype.update_parse_data = function(game_obj ){
 
 	var self = this;
@@ -264,6 +276,10 @@ ParticipantMgr.prototype.getParseID_fromHangoutID = function(hangout_id){
 
 ParticipantMgr.prototype.getRoleGroup = function(role_name){
 	var self = this;
+	if(!role_name){
+		return null;
+	}
+
 	role_group_name = self.role_group_array[role_name];
 	return role_group_name;
 }

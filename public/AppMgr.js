@@ -117,6 +117,7 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
     var chat_el = document.getElementById('chat_template_area');
     ko.applyBindings(self.chat_view_model, chat_el);
     self.chat_view_model.initialize(self.own_hangoutid);
+//    self.chat_view_model.update(self.game_obj.hangout_ids);
 
 
 	var Title_html_Template = _.template($('[data-template="title_template"]').html());
@@ -145,6 +146,7 @@ AppMgr.prototype.update_hangout_status = function(event){
 		self.participant_manager_object.update_parseid_hangoutid_mapping();
 		self.participant_manager_object.update_hangout_participants();	
 		self.participant_manager_object.participant_table.UpdateUserObjAll();
+    	self.chat_view_model.update(self.game_obj.hangout_ids);
 		self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
 	}
 

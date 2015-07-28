@@ -11,6 +11,7 @@
  var appData_split = appData.split("_");
  var global_own_parse_id = appData_split[0];
  var global_debate_game_id = appData_split[1];
+ var global_original_hangout_appid = appData_split[2];
  var global_own_hangout_id = "";
  var appmgr = new AppMgr(global_debate_game_id, global_own_parse_id);
 

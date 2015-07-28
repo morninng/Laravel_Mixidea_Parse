@@ -89,7 +89,7 @@
 
 
 #container_center_pain {
-	background-color: #FF0000;
+	background-color: #F5F6CE;
 }
 
 #personal_feed {
@@ -123,7 +123,7 @@ margin: 4px 4px 4px 4px;
 }
 
 #chat_field {
-	background-color: #EEEEFF;
+	background-color: #ffffe0;
 	width: 280px;
 	margin: 10px;
 }
