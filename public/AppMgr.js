@@ -175,6 +175,7 @@ AppMgr.prototype.update_hangout_status = function(event){
 				self.video_view_model.update_button(hangout_speech_status);
 				self.video_view_model.update_speaker(hangout_speech_status);
 				self.video_view_model.update_poi_candidate(hangout_speech_status);
+    			self.chat_view_model.update(self.game_obj.hangout_ids);
 				self.hangout_speech_status_counter = get_hangout_speech_status_counter();
 
 		  		self.parse_data_changed_counter  = get_parse_data_changed_counter();

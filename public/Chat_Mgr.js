@@ -25,8 +25,6 @@ ChatViewModel.prototype.update = function( hangout_url_obj){
   if(!hangout_url_obj){
     return;
   }
-
-
   self.hangout_url_obj = hangout_url_obj;
   self.show_hangout_button();
 
@@ -53,7 +51,8 @@ ChatViewModel.prototype.show_hangout_button = function(){
                 + second_query_value + hangout_query_split + third_query_value
                 + hangout_query_split + fourth_query_value;
 
-  self.hangout_url(hangout_link_str)
+  self.hangout_url(hangout_link_str);
+  console.log(hangout_link_str);
   self.hangout_visible(true); 
 
 }
