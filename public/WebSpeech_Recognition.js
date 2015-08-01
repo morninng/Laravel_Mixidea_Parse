@@ -38,7 +38,7 @@ WebSpeech_Recognition.prototype.initialize = function(game_id){
 	var game_query = new Parse.Query(Game);
 	game_query.get(game_id, {
 	  success: function(game_obj) {
-	  	var speech_transcription_obj = game_obj.get("Speech_Transcription");
+	  	var speech_transcription_obj = game_obj.get("speech_transcription");
 	  	if(speech_transcription_obj){
 	  		self.speech_transcription_obj = speech_transcription_obj;
 	  	}else{
@@ -47,7 +47,7 @@ WebSpeech_Recognition.prototype.initialize = function(game_id){
 	  		game_obj.set("speech_transcription", new_speech_transcription_obj);
 	  		game_obj.save(null, {
 				success: function(obj){
-				  self.speech_transcription_obj = obj.get("Speech_Transcription");
+				  self.speech_transcription_obj = obj.get("speech_transcription");
 				},
 				error: function(){
 				  console.log("failed to save")
@@ -96,10 +96,19 @@ WebSpeech_Recognition.prototype.store_transcription_onParse = function(transcrip
 	var current_role = appmgr.video_view_model.get_current_speaker_role();
 	console.log(current_role);
 	var current_speech_time = appmgr.video_view_model.get_current_time();
-	var transcription_obj = {time: String(current_speech_time), transcription: transcript_text};
+	var current_speech_id = get_speech_id();
+	var transcription_obj = {id: current_speech_id, t: String(current_speech_time), script: transcript_text,};
 	console.log(transcription_obj);
 
-	//push data on parse
+	self.speech_transcription_obj.add(current_role, transcription_obj);
+	self.speech_transcription_obj.save(null, {
+	  success: function(obj) {
+	  	console.log(transcript_text +  " :saved");
+	  },
+	  error: function(gameScore, error) {
+	  	console.log("error")
+	  }
+	});
 
 
 }

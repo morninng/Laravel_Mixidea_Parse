@@ -84,6 +84,14 @@ function  get_parse_data_changed_counter(){
   return counter;
 }
 
+function  get_speech_id(){
+
+  var unique_speech_id = gapi.hangout.data.getValue("speech_id");
+
+
+  return unique_speech_id;
+}
+
 
 function filter_with_existing_hangouID(in_speaker_obj){
 

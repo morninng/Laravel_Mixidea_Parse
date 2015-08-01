@@ -52,9 +52,12 @@
     speech_counter++;
     speech_counter_str = String(speech_counter);
 
+    var speech_id = self.get_guid();
+
     gapi.hangout.data.submitDelta({
         "hangout_speech_status": speech_obj_str,
-        "hangout_speech_status_counter":speech_counter_str
+        "hangout_speech_status_counter":speech_counter_str,
+        "speech_id": speech_id
     });
   }
 
@@ -87,7 +90,6 @@
 
  }
 
-
  self.take_poi = function(data, event){
     var speech_obj = get_hangout_speech_status();
     if(!speech_obj){
@@ -109,6 +111,17 @@
 
  }
 }
+
+VideoViewModel.prototype.get_guid = function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4();
+}
+
+
 
 VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
