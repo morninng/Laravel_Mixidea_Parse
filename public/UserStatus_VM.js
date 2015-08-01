@@ -187,6 +187,9 @@ user_status_VM.prototype.decline = function(){
 	  	}
   	  	if(!is_debater_exist){	
 	  		var audience_array = game_obj.get("audience_participants");
+	  		if(!audience_array){
+	  			audience_array = new Array();
+	  		}
 	  		audience_array.push(parse_id_ofThisRole);
 	  		game_obj.set("audience_participants",audience_array);
 	  	}
@@ -292,6 +295,9 @@ user_status_VM.prototype.cancel = function(){
 	  	}
 	  	if(!is_debater_exist){	
 	  		audience_array = game_obj.get("audience_participants");
+	  		if(!audience_array){
+	  			audience_array = new Array();
+	  		}
 	  		audience_array.push(self.own_parse_id);
 	  		game_obj.set("audience_participants",audience_array);
 	  	}

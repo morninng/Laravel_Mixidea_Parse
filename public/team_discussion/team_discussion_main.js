@@ -44,6 +44,7 @@ function team_dissussion() {
    		self.show_hangout_button();
    		self.show_timer();
       self.show_video();
+      self.show_team_side();
     },
     error: function(error) {
       alert("something happen and creating event failed" + error.message);
@@ -76,7 +77,7 @@ team_dissussion.prototype.show_team_side = function(){
   
   var self = this;
   console.log("show team side")
-  $("span#team_category").html(global_team_side);
+  $("span#team_category").html("<strong>" + global_team_side + "</strong>");
   
 }
 

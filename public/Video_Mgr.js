@@ -29,6 +29,10 @@
   self.speech_duration = 0;
   self.canvas = gapi.hangout.layout.getVideoCanvas();
 
+  self.speech_recognition = new WebSpeech_Recognition();
+  self.speech_recognition.initialize(appmgr.game_id);
+  self.under_recording = false;
+
 
   self.click_speech_start = function(data, event){
     console.log(data.button_role_name);
@@ -121,22 +125,52 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
 
   if(poi_speaker_obj){
+    self.start_speech(poi_speaker_obj, "poi");
     self.poi_candidate_view_array().splice(0, self.poi_candidate_view_array.length);
-//    self.hide_start_speech_button();
     self.show_Speaker(poi_speaker_obj, "poi");
 
   }else if (speaker_obj){
+    self.start_speech(speaker_obj, "speaker");
     self.StartTimer( speaker_obj.hangout_id );
     self.show_Speaker(speaker_obj, "speaker");
-//    self.hide_start_speech_button();
-//    self.show_stop_speech_button();
   }else{
     self.StopTimer();
-//    self.show_start_speech_button();
-//    self.hide_stop_speech_button();
     self.show_Speaker(null, "discussion");
   }
 }
+
+ VideoViewModel.prototype.start_speech = function(speaker_obj, type){
+  var self = this;
+
+  if(speaker_obj){
+    if(speaker_obj.hangout_id == self.own_hangout_id ){
+      if(!self.under_recording){ 
+        self.under_recording = true;
+        var role_name = speaker_obj.role;
+        self.speech_recognition.start_recognition(type, role_name);
+        return;
+      }
+    }
+  }
+  if(self.under_recording == true){
+    self.under_recording = false;
+    self.stop_speech_recognition();
+    self.speech_recognition.stop_recognition();
+    return;
+  }
+}
+
+
+ VideoViewModel.prototype.enable_microphone = function(){
+
+}
+
+ VideoViewModel.prototype.disable_microphone = function(){
+
+}
+
+
+
 
 
  VideoViewModel.prototype.StartTimer = function(hangout_id){
