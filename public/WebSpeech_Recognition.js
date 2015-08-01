@@ -18,7 +18,6 @@ function WebSpeech_Recognition(){
     var results = e.results;
     for(var i = e.resultIndex; i<results.length; i++){
       if(results[i].isFinal){
-        console.log(results[i][0].transcript);
         self.store_transcription_onParse(results[i][0].transcript);
       }
     }
@@ -42,6 +41,7 @@ WebSpeech_Recognition.prototype.start_recognition = function(){
 	if(!self.available){
 		return ;
 	}
+	console.log("speech recognition start");
 	self.recognition.start();
 }
 
@@ -51,6 +51,7 @@ WebSpeech_Recognition.prototype.stop_recognition = function(){
 	if(!self.available){
 		return ;
 	}
+	console.log("speech recognition stop");
 	self.recognition.stop();
 }
 

@@ -125,21 +125,22 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
 
   if(poi_speaker_obj){
-    self.start_speech(poi_speaker_obj, "poi");
+    self.start_speech_recognition(poi_speaker_obj, "poi");
     self.poi_candidate_view_array().splice(0, self.poi_candidate_view_array.length);
     self.show_Speaker(poi_speaker_obj, "poi");
 
   }else if (speaker_obj){
-    self.start_speech(speaker_obj, "speaker");
+    self.start_speech_recognition(speaker_obj, "speaker");
     self.StartTimer( speaker_obj.hangout_id );
     self.show_Speaker(speaker_obj, "speaker");
   }else{
     self.StopTimer();
     self.show_Speaker(null, "discussion");
+    self.stop_speech_recognition();
   }
 }
 
- VideoViewModel.prototype.start_speech = function(speaker_obj, type){
+ VideoViewModel.prototype.start_speech_recognition = function(speaker_obj, type){
   var self = this;
 
   if(speaker_obj){
@@ -154,10 +155,19 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   }
   if(self.under_recording == true){
     self.under_recording = false;
-    self.stop_speech_recognition();
     self.speech_recognition.stop_recognition();
     return;
   }
+}
+
+ VideoViewModel.prototype.stop_speech_recognition = function(){
+  var self = this;
+  if(self.under_recording == true){
+    self.under_recording = false;
+    self.speech_recognition.stop_recognition();
+    return;
+  }
+
 }
 
 
