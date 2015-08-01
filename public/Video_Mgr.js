@@ -22,6 +22,7 @@
   self.poi_candidate_view_array = ko.observableArray();
 
   self.current_speaker = null;
+  self.current_speaker_role = null;
   self.own_hangout_id = own_hangout_id;
   self.hangout_speech_status = null;
   self.timer = null;
@@ -130,6 +131,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.show_Speaker(poi_speaker_obj, "poi");
 
   }else if (speaker_obj){
+    self.current_speaker_role = speaker_obj.role;
     self.start_speech_recognition(speaker_obj, "speaker");
     self.StartTimer( speaker_obj.hangout_id );
     self.show_Speaker(speaker_obj, "speaker");
@@ -195,6 +197,26 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   }
 
 }
+
+ VideoViewModel.prototype.get_current_time = function(){
+  var self = this;
+  return self.speech_duration;
+ }
+
+
+ VideoViewModel.prototype.get_current_speaker_role = function(){
+  var self = this;
+  return self.current_speaker_role;
+ }
+
+
+
+
+
+
+
+
+
 
  VideoViewModel.prototype.countTimer = function(){
 

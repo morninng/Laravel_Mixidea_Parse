@@ -31,6 +31,38 @@ WebSpeech_Recognition.prototype.initialize = function(game_id){
 	if(!self.available){
 		return ;
 	}
+// this logic should be fixed later
+// speech_transcription should be created when object is created.
+
+	var Game = Parse.Object.extend("Game");
+	var game_query = new Parse.Query(Game);
+	game_query.get(game_id, {
+	  success: function(game_obj) {
+	  	var speech_transcription_obj = game_obj.get("Speech_Transcription");
+	  	if(speech_transcription_obj){
+	  		self.speech_transcription_obj = speech_transcription_obj;
+	  	}else{
+	  		var Speech_Transcription = Parse.Object.extend("Speech_Transcription");
+	  		var new_speech_transcription_obj = new Speech_Transcription();
+	  		game_obj.set("speech_transcription", new_speech_transcription_obj);
+	  		game_obj.save(null, {
+				success: function(obj){
+				  self.speech_transcription_obj = obj.get("Speech_Transcription");
+				},
+				error: function(){
+				  console.log("failed to save")
+				}
+			});
+	  	}
+
+
+	  },
+	  error: function(object, error) {
+	    // The object was not retrieved successfully.
+
+	  }
+	});
+
 
 	//prepare parse to store data
 }
@@ -60,8 +92,15 @@ WebSpeech_Recognition.prototype.store_transcription_onParse = function(transcrip
 	if(!self.available){
 		return ;
 	}
-	console.log(transcript_text);
+
+	var current_role = appmgr.video_view_model.get_current_speaker_role();
+	console.log(current_role);
+	var current_speech_time = appmgr.video_view_model.get_current_time();
+	var transcription_obj = {time: String(current_speech_time), transcription: transcript_text};
+	console.log(transcription_obj);
 
 	//push data on parse
+
+
 }
 
