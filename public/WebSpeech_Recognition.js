@@ -103,7 +103,13 @@ WebSpeech_Recognition.prototype.store_transcription_onParse = function(transcrip
 	self.speech_transcription_obj.add(current_role, transcription_obj);
 	self.speech_transcription_obj.save(null, {
 	  success: function(obj) {
+
 	  	console.log(transcript_text +  " :saved");
+	  	var counter = get_transcription_counter();
+	  	next_counter = counter + 1;
+	  	console.log("counter is " + next_counter);
+		gapi.hangout.data.submitDelta({"transcription_counter":String(next_counter)});
+
 	  },
 	  error: function(gameScore, error) {
 	  	console.log("error")
