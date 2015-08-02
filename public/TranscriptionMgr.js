@@ -3,7 +3,9 @@ function TranscriptionMgr(){
 
   var self = this;
   self.transcription_array = ko.observableArray();
+  self.role_title = ko.observable();
   self.current_speech_id = null;
+  self.speech_array_length = 0;
 }
 
 TranscriptionMgr.prototype.initialize = function(speech_transcription_id){
@@ -33,6 +35,7 @@ TranscriptionMgr.prototype.update = function(){
 	if(next_speech_id != self.current_speech_id){
 		self.transcription_array.destroyAll();
 		self.current_speech_id = next_speech_id;
+		self.speech_array_length = 0;
 	}
 
 
@@ -58,12 +61,25 @@ TranscriptionMgr.prototype.display_transcription = function(){
 
 	var self = this;
 	var role_name = get_current_speaker_role();
-	var speech_array = self.speech_transcription_obj.get(role_name);
+	var speech_obj_array = self.speech_transcription_obj.get(role_name);
 	var current_speech_id = get_speech_id();
-	console.log(speech_array);
+	if(!role_name || !speech_obj_array || !current_speech_id){
+		return;
+	}
+	console.log(speech_obj_array);
 	console.log(current_speech_id);
 
-	speech_array = speech_array.filter(function(v){ return (v.id == current_speech_id)});
-	console.log(speech_array);
+	speech_obj_array = speech_obj_array.filter(function(v){ return (v.id == current_speech_id)});
+	self.role_title( + role_name + "'s transcription");
+
+	if(self.speech_array_length < speech_obj_array.length){
+		for(var i = self.speech_array_length; i< speech_obj_array.length; i++){
+			var speech_obj = speech_obj_array[i];
+			self.transcription_array.push({transcription_message: speech_obj.script});
+		}
+		self.speech_array_length = speech_obj_array.length
+	}
+
+	console.log(speech_obj_array);
 
 }

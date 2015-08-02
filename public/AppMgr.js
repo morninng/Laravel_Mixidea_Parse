@@ -66,8 +66,14 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 	self.game_obj_counter =	get_game_obj_counter();
 	self.participant_manager_object.initialize(self.game_obj, self.own_parse_id, self.own_hangoutid); 
 	
+	var Transcription_html_Template = _.template($('[data-template="transcription_template"]').html());
+    var transcription_element = $("#transcription_area");
+    var transcription_html_text = Transcription_html_Template();
+    transcription_element.html(transcription_html_text);
 
     self.transcription_mgr = new TranscriptionMgr();
+    var transcription_el = document.getElementById('transcription_area');
+    ko.applyBindings(self.transcription_mgr , transcription_el);
     self.transcription_mgr.initialize(self.game_obj.speech_transcription_id);
 
 	//hangout_statusで受け取る game statusをparticipantmgr, container_modelview, chat_mgr,に反映 

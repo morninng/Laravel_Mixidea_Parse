@@ -19,6 +19,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
 
+<div id="whole">
 
   <div id="container_top">
 	<div id = "title_area"></div>
@@ -46,6 +47,22 @@
 		<div id="right-middle-pain"></div>
 	</div>
   </div>
+
+  <div id="transcription_field">
+    <div id="transcription_area"></div>
+  </div>
+
+</div>
+
+
+<script type="text/template" data-template="transcription_template">
+      <p><strong data-bind="text:role_title"></strong></p>
+      <div data-bind="foreach: transcription_array">
+              
+              <span data-bind="text:transcription_message"></span>
+      </div>
+</script>
+
 
 
 <script type="text/html" id="user_status_template">
