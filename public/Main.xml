@@ -233,6 +233,7 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/hangout_data_util.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/WebSpeech_Recognition.js"></script>
 
+<script type="text/javascript" src="https://mixidea.parseapp.com/TranscriptionMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Video_Mgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/MainContainerAppViewModel.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/AppMgr.js"></script>

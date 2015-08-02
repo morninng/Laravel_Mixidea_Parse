@@ -10,8 +10,8 @@ function AppMgr(in_game_id, in_own_parse_id ) {
 	self.hangout_mapping_changed_counter = 0;
 	self.hangout_speech_status_counter = 0; 
 	self.game_obj_counter = 0;
-
 	self.parse_data_changed_counter = 0;
+	self.transcription_counter = 0
 
 	self.first_update_done = false;
 }
@@ -66,6 +66,9 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 	self.game_obj_counter =	get_game_obj_counter();
 	self.participant_manager_object.initialize(self.game_obj, self.own_parse_id, self.own_hangoutid); 
 	
+
+    self.transcription_mgr = new TranscriptionMgr();
+    self.transcription_mgr.initialize(self.game_obj.speech_transcription_id);
 
 	//hangout_statusで受け取る game statusをparticipantmgr, container_modelview, chat_mgr,に反映 
 	//participant changed eventが走るときに毎回呼び出す。
@@ -162,6 +165,12 @@ AppMgr.prototype.update_hangout_status = function(event){
 	if(self.first_update_done == false || self.game_obj_counter != get_game_obj_counter()){
 		
 	}
+
+
+	if( self.transcription_counter != get_transcription_counter()){
+    	self.transcription_mgr.update();
+    	self.transcription_counter = get_transcription_counter();
+    }
 
 	if(self.parse_data_changed_counter = get_parse_data_changed_counter()){
 

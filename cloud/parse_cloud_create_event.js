@@ -81,6 +81,9 @@ Create_Event.prototype.create_round_game = function(request, response,i){
 
   var Game = Parse.Object.extend("Game");
   var mixidea_game = new Game();
+  var Speech_Transcription = Parse.Object.extend("Speech_Transcription");
+  var speech_transcription_obj = new Speech_Transcription();
+  mixidea_game.set("speech_transcription", speech_transcription_obj);
   mixidea_game.set("style", self.param.game_obj_array[i].style);
   mixidea_game.set("type", self.param.event_type);
   mixidea_game.set("gernre", self.param.game_obj_array[i].genre);

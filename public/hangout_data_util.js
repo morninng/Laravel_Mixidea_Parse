@@ -29,6 +29,8 @@ function get_parse_hangout_mapping_data(){
 }
 
 
+
+
 function get_hangout_speech_status_counter(){
 
   var counter_str = gapi.hangout.data.getValue("hangout_speech_status_counter");
@@ -103,11 +105,15 @@ function  get_speech_id(){
 
   var unique_speech_id = gapi.hangout.data.getValue("speech_id");
 
-
   return unique_speech_id;
 }
 
 
+function  get_current_speaker_role(){
+
+  var current_speaker_role = gapi.hangout.data.getValue("current_speaker_role");
+  return current_speaker_role;
+}
 function filter_with_existing_hangouID(in_speaker_obj){
 
   var participant_array = new Array();

@@ -25,45 +25,23 @@ function WebSpeech_Recognition(){
 }
 
 
-WebSpeech_Recognition.prototype.initialize = function(game_id){
+WebSpeech_Recognition.prototype.initialize = function(speech_transcription_id){
 
 	var self = this;
 	if(!self.available){
 		return ;
 	}
-// this logic should be fixed later
-// speech_transcription should be created when object is created.
 
-	var Game = Parse.Object.extend("Game");
-	var game_query = new Parse.Query(Game);
-	game_query.get(game_id, {
-	  success: function(game_obj) {
-	  	var speech_transcription_obj = game_obj.get("speech_transcription");
-	  	if(speech_transcription_obj){
-	  		self.speech_transcription_obj = speech_transcription_obj;
-	  	}else{
-	  		var Speech_Transcription = Parse.Object.extend("Speech_Transcription");
-	  		var new_speech_transcription_obj = new Speech_Transcription();
-	  		game_obj.set("speech_transcription", new_speech_transcription_obj);
-	  		game_obj.save(null, {
-				success: function(obj){
-				  self.speech_transcription_obj = obj.get("speech_transcription");
-				},
-				error: function(){
-				  console.log("failed to save")
-				}
-			});
-	  	}
-
-
+	var Speech_Transcription = Parse.Object.extend("Speech_Transcription");
+	var speech_transcription_query = new Parse.Query(Speech_Transcription);
+	speech_transcription_query.get(speech_transcription_id, {
+	  success: function(transcription_obj) {
+	  	self.speech_transcription_obj = transcription_obj;
 	  },
 	  error: function(object, error) {
 	    // The object was not retrieved successfully.
-
 	  }
 	});
-
-
 	//prepare parse to store data
 }
 
@@ -103,19 +81,15 @@ WebSpeech_Recognition.prototype.store_transcription_onParse = function(transcrip
 	self.speech_transcription_obj.add(current_role, transcription_obj);
 	self.speech_transcription_obj.save(null, {
 	  success: function(obj) {
-
 	  	console.log(transcript_text +  " :saved");
 	  	var counter = get_transcription_counter();
 	  	next_counter = counter + 1;
 	  	console.log("counter is " + next_counter);
-		gapi.hangout.data.submitDelta({"transcription_counter":String(next_counter)});
-
+		gapi.hangout.data.submitDelta({"transcription_counter":String(next_counter),"speech_id": current_speech_id, "current_speaker_role":current_role });
 	  },
 	  error: function(gameScore, error) {
 	  	console.log("error")
 	  }
 	});
-
-
 }
 

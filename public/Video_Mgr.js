@@ -31,7 +31,7 @@
   self.canvas = gapi.hangout.layout.getVideoCanvas();
 
   self.speech_recognition = new WebSpeech_Recognition();
-  self.speech_recognition.initialize(appmgr.game_id);
+  self.speech_recognition.initialize(appmgr.game_obj.speech_transcription_id);
   self.under_recording = false;
 
 

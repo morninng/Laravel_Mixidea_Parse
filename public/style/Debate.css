@@ -21,8 +21,17 @@
 
 }
 
+#whole {
+	width: 1672px;
+
+}
+
 #container_main {
 	background-color: #EEEEEE;
+	width: 1012px;
+}
+
+#container_top{
 	width: 1012px;
 }
 
@@ -187,3 +196,14 @@ margin: 4px 4px 4px 4px;
 .Ya-sc div {
 	height: 40px !important;
 }
+
+
+#transcription_field div{
+	width: 640px;
+	border-style: solid;
+	border-width: thin;
+
+}
+
+
+
