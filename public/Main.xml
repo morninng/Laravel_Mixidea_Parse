@@ -72,17 +72,20 @@
 <script type="text/html" id="user_status_template">
   <div data-bind= "visible:participant_visible">
      <div data-bind="css: user_status_css">
-        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}">
-        <div style="float:right;">
-         <p data-bind ="text:role"></p>
-         <p data-bind ="text:user_name"></p>
+        <div>  
+          <img style="max-width:50px;" data-bind="attr: {src: pict_src}">
         </div>
-        <div style="clear:both" align="center" data-bind = "visible:enable_change">
-          <button data-bind = "visible: decline_visible, event:{click:decline}">decline</button>
-          <button data-bind = "visible: join_visible, event:{click:join}">join</button>
-          <button data-bind = "visible: cancel_visible, event:{click:cancel}">cancel</button>
+        <div>
+           <p class="user_status_p" data-bind ="text:role"></p>
+           <p class="user_status_p" data-bind ="text:user_name"></p>
+           <div class="user_status_p" align="center" data-bind = "visible:enable_change">
+             <button data-bind = "visible: decline_visible, event:{click:decline}">decline</button>
+             <button data-bind = "visible: join_visible, event:{click:join}">join</button>
+             <button data-bind = "visible: cancel_visible, event:{click:cancel}">cancel</button>
+           </div>
         </div>
-        <div style="clear:both" class='loader' align="center" data-bind = "visible:loading_visible"> Loading </div>
+
+        <div class='loader' align="center" data-bind = "visible:loading_visible"> Loading </div>
      </div>
   </div>
 </script>
