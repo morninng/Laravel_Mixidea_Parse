@@ -45,12 +45,13 @@ WebSpeech_Recognition.prototype.initialize = function(speech_transcription_id){
 	//prepare parse to store data
 }
 
-WebSpeech_Recognition.prototype.start_recognition = function(){
+WebSpeech_Recognition.prototype.start_recognition = function(type, role_name){
 
 	var self = this;
 	if(!self.available){
 		return ;
 	}
+	self.type=type;
 	console.log("speech recognition start");
 	self.recognition.start();
 }
@@ -71,11 +72,13 @@ WebSpeech_Recognition.prototype.store_transcription_onParse = function(transcrip
 		return ;
 	}
 
-	var current_role = appmgr.video_view_model.get_current_speaker_role();
+	var current_role = appmgr.video_view_model.get_current_speaker_role();  /*this is not poi_speaker role*/
 	console.log(current_role);
 	var current_speech_time = appmgr.video_view_model.get_current_time();
 	var current_speech_id = get_speech_id();
-	var transcription_obj = {id: current_speech_id, t: String(current_speech_time), script: transcript_text,};
+	var user_parse_id = appmgr.own_parse_id;
+	var transcription_obj = {id: current_speech_id, t: String(current_speech_time),
+							 script: transcript_text,user_id:user_parse_id, type: self.type };
 	console.log(transcription_obj);
 
 	self.speech_transcription_obj.add(current_role, transcription_obj);

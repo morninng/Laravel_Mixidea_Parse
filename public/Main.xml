@@ -20,46 +20,50 @@
 
 
 <div id="whole">
+<div id="inner_whole">
 
   <div id="container_top">
-	<div id = "title_area"></div>
+	    <div id = "title_area"></div>
   </div>
 
   <div id="container_main" style="clear:both">
-	<div id="container_left_pain" data-bind="css: left_column_css_class">
-		<div id="video_area">
-	   </div>
-	</div>
+  
+	    <div id="container_left_pain" data-bind="css: left_column_css_class">
+		    <div id="video_area"></div>
+	    </div>
 
-<!-- ko if:center_column_existence -->
+   <!-- ko if:center_column_existence -->
 
-	<div id="container_center_pain" data-bind="css: center_column_css_class">
-		<div id="chat_area"></div>
-	</div>
+	    <div id="container_center_pain" data-bind="css: center_column_css_class">
+		    <div id="chat_area"></div>
+	    </div>
 
-<!-- /ko -->
-	<div id="container_right_pain" data-bind="css: right_column_css_class">
-		<div id="right-top-pain">
-			<div id="participant_table"></div>
-			<p align="center"><strong>Audiences</strong></p>
-			<div id="audience_list"></div>
-		</div>
-		<div id="right-middle-pain"></div>
-	</div>
+   <!-- /ko -->
+	    <div id="container_right_pain" data-bind="css: right_column_css_class">
+		    <div id="right-top-pain">
+			     <div id="participant_table"></div>
+			     <p align="center"><strong>Audiences</strong></p>
+			     <div id="audience_list"></div>
+		    </div>
+		    <div id="right-middle-pain"></div>
+	    </div>
+
+      <div id="transcription_field">
+        <div id="transcription_area"></div>
+      </div>
   </div>
 
-  <div id="transcription_field">
-    <div id="transcription_area"></div>
-  </div>
+ 
 
+</div>
 </div>
 
 
 <script type="text/template" data-template="transcription_template">
-      <p><strong data-bind="text:role_title"></strong></p>
-      <div data-bind="foreach: transcription_array">
-              
-              <span data-bind="text:transcription_message"></span>
+      <p><strong data-bind="text:transcription_title"></strong></p>
+      <div data-bind="foreach: {data: transcription_array, as: 'transcript_obj'}">
+              <p data-bind="visible:transcript_obj.role_split_visible"><span data-bind="text:transcript_obj.speaker_type"></span> - <span data-bind="text:transcript_obj.speaker_name"></span></p>
+              <span data-bind="text:transcript_obj.transcription_message"></span>
       </div>
 </script>
 

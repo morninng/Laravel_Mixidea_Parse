@@ -1,0 +1,292 @@
+
+
+  <link rel="stylesheet" href="./style/Debate.css">
+
+
+<div id="whole">
+<div id="inner_whole">
+  <div id="container_top">
+	<div id="title_area">
+    <div id="title_template_area">
+	  <form id="title_form">
+		<div id="event_left">
+		  <p id="event_title_show_out" data-bind="visible:title_show"><strong>motion: </strong><span data-bind="text:title_sentence" id="event_title_show_in">first game</span></p>
+		  <div data-bind="visible:title_input" style="display: none;"><input id="event_title_input" autofocus="" data-bind=" text:title_sentence, attr:{value:title_value, style:title_width}" type="text" style="width:127px" value="first game"></input></div>
+		</div>
+		<div id="event_right" style="float:left;">
+		  <button data-bind="visible:title_show, click:activate_updating_title;">update</button>
+		  <button data-bind="visible:title_input, click:send_title" style="display: none;">send</button>
+		  <button data-bind="visible:title_input, click:cancel_updating_title" style="display: none;">cancel</button>
+		</div>
+	  </form>
+	</div>
+ </div>
+  </div>
+
+  <div id="container_main" style="clear:both">
+	<div data-bind="css: left_column_css_class" id="container_left_pain" class="three_Column_left_pain">
+		<div id="video_area">
+
+  <div id="speach_role_timer" data-bind="visible: speech_visible">
+    <p>
+      <strong><span data-bind="text:speech_role" style="float:left">discussion mode: </span></strong> &nbsp;
+      <span data-bind="text:speaker_name" style="float:left"> anyone can talk</span>
+    </p>
+    <div data-bind="text:speech_time" style="float:right"></div>
+  </div>
+  
+  <div style="clear:both">
+  	<button data-bind="visible: complete_speech_button, event:{click:click_complete_speech}" style="display: none;">Complete Speech</button>
+  	<button data-bind="visible: poi_button, event:{click:click_poi}" style="display: none;"> Poi</button>
+  	<button data-bind="visible: finish_poi_button, event:{click:finish_poi}" style="display: none;">Finish Poi</button>
+  	<button data-bind="visible: finish_poi_bySpeaker_button, event:{click:finish_poi_bySpeaker}" style="display: none;">Finish Poi</button>
+  </div>
+  <div data-bind="visible: start_speech_button_visible">
+  	<div align="right"><strong>Start speech as</strong></div>
+	<ul style="text-align:right;list-style:none" data-bind="foreach: start_speech_role_name_array">
+	 <li>
+	   <div>
+	   　 	<button data-bind="click:$parent.click_speech_start, text:button_role_name">PrimeMinister</button>
+	   <div>
+	  </div></div></li>
+	</ul> 
+  </div>
+  <div style="clear:both"></div>
+  <div id="video_canvas_dummy_layout" data-bind="attr: {style: video_canvas_style_str}" style="width: 280px; height: 168px;"></div>
+  <div data-bind="visible: poi_candidate_visible" style="clear: both; border: 1px solid rgb(0, 0, 255); display: none;">
+    <strong>poi candidate</strong>
+	<ul data-bind="foreach: poi_candidate_view_array" 　style="list-style:none;"></ul>
+  </div>
+</div>
+	</div>
+
+<!-- ko if:center_column_existence -->
+
+	<div data-bind="css: center_column_css_class" id="container_center_pain" class="three_Column_center_pain">
+		<div id="chat_area"> 
+ <div id="chat_template_area">
+  <div id="group_hangout_button" align="right" data-bind="visible: hangout_visible">
+    <p align="center">You can go to another room for the direct talk with your team members.</p>
+    <a data-bind="attr: { href: hangout_url}" target="_blank" style="text-decoration:none;" href="https://plus.google.com/hangouts/_/grog5wksq5coakalkmjlf2simea?gid=918649959098&amp;gd=zVewzh1mVg_qQgyxCOQW6_892922506225_Gov">
+      <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png" alt="Start a Hangout" style="border:0;width:100px;height:24px;">
+    </a>
+  </div>
+	<div id="chat_window" align="center">
+		The message will be shared only team members.
+		<form id="chat_send_form">
+          <textarea style="width:98%; margin-top:5px" id="chat_textarea" placeholder="message to partner"></textarea>
+		  <div align="right"><button style="margin:3px; margin-right:10px" data-bind="click:click_sendbutton">send</button></div>
+		</form>
+		<div style="width:98%; height:500px; border:double; margin:2px; background-color: #FFFFFF" align="left">
+		  <div data-bind="visible:initial_message_visible"> message window </div>
+		  <ul data-bind="foreach: chat_message_array" style="list-style:none;padding-left: 0;"></ul>
+		</div>
+	</div>
+ </div>
+</div>
+	</div>
+
+<!-- /ko -->
+	<div data-bind="css: right_column_css_class" id="container_right_pain" class="three_Column_right_pain">
+		<div id="right-top-pain">
+			<div id="participant_table">
+  <table class="table table-bordered">
+   <thead><tr><th>Government</th><th>Opposition</th></tr></thead>
+   <tbody>
+   <tr><td><div id="PM_Container" data-bind="template: {name: 'user_status_template'}">
+  <div data-bind="visible:participant_visible">
+     <div data-bind="css: user_status_css" class="login">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xtp1/v/t1.0-1/p50x50/1782081_758012074279770_7547503464901633909_n.jpg?oh=6f6670da86a193374a9127d80e6e1de8&amp;oe=565BE456&amp;__gda__=1447248048_514d430924a595b43ad529787fca133c">
+        <div style="float:right;">
+         <p data-bind="text:role">PM</p>
+         <p data-bind="text:user_name">Yuuta</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}" style="display: none;">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div></td>
+   <td><div id="LO_Container" data-bind="template: {name: 'user_status_template'}">
+  <div data-bind="visible:participant_visible">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role">LO</p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}" style="display: none;">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div></td></tr>
+   <tr><td><div id="MG_Container" data-bind="template: {name: 'user_status_template'}">
+  <div data-bind="visible:participant_visible">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role">MG</p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div></td>
+   <td><div id="MO_Container" data-bind="template: {name: 'user_status_template'}">
+  <div data-bind="visible:participant_visible">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role">MO</p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}" style="display: none;">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div></td></tr>
+   <tr><td><div id="PMR_Container" data-bind="template: {name: 'user_status_template'}">
+  <div data-bind="visible:participant_visible">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role">RPM</p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div></td>
+   <td><div id="LOR_Container" data-bind="template: {name: 'user_status_template'}">
+  <div data-bind="visible:participant_visible">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role">LOR</p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}" style="display: none;">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div></td></tr>
+   </tbody>
+  </table>
+</div>
+			<p align="center"><strong>Audiences</strong></p>
+			<div id="audience_list">
+ 
+  <div id="Audience1_Container" data-bind="template:{name:'user_status_template'}" style="float:left;">
+  <div data-bind="visible:participant_visible" style="display: none;">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role"></p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}" style="display: none;">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div>
+ 
+  <div id="Audience2_Container" data-bind="template:{name:'user_status_template'}" style="float:left;">
+  <div data-bind="visible:participant_visible" style="display: none;">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role"></p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}" style="display: none;">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div>
+ 
+  <div id="Audience3_Container" data-bind="template:{name:'user_status_template'}" style="float:left;">
+  <div data-bind="visible:participant_visible" style="display: none;">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role"></p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}" style="display: none;">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div>
+ 
+  <div id="Audience4_Container" data-bind="template:{name:'user_status_template'}" style="float:left;">
+  <div data-bind="visible:participant_visible" style="display: none;">
+     <div data-bind="css: user_status_css" class="no_applicant">
+        <img style="max-width:50px; float:left" data-bind="attr: {src: pict_src}" src="https://mixidea.parseapp.com/picture/1.jpg">
+        <div style="float:right;">
+         <p data-bind="text:role"></p>
+         <p data-bind="text:user_name">no applicant</p>
+        </div>
+        <div style="clear:both" align="center" data-bind="visible:enable_change">
+          <button data-bind="visible: decline_visible, event:{click:decline}" style="display: none;">decline</button>
+          <button data-bind="visible: join_visible, event:{click:join}" style="display: none;">join</button>
+          <button data-bind="visible: cancel_visible, event:{click:cancel}" style="display: none;">cancel</button>
+        </div>
+        <div style="clear: both; display: none;" class="loader" align="center" data-bind="visible:loading_visible"> Loading </div>
+     </div>
+  </div>
+</div>
+ 
+</div>
+		</div>
+		<div id="right-middle-pain"></div>
+	</div>
+  </div>
+
+  <div id="transcription_field">
+    <div id="transcription_area">
+      <p><strong data-bind="text:role_title">NaN's transcription</strong></p>
+      <div data-bind="foreach: transcription_array">
+              
+              <span data-bind="text:transcription_message">pensamientos Depot</span>
+      </div>
+</div>
+  </div>
+</div>
+</div>
