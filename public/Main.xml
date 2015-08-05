@@ -94,15 +94,28 @@
  <script type="text/template" data-template="title_template">
     <div id="title_template_area">
 	  <form id="title_form">
-		<div id="event_left" >
-		  <p id="event_title_show_out" data-bind="visible:title_show"><strong>motion: </strong><span data-bind="text:title_sentence" id="event_title_show_in"></span></p>
-		  <div data-bind="visible:title_input"><input id="event_title_input" autofocus data-bind=" text:title_sentence, attr:{value:title_value, style:title_width}" type="text"></div>
-		</div>
-		<div id="event_right" style="float:left;">
-		  <button data-bind="visible:title_show, click:activate_updating_title;" >update</button>
-		  <button data-bind="visible:title_input, click:send_title">send</button>
-		  <button data-bind="visible:title_input, click:cancel_updating_title">cancel</button>
-		</div>
+      <div id="title_container">
+    		<div id="event_left" >
+    		  <div id="event_title_show_out" data-bind="visible:title_show">
+            <div id= "motion_title">
+              <strong>motion:</strong>
+            </div>
+            <div id="motion_sentence">
+              <strong><span data-bind="text:title_sentence" id="event_title_show_in"></span></strong>
+            </div>
+          </div>
+    		  <div data-bind="visible:title_input">
+            <input id="event_title_input" autofocus data-bind=" text:title_sentence, attr:{value:title_value, style:title_width}" type="text">
+          </div>
+    		</div>
+    		<div id="event_right">
+          <div class="title_button" >
+      		  <button data-bind="visible:title_show, click:activate_updating_title;" >update</button>
+      		  <button data-bind="visible:title_input, click:send_title">send</button>
+      		  <button data-bind="visible:title_input, click:cancel_updating_title">cancel</button>
+          </div>
+    		</div>
+      </div>
 	  </form>
 	</div>
  </script>

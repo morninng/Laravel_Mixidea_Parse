@@ -139,13 +139,13 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
 
   if(poi_speaker_obj){
-    self.start_speech_recognition(poi_speaker_obj, "poi");
+    self.OwnSpeechHaneler(poi_speaker_obj, "poi");
     self.poi_candidate_view_array().splice(0, self.poi_candidate_view_array.length);
     self.show_Speaker(poi_speaker_obj, "poi");
 
   }else if (speaker_obj){
     self.current_speaker_role = speaker_obj.role;
-    self.start_speech_recognition(speaker_obj, "speaker");
+    self.OwnSpeechHaneler(speaker_obj, "speaker");
     self.StartTimer( speaker_obj.hangout_id );
     self.show_Speaker(speaker_obj, "speaker");
   }else{
@@ -155,24 +155,28 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   }
 }
 
- VideoViewModel.prototype.start_speech_recognition = function(speaker_obj, type){
+ VideoViewModel.prototype.OwnSpeechHaneler = function(speaker_obj, type){
   var self = this;
 
-  if(speaker_obj){
-    if(speaker_obj.hangout_id == self.own_hangout_id ){
-      if(!self.under_recording){ 
-        self.under_recording = true;
-        var role_name = speaker_obj.role;
-        self.speech_recognition.start_recognition(type, role_name);
-        return;
+  if(speaker_obj.hangout_id == self.own_hangout_id ){
+      if(self.under_recording){ 
+          return;
+      }else{
+          self.under_recording = true;
+          var role_name = speaker_obj.role;
+          self.speech_recognition.start_recognition(type, role_name);  
+          return;
       }
-    }
+  }else{
+      if(self.under_recording == true){
+          self.under_recording = false;
+          self.speech_recognition.stop_recognition();
+          return;
+      }else{
+          return;
+      }
   }
-  if(self.under_recording == true){
-    self.under_recording = false;
-    self.speech_recognition.stop_recognition();
-    return;
-  }
+
 }
 
  VideoViewModel.prototype.stop_speech_recognition = function(){

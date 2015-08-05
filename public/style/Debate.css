@@ -1,5 +1,6 @@
 p { line-height: 110% }
 div { line-height: 110% }
+form {margin-bottom: 0px;}
 
 .user_status_p { line-height: 100% }
 
@@ -49,6 +50,11 @@ div { line-height: 110% }
 	width: 1012px;
 }
 
+#title_container{
+	display: flex;
+}
+
+
 #event-title{
 	width: 1012px;
 	border-style: solid;
@@ -56,21 +62,42 @@ div { line-height: 110% }
 	position: relative;
 }
 
+#motion_title{
+	margin-left: 5px;
+	margin-right: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+
+}
+
+#motion_sentence{
+	margin-left: 10px;
+	padding-left: 10px;
+	font-family: sans-serif;
+	font-size: x-large;
+}
+
 #event_left{
-	max-width: 850px;
+	max-width: 1100px;
 	min-width: 500px;
-	float: left;
+	vertical-align: text-bottom;
 }
 #event_title_input{
-	max-width: 850px;
-	min-width: 500px;
-	float: left;
+	min-width: 400px;
 }
 
 #event_title_show_out{
+	font-size: large;
+	padding-top: 8px;
+	padding-bottom: 0px;
+	display: flex;
+	flex-wrap: nowrap;
+}
+#event_title_show_in{
 	padding: 5px;
-	float: left;
-	border: 1px solid #000000;
+	font-weight:normal;
+	max-width: 1100px;
+	min-width: 500px;
 }
 
 #audience_list{
@@ -79,23 +106,20 @@ div { line-height: 110% }
 	border: 1px solid #000000;
 }
 
-#event_title_show_in{
-	padding: 5px;
-	font-weight:normal;
-	max-width: 850px;
-	min-width: 500px;
+
+
+.title_button{
+	position: absolute;
+	bottom:   5;
+	display: flex;
+	flex-wrap: nowrap;
 }
 
 
 #event_right{
-	width: 120px;
-    top: 50%;
-    margin-top: -0.5em;
+	vertical-align: text-bottom;
+	position:relative;
 }
-
-
-
-
 
 
 
