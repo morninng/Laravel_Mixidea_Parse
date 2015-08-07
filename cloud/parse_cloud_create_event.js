@@ -85,6 +85,7 @@ Create_Event.prototype.create_round_game = function(request, response,i){
   var speech_transcription_obj = new Speech_Transcription();
   mixidea_game.set("speech_transcription", speech_transcription_obj);
   mixidea_game.set("style", self.param.game_obj_array[i].style);
+  mixidea_game.set("game_status", "introduction");
   mixidea_game.set("type", self.param.event_type);
   mixidea_game.set("gernre", self.param.game_obj_array[i].genre);
   mixidea_game.set("motion", self.param.game_obj_array[i].motion);

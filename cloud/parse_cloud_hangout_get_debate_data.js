@@ -26,6 +26,7 @@ function HangoutDebateDataRetrieve(game_id, response){
     success: function(game_obj){
       self.game_obj = game_obj;
       self.game_response_obj.game_title = game_obj.get("motion");
+      self.game_response_obj.game_status= game_obj.get("game_status");
       self.game_response_obj.game_style = game_obj.get("style");
       self.game_response_obj.hangout_ids = game_obj.get("hangout_id");
       var speech_transcription_obj = game_obj.get("speech_transcription");

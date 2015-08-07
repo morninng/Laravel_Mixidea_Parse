@@ -65,7 +65,20 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 	self.game_obj = in_game_obj;
 	self.game_obj_counter =	get_game_obj_counter();
 	self.participant_manager_object.initialize(self.game_obj, self.own_parse_id, self.own_hangoutid); 
-	
+
+
+	var GameStatus_html_Template = _.template($('[data-template="gamestatus_template"]').html());
+    var gamestatus_element = $("#game_status_area");
+    var gamestatus_html_text = GameStatus_html_Template();
+    gamestatus_element.html(gamestatus_html_text);
+    
+	self.game_status_mgr = new Game_Status_Mgr();
+    var gamestatus_el = document.getElementById('game_status_area');
+    ko.applyBindings(self.game_status_mgr , gamestatus_el);
+	self.game_status_mgr.initialize(self.game_obj);
+
+
+
 	var Transcription_html_Template = _.template($('[data-template="transcription_template"]').html());
     var transcription_element = $("#transcription_area");
     var transcription_html_text = Transcription_html_Template();
@@ -95,7 +108,7 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 		speaker: {hangout_id :"hangout_XXX1", role : "PrimeMinister"},
 		poi_candidate: ["hangout_XXX2", "hangout_XXX3"]
 	}*/
-		self.parse_data_changed_counter = get_parse_data_changed_counter();
+	self.parse_data_changed_counter = get_parse_data_changed_counter();
 
 /*
 	var hangout_speech_status = {

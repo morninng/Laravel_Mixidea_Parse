@@ -32,21 +32,25 @@
 		    <div id="video_area"></div>
 	    </div>
 
-   <!-- ko if:center_column_existence -->
+      <div id="container_center">
+        <div id="container_center_upper">
+          <div id="game_status_area"></div>
+        </div>
 
-	    <div id="container_center_pain" data-bind="css: center_column_css_class">
-		    <div id="chat_area"></div>
-	    </div>
-
-   <!-- /ko -->
-	    <div id="container_right_pain" data-bind="css: right_column_css_class">
-		    <div id="right-top-pain">
-			     <div id="participant_table"></div>
-			     <p align="center"><strong>Audiences</strong></p>
-			     <div id="audience_list"></div>
-		    </div>
-		    <div id="right-middle-pain"></div>
-	    </div>
+        <div id="container_center_low">
+    	    <div id="container_center_pain" data-bind="css: center_column_css_class">
+    		    <div id="chat_area"></div>
+    	    </div>
+    	    <div id="container_right_pain" data-bind="css: right_column_css_class">
+    		    <div id="right-top-pain">
+    			     <div id="participant_table"></div>
+    			     <p align="center"><strong>Audiences</strong></p>
+    			     <div id="audience_list"></div>
+    		    </div>
+    		    <div id="right-middle-pain"></div>
+    	    </div>
+        </div>
+      </div>
 
       <div id="transcription_field">
         <div id="transcription_area"></div>
@@ -198,7 +202,40 @@
 
 
 
-
+<script type="text/template" data-template="gamestatus_template">
+  <div "game_status_container">
+    <div id="status_control">
+        <div  data-bind =attr:{class:indicate_class_introduction} >
+          introduction
+        </div>
+        <div >
+          <button data-bind="enabled:prep_start_enabled, attr:{class:prep_start_class}, click:click_PrepStart">preparation<br>start</button>
+        </div>
+        <div data-bind =attr:{class:indicate_class_preparation}>
+          preparation
+        </div>
+        <div>
+          <button data-bind="enabled:prep_finish_enabled, attr:{class:prep_finish_class}, click:click_PrepFinish">preparation<br>finish</button>
+        </div>
+        <div data-bind ="attr:{class:indicate_class_debate}"">
+          Debate<br>time
+        </div>
+        <div>
+          <button data-bind="enabled:evaluation_start_enabled, attr:{class:eval_start_class}, click:click_EvalStart">Evaluation<br>Start</button>
+        </div>
+        <div data-bind ="attr:{class:indicate_class_evaluation}">
+          Evaluation<br>Time
+        </div>
+        <div>
+          <button data-bind="enabled:game_complete_enabled, attr:{class:game_complete_class}, click:click_GameComplete">Game<br>Complete</button>
+        </div>
+    </div>
+    <div id="status_message">
+      <div id="status_text_message" data-bind="text:game_status_message"> - </div>
+      <div id="preparation_time" data-bind="text:preparation_time"> - </div>
+    </div>
+  </div>
+</script>
 
 
 
@@ -280,6 +317,9 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/Chat_Mgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/title_Mgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Mixidea.js"></script>
+
+<script type="text/javascript" src="https://mixidea.parseapp.com/Game_Status_Mgr.js"></script>
+
 
 <script type="text/javascript">
   window.onload = Hangout_Init(); 
