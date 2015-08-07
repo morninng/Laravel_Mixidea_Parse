@@ -33,18 +33,21 @@ function team_dissussion() {
 	var self = this;
 	self.preparation_start_time = null;
 	self.main_hangout_url = null;
-  self.game_obj = null;
+  self.actual_game_obj = null;
 
-  Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: global_debate_game_id},{
-    success: function(game_obj) {
-      console.log("game data retrieve success");
-      console.log(game_obj);
-      self.game_obj = game_obj;
-   		self.preparation_start_time  = "";
-   		self.show_hangout_button();
-   		self.show_timer();
-      self.show_video();
+
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.get(global_debate_game_id, {
+    success: function(obj) {
+      self.actual_game_obj = obj;
+      self.preparation_start_time  = self.actual_game_obj.get("prep_start_time");
+      self.hangout_id_obj  = self.actual_game_obj.get("hangout_id");
+      self.count_timer_start();
       self.show_team_side();
+      self.show_hangout_button();
+      self.show_video();
+		
     },
     error: function(error) {
       alert("something happen and creating event failed" + error.message);
@@ -81,19 +84,12 @@ team_dissussion.prototype.show_team_side = function(){
   
 }
 
-team_dissussion.prototype.show_timer = function(){
-	
-  var self = this;
-  console.log("show timer")
-}
+
 
 team_dissussion.prototype.show_hangout_button = function(){
 
   var self = this;  
-
-
-  var hangout_id_obj = self.game_obj.hangout_ids;
-  var hangout_domain = hangout_id_obj.main;
+  var hangout_domain = self.hangout_id_obj.main;
 
   var hangout_query_key = "&gd=";
   var hangout_query_value = "?gid=";
@@ -113,5 +109,37 @@ team_dissussion.prototype.show_hangout_button = function(){
   var HangoutButton_html_text = Hangout_html_Template( data );
   var hangout_container = $("#goback_hangout_area");
   hangout_container.append(HangoutButton_html_text);
+
+}
+
+
+
+
+team_dissussion.prototype.count_timer_start = function(start_time) {
+  var self = this;
+
+  self.timer = setInterval( function(){self.count_timer_show()}, 1000);
+}
+
+team_dissussion.prototype.count_timer_show = function() {
+  var self = this;
+  var current_time = new Date();
+  var elapsed_time = current_time - self.preparation_start_time;
+  var elapled_second = elapsed_time/1000
+  var elapsed_hour = elapled_second/60/60;
+  elapsed_hour = Math.floor(elapsed_hour);
+  var elapsed_minute = (elapled_second - elapsed_hour*60*60)/60;
+  elapsed_minute = Math.floor(elapsed_minute);
+
+  elapled_second = elapled_second - elapsed_hour*60*60 - elapsed_minute*60;
+  elapled_second = Math.floor(elapled_second);
+
+  elapled_second = ("0" + elapled_second).slice(-2);
+  elapsed_minute = ("0" + elapsed_minute).slice(-2);
+
+
+  $("span#time_spent").html(elapsed_minute + ":" + elapled_second + " has passed");
+
+
 
 }

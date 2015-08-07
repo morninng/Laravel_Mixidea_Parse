@@ -24,8 +24,8 @@
   Click here to go back to originl site<br>
   <span id = "goback_hangout_area"></span>
 </div>
-<div>
-  preparation time has been spent <span id="time_spent"></span><br>
+<div><br>
+  <font size="5">preparation</font> <font size="5" color="#ff0000"><span id="time_spent"></span></font><br>
 </div>
 <div>
   <span id="video_area"></span>
