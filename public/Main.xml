@@ -66,7 +66,7 @@
 <script type="text/template" data-template="transcription_template">
       <p><strong data-bind="text:transcription_title"></strong></p>
       <div data-bind="foreach: {data: transcription_array, as: 'transcript_obj'}">
-              <p data-bind="visible:transcript_obj.role_split_visible"><span data-bind="text:transcript_obj.speaker_type"></span> - <span data-bind="text:transcript_obj.speaker_name"></span></p>
+              <p class="transcription_name" data-bind="visible:transcript_obj.role_split_visible"><span data-bind="text:transcript_obj.speaker_type"></span> - <span data-bind="text:transcript_obj.speaker_name"></span></p>
               <span data-bind="text:transcript_obj.transcription_message"></span>
       </div>
 </script>

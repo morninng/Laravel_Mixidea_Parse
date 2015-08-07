@@ -1,6 +1,12 @@
-p { line-height: 110% }
+p { line-height: 100% }
 div { line-height: 110% }
 form {margin-bottom: 0px;}
+
+.transcription_name {
+	margin-bottom:0px;
+	margin-top:5px;
+	font-weight:bold;
+}
 
 .user_status_p { line-height: 100% }
 
