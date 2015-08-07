@@ -204,6 +204,9 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   if(speaker_obj.hangout_id != self.own_hangout_id ){
     console.log("other speaker speech");
     self.disable_microphone();
+  }else{
+    console.log("my speech");
+    self.enable_microphone();
   }
  }
 
