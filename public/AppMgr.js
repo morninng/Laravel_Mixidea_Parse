@@ -75,7 +75,7 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 	self.game_status_mgr = new Game_Status_Mgr();
     var gamestatus_el = document.getElementById('game_status_area');
     ko.applyBindings(self.game_status_mgr , gamestatus_el);
-	self.game_status_mgr.initialize(self.game_obj);
+	self.game_status_mgr.initialize();
 
 
 
@@ -189,6 +189,11 @@ AppMgr.prototype.update_hangout_status = function(event){
 	if( self.transcription_counter != get_transcription_counter()){
     	self.transcription_mgr.update();
     	self.transcription_counter = get_transcription_counter();
+    }
+
+	if( self.game_status_counter != get_game_status_counter()){
+    	self.game_status_mgr.apply_updated_status();
+    	self.game_status_counter = get_game_status_counter();
     }
 
 	if(self.parse_data_changed_counter = get_parse_data_changed_counter()){

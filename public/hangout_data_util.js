@@ -101,6 +101,22 @@ function get_transcription_counter(){
   return counter;
 }
 
+function get_game_status_counter(){
+
+    var counter_str = gapi.hangout.data.getValue("game_status_counter");
+    if(!counter_str){
+      counter_str = "1";
+    }
+    var counter = Number(counter_str);
+
+    if(counter > 99){
+      counter = 1;
+    }
+  return counter;
+}
+
+
+
 function  get_speech_id(){
 
   var unique_speech_id = gapi.hangout.data.getValue("speech_id");
