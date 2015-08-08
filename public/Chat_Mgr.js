@@ -3,7 +3,7 @@ function ChatViewModel() {
 
   var self = this;
   self.chat_message_array = ko.observableArray();
-  self.hangout_visible = ko.observable(false); 
+  self.hangout_visible = ko.observable(true); 
   self.hangout_url = ko.observable(); 
 
 
@@ -53,14 +53,20 @@ ChatViewModel.prototype.show_hangout_button = function(){
 
   self.hangout_url(hangout_link_str);
   console.log(hangout_link_str);
+
+}
+
+ChatViewModel.prototype.unvisible_hangout_button = function(){
+  var self = this;
+  self.hangout_visible(false); 
+}
+
+
+ChatViewModel.prototype.visible_hangout_button = function(){
+  var self = this;
   self.hangout_visible(true); 
-
 }
 
-ChatViewModel.prototype.hide_hangout_button = function(){
-
-  self.hangout_visible = ko.observable(false); 
-}
 
 
 /*

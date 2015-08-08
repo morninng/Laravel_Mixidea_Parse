@@ -67,16 +67,6 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 	self.participant_manager_object.initialize(self.game_obj, self.own_parse_id, self.own_hangoutid); 
 
 
-	var GameStatus_html_Template = _.template($('[data-template="gamestatus_template"]').html());
-    var gamestatus_element = $("#game_status_area");
-    var gamestatus_html_text = GameStatus_html_Template();
-    gamestatus_element.html(gamestatus_html_text);
-    
-	self.game_status_mgr = new Game_Status_Mgr();
-    var gamestatus_el = document.getElementById('game_status_area');
-    ko.applyBindings(self.game_status_mgr , gamestatus_el);
-	self.game_status_mgr.initialize();
-
 
 
 	var Transcription_html_Template = _.template($('[data-template="transcription_template"]').html());
@@ -151,6 +141,22 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
     var title_el = document.getElementById('title_template_area');
     ko.applyBindings(self.title_view_model, title_el);
     self.title_view_model.initialize(self.game_id, self.game_obj, self.own_parse_id);
+
+
+
+	var GameStatus_html_Template = _.template($('[data-template="gamestatus_template"]').html());
+    var gamestatus_element = $("#game_status_area");
+    var gamestatus_html_text = GameStatus_html_Template();
+    gamestatus_element.html(gamestatus_html_text);
+    
+	self.game_status_mgr = new Game_Status_Mgr();
+    var gamestatus_el = document.getElementById('game_status_area');
+    ko.applyBindings(self.game_status_mgr , gamestatus_el);
+	self.game_status_mgr.initialize();
+
+
+
+
 
     console.log("")
 }

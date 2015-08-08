@@ -299,8 +299,6 @@ user_status_VM.prototype.cancel = function(){
 		  success: function(obj) {
 		    console.log(obj);
 
-
-
 			var parse_data_counter = get_parse_data_changed_counter();
 			if(!parse_data_counter){
 				parse_data_counter = 0;
@@ -310,10 +308,6 @@ user_status_VM.prototype.cancel = function(){
 		    gapi.hangout.data.submitDelta({
 			        "parse_data_changed_counter":parse_data_counter_str
 			});
-
-
-
-
 
 		  },
 		  error: function(obj, error) {

@@ -128,7 +128,7 @@
 <script type="text/template" data-template="chat_template"> 
  <div id="chat_template_area">
   <div id="group_hangout_button" align="right" data-bind="visible: hangout_visible">
-    <p align="center">You can go to another room for the direct talk with your team members.</p>
+    <p id="hangout_group_discuss_message" align="center">You can go to another room for the direct communication only with your team members.</p>
     <a data-bind="attr: { href: hangout_url}" target="_blank"  style="text-decoration:none;">
       <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png"
         alt="Start a Hangout"
