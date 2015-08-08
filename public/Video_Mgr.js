@@ -275,6 +275,10 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
  VideoViewModel.prototype.show_Speaker = function(speaker_obj, type){
   var self = this;
 
+  var inner_content_el = document.getElementById("inner_whole");
+  inner_content_el.scrollTop = 0;
+
+
   if(speaker_obj){
     var hangout_id = speaker_obj.hangout_id;
     var role_name = speaker_obj.role;
@@ -302,6 +306,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.current_speaker = null;
     self.feed = gapi.hangout.layout.getDefaultVideoFeed();
   }
+
 
 
   var video_width = $("div#container_left_pain").width() - 20;
