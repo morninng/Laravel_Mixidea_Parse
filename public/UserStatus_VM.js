@@ -167,7 +167,6 @@ user_status_VM.prototype.decline = function(){
   
 	var self = this;
 	self.loading_visible(true);
-	self.enable_change(false);
 	var Game = Parse.Object.extend("Game");
 	var game_query = new Parse.Query(Game);
 	game_query.get(self.game_id , {
@@ -223,7 +222,6 @@ user_status_VM.prototype.join = function(){
 
 	var self = this;
 	self.loading_visible(true);
-	self.enable_change(false);
 	var Game = Parse.Object.extend("Game");
 	var game_query = new Parse.Query(Game);
 	game_query.get(self.game_id , {
@@ -276,7 +274,6 @@ user_status_VM.prototype.cancel = function(){
 
 	var self = this;
 	self.loading_visible(true);
-	self.enable_change(false);
 	var Game = Parse.Object.extend("Game");
 	var game_query = new Parse.Query(Game);
 	game_query.get(self.game_id , {
@@ -366,7 +363,6 @@ user_status_VM.prototype.cancel_audience_from_hangout = function(){
 user_status_VM.prototype.enable_user_participant_change = function(status){
   
 	var self = this;
-	self.enable_change(status);
 // statusがPreparation前になったときに、Joinボタンおよびdeclineボタンを表示
 // 　→ユーザ設定がありで未ログイン
 // 　　　→Declineボタンを表示
