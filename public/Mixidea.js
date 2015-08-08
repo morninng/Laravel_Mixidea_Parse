@@ -35,13 +35,13 @@ function update_own_state(){
   var parse_hangout_mapping = get_parse_hangout_mapping_data();
   var parse_hangout_mapping_update = new Array();
 
+  //filter own mapping data
   for(var i=0; i<parse_hangout_mapping.length; i++){
     if(parse_hangout_mapping[i].parse_id != global_own_parse_id){
       parse_hangout_mapping_update.push(parse_hangout_mapping[i]);
     }
   }
 
-  
   var own_mapping_data = new Object();
   own_mapping_data["parse_id"] = global_own_parse_id;
   own_mapping_data["hangout_id"] = global_own_hangout_id;
@@ -58,8 +58,8 @@ function update_own_state(){
       "parse_hangout_mapping": parse_hangout_mapping_str_update,
       "parse_hangout_mapping_counter": hangout_mapping_counter_str
   });
-
 }
+
 
 function Hangout_Init() {
 

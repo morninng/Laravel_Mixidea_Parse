@@ -166,7 +166,6 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
           console.log("own speech finish");
           self.under_recording = false;
           self.speech_recognition.stop_recognition();
-          self.disable_microphone();
 
       }  
       return; 
