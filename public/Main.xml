@@ -82,7 +82,7 @@
         <div>
            <p class="user_status_p" data-bind ="text:role"></p>
            <p class="user_status_p" data-bind ="text:user_name"></p>
-           <div class="user_status_p" align="center" data-bind = "visible:enable_change">
+           <div class="user_status_p" align="center" >
              <button data-bind = "visible: decline_visible, event:{click:decline}">decline</button>
              <button data-bind = "visible: join_visible, event:{click:join}">join</button>
              <button data-bind = "visible: cancel_visible, event:{click:cancel}">cancel</button>

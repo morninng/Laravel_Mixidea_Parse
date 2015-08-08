@@ -87,11 +87,9 @@ ParticipantMgr.prototype.update_game_status = function(game_status){
 		case 1:
 		case 2:
 		case 3:
-			self.participant_table.UserObj_EnableButton_All();
 		break;
 		case 4:
 		case 5:
-			self.participant_table.UserObj_DisableButton_All();
 		break;
 	}
 }

@@ -7,7 +7,6 @@ function user_status_VM(role_name){
   self.pict_src = ko.observable("https://mixidea.parseapp.com/picture/1.jpg");
   self.user_status_css = ko.observable("notapplicant");
   self.parse_id_of_this_role = ko.observable(null);
-  self.enable_change = ko.observable(true);
   self.loading_visible = ko.observable(false);
 
   self.own_parse_id = appmgr.own_parse_id;
@@ -136,11 +135,9 @@ user_status_VM.prototype.update_button_byGamestatus = function(){
 		case 1:
 		case 2:
 		case 3:
-			self.enable_change(true);
 		break;
 		case 4:
 		case 5:
-			self.enable_change(false);
 		break;
 	}
 }
