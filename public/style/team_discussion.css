@@ -1,0 +1,27 @@
+.general_concept_txt {
+	margin:10px;
+	margin-left:20px;
+	margin-right:20px;
+	border-style: solid;
+	border-width: thin;
+	min-height: 100px;
+	max-width: 700px;
+	width: 100%;
+	background-color: #FCF5F5;
+	/*overflow-y:scroll;*/
+
+}
+.general_concept_input {
+	margin-bottom:0px;
+	margin:10px;
+	padding:10px;
+	border-style: solid;
+	border-width: medium;
+	min-height: 200px;
+	min-width: 800px;
+	background-color: #FFFFFF;
+}
+.concept_title{
+	font-weight: bold;
+	font-size:large;
+}

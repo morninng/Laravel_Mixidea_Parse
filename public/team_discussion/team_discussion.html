@@ -49,19 +49,20 @@
 <script type="text/template" data-template="general_concept_template">
 
     <div id='Concept'>
-      <p>General Concept</p>
+      <p class="concept_title">General Concept</p>
       <div data-bind="visible:content_visible">
-        <div class="arg_txt" data-bind="text:content_text"></div>
-        <button data-bind="click:click_edit_concept">edit</button>
+        <div class="general_concept_txt"><div data-bind="html:content_text"></div></div>
+        <div align="right"><button   data-bind="click:click_edit_concept">edit</button></div>
       </div>
       <div data-bind="visible:input_visible">
-         <textarea data-bind="textInput: content_text_input"></textarea><br>
-         <button data-bind="click:click_save_concept">save</button>
+         <textarea class="general_concept_input" data-bind="textInput: content_text_input, hasFocus: isTextboxFocused"></textarea><br>
+         <div align="right"><button data-bind="click:click_save_concept">save</button></div>
       </div>
         <ul data-bind="foreach:link_url_array">
           <li><div data-bind="text:str_link_url"></div></li>
         </ul>
         <input type="text" value="http://">
+         <div align="right"><button data-bind="click:click_add_link">add</button></div>
     </div>
 
 

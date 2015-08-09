@@ -8,6 +8,9 @@ function GeneralConcept_VM(){
   	self.input_visible = ko.observable(false); 
   	self.content_text = ko.observable(); 
   	self.content_text_input = ko.observable();
+  	self.isTextboxFocused = ko.observable(false);
+
+
 }
 
 GeneralConcept_VM.prototype.initialize = function(general_concept_obj){
@@ -16,6 +19,13 @@ GeneralConcept_VM.prototype.initialize = function(general_concept_obj){
 	self.general_concept_obj = general_concept_obj;
 	self.show_retrieved_data();
 
+  	self.isTextboxFocused.subscribe( function(focused) {
+	   if (!focused) {
+	   		console.log("un-focused");
+			self.save_concept();
+
+		}
+	});
 
 }
 
@@ -25,7 +35,13 @@ GeneralConcept_VM.prototype.show_retrieved_data = function(general_concept_obj){
 	var context = self.general_concept_obj.get("context");
   	if(context){
   		self.content_text_input(context);
-  		self.content_text(context);
+
+
+		convert_context = context.split("<").join("&lt;");
+		convert_context = convert_context.split(">").join("&gt;");
+		//改行を改行タグに置き換える
+		convert_context = convert_context.split("\n").join("<br>");
+  		self.content_text(convert_context);
   		self.content_visible(true);
   		self.input_visible(false);
 	}else{
@@ -56,28 +72,44 @@ GeneralConcept_VM.prototype.update_data_from_server = function(general_concept_o
 }
 
 
-GeneralConcept_VM.prototype.click_edit_concept = function(general_concept_obj){
+GeneralConcept_VM.prototype.click_edit_concept = function(){
 
 	var self = this;
 
 	console.log("click edit");
   	self.content_visible(false);
   	self.input_visible(true);
+  	self.isTextboxFocused(true);
+
+
+
+}
+GeneralConcept_VM.prototype.click_add_link = function(){
+
+	console.log("click add link");
 
 }
 
-GeneralConcept_VM.prototype.click_cancel_concept = function(general_concept_obj){
+
+GeneralConcept_VM.prototype.click_cancel_concept = function(){
 
 	console.log("click edit");
 
 }
 
-GeneralConcept_VM.prototype.click_save_concept = function(general_concept_obj){
+GeneralConcept_VM.prototype.click_save_concept = function(){
+
+	var self = this;
+	console.log("click save");
+	self.save_concept();
+}
+
+GeneralConcept_VM.prototype.save_concept = function(){
 
 	var self = this;
 
-	console.log("click save");
 	var context = self.content_text_input();
+
 	console.log(context);
 	self.general_concept_obj.set("context", context);
 	self.general_concept_obj.save(null, {
@@ -91,5 +123,10 @@ GeneralConcept_VM.prototype.click_save_concept = function(general_concept_obj){
 	  }
 	});
 
+}
 
+
+function isUrl(s) {
+    var regexp = /((http|https):\/\/)?[A-Za-z0-9\.-]{3,}\.[A-Za-z]{2}/;	
+    return s.indexOf(' ') < 0 && regexp.test(s);
 }

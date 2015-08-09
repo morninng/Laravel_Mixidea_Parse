@@ -4,7 +4,7 @@ function GeneralConcept_Mgr(){
 	var self = this;
 	self.argument_context = null;
 	self.link_list = new Array();
-  	self.hangout_url = ko.observable();
+
 }
 
 GeneralConcept_Mgr.prototype.initialize = function(parse_id){
