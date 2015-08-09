@@ -43,6 +43,7 @@ function team_dissussion() {
       self.actual_game_obj = obj;
       self.preparation_start_time  = self.actual_game_obj.get("prep_start_time");
       self.hangout_id_obj  = self.actual_game_obj.get("hangout_id");
+      self.argument_id_array = self.actual_game_obj.get("argument_id_array");
       self.count_timer_start();
       self.show_team_side();
       self.show_hangout_button();
