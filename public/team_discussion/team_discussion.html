@@ -61,8 +61,10 @@
         <ul data-bind="foreach:link_url_array">
           <li><div data-bind="text:str_link_url"></div></li>
         </ul>
-        <input type="text" value="http://">
-         <div align="right"><button data-bind="click:click_add_link">add</button></div>
+        <p>
+          <input class="link_Add_Input" type="text" data-bind="textInput: link_input" ></input>
+          <button data-bind="click:click_add_link">add</button>
+        </p>
     </div>
 
 

@@ -9,6 +9,7 @@ function GeneralConcept_VM(){
   	self.content_text = ko.observable(); 
   	self.content_text_input = ko.observable();
   	self.isTextboxFocused = ko.observable(false);
+  	self.link_input = ko.observable("http://");
 
 
 }
@@ -86,7 +87,28 @@ GeneralConcept_VM.prototype.click_edit_concept = function(){
 }
 GeneralConcept_VM.prototype.click_add_link = function(){
 
+	var self = this;
 	console.log("click add link");
+	var str_link = self.link_input();
+	console.log(str_link);
+
+	var is_url = isUrl(str_link);
+	console.log(is_url);
+
+/*
+	self.general_concept_obj.addUnique("link", str_link);
+	self.general_concept_obj.save(null, {
+	  success: function(obj) {
+	    console.log("saved");
+	    self.update_data_from_server();
+	  },
+	  error: function(obj, error) {
+	    alert('Failed to create new object, with error code: ' + error.message);
+
+	  }
+	});
+
+*/
 
 }
 
