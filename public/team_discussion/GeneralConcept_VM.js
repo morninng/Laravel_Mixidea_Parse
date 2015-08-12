@@ -3,14 +3,13 @@ function GeneralConcept_VM(){
 
 	var self = this;
 	self.argument_context = null;
-	self.link_url_array = ko.observableArray();
+	self.link_array = ko.observableArray();
   	self.content_visible = ko.observable(false); 
   	self.input_visible = ko.observable(false); 
   	self.content_text = ko.observable(); 
   	self.content_text_input = ko.observable();
   	self.isTextboxFocused = ko.observable(false);
   	self.link_input = ko.observable("http://");
-
 
 }
 
@@ -36,8 +35,6 @@ GeneralConcept_VM.prototype.show_retrieved_data = function(general_concept_obj){
 	var context = self.general_concept_obj.get("context");
   	if(context){
   		self.content_text_input(context);
-
-
 		convert_context = context.split("<").join("&lt;");
 		convert_context = convert_context.split(">").join("&gt;");
 		//改行を改行タグに置き換える
@@ -50,9 +47,25 @@ GeneralConcept_VM.prototype.show_retrieved_data = function(general_concept_obj){
   		self.input_visible(true);
 	}
 
-	var link_list = self.general_concept_obj.get("link");
-	self.link_url_array(link_list);
+	var link_list_array = self.general_concept_obj.get("link_url");
+	console.log(link_list_array);
+	self.link_array.removeAll();
+	if(link_list_array){
+		for(var i=0; i<link_list_array.length; i++ ){
 
+			var url_str = link_list_array[i].url;
+			var img_src = link_list_array[i].image;
+			var title = link_list_array[i].title;
+			var description = link_list_array[i].description;
+
+			var obj = {link_url: url_str,
+						link_title: title,
+						link_image_url: img_src,
+						link_desription: description
+						}
+			self.link_array.push(obj);
+		}
+	}
 }
 
 
@@ -95,20 +108,33 @@ GeneralConcept_VM.prototype.click_add_link = function(){
 	var is_url = isUrl(str_link);
 	console.log(is_url);
 
-/*
-	self.general_concept_obj.addUnique("link", str_link);
-	self.general_concept_obj.save(null, {
-	  success: function(obj) {
-	    console.log("saved");
-	    self.update_data_from_server();
-	  },
-	  error: function(obj, error) {
-	    alert('Failed to create new object, with error code: ' + error.message);
+	if(is_url){
+		var data_sent = EncodeHTMLForm(str_link);
+		$.ajax({
+		  url: "http://mixidea.org/api/get_ogp.php",
+		  data: data_sent,
+		  type: "POST",
+		  headers: {
+		    'Content-Type': 'application/x-www-form-urlencoded'
+		  }
+		 }).done(function(response_obj){
+		 	console.log(response_obj);
 
-	  }
-	});
 
-*/
+	 		if(!response_obj.url){
+	 			url_exist=true;
+	 			response_obj["url"] = str_link;
+	 		}
+		 	
+		 	self.general_concept_obj.addUnique("link_url", response_obj);
+			self.general_concept_obj.save().then(function(obj) {
+			  self.general_concept_obj = obj;
+	    	  self.update_data_from_server();
+			}, function(error) {
+	    		alert('Failed to create new object, with error code: ' + error.message);
+			});
+		 });
+	}
 
 }
 
@@ -131,8 +157,8 @@ GeneralConcept_VM.prototype.save_concept = function(){
 	var self = this;
 
 	var context = self.content_text_input();
-
 	console.log(context);
+
 	self.general_concept_obj.set("context", context);
 	self.general_concept_obj.save(null, {
 	  success: function(obj) {
@@ -151,4 +177,16 @@ GeneralConcept_VM.prototype.save_concept = function(){
 function isUrl(s) {
     var regexp = /((http|https):\/\/)?[A-Za-z0-9\.-]{3,}\.[A-Za-z]{2}/;	
     return s.indexOf(' ') < 0 && regexp.test(s);
+}
+
+function EncodeHTMLForm(data){
+    var params = [];
+    for( var name in data )
+    {
+        var value = data[ name ];
+        var param = encodeURIComponent( name ).replace( /%20/g, '+' )
+            + '=' + encodeURIComponent( value ).replace( /%20/g, '+' );
+        params.push( param );
+    }
+    return params.join('&');
 }

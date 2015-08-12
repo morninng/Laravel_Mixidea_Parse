@@ -1,3 +1,8 @@
+
+ul {
+	list-style:none;
+}
+
 .general_concept_txt {
 	margin:10px;
 	margin-left:20px;
@@ -31,4 +36,30 @@
 	margin-left:20px;
 	min-width: 400px;
 
+}
+
+.link_Add_Input{
+
+	margin-left:20px;
+	min-width: 400px;
+
+}
+
+.link_container{
+	border-bottom:dotted gray 1px;
+	width:100%;
+	max-width:700px;
+	margin-bottom:3px;
+	display: flex;
+	flex-direction:row;
+	overflow:hidden;
+	flex-wrap:nowrap;
+}
+.link_text_area{
+	flex:1;
+	padding-top:4px;
+}
+.link_image_area{
+	padding-top:4px;
+	max-width:40px;
 }
