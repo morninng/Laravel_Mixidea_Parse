@@ -3,15 +3,94 @@ ul {
 	list-style:none;
 }
 
+#whole {
+	width: 100%;
+	height: 100%;
+}
+
+#inner_whole {
+	overflow: scroll;
+	/*
+	width:1652px;*/
+	height:800px;
+	display:flex;
+	flex-direction:column;
+}
+
+#first_row {
+	width= 100%
+	min-height:20px;
+  	background-color: #D0D0D0;
+}
+
+#second_row {
+	width: 100%;
+	display:flex;
+	flex-direction:row;
+}
+
+#second_left {
+ 	flex: 1;
+	display:flex;
+	flex-direction:column;
+}
+#second_left_first {
+  	background-color: #FF0000;
+}
+#second_left_second {
+  	background-color: #00FF00;
+	overflow: scroll;
+
+
+
+
+}
+
+#second_left_third {
+  	background-color: #0000FF;
+}
+
+
+#second_right {
+	width: 200px;
+  	background-color: #F0F0F0;
+}
+
+#second_right_first {
+	width: 200px;
+  	background-color: #990000;
+}
+#second_right_second {
+	width: 200px;
+  	background-color: #009900;
+}
+
+#third_row {
+	width: 100%;
+}
+
+#argument_list {
+	width: 100%;
+	display:flex;
+	flex-direction:row;
+	flex-wrap:nowrap;
+	overflow:scroll;
+}
+
+.argument_element{
+	min-width: 540px;
+	border: 1px solid #000000;
+	padding: 15px;
+}
+
 .general_concept_txt {
 	margin:10px;
-	margin-left:20px;
-	margin-right:20px;
+	padding-left:10px;
+	padding-right:10px;
 	border-style: solid;
 	border-width: thin;
 	min-height: 100px;
-	max-width: 700px;
-	width: 100%;
+	width: 90%;
 	background-color: #FCF5F5;
 	/*overflow-y:scroll;*/
 
@@ -23,7 +102,7 @@ ul {
 	border-style: solid;
 	border-width: medium;
 	min-height: 200px;
-	min-width: 800px;
+	width: 90%;
 	background-color: #FFFFFF;
 }
 .concept_title{

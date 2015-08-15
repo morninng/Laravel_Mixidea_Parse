@@ -1,0 +1,241 @@
+<html>
+<head>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./../style/loading.css">
+  <link rel="stylesheet" href="./../style/team_discussion.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
+
+</head>
+<body>
+
+<div id="whole">
+<div id="inner_whole">
+
+  <div id="first_row">Mixidea team discussion area for Gov</div>
+  <div id="second_row">
+    <div id="second_left">
+      <div id="second_left_first">first</div>
+      <div id="second_left_second">second</div>
+      <div id="second_left_third">third</div>
+    </div>
+    <div id="second_right">
+      <div id="second_right_first">first</div>
+      <div id="second_right_second">second</div>
+    </div>
+  </div>
+  <div id="third_row">
+    <div id="argument_list"></div>
+  </div>
+
+<!--
+  <div id="container_top">
+      <div id = "title_area">thw ban tobacco</div>
+
+  </div>
+
+  <div id="container_main">
+      <div id="team_discussion_control">
+          <div>Mixidea team discussion room for <span id="team_category"></span></div>
+          <div>
+            Click here to go back to originl site<br>
+            <span id = "goback_hangout_area"></span>
+          </div>
+          <div><br>
+            <font size="5">preparation</font> <font size="5" color="#ff0000"><span id="time_spent"></span></font><br>
+          </div>
+          <div>
+            <span id="video_area"></span>
+          </div>
+      </div>
+      <div id="argument_control">
+           <p> You need to work together with your partner to make a good arguments</p>
+          <div id= "general_concept"></div>
+          <div id="definition"></div>
+          <ul id="argument_list"></ul>
+      </div>  
+  </div>
+
+</div>
+</div>
+-->
+
+<script type="text/template" data-template="general_concept_template">
+
+    <div id='Concept'>
+      <p class="concept_title">General Concept</p>
+      <div data-bind="visible:content_visible">
+        <div class="general_concept_txt"><div data-bind="html:content_text"></div></div>
+        <div align="right"><button   data-bind="click:click_edit_concept">edit</button></div>
+      </div>
+      <div data-bind="visible:input_visible">
+         <textarea class="general_concept_input" data-bind="textInput: content_text_input, hasFocus: isTextboxFocused"></textarea><br>
+         <div align="right"><button data-bind="click:click_save_concept">save</button></div>
+      </div>
+        <ul data-bind="foreach:link_array">
+            <li>
+                <div class="link_container" >
+                  <div class="link_image_area" >
+                    <a data-bind="attr: { href: link_url}" target="_blank">
+                      <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
+                    </a>
+                  </div>
+                  <div class="link_text_area">
+                    <div style="padding-bottom:7px;">
+                      <a data-bind="attr: { href: link_url}" target="_blank"><span data-bind="text:link_title"></span></a><br>
+                      <span data-bind="text:link_desription"></span>
+                    </div>
+                  </div>
+
+                </div>
+            </li>
+        </ul>
+        <p>
+          <input class="link_Add_Input" type="text" data-bind="textInput: link_input" ></input>
+          <button data-bind="click:click_add_link">add</button>
+        </p>
+    </div>
+
+
+</script>
+
+<script type="text/template" data-template="argument_template">
+  <div class = "argument_element">
+    <h2>Argumet</h2>
+    <div id='Arg_<%= Argument_ID %>'>
+      <div class="title">
+        <div data-bind="visible:title_content_visible">
+          <div class="title_txt"> Title: <span data-bind="html:title_content"></span></div>
+          <div align="right"><button   data-bind="click:click_title_edit">edit</button></div>
+        </div>
+        <div data-bind="visible:title_input_visible">
+          <p>Title: <input class="Title_Input" type="text" data-bind="textInput: title_input, hasFocus: isTitleTextboxFocused" ></input>
+            <button data-bind="click:click_title_save">save</button>
+            <button data-bind="click:click_title_cancel">cancel</button>
+          </p>
+        </div>
+      </div>
+
+      <div class="main_arg">
+        <div data-bind="visible:main_content_visible">
+          <div class="general_concept_txt"><div data-bind="html:main_content"></div></div>
+          <div align="right"><button   data-bind="click:click_main_edit">edit</button></div>
+        </div>
+        <div data-bind="visible:main_input_visible" align="top">
+           context
+           <textarea class="general_concept_input" data-bind="textInput: main_input, hasFocus: isMainTextboxFocused"></textarea><br>
+           <div align="right">
+             <button data-bind="click:click_main_save">save</button>
+             <button data-bind="click:click_main_cancel">cancel</button>
+           </div>
+        </div>
+
+        <ul data-bind="foreach:main_link_array">
+            <li>
+                <div class="link_container" >
+                  <div class="link_image_area" >
+                    <a data-bind="attr: { href: link_url}" target="_blank">
+                      <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
+                    </a>
+                  </div>
+                  
+                  <div class="link_text_area">
+                    <div style="padding-bottom:7px;">
+                      <a data-bind="attr: { href: link_url}" target="_blank"><span data-bind="text:link_title"></span></a><br>
+                      <span data-bind="text:link_desription"></span>
+                    </div>
+                  </div>
+
+                </div>
+            </li>
+        </ul>
+        <p>
+          link: <input class="link_Add_Input" type="text" data-bind="textInput: main_link_input" ></input>
+          <button data-bind="click:click_add_main_link">add</button>
+        </p>
+      </div>
+
+
+
+
+      <div  class="comment">
+        <ul data-bind="foreach:comment_array">
+          <div data-bind="visible:comment_content_visible">
+            <div class="general_concept_txt"><div data-bind="html:comment_content"></div></div>
+            <div align="right"><button   data-bind="click:click_comment_edit">edit</button></div>
+            <div class="link_container" >
+              <div class="link_image_area" >
+                <a data-bind="attr: { href: link_url}" target="_blank">
+                  <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
+                </a>
+              </div>
+              <div class="link_text_area">
+                <div style="padding-bottom:7px;">
+                  <a data-bind="attr: { href: link_url}" target="_blank">
+                    <span data-bind="text:link_title"></span>
+                  </a><br>
+                  <span data-bind="text:link_desription"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-bind="visible:comment_edit_visible">
+            <textarea class="comment_edit" data-bind="textInput: comment_edit, hasFocus: isCommentEditTextboxFocused"></textarea><br>
+            <p>
+              <input class="link_Add_Input" type="text" data-bind="textInput: link_input" ></input>
+            </p>
+            <div align="right"><button data-bind="click:click_comment_edit_save">save</button></div>
+            <div align="right"><button data-bind="click:click_comment_edit_cancel">cancel</button></div>
+          </div>
+        </ul>
+      </div>
+
+
+
+      <div class="comment_input">
+        <div data-bind="visible:comment_input_visible">
+             comment: <textarea class="general_concept_input" data-bind="textInput: comment_input, hasFocus: isCommentInputTextboxFocused"></textarea><br>
+             <div align="right"><button data-bind="click:click_comment_Add">Add</button></div>
+          </div>
+
+          <p>link: <input class="link_Add_Input" type="text" data-bind="textInput: main_link_input" ></input>
+              <button data-bind="click:click_add_main_link">add</button>
+          </p>
+
+        </div>
+    </div>
+    <hr>
+  </div>
+
+</script>
+
+
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+  <script src="./Argument_Mgr.js"></script>
+  <script src="./Argument_VM.js"></script>
+  <script src="./Definition_Mgr.js"></script>
+  <script src="./Definition_VM.js"></script>
+  <script src="./GeneralConcept_Mgr.js"></script>
+  <script src="./GeneralConcept_VM.js"></script>
+  <script src="./TeamDiscussionAppMgr.js"></script>
+
+<script>
+
+ var parse_app_id = "EWPPdrDVaAIqhRazWp8K0ZlmafAAPt93JiOAonvX";
+ var parse_js_key = "US6Lheio8PGcBdIpwGFhFSQVpi5GKunGf6hGq5Ze";
+ Parse.initialize(parse_app_id, parse_js_key);
+
+
+ var global_own_parse_id = "c8CUKLqLxt";
+ var global_debate_game_id = "gOvFN4aBVN";
+ var global_team_side = "Gov";
+
+
+ team_discussion_appmgr = new TeamDiscussAppMgr();
+</script>
+
+
+</body>
+</html>
