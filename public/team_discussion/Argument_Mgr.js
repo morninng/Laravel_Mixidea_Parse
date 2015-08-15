@@ -11,34 +11,85 @@ function Argument_Mgr(){
 }
 
 
-Argument_Mgr.prototype.initialize = function(general_concept_id, definition, argument_id_array, team_side, current_type){
+
+Argument_Mgr.prototype.create_argument = function(){
+
+	var self = this;
+
+	var Argument = Parse.Object.extend("Argument");
+	var argument_obj_1 = new Argument();
+	var argument_obj_2 = new Argument();
+	var param_name = global_team_side + "_argument";
+	team_discussion_appmgr.actual_game_obj.add(param_name, argument_obj_1);
+	team_discussion_appmgr.actual_game_obj.add(param_name, argument_obj_2);
+	team_discussion_appmgr.actual_game_obj.save().then(
+		function(obj){
+			var argument_obj_array = obj.get(param_name);
+			for(var i=0; i< argument_obj_array.length; i++){
+				argument_id = argument_obj_array[i].id;
+				self.get_argument_obj_createVM(argument_id);
+			}
+		},
+		function(error) {
+		    // saving the object failed.
+		}
+	);
+}
+
+
+Argument_Mgr.prototype.get_argument_obj_createVM = function(argument_id){
+
+	var self = this;
+
+	var Argument = Parse.Object.extend("Argument");
+	var argument_query = new Parse.Query(Argument);
+	argument_query.get(argument_id,{
+		success: function(obj){
+			self.argument_obj = obj;
+			self.ApplyTemplate(obj, argument_id);
+		},
+		error: function(){
+			console.log("error");
+		}
+	});
+}
+
+Argument_Mgr.prototype.initialize = function(argument_pointer_array, team_side, current_type){
+
+	var self = this;
+	if(argument_pointer_array){
+		for(var i=0; i< argument_pointer_array.length; i++){
+			argument_id = argument_pointer_array[i].id;
+			self.get_argument_obj_createVM(argument_id);
+		}
+	}else{
+		self.create_argument();
+	}
+
+}
+
+
+
+Argument_Mgr.prototype.ApplyTemplate = function(obj, argument_id){
 
 	var self = this;
 	
-	if(general_concept_id){
-		self.general_concept_id = general_concept_id;
-
-		var GeneralConcept_html_Template = _.template($('[data-template="GeneralConcept_Template"]').html());
-	    var general_concept_element = $("#general_concept_area");
-	    var general_concept_html_text = GeneralConcept_html_Template();
-	    transcription_element.html(general_concept_html_text);
-
-	    self.concept_vm = new GeneralConcept_VM();
-	    var argument_el = document.getElementById('transcription_area');
-	    ko.applyBindings(self.transcription_mgr , transcription_el);
-	    self.transcription_mgr.initialize(self.game_obj.speech_transcription_id);
-
-	}
-
-
-	// Argumentがなかったら作成、あったらアップデート
-	//データ取得
-
-	// IDがなかったらParse上にオブジェクトを二つ作成し書くオブジェクトIDにひもづき、
-	// Argumentcontextを作成
+	var Argument_html_Template = _.template($('[data-template="argument_template"]').html());
+    var argument_list_element = $("#argument_list");
+    var data = {Argument_ID:argument_id};
+    var argument_html_text = Argument_html_Template(data);
+    argument_list_element.append(argument_html_text);
+    
+    eval("self.argument_vm_" + argument_id + "= new Argument_VM();");
+    var element_name = 'Arg_' + argument_id;
+    var argument_el = document.getElementById(element_name);
+    
+    ko.applyBindings(eval("self.argument_vm_" + argument_id) , argument_el);
+	eval("self.argument_vm_" + argument_id + ".initialize(obj)");
 	
-	// IDがあったら、オブジェクトを作成
+
 }
+
 
 
 Argument_Mgr.prototype.update = function(){

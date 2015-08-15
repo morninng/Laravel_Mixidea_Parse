@@ -31,15 +31,13 @@
           </div>
           <div>
             <span id="video_area"></span>
-          <div>
+          </div>
       </div>
       <div id="argument_control">
            <p> You need to work together with your partner to make a good arguments</p>
-          <div id= "general_concept"><div>
+          <div id= "general_concept"></div>
           <div id="definition"></div>
-          <ul id="argument_list">
-
-          </ul>
+          <ul id="argument_list"></ul>
       </div>  
   </div>
 
@@ -85,39 +83,114 @@
 
 </script>
 
-<script type="text/template" data-template="Argument_Template">
+<script type="text/template" data-template="argument_template">
   <li>
-    <div id='Arg_<%= argument_id %>'>
-      <div id="main_arg">
-        <div data-bind="visible:edit_visible">
-          <input data-bind>
+    <h2>Argumet</h2>
+    <div id='Arg_<%= Argument_ID %>'>
+      <div class="title">
+        <div data-bind="visible:title_content_visible">
+          <div class="title_txt"> Title: <span data-bind="html:title_content"></span></div>
+          <div align="right"><button   data-bind="click:click_title_edit">edit</button></div>
         </div>
-        <div data-bind="visible:partner_update_visible">
-          <div class="arg_txt" data-bind="text:contetent_text"></div>
+        <div data-bind="visible:title_input_visible">
+          <p>Title: <input class="Title_Input" type="text" data-bind="textInput: title_input, hasFocus: isTitleTextboxFocused" ></input>
+            <button data-bind="click:click_title_save">save</button>
+            <button data-bind="click:click_title_cancel">cancel</button>
+          </p>
         </div>
-        <ul data-bind="foreach:link_url">
-          <li><div></div></li>
-        </ul>
-        <input type="text" value="url">
       </div>
-      <div>
-        <ul data-bind="foreach:extension">
-          <li><div>
-            <p data-bind="name"></p>
-            <div data-bind="visible:context_visible">
-              <div data-bind="context"></div>
-            </div>
-            <div data-bind="visible:input_visible">
-              <input data-bind="value:"></input>
-            </div>
-            <button data-bind="click:">edit</button>
-          </div></li>
+
+      <div class="main_arg">
+        <div data-bind="visible:main_content_visible">
+          <div class="general_concept_txt"><div data-bind="html:main_content"></div></div>
+          <div align="right"><button   data-bind="click:click_main_edit">edit</button></div>
+        </div>
+        <div data-bind="visible:main_input_visible" align="top">
+           context
+           <textarea class="general_concept_input" data-bind="textInput: main_input, hasFocus: isMainTextboxFocused"></textarea><br>
+           <div align="right">
+             <button data-bind="click:click_main_save">save</button>
+             <button data-bind="click:click_main_cancel">cancel</button>
+           </div>
+        </div>
+
+        <ul data-bind="foreach:main_link_array">
+            <li>
+                <div class="link_container" >
+                  <div class="link_image_area" >
+                    <a data-bind="attr: { href: link_url}" target="_blank">
+                      <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
+                    </a>
+                  </div>
+                  
+                  <div class="link_text_area">
+                    <div style="padding-bottom:7px;">
+                      <a data-bind="attr: { href: link_url}" target="_blank"><span data-bind="text:link_title"></span></a><br>
+                      <span data-bind="text:link_desription"></span>
+                    </div>
+                  </div>
+
+                </div>
+            </li>
         </ul>
-        <input></input>
+        <p>
+          link: <input class="link_Add_Input" type="text" data-bind="textInput: main_link_input" ></input>
+          <button data-bind="click:click_add_main_link">add</button>
+        </p>
       </div>
-     aaaa
+
+
+
+
+      <div  class="comment">
+        <ul data-bind="foreach:comment_array">
+          <div data-bind="visible:comment_content_visible">
+            <div class="general_concept_txt"><div data-bind="html:comment_content"></div></div>
+            <div align="right"><button   data-bind="click:click_comment_edit">edit</button></div>
+            <div class="link_container" >
+              <div class="link_image_area" >
+                <a data-bind="attr: { href: link_url}" target="_blank">
+                  <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
+                </a>
+              </div>
+              <div class="link_text_area">
+                <div style="padding-bottom:7px;">
+                  <a data-bind="attr: { href: link_url}" target="_blank">
+                    <span data-bind="text:link_title"></span>
+                  </a><br>
+                  <span data-bind="text:link_desription"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-bind="visible:comment_edit_visible">
+            <textarea class="comment_edit" data-bind="textInput: comment_edit, hasFocus: isCommentEditTextboxFocused"></textarea><br>
+            <p>
+              <input class="link_Add_Input" type="text" data-bind="textInput: link_input" ></input>
+            </p>
+            <div align="right"><button data-bind="click:click_comment_edit_save">save</button></div>
+            <div align="right"><button data-bind="click:click_comment_edit_cancel">cancel</button></div>
+          </div>
+        </ul>
+      </div>
+
+
+
+      <div class="comment_input">
+        <div data-bind="visible:comment_input_visible">
+             comment: <textarea class="general_concept_input" data-bind="textInput: comment_input, hasFocus: isCommentInputTextboxFocused"></textarea><br>
+             <div align="right"><button data-bind="click:click_comment_Add">Add</button></div>
+          </div>
+
+          <p>link: <input class="link_Add_Input" type="text" data-bind="textInput: main_link_input" ></input>
+              <button data-bind="click:click_add_main_link">add</button>
+          </p>
+
+        </div>
     </div>
+    <hr>
   </li>
+
 </script>
 
 

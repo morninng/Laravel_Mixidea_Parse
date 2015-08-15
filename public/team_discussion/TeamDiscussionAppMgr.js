@@ -5,6 +5,7 @@ function TeamDiscussAppMgr() {
 
   var self = this;
 
+  self.arg_id_list = new Array();
   self.argument_mgr = new Argument_Mgr();
   self.general_concept_mgr = new GeneralConcept_Mgr();
 
@@ -14,7 +15,7 @@ function TeamDiscussAppMgr() {
     success: function(obj) {
       self.actual_game_obj = obj;
       var general_concept = self.actual_game_obj.get(global_team_side +"_general_concept");
-      var argument_id_array = self.actual_game_obj.get(global_team_side +"Arguments");
+      var argument_pointer_array = self.actual_game_obj.get(global_team_side +"_argument");
       
     //  argument_mgr.initialize(general_concept_id, definition, self.argument_id_array, global_team_side, "team_disucussion");
       if(general_concept)
@@ -22,6 +23,21 @@ function TeamDiscussAppMgr() {
       else{
         self.general_concept_mgr.initialize(null);
       }
+
+      if(argument_pointer_array){
+        self.argument_mgr.initialize(argument_pointer_array);
+/*
+        for(var i=0; i< argument_id_array.length; i++){
+          var argument_id = argument_id_array[i];
+          self.arg_id_list.push(argument_id);
+          eval("self.arg_obj_" + argument_id) = 
+          self.argument_mgr.initialize(argument_id);
+*/
+
+      }else{
+        self.argument_mgr.initialize(null);
+      }
+
 
 
       /*

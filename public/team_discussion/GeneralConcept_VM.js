@@ -23,7 +23,6 @@ GeneralConcept_VM.prototype.initialize = function(general_concept_obj){
 	   if (!focused) {
 	   		console.log("un-focused");
 			self.save_concept();
-
 		}
 	});
 
