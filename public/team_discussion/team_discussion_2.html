@@ -17,17 +17,24 @@
   <div id="first_row">Mixidea team discussion area for Gov</div>
   <div id="second_row">
     <div id="second_left">
-      <div id="second_left_first">first</div>
+      <div id="second_left_first"><strong>motion</strong>THW ban tobacco</div>
       <div id="second_left_second">second</div>
-      <div id="second_left_third">third</div>
+      <div id="second_left_third">definition<br></div>
     </div>
     <div id="second_right">
-      <div id="second_right_first">first</div>
-      <div id="second_right_second">second</div>
+      <div id="second_right_first">time spent: 13:20</div>
+      <div id="second_right_second">You can go back to main discussion area by clicking hangout button again</div>
+      <div id="second_right_third"><button>Add Another Argument</button></div>
     </div>
   </div>
   <div id="third_row">
-    <div id="argument_list"></div>
+    <div id="argument_list">
+      <div class="argument_child"></div>
+      <div class="argument_child"></div>
+      <div class="argument_child"></div>
+      <div class="argument_child"></div>
+      <div class="argument_child"></div>
+    </ul>
   </div>
 
 <!--
@@ -74,28 +81,6 @@
          <textarea class="general_concept_input" data-bind="textInput: content_text_input, hasFocus: isTextboxFocused"></textarea><br>
          <div align="right"><button data-bind="click:click_save_concept">save</button></div>
       </div>
-        <ul data-bind="foreach:link_array">
-            <li>
-                <div class="link_container" >
-                  <div class="link_image_area" >
-                    <a data-bind="attr: { href: link_url}" target="_blank">
-                      <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
-                    </a>
-                  </div>
-                  <div class="link_text_area">
-                    <div style="padding-bottom:7px;">
-                      <a data-bind="attr: { href: link_url}" target="_blank"><span data-bind="text:link_title"></span></a><br>
-                      <span data-bind="text:link_desription"></span>
-                    </div>
-                  </div>
-
-                </div>
-            </li>
-        </ul>
-        <p>
-          <input class="link_Add_Input" type="text" data-bind="textInput: link_input" ></input>
-          <button data-bind="click:click_add_link">add</button>
-        </p>
     </div>
 
 
@@ -105,6 +90,7 @@
   <div class = "argument_element">
     <h2>Argumet</h2>
     <div id='Arg_<%= Argument_ID %>'>
+
       <div class="title">
         <div data-bind="visible:title_content_visible">
           <div class="title_txt"> Title: <span data-bind="html:title_content"></span></div>
@@ -120,6 +106,7 @@
 
       <div class="main_arg">
         <div data-bind="visible:main_content_visible">
+          context
           <div class="general_concept_txt"><div data-bind="html:main_content"></div></div>
           <div align="right"><button   data-bind="click:click_main_edit">edit</button></div>
         </div>
@@ -132,62 +119,19 @@
            </div>
         </div>
 
-        <ul data-bind="foreach:main_link_array">
-            <li>
-                <div class="link_container" >
-                  <div class="link_image_area" >
-                    <a data-bind="attr: { href: link_url}" target="_blank">
-                      <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
-                    </a>
-                  </div>
-                  
-                  <div class="link_text_area">
-                    <div style="padding-bottom:7px;">
-                      <a data-bind="attr: { href: link_url}" target="_blank"><span data-bind="text:link_title"></span></a><br>
-                      <span data-bind="text:link_desription"></span>
-                    </div>
-                  </div>
-
-                </div>
-            </li>
-        </ul>
-        <p>
-          link: <input class="link_Add_Input" type="text" data-bind="textInput: main_link_input" ></input>
-          <button data-bind="click:click_add_main_link">add</button>
-        </p>
-      </div>
-
-
-
 
       <div  class="comment">
         <ul data-bind="foreach:comment_array">
           <div data-bind="visible:comment_content_visible">
             <div class="general_concept_txt"><div data-bind="html:comment_content"></div></div>
-            <div align="right"><button   data-bind="click:click_comment_edit">edit</button></div>
-            <div class="link_container" >
-              <div class="link_image_area" >
-                <a data-bind="attr: { href: link_url}" target="_blank">
-                  <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
-                </a>
-              </div>
-              <div class="link_text_area">
-                <div style="padding-bottom:7px;">
-                  <a data-bind="attr: { href: link_url}" target="_blank">
-                    <span data-bind="text:link_title"></span>
-                  </a><br>
-                  <span data-bind="text:link_desription"></span>
-                </div>
-              </div>
-            </div>
+            <div align="right"><button data-bind="event:{click: $parent.click_comment_edit}">edit</button></div>
           </div>
           <div data-bind="visible:comment_edit_visible">
-            <textarea class="comment_edit" data-bind="textInput: comment_edit, hasFocus: isCommentEditTextboxFocused"></textarea><br>
-            <p>
-              <input class="link_Add_Input" type="text" data-bind="textInput: link_input" ></input>
-            </p>
-            <div align="right"><button data-bind="click:click_comment_edit_save">save</button></div>
-            <div align="right"><button data-bind="click:click_comment_edit_cancel">cancel</button></div>
+            <textarea class="argument_comment_input" data-bind="textInput: comment_edit, hasFocus: isCommentEditTextboxFocused"></textarea><br>
+            <div align="right">
+              <button data-bind="event:{click: $parent.click_comment_edit_save}">save</button>
+              <button data-bind="event:{click: $parent.click_comment_edit_cancel}">cancel</button>
+            </div>
           </div>
         </ul>
       </div>
@@ -196,14 +140,10 @@
 
       <div class="comment_input">
         <div data-bind="visible:comment_input_visible">
-             comment: <textarea class="general_concept_input" data-bind="textInput: comment_input, hasFocus: isCommentInputTextboxFocused"></textarea><br>
-             <div align="right"><button data-bind="click:click_comment_Add">Add</button></div>
-          </div>
-
-          <p>link: <input class="link_Add_Input" type="text" data-bind="textInput: main_link_input" ></input>
-              <button data-bind="click:click_add_main_link">add</button>
-          </p>
-
+             comment: <textarea class="argument_comment_input" data-bind="textInput: comment_input, hasFocus: isCommentInputTextboxFocused"></textarea><br>
+             <div align="right">
+                <button data-bind="click:click_comment_Add">Add</button>
+             </div>
         </div>
     </div>
     <hr>
@@ -211,6 +151,7 @@
 
 </script>
 
+  <script src="./../util/utility_func.js"></script>
 
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
   <script src="./Argument_Mgr.js"></script>

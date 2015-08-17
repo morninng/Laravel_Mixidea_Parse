@@ -27,7 +27,7 @@ Argument_Mgr.prototype.create_argument = function(){
 			var argument_obj_array = obj.get(param_name);
 			for(var i=0; i< argument_obj_array.length; i++){
 				argument_id = argument_obj_array[i].id;
-				self.get_argument_obj_createVM(argument_id);
+				self.get_argument_obj_createVM(argument_id, i);
 			}
 		},
 		function(error) {
@@ -37,7 +37,7 @@ Argument_Mgr.prototype.create_argument = function(){
 }
 
 
-Argument_Mgr.prototype.get_argument_obj_createVM = function(argument_id){
+Argument_Mgr.prototype.get_argument_obj_createVM = function(argument_id, order_num){
 
 	var self = this;
 
@@ -46,7 +46,7 @@ Argument_Mgr.prototype.get_argument_obj_createVM = function(argument_id){
 	argument_query.get(argument_id,{
 		success: function(obj){
 			self.argument_obj = obj;
-			self.ApplyTemplate(obj, argument_id);
+			self.ApplyTemplate(obj, argument_id, order_num);
 		},
 		error: function(){
 			console.log("error");
@@ -60,7 +60,7 @@ Argument_Mgr.prototype.initialize = function(argument_pointer_array, team_side, 
 	if(argument_pointer_array){
 		for(var i=0; i< argument_pointer_array.length; i++){
 			argument_id = argument_pointer_array[i].id;
-			self.get_argument_obj_createVM(argument_id);
+			self.get_argument_obj_createVM(argument_id, i);
 		}
 	}else{
 		self.create_argument();
@@ -70,15 +70,24 @@ Argument_Mgr.prototype.initialize = function(argument_pointer_array, team_side, 
 
 
 
-Argument_Mgr.prototype.ApplyTemplate = function(obj, argument_id){
+Argument_Mgr.prototype.ApplyTemplate = function(obj, argument_id, order_num){
 
-	var self = this;
-	
+	var self = this; 
+	console.log("apply template")
+	order_num++;
+	console.log(order_num);
+	var element_selector_str = "#argument_list .argument_child:nth-child(" + order_num + ")";
 	var Argument_html_Template = _.template($('[data-template="argument_template"]').html());
-    var argument_list_element = $("#argument_list");
+	var argument_element = $(element_selector_str);
+    //var argument_element = $("#argument_list");
+    console.log(argument_element);
+
     var data = {Argument_ID:argument_id};
     var argument_html_text = Argument_html_Template(data);
-    argument_list_element.append(argument_html_text);
+    console.log(argument_html_text);
+
+  //  argument_list_element.append(argument_html_text);
+    argument_element.html(argument_html_text);
     
     eval("self.argument_vm_" + argument_id + "= new Argument_VM();");
     var element_name = 'Arg_' + argument_id;

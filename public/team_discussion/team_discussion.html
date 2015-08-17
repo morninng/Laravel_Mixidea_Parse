@@ -56,28 +56,6 @@
          <textarea class="general_concept_input" data-bind="textInput: content_text_input, hasFocus: isTextboxFocused"></textarea><br>
          <div align="right"><button data-bind="click:click_save_concept">save</button></div>
       </div>
-        <ul data-bind="foreach:link_array">
-            <li>
-                <div class="link_container" >
-                  <div class="link_image_area" >
-                    <a data-bind="attr: { href: link_url}" target="_blank">
-                      <img data-bind="attr: { src: link_image_url}" style="max-width:30px; max-height=30px"  >
-                    </a>
-                  </div>
-                  <div class="link_text_area">
-                    <div style="padding-bottom:7px;">
-                      <a data-bind="attr: { href: link_url}" target="_blank"><span data-bind="text:link_title"></span></a><br>
-                      <span data-bind="text:link_desription"></span>
-                    </div>
-                  </div>
-
-                </div>
-            </li>
-        </ul>
-        <p>
-          <input class="link_Add_Input" type="text" data-bind="textInput: link_input" ></input>
-          <button data-bind="click:click_add_link">add</button>
-        </p>
     </div>
 
 

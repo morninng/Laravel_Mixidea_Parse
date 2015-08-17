@@ -34,10 +34,8 @@ GeneralConcept_VM.prototype.show_retrieved_data = function(general_concept_obj){
 	var context = self.general_concept_obj.get("context");
   	if(context){
   		self.content_text_input(context);
-		convert_context = context.split("<").join("&lt;");
-		convert_context = convert_context.split(">").join("&gt;");
-		//改行を改行タグに置き換える
-		convert_context = convert_context.split("\n").join("<br>");
+
+  		convert_context = add_linebreak_html(context);
   		self.content_text(convert_context);
   		self.content_visible(true);
   		self.input_visible(false);
@@ -149,7 +147,10 @@ GeneralConcept_VM.prototype.click_save_concept = function(){
 	var self = this;
 	console.log("click save");
 	self.save_concept();
+
 }
+
+
 
 GeneralConcept_VM.prototype.save_concept = function(){
 

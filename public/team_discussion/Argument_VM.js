@@ -11,13 +11,13 @@ function Argument_VM(){
 
 
   	self.title_content_visible = ko.observable(false);
-  	self.title_content = ko.observable(false); 
+  	self.title_content = ko.observable(""); 
   	self.title_input_visible = ko.observable(false);
   	self.title_input = ko.observable();
   	self.isTitleTextboxFocused = ko.observable(false); 
 
   	self.main_content_visible = ko.observable(false); 
-  	self.main_content = ko.observable(); 
+  	self.main_content = ko.observable(""); 
   	self.main_input_visible = ko.observable(false); 
   	self.main_input = ko.observable();
 
@@ -32,6 +32,93 @@ function Argument_VM(){
   	self.isCommentInputTextboxFocused = ko.observable();
 
   	self.arg_id = null;
+
+self.click_comment_edit_cancel = function(data){
+
+	console.log(data);
+	var index = NaN;
+	for(var i=0; i< self.comment_array().length; i++){
+		if(self.comment_array()[i].comment_id == data.comment_id ){
+			index = i;
+		}
+	}
+	if(!isNaN(index)){
+		obj = {
+			 comment_id:self.comment_array()[index].comment_id,
+			 comment_content: self.comment_array()[index].comment_content,
+			 comment_edit: self.comment_array()[index].comment_content,
+			 comment_content_visible: true,
+			 comment_edit_visible: false,
+			 isCommentEditTextboxFocused: false
+			};
+
+		self.comment_array.splice(index,1,obj);
+	}
+
+
+
+}
+
+self.click_comment_edit_save = function(data){
+	var editid_comment = data.comment_edit;
+	console.log(editid_comment);
+	var parse_id = data.comment_id;
+	console.log(parse_id);
+	/*
+	var comment_obj = data.comment_obj;
+	console.log(comment_obj);*/
+
+	var Comment = Parse.Object.extend("Comment");
+	var comment_query = new Parse.Query(Comment);;
+
+	comment_query.get(parse_id, {
+	  success: function(obj) {
+	  	obj.set("context",editid_comment);
+	  	obj.increment("count");
+	  	obj.save(null, {
+		  success: function(obj) {
+	    	self.update_data_from_server();
+		  },
+		  error: function(obj, error) {
+		    console.log("error to save comment")
+		  }
+		});
+	    // The object was retrieved successfully.
+	  },
+	  error: function(object, error) {
+	    // The object was not retrieved successfully.
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+
+
+}
+
+self.click_comment_edit = function(data){
+	console.log(data);
+	var index = NaN;
+	for(var i=0; i< self.comment_array().length; i++){
+		if(self.comment_array()[i].comment_id == data.comment_id ){
+			index = i;
+		}
+	}
+	if(!isNaN(index)){
+		obj = {
+			 comment_id:data.comment_id,
+			 comment_content: data.comment_content,
+			 comment_edit: data.comment_edit,
+			 comment_content_visible: false,
+			 comment_edit_visible: true,
+			 isCommentEditTextboxFocused: true
+			};
+
+		self.comment_array.splice(index,1,obj);
+	}
+}
+
+
+
+
 }
 /*
  comment object in parse
@@ -56,28 +143,9 @@ Argument_VM.prototype.initialize = function(argument_obj){
 	self.argument_obj = argument_obj;
 	self.arg_id = argument_obj.id;
 	console.log(argument_obj.id);
-
-	self.show_title();
-	self.show_main_content();
-	self.show_main_content_link();
-	self.show_all_comment();
-	self.show_comment_input();
+	self.show_All();
 
 
-}
-
-Argument_VM.prototype.update_All = function(){
-
-	var self = this;
-	self.argument_obj.fetch({
-	  success: function(obj) {
-	  	self.argument_obj =obj;
-		self.show_All();
-	  },
-	  error: function(obj, error) {
-	  	console.log("error");
-	  }
-	});
 }
 
 
@@ -95,10 +163,22 @@ Argument_VM.prototype.update_data_from_server = function(){
 	});
 }
 
+Argument_VM.prototype.show_All = function(){
+
+	var self = this;
+	self.show_title();
+	self.show_main_content();
+	self.show_all_comment();
+	self.show_comment_input();
+}
+
+
+
+
 	//mainly when user loged in, all data is retrieved and counter is saved on the 
 
 
-Argument_VM.prototype.show_Title = function(){
+Argument_VM.prototype.show_title = function(){
 	var self = this;
 	title = self.argument_obj.get("title");
 	if(title){
@@ -111,67 +191,193 @@ Argument_VM.prototype.show_Title = function(){
 	}
 }
 
-Argument_VM.prototype.click_title_edit = function(){
-
-	var self = this;
-	title = self.argument_obj.get("title");
-	self.title_input(title);
-	self.isTitleTextboxFocused(true);
-	
-}
-
-Argument_VM.prototype.click_title_save = function(){
-
-}
-Argument_VM.prototype.click_title_cancel = function(){
-
-}
-
-
-
 
 Argument_VM.prototype.show_main_content = function(){
 	var self = this;
 	content = self.argument_obj.get("main_content");
-	self.main_content(content)
+
+	if(content){
+  		convert_context = add_linebreak_html(content);
+
+		self.main_content_visible(true);
+		self.main_input_visible(false);
+		self.main_content(convert_context);
+	}else{
+		self.main_content_visible(false);
+		self.main_input_visible(true);
+	}
 }
 
-Argument_VM.prototype.show_main_content_link = function(){
+
+
+Argument_VM.prototype.click_title_edit = function(){
+
+	var self = this;
+	title = self.argument_obj.get("title");
+
+	self.title_content_visible(false);
+	self.title_input_visible(true);
+	self.title_input(title);
+	self.isTitleTextboxFocused(true);
+
+}
+
+
+Argument_VM.prototype.click_main_edit = function(){
+
+
+	var self = this;
+	content = self.argument_obj.get("main_content");
+
+	self.main_content_visible(false);
+	self.main_input_visible(true);
+	self.main_input(content);
+	self.isMainTextboxFocused(true);
+
+}
+
+
+
+Argument_VM.prototype.click_title_save = function(){
+
 	var self = this;
 
-	var link_list_array = self.argument_obj.get("link_url");
-	console.log(link_list_array);
-	self.main_link_array.removeAll();
-	if(link_list_array){
-		for(var i=0; i<link_list_array.length; i++ ){
+	var title_content = self.title_input();
+	console.log(title_content);
 
-			var url_str = link_list_array[i].url;
-			var img_src = link_list_array[i].image;
-			var title = link_list_array[i].title;
-			var description = link_list_array[i].description;
+	self.argument_obj.set("title", title_content);
+	self.argument_obj.save(null, {
+	  success: function(obj) {
+	    console.log("saved");
+	    self.argument_obj = obj;
+	    self.update_data_from_server();
+	  },
+	  error: function(obj, error) {
+	    alert('Failed to create new object, with error code: ' + error.message);
 
-			var obj = {link_url: url_str,
-						link_title: title,
-						link_image_url: img_src,
-						link_desription: description
-						}
-			self.main_link_array.push(obj);
-		}
-	}
+	  }
+	});
+}
+
+Argument_VM.prototype.click_main_save = function(){
+
+
+	var self = this;
+
+	var context = self.main_input();
+	console.log(context);
+	self.argument_obj.set("main_content", context);
+	self.argument_obj.save(null, {
+	  success: function(obj) {
+	    console.log("saved");
+	    self.update_data_from_server();
+	  },
+	  error: function(obj, error) {
+	    alert('Failed to create new object, with error code: ' + error.message);
+
+	  }
+	});
+
+}
+
+Argument_VM.prototype.click_comment_Add = function(){
+
+	var self = this;
+
+	var comment_context = self.comment_input();
+
+
+	var Comment = Parse.Object.extend("Comment");
+	var comment_obj = new Comment();
+	comment_obj.set("context", comment_context);
+	comment_obj.set("argument", self.argument_obj);
+	comment_obj.set("type", "extension");
+	comment_obj.set("count", 0);
+	comment_obj.set("team", global_team_side);
+	comment_obj.addUnique("author", global_own_parse_id);
+	comment_obj.save(null, {
+	  success: function(obj) {
+	  	self.comment_input("");
+	    self.update_data_from_server();
+	  },
+	  error: function(obj, error) {
+	    // Execute any logic that should take place if the save fails.
+	    // error is a Parse.Error with an error code and message.
+	    alert('Failed to create new object, with error code: ' + error.message);
+	  }
+	});
+
+}
+
+
+
+
+Argument_VM.prototype.click_title_cancel = function(){
+	var self = this;
+	self.show_title();
+
+}
+
+Argument_VM.prototype.click_main_cancel = function(){
+	var self = this;
+	self.show_main_content();
+
 }
 
 Argument_VM.prototype.show_all_comment = function(){
 
 	var self = this;
 
-	var additional_info_array = self.argument_obj.get("additional_comment");
-	if(additional_info_array){
-		for(var i=0; i<additional_info_array.length; i++ ){
-			if(additional_info_array.writer_type = "team"){
-				self.show_one_comment(additional_info_array.parse_id);
-			}
-		}
-	}
+
+	var Comment = Parse.Object.extend("Comment");
+	var comment_query = new Parse.Query(Comment);
+	comment_query.equalTo("argument", self.argument_obj);
+	comment_query.equalTo("team", global_team_side);
+	comment_query.find({
+	  success: function(array) {
+
+	    for (var i = 0; i < array.length; i++) {
+	      var retrieved_comment = array[i];
+	      var retrieved_comment_context = retrieved_comment.get("context");
+	      var retrieved_count = retrieved_comment.get("count");
+	      if(retrieved_comment_context){
+		      console.log(retrieved_comment_context);
+		      var comment_existed = false;
+
+		      var obj = {
+		      		/* comment_obj:comment, */
+		      		 comment_id:retrieved_comment.id,
+		      		 comment_content: retrieved_comment_context,
+		      		 comment_edit: retrieved_comment_context,
+		      		 comment_content_visible: true,
+		      		 comment_edit_visible: false,
+		      		 isCommentEditTextboxFocused: false,
+		      		 count: retrieved_count
+		      		};
+
+		      for(var j=0; j<self.comment_array().length; j++){
+		      	if(self.comment_array()[j].comment_id == retrieved_comment.id){
+					comment_existed = true;
+					if(self.comment_array()[j].count != retrieved_count){
+						self.comment_array.splice(j,1,obj);
+					}
+		      	}
+		      }
+		      if(!comment_existed){
+		      	self.comment_array.push(obj);
+		      }
+		  }
+
+	    }
+	  },
+	  error: function(error) {
+	    alert("Error: " + error.code + " " + error.message);
+	  }
+	});
+
+
+
+
 }
 
 
@@ -196,6 +402,7 @@ Argument_VM.prototype.show_one_comment = function(comment_parse_id){
 }
 
 Argument_VM.prototype.show_comment_input = function(){
+	var self = this;
 	var main_content = self.main_content();
 	var title = self.title_content();
 
@@ -225,34 +432,7 @@ Argument_VM.prototype.show_comment = function(){
 
 
 
-Argument_VM.prototype.show_title = function(){
 
-	self.title = self.argument_obj.get("title");
-
-	if(self.title){
-		self.title_content_visible(true);
-		self.title_content(self.title);
-		self.title_input_visible(false);
-	}else{
-		self.title_content_visible(false);
-		self.title_input_visible (true);
-	}
-}
-
-Argument_VM.prototype.show_main_argument = function(){
-
-	var title = self.argument_obj.get("main");
-
-	if(title){
-		self.main_content_visible(true);
-		self.main_content(title);
-		self.main_input_visible (false);
-	}else{
-		self.main_content_visible(false);
-		self.main_input_visible (true);
-	}
-
-}
 
 
  /*
@@ -277,77 +457,20 @@ Argument_VM.prototype.show_main_argument = function(){
 
 
 
-
-
-
-
-
-
-
-
-Argument_VM.prototype.click_main_save = function(){
-
-
-	var self = this;
-
-	var context = self.main_input();
-	console.log(context);
-
-	self.argument_obj.set("context", context);
-	self.argument_obj.save(null, {
-	  success: function(obj) {
-	    console.log("saved");
-	    self.update_data_from_server();
-	  },
-	  error: function(obj, error) {
-	    alert('Failed to create new object, with error code: ' + error.message);
-
-	  }
-	});
-
-
-
-
-}
-Argument_VM.prototype.click_main_edit = function(){
-
-}
-Argument_VM.prototype.click_main_cancel = function(){
-
-}
 Argument_VM.prototype.click_add_main_link = function(){
 
 }
 
-Argument_VM.prototype.click_comment_update = function(){
 
-}
-Argument_VM.prototype.click_comment_edit_save = function(){
 
-}
 
 Argument_VM.prototype.click_comment_edit_cancel = function(){
 
 }
 
-Argument_VM.prototype.click_comment_edit = function(){
-
-/*
-	count++
-	self.context = title_input
-	save(obj){
-		obj.get("count");
-		status()
-
-	}
-*/
-}
 
 
-Argument_VM.prototype.click_comment_Add = function(){
 
-
-}
 
 
 

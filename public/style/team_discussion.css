@@ -19,14 +19,18 @@ ul {
 
 #first_row {
 	width= 100%
-	min-height:20px;
+	min-height:40px;
   	background-color: #D0D0D0;
 }
 
 #second_row {
 	width: 100%;
 	display:flex;
+	min-height: 150px;
 	flex-direction:row;
+	/*align-items:flex-end;*/
+	 /* justify-content:flex-end; */
+	overflow-y: auto; 
 }
 
 #second_left {
@@ -36,34 +40,46 @@ ul {
 }
 #second_left_first {
   	background-color: #FF0000;
+  	padding:5px;
 }
 #second_left_second {
   	background-color: #00FF00;
-	overflow: scroll;
-
-
-
-
+	overflow-y: scroll; 
+  	padding:5px;
+  	max-height:300px;
+  	min-height:200px;
 }
 
 #second_left_third {
   	background-color: #0000FF;
+  	padding:5px;
 }
 
 
 #second_right {
 	width: 200px;
   	background-color: #F0F0F0;
+	display:flex;
+	flex-direction:column;
 }
 
 #second_right_first {
-	width: 200px;
+	width: 100%;
   	background-color: #990000;
 }
 #second_right_second {
-	width: 200px;
+	width: 100%;
   	background-color: #009900;
 }
+
+
+#second_right_third {
+	width: 100%;
+  	background-color: #000044;
+	margin-top: auto;
+	text-align: center;
+}
+
 
 #third_row {
 	width: 100%;
@@ -95,6 +111,18 @@ ul {
 	/*overflow-y:scroll;*/
 
 }
+.argument_comment_input{
+	margin:10px;
+	padding:10px;
+	border-style: solid;
+	border-width: medium;
+	min-height: 80px;
+	width: 90%;
+	background-color: #FFFFFF;
+
+}
+
+
 .general_concept_input {
 	margin-bottom:0px;
 	margin:10px;
@@ -109,7 +137,7 @@ ul {
 	font-weight: bold;
 	font-size:large;
 }
-
+/*
 .link_Add_Input{
 
 	margin-left:20px;
@@ -142,3 +170,4 @@ ul {
 	padding-top:4px;
 	max-width:40px;
 }
+*/
