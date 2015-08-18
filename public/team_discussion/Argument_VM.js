@@ -10,12 +10,15 @@ function Argument_VM(){
 	self.comment_list = new Array();
 
 
+	self.title_count = -1;
   	self.title_content_visible = ko.observable(false);
   	self.title_content = ko.observable(""); 
   	self.title_input_visible = ko.observable(false);
   	self.title_input = ko.observable();
   	self.isTitleTextboxFocused = ko.observable(false); 
 
+
+	self.main_count = -1;
   	self.main_content_visible = ko.observable(false); 
   	self.main_content = ko.observable(""); 
   	self.main_input_visible = ko.observable(false); 
@@ -90,8 +93,6 @@ self.click_comment_edit_save = function(data){
 	    // error is a Parse.Error with an error code and message.
 	  }
 	});
-
-
 }
 
 self.click_comment_edit = function(data){
@@ -180,32 +181,45 @@ Argument_VM.prototype.show_All = function(){
 
 Argument_VM.prototype.show_title = function(){
 	var self = this;
-	title = self.argument_obj.get("title");
+	var title = self.argument_obj.get("title");
+	var count = self.argument_obj.get("title_count");
+
 	if(title){
 		self.title_content_visible(true);
 		self.title_input_visible(false);
 		self.title_content(title);
+
+		if(self.title_count != count){
+			self.title_content_visible(true);
+			self.title_input_visible(false);
+		}
+
+
 	}else{
 		self.title_content_visible(false);
 		self.title_input_visible(true);
 	}
+	self.title_count = count;
 }
 
 
 Argument_VM.prototype.show_main_content = function(){
 	var self = this;
-	content = self.argument_obj.get("main_content");
+	var content = self.argument_obj.get("main_content");
+	var count = self.argument_obj.get("main_count");
 
 	if(content){
   		convert_context = add_linebreak_html(content);
-
-		self.main_content_visible(true);
-		self.main_input_visible(false);
 		self.main_content(convert_context);
+		if(self.main_count != count){
+			self.main_content_visible(true);
+			self.main_input_visible(false);
+		}
 	}else{
 		self.main_content_visible(false);
 		self.main_input_visible(true);
 	}
+	self.main_count = count;
 }
 
 
@@ -246,6 +260,7 @@ Argument_VM.prototype.click_title_save = function(){
 	console.log(title_content);
 
 	self.argument_obj.set("title", title_content);
+	self.argument_obj.increment("title_count");
 	self.argument_obj.save(null, {
 	  success: function(obj) {
 	    console.log("saved");
@@ -267,6 +282,7 @@ Argument_VM.prototype.click_main_save = function(){
 	var context = self.main_input();
 	console.log(context);
 	self.argument_obj.set("main_content", context);
+	self.argument_obj.increment("main_count");
 	self.argument_obj.save(null, {
 	  success: function(obj) {
 	    console.log("saved");
@@ -374,32 +390,9 @@ Argument_VM.prototype.show_all_comment = function(){
 	    alert("Error: " + error.code + " " + error.message);
 	  }
 	});
-
-
-
-
 }
 
 
-Argument_VM.prototype.show_one_comment = function(comment_parse_id){
-
-	var self = this;
-
-	var Comment = Parse.Object.extend("Comment");
-	var comment_query = new Parse.Query(Comment);
-	comment_query.get(comment_parse_id,{
-		success: function(obj){
-			var comment_context = obj.get("context");
-			var counter = obj.get("counter");
-			var author_parse_id = obj.get("author");
-
-		},
-		error: function(){
-			console.log("error to get data");
-		}
-	});
-
-}
 
 Argument_VM.prototype.show_comment_input = function(){
 	var self = this;
@@ -415,23 +408,10 @@ Argument_VM.prototype.show_comment_input = function(){
 }
 
 
-Argument_VM.prototype.showUpdatedPart = function(){
-	//by comparing the counter, only updated part is applied
-
-}
 
 
 Argument_VM.prototype.set_template = function(){
 }
-
-Argument_VM.prototype.show_main_argument_link = function(){
-}
-
-Argument_VM.prototype.show_comment = function(){
-}
-
-
-
 
 
 
@@ -455,18 +435,6 @@ Argument_VM.prototype.show_comment = function(){
 
 
 
-
-
-Argument_VM.prototype.click_add_main_link = function(){
-
-}
-
-
-
-
-Argument_VM.prototype.click_comment_edit_cancel = function(){
-
-}
 
 
 
@@ -532,51 +500,7 @@ Argument_VM.prototype.edit_status = function(psrse_id){
 
 
 
-Argument_VM.prototype.update = function(type, parse_id){
 
-
-
-	switch(type){
-		case "title":
-		  	self.title_content(title); 
-		  	self.title_content_visible = ko.observable(true);
-		  	self.title_input_visible(false);
-		break;
-		case "main":
-		break;
-		case "comment":
-			update_comment(parse_id);
-		break;
-	}
-}
-
-
-Argument_VM.prototype.update_comment = function( parse_id){
-
-	var self = this;
-	var is_exist = false;
-
-	for(var i=0; i< self.comment_list; i++){
-		if(self.comment_list.id == parse_id){
-			is_exist = true;
-		}
-	}
-
-	if(is_exist){
-		var Comment = Parse.Object.extend("Comment");
-		/*
-		comment_query = 
-		comment_query.find(parse_id){
-			function(obj){
-				var comment = obj.get("context");
-				var  = obj.get("link");
-				var count = obj.get("count");
-			}
-		}
-		*/
-	}
-
-}
 
 	//更新中のIDを取得し、それは変更不可にする。
 	//それ以外で、自分と同じグループのものは変更可能

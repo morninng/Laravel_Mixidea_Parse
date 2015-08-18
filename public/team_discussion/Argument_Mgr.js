@@ -18,7 +18,11 @@ Argument_Mgr.prototype.create_argument = function(){
 
 	var Argument = Parse.Object.extend("Argument");
 	var argument_obj_1 = new Argument();
+	argument_obj_1.set("main_count",0);
+	argument_obj_1.set("title_count",0);
 	var argument_obj_2 = new Argument();
+	argument_obj_2.set("main_count",0);
+	argument_obj_2.set("title_count",0);
 	var param_name = global_team_side + "_argument";
 	team_discussion_appmgr.actual_game_obj.add(param_name, argument_obj_1);
 	team_discussion_appmgr.actual_game_obj.add(param_name, argument_obj_2);
@@ -98,7 +102,29 @@ Argument_Mgr.prototype.ApplyTemplate = function(obj, argument_id, order_num){
 	
 
 }
+Argument_Mgr.prototype.addArgument = function(){
 
+	var self = this; 
+	var Argument = Parse.Object.extend("Argument");
+	var argument_obj = new Argument();
+
+	var param_name = global_team_side + "_argument";
+	team_discussion_appmgr.actual_game_obj.add(param_name, argument_obj);
+	team_discussion_appmgr.actual_game_obj.save().then(
+		function(obj){
+			team_discussion_appmgr.actual_game_obj = obj;
+			console.log(argument_obj.id);
+			argument_obj_array = team_discussion_appmgr.actual_game_obj.get(param_name);
+			argument_order = argument_obj_array.length;
+			self.get_argument_obj_createVM(argument_obj.id, argument_order);
+		},
+		function(error) {
+		    // saving the object failed.
+		}
+	);
+
+
+}
 
 
 Argument_Mgr.prototype.update = function(){

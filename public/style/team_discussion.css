@@ -25,8 +25,8 @@ ul {
 
 #second_row {
 	width: 100%;
-	display:flex;
 	min-height: 150px;
+	display:flex;
 	flex-direction:row;
 	/*align-items:flex-end;*/
 	 /* justify-content:flex-end; */
@@ -87,12 +87,17 @@ ul {
 
 #argument_list {
 	width: 100%;
+	display: table;
+/*
 	display:flex;
 	flex-direction:row;
 	flex-wrap:nowrap;
+*/
 	overflow:scroll;
 }
-
+.argument_child{
+	display: table-cell;
+}
 .argument_element{
 	min-width: 540px;
 	border: 1px solid #000000;
