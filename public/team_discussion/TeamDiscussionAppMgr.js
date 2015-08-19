@@ -62,9 +62,10 @@ function TeamDiscussAppMgr() {
 
 
 
-TeamDiscussAppMgr.prototype.update_data_from_server = function(){
+TeamDiscussAppMgr.prototype.update_argument_from_server = function(){
 
   var self = this;
+
   self.actual_game_obj.fetch({
     success: function(obj) {
       console.log(obj);

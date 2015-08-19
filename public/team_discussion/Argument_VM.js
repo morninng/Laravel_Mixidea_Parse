@@ -80,7 +80,7 @@ function Argument_VM(){
 		  	obj.increment("count");
 		  	obj.save(null, {
 			  success: function(obj) {
-		    	self.update_data_from_server();
+		    	team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
 			  },
 			  error: function(obj, error) {
 			    console.log("error to save comment")
@@ -145,18 +145,31 @@ Argument_VM.prototype.initialize = function(argument_obj){
 }
 
 
-Argument_VM.prototype.update_data_from_server = function(){
+Argument_VM.prototype.apply_comment_data_from_server = function(){
 
 	var self = this;
+	self.show_all_comment();
+}
+
+Argument_VM.prototype.apply_argument_data_from_server = function(updated_argument_obj){
+
+	var self = this;
+
+	/*
 	self.argument_obj.fetch({
 	  success: function(obj) {
-	  	self.argument_obj =obj;
-		self.show_All();
+	*/
+
+	self.argument_obj =updated_argument_obj;
+	self.show_title();
+	self.show_main_content();
+	/*
 	  },
 	  error: function(obj, error) {
 	  	console.log("error");
 	  }
 	});
+*/
 }
 
 Argument_VM.prototype.show_All = function(){
@@ -179,14 +192,10 @@ Argument_VM.prototype.show_title = function(){
 		self.title_content_visible(true);
 		self.title_input_visible(false);
 		self.title_content(title);
-
 		if(self.title_count != count){
 			self.title_content_visible(true);
 			self.title_input_visible(false);
-		}
-
-
-	}else{
+		}	}else{
 		self.title_content_visible(false);
 		self.title_input_visible(true);
 	}
@@ -256,7 +265,7 @@ Argument_VM.prototype.click_title_save = function(){
 	  success: function(obj) {
 	    console.log("saved");
 	    self.argument_obj = obj;
-	    self.update_data_from_server();
+	    team_discussion_appmgr.update_argument_from_server();
 	  },
 	  error: function(obj, error) {
 	    alert('Failed to create new object, with error code: ' + error.message);
@@ -277,7 +286,8 @@ Argument_VM.prototype.click_main_save = function(){
 	self.argument_obj.save(null, {
 	  success: function(obj) {
 	    console.log("saved");
-	    self.update_data_from_server();
+	    team_discussion_appmgr.update_argument_from_server();
+
 	  },
 	  error: function(obj, error) {
 	    alert('Failed to create new object, with error code: ' + error.message);
@@ -305,7 +315,8 @@ Argument_VM.prototype.click_comment_Add = function(){
 	comment_obj.save(null, {
 	  success: function(obj) {
 	  	self.comment_input("");
-	    self.update_data_from_server();
+	    team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
+
 	  },
 	  error: function(obj, error) {
 	    // Execute any logic that should take place if the save fails.

@@ -124,7 +124,7 @@ Argument_Mgr.prototype.addArgument = function(){
 	team_discussion_appmgr.actual_game_obj.save().then(
 		function(obj){
 			team_discussion_appmgr.actual_game_obj = obj;
-			team_discussion_appmgr.update_data_from_server();
+			team_discussion_appmgr.update_argument_from_server();
 /*
 			team_discussion_appmgr.actual_game_obj = obj;
 			console.log(argument_obj.id);
@@ -160,8 +160,19 @@ Argument_Mgr.prototype.update_serverdata = function(argument_obj_array){
 		}
 		if(!exist){
 			self.ApplyTemplate(argument_obj_array[i], argument_obj_array[i].id, 0);
+		}else{
+			var argument_id
+			eval("self.argument_vm_" + argument_id + ".apply_argument_data_from_server(argument_obj_array[i])");
 		}
 	}
 }
 
 
+
+
+Argument_Mgr.prototype.update_comment_data_from_server = function(argument_id){
+
+	var self = this;
+	eval("self.argument_vm_" + argument_id + ".apply_comment_data_from_server()");
+
+}
