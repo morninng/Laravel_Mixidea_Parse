@@ -36,89 +36,86 @@ function Argument_VM(){
 
   	self.arg_id = null;
 
-self.click_comment_edit_cancel = function(data){
+	self.click_comment_edit_cancel = function(data){
 
-	console.log(data);
-	var index = NaN;
-	for(var i=0; i< self.comment_array().length; i++){
-		if(self.comment_array()[i].comment_id == data.comment_id ){
-			index = i;
+		console.log(data);
+		var index = NaN;
+		for(var i=0; i< self.comment_array().length; i++){
+			if(self.comment_array()[i].comment_id == data.comment_id ){
+				index = i;
+			}
 		}
+		if(!isNaN(index)){
+			obj = {
+				 comment_id:self.comment_array()[index].comment_id,
+				 comment_content: self.comment_array()[index].comment_content,
+				 comment_edit: self.comment_array()[index].comment_content,
+				 comment_content_visible: true,
+				 comment_edit_visible: false,
+				 isCommentEditTextboxFocused: false
+				};
+
+			self.comment_array.splice(index,1,obj);
+		}
+
+
+
 	}
-	if(!isNaN(index)){
-		obj = {
-			 comment_id:self.comment_array()[index].comment_id,
-			 comment_content: self.comment_array()[index].comment_content,
-			 comment_edit: self.comment_array()[index].comment_content,
-			 comment_content_visible: true,
-			 comment_edit_visible: false,
-			 isCommentEditTextboxFocused: false
-			};
 
-		self.comment_array.splice(index,1,obj);
-	}
+	self.click_comment_edit_save = function(data){
+		var editid_comment = data.comment_edit;
+		console.log(editid_comment);
+		var parse_id = data.comment_id;
+		console.log(parse_id);
+		/*
+		var comment_obj = data.comment_obj;
+		console.log(comment_obj);*/
 
+		var Comment = Parse.Object.extend("Comment");
+		var comment_query = new Parse.Query(Comment);;
 
-
-}
-
-self.click_comment_edit_save = function(data){
-	var editid_comment = data.comment_edit;
-	console.log(editid_comment);
-	var parse_id = data.comment_id;
-	console.log(parse_id);
-	/*
-	var comment_obj = data.comment_obj;
-	console.log(comment_obj);*/
-
-	var Comment = Parse.Object.extend("Comment");
-	var comment_query = new Parse.Query(Comment);;
-
-	comment_query.get(parse_id, {
-	  success: function(obj) {
-	  	obj.set("context",editid_comment);
-	  	obj.increment("count");
-	  	obj.save(null, {
+		comment_query.get(parse_id, {
 		  success: function(obj) {
-	    	self.update_data_from_server();
+		  	obj.set("context",editid_comment);
+		  	obj.increment("count");
+		  	obj.save(null, {
+			  success: function(obj) {
+		    	self.update_data_from_server();
+			  },
+			  error: function(obj, error) {
+			    console.log("error to save comment")
+			  }
+			});
+		    // The object was retrieved successfully.
 		  },
-		  error: function(obj, error) {
-		    console.log("error to save comment")
+		  error: function(object, error) {
+		    // The object was not retrieved successfully.
+		    // error is a Parse.Error with an error code and message.
 		  }
 		});
-	    // The object was retrieved successfully.
-	  },
-	  error: function(object, error) {
-	    // The object was not retrieved successfully.
-	    // error is a Parse.Error with an error code and message.
-	  }
-	});
-}
+	}
 
-self.click_comment_edit = function(data){
-	console.log(data);
-	var index = NaN;
-	for(var i=0; i< self.comment_array().length; i++){
-		if(self.comment_array()[i].comment_id == data.comment_id ){
-			index = i;
+	self.click_comment_edit = function(data){
+		console.log(data);
+		var index = NaN;
+		for(var i=0; i< self.comment_array().length; i++){
+			if(self.comment_array()[i].comment_id == data.comment_id ){
+				index = i;
+			}
+		}
+		if(!isNaN(index)){
+			obj = {
+				 comment_id:data.comment_id,
+				 comment_content: data.comment_content,
+				 comment_edit: data.comment_edit,
+				 comment_content_visible: false,
+				 comment_edit_visible: true,
+				 isCommentEditTextboxFocused: true
+				};
+
+			self.comment_array.splice(index,1,obj);
 		}
 	}
-	if(!isNaN(index)){
-		obj = {
-			 comment_id:data.comment_id,
-			 comment_content: data.comment_content,
-			 comment_edit: data.comment_edit,
-			 comment_content_visible: false,
-			 comment_edit_visible: true,
-			 isCommentEditTextboxFocused: true
-			};
-
-		self.comment_array.splice(index,1,obj);
-	}
-}
-
-
-
 
 }
 /*
@@ -145,8 +142,6 @@ Argument_VM.prototype.initialize = function(argument_obj){
 	self.arg_id = argument_obj.id;
 	console.log(argument_obj.id);
 	self.show_All();
-
-
 }
 
 
@@ -173,11 +168,7 @@ Argument_VM.prototype.show_All = function(){
 	self.show_comment_input();
 }
 
-
-
-
 	//mainly when user loged in, all data is retrieved and counter is saved on the 
-
 
 Argument_VM.prototype.show_title = function(){
 	var self = this;
@@ -435,14 +426,6 @@ Argument_VM.prototype.set_template = function(){
 
 
 
-
-
-
-
-
-
-
-
 /*
 This structure is handset status to be shared 
 
@@ -495,11 +478,7 @@ Argument_VM.prototype.edit_status = function(psrse_id){
 	}else{
 		//show text_box to edit by the user
 	}
-
 }
-
-
-
 
 
 	//更新中のIDを取得し、それは変更不可にする。
