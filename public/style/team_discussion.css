@@ -18,29 +18,45 @@ ul {
 }
 
 #first_row {
-	width= 100%
-	min-height:40px;
+	width: 100%;
+/*	min-height:80px;*/
   	background-color: #D0D0D0;
+  	padding:7px;
 }
 
 #second_row {
 	width: 100%;
 	min-height: 150px;
+	/*
 	display:flex;
 	flex-direction:row;
+*/
+	display: table;
+
 	/*align-items:flex-end;*/
 	 /* justify-content:flex-end; */
 	overflow-y: auto; 
 }
 
 #second_left {
- 	flex: 1;
+	display: table-cell;
+	width:100%;
+	/*
 	display:flex;
 	flex-direction:column;
+	*/
 }
+
+#game_motion{
+	font-weight: bold; 
+	font-size: x-large;
+}
+
 #second_left_first {
   	background-color: #FF0000;
-  	padding:5px;
+  	width: 100%;
+	padding:10px;
+	font-size: large;
 }
 #second_left_second {
   	background-color: #00FF00;
@@ -48,15 +64,18 @@ ul {
   	padding:5px;
   	max-height:300px;
   	min-height:200px;
+  	width:100%;
 }
 
 #second_left_third {
   	background-color: #0000FF;
   	padding:5px;
+  	width=100%
 }
 
 
 #second_right {
+	display: table-cell;
 	width: 200px;
   	background-color: #F0F0F0;
 	display:flex;
@@ -65,19 +84,23 @@ ul {
 
 #second_right_first {
 	width: 100%;
-  	background-color: #990000;
+	text-align: center;
+	padding:20px;
+	font-weight: bold; 
+	font-size: large;
 }
 #second_right_second {
 	width: 100%;
   	background-color: #009900;
+  	padding: 20px;
 }
 
 
 #second_right_third {
 	width: 100%;
-  	background-color: #000044;
 	margin-top: auto;
 	text-align: center;
+  	padding: 20px;
 }
 
 

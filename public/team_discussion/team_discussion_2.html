@@ -14,16 +14,19 @@
 <div id="whole">
 <div id="inner_whole">
 
-  <div id="first_row">Mixidea team discussion area for Gov</div>
+  <div id="first_row">Mixidea team discussion area for <span id="team_category"></span></div>
   <div id="second_row">
     <div id="second_left">
-      <div id="second_left_first"><strong>motion</strong>THW ban tobacco</div>
+      <div id="second_left_first">motion: <span id="game_motion"></span></div>
       <div id="second_left_second">second</div>
       <div id="second_left_third">definition<br></div>
     </div>
     <div id="second_right">
-      <div id="second_right_first">time spent: 13:20</div>
-      <div id="second_right_second">You can go back to main discussion area by clicking hangout button again</div>
+      <div id="second_right_first"><span id="time_spent"></div>
+      <div id="second_right_second" align="center">
+          <p>You can go back to main discussion area by clicking hangout button again</p>
+          <span id="hangout_button"></span>
+      </div>
       <div id="second_right_third"><button onclick = "team_discussion_appmgr.argument_mgr.addArgument()">Add Another Argument</button></div>
     </div>
   </div>
@@ -167,7 +170,7 @@
  var global_own_parse_id = "c8CUKLqLxt";
  var global_debate_game_id = "gOvFN4aBVN";
  var global_team_side = "Gov";
-
+ var global_original_hangout_appid = "AAAAAA"
 
  team_discussion_appmgr = new TeamDiscussAppMgr();
 </script>

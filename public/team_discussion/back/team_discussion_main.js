@@ -138,9 +138,6 @@ team_dissussion.prototype.count_timer_show = function() {
   elapled_second = ("0" + elapled_second).slice(-2);
   elapsed_minute = ("0" + elapsed_minute).slice(-2);
 
-
   $("span#time_spent").html(elapsed_minute + ":" + elapled_second + " has passed");
-
-
 
 }
