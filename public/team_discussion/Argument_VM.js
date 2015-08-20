@@ -163,6 +163,7 @@ Argument_VM.prototype.apply_argument_data_from_server = function(updated_argumen
 	self.argument_obj =updated_argument_obj;
 	self.show_title();
 	self.show_main_content();
+	self.show_comment_input();
 	/*
 	  },
 	  error: function(obj, error) {
@@ -302,8 +303,6 @@ Argument_VM.prototype.click_comment_Add = function(){
 	var self = this;
 
 	var comment_context = self.comment_input();
-
-
 	var Comment = Parse.Object.extend("Comment");
 	var comment_obj = new Comment();
 	comment_obj.set("context", comment_context);
@@ -339,6 +338,8 @@ Argument_VM.prototype.click_title_cancel = function(){
 Argument_VM.prototype.click_main_cancel = function(){
 	var self = this;
 	self.show_main_content();
+	self.main_content_visible(true);
+	self.main_input_visible(false);
 
 }
 
@@ -406,10 +407,7 @@ Argument_VM.prototype.show_comment_input = function(){
 	}else{
 		self.comment_input_visible(false);
 	}
-
 }
-
-
 
 
 Argument_VM.prototype.set_template = function(){
@@ -484,7 +482,7 @@ Argument_VM.prototype.edit_status = function(psrse_id){
 
 	if(!parse_id){
 		//show edit button
-	}else if(parse_id != globwl_own_id){
+	}else if(parse_id != global_own_id){
 		//disable edit button and show writer's name
 	}else{
 		//show text_box to edit by the user
@@ -494,7 +492,4 @@ Argument_VM.prototype.edit_status = function(psrse_id){
 
 	//更新中のIDを取得し、それは変更不可にする。
 	//それ以外で、自分と同じグループのものは変更可能
-
-
-//this function will be removed once this is integrated in the hangout
 

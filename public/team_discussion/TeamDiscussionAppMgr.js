@@ -66,15 +66,18 @@ TeamDiscussAppMgr.prototype.update_argument_from_server = function(){
 
   var self = this;
 
-  self.actual_game_obj.fetch({
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  var param_name = global_team_side + "_argument";
+  game_query.include(param_name);
+  game_query.get(global_debate_game_id, {
     success: function(obj) {
       console.log(obj);
       var argument_obj_array = self.actual_game_obj.get(global_team_side +"_argument");
-      self.argument_mgr.update_serverdata(argument_obj_array);
-
+      self.argument_mgr.update_server_argument_data(argument_obj_array);
     },
     error: function(obj, error) {
+      console.log(error);
     }
   });
-
 }
