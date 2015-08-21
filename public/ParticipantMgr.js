@@ -513,15 +513,3 @@ ParticipantMgr.prototype.checkExistence = function(hangout_id){
 	return false;
 }
 
- // Init時に加え だれかが、Join ボタンやCancelボタンを押したときに、サーバデータをアップデート
-ParticipantMgr.prototype.updateServerData = function(){
-	
-}
-
-
-ParticipantMgr.prototype.getGameType = function(){
-
-}
-
-
-

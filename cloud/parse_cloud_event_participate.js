@@ -294,6 +294,7 @@ Parse.Cloud.define("JoinGame", function(request, response) {
       }else{
         participant_obj[self.role_name] = self.user_id;
         self.game_obj.set("participant_role", participant_obj); // add users as a participant
+        self.game_obj.addUnique("participants", self.user);
         self.game_obj.save().then(function(obj){
           console.log("game object saved");
           self.game_obj = obj;

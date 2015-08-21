@@ -11,39 +11,136 @@
 <script type="text/javascript" src="//plus.google.com/hangouts/_/api/v1/hangout.js">
 </script>
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/loading.css">
-	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/Debate.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-
-
-<div>Mixidea team discussion room for <span id="team_category"></span></div>
-<div>
-  Click here to go back to originl site<br>
-  <span id = "goback_hangout_area"></span>
-</div>
-<div><br>
-  <font size="5">preparation</font> <font size="5" color="#ff0000"><span id="time_spent"></span></font><br>
-</div>
-<div>
-  <span id="video_area"></span>
-<div>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./../style/loading.css">
+  <link rel="stylesheet" href="./../style/team_discussion.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
 
 
-<script type = "text/template" data-template="Hangout_button_Template">
 
-  <a class='event_hangout_button'  target="_blank" style='text-decoration:none;' href='<%= hangout_link %>' >
-    <img src='https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-60x230-normal.png' alt='Start a Hangout' style='border:0;width:230px;height:60px;'/>
-  </a>
+<div id="whole">
+<div id="inner_whole">
+
+  <div id="first_row">Mixidea team discussion area for <span id="team_category"></span></div>
+  <div id="second_row">
+    <div id="second_left">
+      <div id="second_left_first">motion: <span id="game_motion"></span></div>
+      <div id="second_left_second">second</div>
+      <div id="second_left_third">definition<br></div>
+    </div>
+    <div id="second_right">
+      <div id="second_right_first"><span id="time_spent"></div>
+      <div id="second_right_second" align="center">
+          <p>You can go back to main discussion area by clicking hangout button again</p>
+          <span id="hangout_button"></span>
+      </div>
+      <div id="second_right_third"><button onclick = "team_discussion_appmgr.argument_mgr.addArgument()">Add Another Argument</button></div>
+    </div>
+  </div>
+
+  <div id="third_row">
+    <div id="argument_list">
+    </ul>
+  </div>
+
+
+<script type="text/template" data-template="general_concept_template">
+    <div id='Concept'>
+      <p class="concept_title">General Concept</p>
+      <div data-bind="visible:content_visible">
+        <div class="general_concept_txt"><div data-bind="html:content_text"></div></div>
+        <div align="right"><button   data-bind="click:click_edit_concept">edit</button></div>
+      </div>
+      <div data-bind="visible:input_visible">
+         <textarea class="general_concept_input" data-bind="textInput: content_text_input, hasFocus: isTextboxFocused"></textarea><br>
+         <div align="right"><button data-bind="click:click_save_concept">save</button></div>
+      </div>
+    </div>
+</script>
+
+
+<script type="text/template" data-template="argument_template">
+  <div class = "argument_element">
+    <h2>Argumet</h2>
+    <div id='Arg_<%= Argument_ID %>'>
+
+      <div class="title">
+        <div data-bind="visible:title_content_visible">
+          <div class="title_txt"> Title: <span data-bind="html:title_content"></span></div>
+          <div align="right"><button   data-bind="click:click_title_edit">edit</button></div>
+        </div>
+        <div data-bind="visible:title_input_visible">
+          <p>Title: <input class="Title_Input" type="text" data-bind="textInput: title_input, hasFocus: isTitleTextboxFocused" ></input>
+            <button data-bind="click:click_title_save">save</button>
+            <button data-bind="click:click_title_cancel">cancel</button>
+          </p>
+        </div>
+      </div>
+
+
+      <div class="main_arg">
+        <div data-bind="visible:main_content_visible">
+          context
+          <div class="general_concept_txt"><div data-bind="html:main_content"></div></div>
+          <div align="right"><button   data-bind="click:click_main_edit">edit</button></div>
+        </div>
+        <div data-bind="visible:main_input_visible" align="top">
+           context
+           <textarea class="general_concept_input" data-bind="textInput: main_input, hasFocus: isMainTextboxFocused"></textarea><br>
+           <div align="right">
+             <button data-bind="click:click_main_save">save</button>
+             <button data-bind="click:click_main_cancel">cancel</button>
+           </div>
+        </div>
+
+
+      <div  class="comment">
+        <ul data-bind="foreach:comment_array">
+          <div data-bind="visible:comment_content_visible">
+            <div class="general_concept_txt"><div data-bind="html:comment_content"></div></div>
+            <div align="right"><button data-bind="event:{click: $parent.click_comment_edit}">edit</button></div>
+          </div>
+          <div data-bind="visible:comment_edit_visible">
+            <textarea class="argument_comment_input" data-bind="textInput: comment_edit, hasFocus: isCommentEditTextboxFocused"></textarea><br>
+            <div align="right">
+              <button data-bind="event:{click: $parent.click_comment_edit_save}">save</button>
+              <button data-bind="event:{click: $parent.click_comment_edit_cancel}">cancel</button>
+            </div>
+          </div>
+        </ul>
+      </div>
+
+
+
+      <div class="comment_input">
+        <div data-bind="visible:comment_input_visible">
+             comment: <textarea class="argument_comment_input" data-bind="textInput: comment_input, hasFocus: isCommentInputTextboxFocused"></textarea><br>
+             <div align="right">
+                <button data-bind="click:click_comment_Add">Add</button>
+             </div>
+        </div>
+    </div>
+    <hr>
+  </div>
 
 </script>
 
 
-  <script type="text/javascript" src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
-  <script src="https://mixidea.parseapp.com/team_discussion/team_discussion_main.js">
 
+  <script src="./../util/utility_func.js"></script>
+
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+  <script src="./Argument_Mgr.js"></script>
+  <script src="./Argument_VM.js"></script>
+  <script src="./Definition_Mgr.js"></script>
+  <script src="./Definition_VM.js"></script>
+  <script src="./GeneralConcept_Mgr.js"></script>
+  <script src="./GeneralConcept_VM.js"></script>
+  <script src="./TeamDiscussionAppMgr.js"></script>
+  <script src="./TeamDiscussion.js"></script>
+  <script src="./../ParticipantMgr.js"></script>
 
 
 

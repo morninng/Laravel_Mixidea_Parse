@@ -18,7 +18,6 @@
 
 function Mixidea_init(){
 
-
   Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: global_debate_game_id},{
     success: function(game_obj) {
     update_own_state(global_own_hangout_id, global_own_parse_id);
@@ -62,7 +61,6 @@ function update_own_state(){
 
 
 function Hangout_Init() {
-
   gapi.hangout.onApiReady.add(function(e){
     console.log("hangout api ready");
     if(e.isApiReady){
@@ -71,14 +69,11 @@ function Hangout_Init() {
     	gapi.hangout.data.onStateChanged.add(function(event) {
     	  	// mixidea_object.UpdateMixideaStatus(event);
           appmgr.update_hangout_status(event);
-
         });
-
         gapi.hangout.onParticipantsChanged.add(function(participant_change) {
           // mixidea_object.ParticipantsChanged(participant_change);
           appmgr.participants_change(participant_change);
         });
-
         gapi.hangout.data.onMessageReceived.add(function(received_message) {
           // mixidea_object.receive_message(received_message);
           appmgr.receive_message(received_message);

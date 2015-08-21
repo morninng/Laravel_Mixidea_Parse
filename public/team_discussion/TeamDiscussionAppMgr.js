@@ -1,6 +1,4 @@
 
-
-
 function TeamDiscussAppMgr() {
 
   var self = this;
@@ -13,21 +11,18 @@ function TeamDiscussAppMgr() {
   var game_query = new Parse.Query(Game);
   var param_name = global_team_side + "_argument";
   game_query.include(param_name);
+  game_query.include("participants");
   game_query.get(global_debate_game_id, {
     success: function(obj) {
+
       self.actual_game_obj = obj;
       var general_concept = self.actual_game_obj.get(global_team_side +"_general_concept");
       var argument_obj_array = self.actual_game_obj.get(global_team_side +"_argument");
       
-
-      self.show_team_side();
-      self.show_motion();
-      self.showHangoutButton();
-      self.count_timer_start();
+      self.participant_mgr_obj = new TeamDiscussion_ParticipantMgr();   
+      self.participant_mgr_obj.update();
 
 
-
-    //  argument_mgr.initialize(general_concept_id, definition, self.argument_id_array, global_team_side, "team_disucussion");
       if(general_concept)
         self.general_concept_mgr.initialize(general_concept.id);
       else{
@@ -36,28 +31,14 @@ function TeamDiscussAppMgr() {
 
       if(argument_obj_array){
         self.argument_mgr.initialize(argument_obj_array);
-/*
-        for(var i=0; i< argument_id_array.length; i++){
-          var argument_id = argument_id_array[i];
-          self.arg_id_list.push(argument_id);
-          eval("self.arg_obj_" + argument_id) = 
-          self.argument_mgr.initialize(argument_id);
-*/
-
       }else{
         self.argument_mgr.initialize(null);
       }
 
-
-
-      /*
-      self.preparation_start_time  = self.actual_game_obj.get("prep_start_time");
-      self.hangout_id_obj  = self.actual_game_obj.get("hangout_id");
-      self.count_timer_start();
       self.show_team_side();
-      self.show_hangout_button();
-      self.show_video();
-      */
+      self.show_motion();
+      self.showHangoutButton();
+      self.count_timer_start();
     
     },
     error: function(error) {
@@ -65,10 +46,18 @@ function TeamDiscussAppMgr() {
       //data should be vaidated before upload and the error should not happen in server side
     }
   });
-
 }
 
 
+
+TeamDiscussAppMgr.prototype.update_hangout_status = function(event){
+  var self = this;
+
+}
+
+TeamDiscussAppMgr.prototype.participants_change = function(participant_change){
+  var self = this;
+}
 
 TeamDiscussAppMgr.prototype.update_argument_from_server = function(){
 
@@ -91,17 +80,12 @@ TeamDiscussAppMgr.prototype.update_argument_from_server = function(){
 }
 
 
-
-
-
 TeamDiscussAppMgr.prototype.show_motion = function(){
   var self = this;
   motion  = self.actual_game_obj.get("motion");
-
   var motion_element = $("#game_motion");
   motion_element.html(motion);
-
-  
+ 
 }
 
 TeamDiscussAppMgr.prototype.showHangoutButton = function(){
@@ -168,5 +152,7 @@ TeamDiscussAppMgr.prototype.show_team_side = function(){
   var self = this;
   console.log("show team side")
   $("span#team_category").html("<strong>" + global_team_side + "</strong>");
-  
 }
+
+
+
