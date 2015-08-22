@@ -81,6 +81,25 @@ function Argument_VM(){
 		  	obj.save(null, {
 			  success: function(obj) {
 		    	team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
+
+
+
+////////counter managemrent////
+    		    var parse_id = obj.id;
+			    var CommentCounter = obj.get("count");
+			    var obj_type = "comment";
+
+			    var counter_obj = {type:obj_type, count:CommentCounter};
+
+			    var original_counter_obj = gapi.hangout.data.getValue("element_counter");
+			    original_counter_obj[parse_id + "_comment"] = counter_obj;
+				gapi.hangout.data.submitDelta({
+					 "element_counter":original_counter_obj
+				});
+////////counter managemrent////
+
+
+
 			  },
 			  error: function(obj, error) {
 			    console.log("error to save comment")
@@ -196,7 +215,20 @@ Argument_VM.prototype.show_title = function(){
 		if(self.title_count != count){
 			self.title_content_visible(true);
 			self.title_input_visible(false);
-		}	}else{
+
+////////////counter managmenet///////
+		    var parse_id = self.argument_obj.id;
+		    var TitleCounter = count;
+		    var obj_type = "title"
+		    var counter_obj = {type:obj_type, count:TitleCounter};
+			team_discussion_appmgr.element_counter[parse_id + "_title"] = counter_obj;
+////////////counter managmenet//////
+
+
+
+
+		}
+	}else{
 		self.title_content_visible(false);
 		self.title_input_visible(true);
 	}
@@ -207,20 +239,30 @@ Argument_VM.prototype.show_title = function(){
 Argument_VM.prototype.show_main_content = function(){
 	var self = this;
 	var content = self.argument_obj.get("main_content");
-	var count = self.argument_obj.get("main_count");
+	var MainCounter = self.argument_obj.get("main_count");
 
 	if(content){
   		convert_context = add_linebreak_html(content);
 		self.main_content(convert_context);
-		if(self.main_count != count){
+		if(self.main_count != MainCounter){
 			self.main_content_visible(true);
 			self.main_input_visible(false);
+
+
+////////////counter managmenet////
+		    var parse_id =  self.argument_obj.id;
+		    var obj_type = "arg_main";
+		    var counter_obj = {type:obj_type, count:MainCounter};
+			team_discussion_appmgr.element_counter[parse_id + "_main"] = counter_obj;
+////////////counter managmenet////
+
+
 		}
 	}else{
 		self.main_content_visible(false);
 		self.main_input_visible(true);
 	}
-	self.main_count = count;
+	self.main_count = MainCounter;
 }
 
 
@@ -288,6 +330,23 @@ Argument_VM.prototype.click_main_save = function(){
 	  success: function(obj) {
 	    console.log("saved");
 	    team_discussion_appmgr.update_argument_from_server();
+
+
+
+////////////counter managmenet////
+	    var parse_id = obj.id;
+	    var MainCounter = obj.get("main_count");
+	    var obj_type = "arg_main"
+
+	    var counter_obj = {type:obj_type, count:MainCounter};
+
+	    var original_counter_obj = gapi.hangout.data.getValue("element_counter");
+	    original_counter_obj[parse_id + "_main"] = counter_obj;
+		gapi.hangout.data.submitDelta({
+			 "element_counter":original_counter_obj
+		});
+////////////counter managmenet////
+
 
 	  },
 	  error: function(obj, error) {
@@ -386,6 +445,20 @@ Argument_VM.prototype.show_all_comment = function(){
 		      	self.comment_array.push(obj);
 		      }
 		  }
+
+
+////////////counter management ///////
+
+		    var parse_id = retrieved_comment.id;
+		    var CommentCounter = retrieved_count;
+		    var obj_type = "comment";
+		    var counter_obj = {type:obj_type,parent:self.arg_id, count:CommentCounter};
+			team_discussion_appmgr.element_counter[parse_id + "_comment"] = counter_obj;
+
+////////////counter management ///////
+
+
+
 
 	    }
 	  },

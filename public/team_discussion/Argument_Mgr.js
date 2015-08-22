@@ -169,11 +169,9 @@ Argument_Mgr.prototype.update_server_argument_data = function(argument_obj_array
 }
 
 
-
-
 Argument_Mgr.prototype.update_comment_data_from_server = function(argument_id){
 
 	var self = this;
 	eval("self.argument_vm_" + argument_id + ".apply_comment_data_from_server()");
-
 }
+

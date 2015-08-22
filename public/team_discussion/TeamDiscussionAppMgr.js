@@ -6,6 +6,7 @@ function TeamDiscussAppMgr() {
   self.arg_id_list = new Array();
   self.argument_mgr = new Argument_Mgr();
   self.general_concept_mgr = new GeneralConcept_Mgr();
+  self.element_counter = new Array();
 
   var Game = Parse.Object.extend("Game");
   var game_query = new Parse.Query(Game);
@@ -156,3 +157,95 @@ TeamDiscussAppMgr.prototype.show_team_side = function(){
 
 
 
+TeamDiscussAppMgr.prototype.participants_change = function(){
+
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  var param_name = global_team_side + "_argument";
+  game_query.include(param_name);
+  game_query.include("participants");
+  game_query.get(global_debate_game_id, {
+    success: function(obj) {
+      self.actual_game_obj = obj;
+      self.participant_mgr_obj.update();
+    },
+    error: function(error) {
+      alert("something happen and creating event failed" + error.message);
+      //data should be vaidated before upload and the error should not happen in server side
+    }
+  });
+
+
+}
+
+TeamDiscussAppMgr.prototype.update_hangout_status = function(){
+
+  self.retrieve_updated_element();
+
+}
+
+/*  data to be exchanged by hangout status 
+  parseID_AAA_main:{type:"arg_main", count:"33"},
+  parseID_BBB_main:{type:"arg_main", count:"34"},
+  parseID_CCC_comment:{type:"comment",parent:"main_parseID_AAA" , count:"44"},
+  parseID_DDD_comment:{type:"comment",parent:"main_parseID_AAA" , count:"45"},
+  parseID_EEE_title:{type:"title", count:"56"}
+
+*/
+
+
+TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
+
+
+  var updated_element_counter =   gapi.hangout.data.getValue("element_counter" + global_team_side );
+
+  var element_updated = new Array();
+  var element_added = new Array();
+
+  for( updated_key  in updated_element_counter ){
+    var exist = false;
+    var counter_update = false;
+    for( existing_key in self.element_counter){
+
+      if(existing_key == updated_key){
+        exist = true;
+        if(updated_element_counter[updated_key].counter != self.element_counter[existing_key].counter){
+          counter_update = true;
+          element_updated.push(updated_element_counter[updated_key])
+        }
+      }
+    }
+    if(!exist){
+      element_added.push(updated_element_counter[updated_key])
+    }
+  }
+
+  var element_to_be_update = element_added.concat(element_updated);
+  var arg_updated = false;
+  var comment_updated_arg_id_array = new Array();
+  for(var i=0; i<element_to_be_update.length; i++ ){
+    if( (element_to_be_update.type == "arg_main" || element_to_be_update.type == "title") && !arg_updated){
+      self.update_argument_from_server();
+      arg_updated = true;
+    }
+  }
+
+  for(var i=0; i<element_to_be_update.length; i++ ){
+    if( element_to_be_update.type == "comment"){
+
+      var argument_id = element_to_be_update.parent;
+      var already_updated = false;
+      for(var j=0; j< comment_updated_arg_id.length; j++){
+        if(comment_updated_arg_id == comment_updated_arg_id_array[j]){
+          already_updated = true;
+        }
+      }
+      if(!already_updated){
+        self.argument_mgr.update_comment_data_from_server(argument_id);
+        comment_updated_arg_id.push(argument_id);
+      }
+    }
+  }
+
+  return;
+}

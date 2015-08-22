@@ -129,18 +129,18 @@
 
 
 
-  <script src="./../util/utility_func.js"></script>
+  <script src="https://mixidea.parseapp.com/util/utility_func.js"></script>
 
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
-  <script src="./Argument_Mgr.js"></script>
-  <script src="./Argument_VM.js"></script>
-  <script src="./Definition_Mgr.js"></script>
-  <script src="./Definition_VM.js"></script>
-  <script src="./GeneralConcept_Mgr.js"></script>
-  <script src="./GeneralConcept_VM.js"></script>
-  <script src="./TeamDiscussionAppMgr.js"></script>
-  <script src="./TeamDiscussion.js"></script>
-  <script src="./../ParticipantMgr.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/Argument_Mgr.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/Argument_VM.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/Definition_Mgr.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/Definition_VM.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/GeneralConcept_Mgr.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/GeneralConcept_VM.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussionAppMgr.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussion.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussion_ParticipantMgr.js"></script>
 
 
 
