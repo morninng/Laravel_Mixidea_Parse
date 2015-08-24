@@ -222,7 +222,7 @@ TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
   var arg_updated = false;
   var comment_updated_arg_id_array = new Array();
   for(var i=0; i<element_to_be_update.length; i++ ){
-    if( (element_to_be_update[i].type == "arg_main" || element_to_be_update[i].type == "title") && !arg_updated){
+    if( (element_to_be_update[i].type == "main" || element_to_be_update[i].type == "title") && !arg_updated){
       self.update_argument_from_server();
       arg_updated = true;
     }

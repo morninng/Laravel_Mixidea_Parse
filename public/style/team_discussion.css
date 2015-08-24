@@ -12,9 +12,9 @@ ul {
 	overflow: scroll;
 	/*
 	width:1652px;*/
-	height:800px;
-	display:flex;
-	flex-direction:column;
+	height:600px;
+	/*display:flex;
+	flex-direction:column;*/
 }
 
 #first_row {
@@ -120,6 +120,8 @@ ul {
 	border: 1px solid #000000;
 	padding: 15px;
 	margin: 4px;
+	overflow: scroll;
+
 }
 
 .general_concept_txt {

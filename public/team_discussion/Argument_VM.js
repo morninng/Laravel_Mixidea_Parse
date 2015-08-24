@@ -250,7 +250,7 @@ Argument_VM.prototype.show_main_content = function(){
 
 ////////////counter managmenet////
 		    var parse_id =  self.argument_obj.id;
-		    var obj_type = "arg_main";
+		    var obj_type = "main";
 		    var counter_obj = {type:obj_type, count:MainCounter};
 			team_discussion_appmgr.element_counter[parse_id + "_main"] = counter_obj;
 ////////////counter managmenet////
@@ -329,14 +329,8 @@ Argument_VM.prototype.click_title_save = function(){
 
 	    var new_counter_obj = new Object();
 	    new_counter_obj[element_counter_key] = new_counter_obj_str;
-	    //eval("gapi.hangout.data.submitDelta({" + element_counter_key + ": " + new_counter_obj_str + "});");
 	    gapi.hangout.data.submitDelta(new_counter_obj);
 
-	    /*
-		gapi.hangout.data.submitDelta({
-			 element_counter_key : new_counter_obj_str
-		});
-		*/
 ////////////counter managmenet////
 
 
@@ -365,17 +359,28 @@ Argument_VM.prototype.click_main_save = function(){
 	 	self.argument_obj = obj
 
 ////////////counter managmenet////
-	    var parse_id = self.argument_obj.id;
-	    var TitleCounter = self.argument_obj.get("title_count");
-	    var obj_type = "title";
 
-	    var counter_obj = {type:obj_type, count:TitleCounter};
+	    var parse_id = obj.id;
+	    var MainCounter = obj.get("main_count");
+	    var obj_type = "main";
+	    var new_counter_obj = new Object();
+	    var counter_obj = {type:obj_type, count:MainCounter};
+	    var element_counter_key =  "element_counter" + global_team_side;
 
-	    var original_counter_obj = gapi.hangout.data.getValue("element_counter");
-	    original_counter_obj[parse_id + "_title"] = counter_obj;
-		gapi.hangout.data.submitDelta({
-			 "element_counter":original_counter_obj
-		});
+	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
+	    if(original_counter_obj){
+	    	new_counter_obj = JSON.parse(original_counter_obj);
+	    }else{
+	    	new_counter_obj = new Object();
+	    }
+	    new_counter_obj[parse_id + "_main"] = counter_obj;
+	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
+
+	    var new_counter_obj = new Object();
+	    new_counter_obj[element_counter_key] = new_counter_obj_str;
+	    gapi.hangout.data.submitDelta(new_counter_obj);
+
+
 ////////////counter managmenet////
 
 
