@@ -82,20 +82,19 @@ function Argument_VM(){
 			  success: function(obj) {
 		    	team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
 
-
-
 ////////counter managemrent////
+
     		    var parse_id = obj.id;
 			    var CommentCounter = obj.get("count");
 			    var obj_type = "comment";
-
+			    var element_counter_key =  "element_counter" + global_team_side;
 			    var counter_obj = {type:obj_type, count:CommentCounter};
-
-			    var original_counter_obj = gapi.hangout.data.getValue("element_counter");
+			    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
 			    original_counter_obj[parse_id + "_comment"] = counter_obj;
 				gapi.hangout.data.submitDelta({
-					 "element_counter":original_counter_obj
+					 element_counter_key:original_counter_obj
 				});
+
 ////////counter managemrent////
 
 
@@ -222,7 +221,7 @@ Argument_VM.prototype.show_title = function(){
 		    var obj_type = "title"
 		    var counter_obj = {type:obj_type, count:TitleCounter};
 			team_discussion_appmgr.element_counter[parse_id + "_title"] = counter_obj;
-////////////counter managmenet//////
+////////////counter managmenet//////"_title"
 
 
 
@@ -308,7 +307,39 @@ Argument_VM.prototype.click_title_save = function(){
 	  success: function(obj) {
 	    console.log("saved");
 	    self.argument_obj = obj;
-	    team_discussion_appmgr.update_argument_from_server();
+
+////////////counter managmenet////
+	    var parse_id = obj.id;
+	    var TitleCounter = obj.get("title_count");
+	    var obj_type = "title";
+	    var new_counter_obj = new Object();
+	    var counter_obj = {type:obj_type, count:TitleCounter};
+	    var element_counter_key =  "element_counter" + global_team_side;
+	    console.log(element_counter_key);
+
+	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
+	    if(original_counter_obj){
+	    	new_counter_obj = JSON.parse(original_counter_obj);
+	    }else{
+	    	new_counter_obj = new Object();
+	    }
+	    new_counter_obj[parse_id + "_title"] = counter_obj;
+	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
+	    console.log(new_counter_obj_str);
+
+	    var new_counter_obj = new Object();
+	    new_counter_obj[element_counter_key] = new_counter_obj_str;
+	    //eval("gapi.hangout.data.submitDelta({" + element_counter_key + ": " + new_counter_obj_str + "});");
+	    gapi.hangout.data.submitDelta(new_counter_obj);
+
+	    /*
+		gapi.hangout.data.submitDelta({
+			 element_counter_key : new_counter_obj_str
+		});
+		*/
+////////////counter managmenet////
+
+
 	  },
 	  error: function(obj, error) {
 	    alert('Failed to create new object, with error code: ' + error.message);
@@ -329,19 +360,19 @@ Argument_VM.prototype.click_main_save = function(){
 	self.argument_obj.save(null, {
 	  success: function(obj) {
 	    console.log("saved");
-	    team_discussion_appmgr.update_argument_from_server();
+	 //   team_discussion_appmgr.update_argument_from_server();
 
-
+	 	self.argument_obj = obj
 
 ////////////counter managmenet////
-	    var parse_id = obj.id;
-	    var MainCounter = obj.get("main_count");
-	    var obj_type = "arg_main"
+	    var parse_id = self.argument_obj.id;
+	    var TitleCounter = self.argument_obj.get("title_count");
+	    var obj_type = "title";
 
-	    var counter_obj = {type:obj_type, count:MainCounter};
+	    var counter_obj = {type:obj_type, count:TitleCounter};
 
 	    var original_counter_obj = gapi.hangout.data.getValue("element_counter");
-	    original_counter_obj[parse_id + "_main"] = counter_obj;
+	    original_counter_obj[parse_id + "_title"] = counter_obj;
 		gapi.hangout.data.submitDelta({
 			 "element_counter":original_counter_obj
 		});

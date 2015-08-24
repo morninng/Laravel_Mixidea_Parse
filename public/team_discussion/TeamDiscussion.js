@@ -21,6 +21,8 @@
 
  team_discussion_appmgr = new TeamDiscussAppMgr();
 
+ window.onload = Hangout_Init;
+
 function Hangout_Init() {
   gapi.hangout.onApiReady.add(function(e){
     console.log("hangout api ready");

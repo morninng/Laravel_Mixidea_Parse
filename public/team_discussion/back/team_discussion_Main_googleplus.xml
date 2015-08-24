@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Mixidea_Team">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+
+<![CDATA[ 
+
+<script type="text/javascript" src="//plus.google.com/hangouts/_/api/v1/hangout.js">
+</script>
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<meta name="google-signin-client_id" content="918649959098-t0bogdmprrl1lafqv3ij9h5fvfcn11qa.apps.googleusercontent.com">
+
+
+
+<h2>Your token: </h2>
+     
+<div id='token'>NO TOKEN YET</div>
+
+<script>
+var scopes = ['https://www.googleapis.com/auth/plus.me',
+              'https://www.googleapis.com/auth/hangout.av',
+              'https://www.googleapis.com/auth/hangout.participants'];
+
+
+
+
+function checkAuth(isImmediate) {
+  console.log('checking auth');
+
+  // Pass in a null client id; the gadget container will replace this
+  // with a generated one.
+  // HOWEVER!  You must go through the process of creating a client id
+  // associated with this hangout app in the Google API console.
+  gapi.auth.authorize({client_id: 918649959098-t0bogdmprrl1lafqv3ij9h5fvfcn11qa.apps.googleusercontent.com,
+                       scope: scopes,
+                       immediate: isImmediate},
+                      handleAuthResult);
+}
+
+
+function handleAuthResult(authResult) {
+  var tokenButton = document.getElementById('token-button');
+
+  if (authResult) {
+    var div = document.getElementById('token');
+
+    div.innerHTML = '<p>' + gapi.auth.getToken().access_token + '</p>';
+  } else {
+    console.log('ERROR:  No auth result.');
+  }
+}
+
+
+function onClientReady() {
+  gapi.hangout.onApiReady.add(
+      function(event) {
+        console.log(event);
+        window.setTimeout(function() { checkAuth(true); }, 1);
+      });
+}
+</script>
+
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+  // Note that we load only the auth library, rather than
+  // the entire client library.
+  gapi.load('auth', onClientReady);
+</script>
+
+
+]]>
+
+  </Content>
+</Module>

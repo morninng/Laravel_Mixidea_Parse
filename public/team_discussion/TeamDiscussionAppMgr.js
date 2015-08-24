@@ -51,14 +51,7 @@ function TeamDiscussAppMgr() {
 
 
 
-TeamDiscussAppMgr.prototype.update_hangout_status = function(event){
-  var self = this;
 
-}
-
-TeamDiscussAppMgr.prototype.participants_change = function(participant_change){
-  var self = this;
-}
 
 TeamDiscussAppMgr.prototype.update_argument_from_server = function(){
 
@@ -71,6 +64,7 @@ TeamDiscussAppMgr.prototype.update_argument_from_server = function(){
   game_query.get(global_debate_game_id, {
     success: function(obj) {
       console.log(obj);
+      self.actual_game_obj = obj;
       var argument_obj_array = self.actual_game_obj.get(global_team_side +"_argument");
       self.argument_mgr.update_server_argument_data(argument_obj_array);
     },
@@ -158,7 +152,7 @@ TeamDiscussAppMgr.prototype.show_team_side = function(){
 
 
 TeamDiscussAppMgr.prototype.participants_change = function(){
-
+  var self = this;
   var Game = Parse.Object.extend("Game");
   var game_query = new Parse.Query(Game);
   var param_name = global_team_side + "_argument";
@@ -179,7 +173,7 @@ TeamDiscussAppMgr.prototype.participants_change = function(){
 }
 
 TeamDiscussAppMgr.prototype.update_hangout_status = function(){
-
+  var self = this;
   self.retrieve_updated_element();
 
 }
@@ -196,27 +190,31 @@ TeamDiscussAppMgr.prototype.update_hangout_status = function(){
 
 TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
 
+  var self = this;
+  var element_counter_key =  "element_counter" + global_team_side;
+  var updated_element_counter = gapi.hangout.data.getValue(element_counter_key);
+  var updated_element_counter_obj = JSON.parse(updated_element_counter);
 
-  var updated_element_counter =   gapi.hangout.data.getValue("element_counter" + global_team_side );
+
 
   var element_updated = new Array();
   var element_added = new Array();
 
-  for( updated_key  in updated_element_counter ){
+  for( updated_key  in updated_element_counter_obj ){
     var exist = false;
     var counter_update = false;
     for( existing_key in self.element_counter){
 
       if(existing_key == updated_key){
         exist = true;
-        if(updated_element_counter[updated_key].counter != self.element_counter[existing_key].counter){
+        if(updated_element_counter_obj[updated_key].count != self.element_counter[existing_key].count){
           counter_update = true;
-          element_updated.push(updated_element_counter[updated_key])
+          element_updated.push(updated_element_counter_obj[updated_key])
         }
       }
     }
     if(!exist){
-      element_added.push(updated_element_counter[updated_key])
+      element_added.push(updated_element_counter_obj[updated_key])
     }
   }
 
@@ -224,16 +222,16 @@ TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
   var arg_updated = false;
   var comment_updated_arg_id_array = new Array();
   for(var i=0; i<element_to_be_update.length; i++ ){
-    if( (element_to_be_update.type == "arg_main" || element_to_be_update.type == "title") && !arg_updated){
+    if( (element_to_be_update[i].type == "arg_main" || element_to_be_update[i].type == "title") && !arg_updated){
       self.update_argument_from_server();
       arg_updated = true;
     }
   }
 
   for(var i=0; i<element_to_be_update.length; i++ ){
-    if( element_to_be_update.type == "comment"){
+    if( element_to_be_update[i].type == "comment"){
 
-      var argument_id = element_to_be_update.parent;
+      var argument_id = element_to_be_update[i].parent;
       var already_updated = false;
       for(var j=0; j< comment_updated_arg_id.length; j++){
         if(comment_updated_arg_id == comment_updated_arg_id_array[j]){
