@@ -80,20 +80,37 @@ function Argument_VM(){
 		  	obj.increment("count");
 		  	obj.save(null, {
 			  success: function(obj) {
-		    	team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
+		//    	team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
 
 ////////counter managemrent////
 
-    		    var parse_id = obj.id;
-			    var CommentCounter = obj.get("count");
-			    var obj_type = "comment";
-			    var element_counter_key =  "element_counter" + global_team_side;
-			    var counter_obj = {type:obj_type, count:CommentCounter};
-			    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
-			    original_counter_obj[parse_id + "_comment"] = counter_obj;
-				gapi.hangout.data.submitDelta({
-					 element_counter_key:original_counter_obj
-				});
+    	var parse_id = obj.id;
+	    var CommentCounter = obj.get("count");
+	    console.log("comment count is "+ CommentCounter);
+	    var obj_type = "comment";
+	    var new_counter_obj = new Object();
+	    var counter_obj = {type:obj_type, count:CommentCounter, parent:self.arg_id};
+	    var element_counter_key =  "element_counter" + global_team_side;
+	    console.log(element_counter_key);
+
+	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
+	    console.log("original element counter in save event");
+	    console.log(original_counter_obj)
+	    if(original_counter_obj){
+	    	new_counter_obj = JSON.parse(original_counter_obj);
+	    }else{
+	    	new_counter_obj = new Object();
+	    }
+	    new_counter_obj[parse_id + "_comment"] = counter_obj;
+	    console.log("parse id is" + parse_id);
+	    console.log("new element counter after incremented");
+	    console.log(new_counter_obj);
+	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
+
+	    var new_counter_object = new Object();
+	    new_counter_object[element_counter_key] = new_counter_obj_str;
+
+	    gapi.hangout.data.submitDelta(new_counter_object);
 
 ////////counter managemrent////
 
@@ -409,7 +426,34 @@ Argument_VM.prototype.click_comment_Add = function(){
 	comment_obj.save(null, {
 	  success: function(obj) {
 	  	self.comment_input("");
-	    team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
+	  //  team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
+
+///////////counter management////////////
+
+	    var parse_id = obj.id;
+	    var CommentCounter = obj.get("count");
+	    var obj_type = "comment";
+	    var new_counter_obj = new Object();
+	    var counter_obj = {type:obj_type, count:CommentCounter, parent:self.arg_id};
+	    var element_counter_key =  "element_counter" + global_team_side;
+
+	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
+	    if(original_counter_obj){
+	    	new_counter_obj = JSON.parse(original_counter_obj);
+	    }else{
+	    	new_counter_obj = new Object();
+	    }
+	    new_counter_obj[parse_id + "_comment"] = counter_obj;
+	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
+
+	    var new_counter_obj = new Object();
+	    new_counter_obj[element_counter_key] = new_counter_obj_str;
+	    gapi.hangout.data.submitDelta(new_counter_obj);
+
+
+
+///////////counter management////////////
+
 
 	  },
 	  error: function(obj, error) {
@@ -442,7 +486,6 @@ Argument_VM.prototype.show_all_comment = function(){
 
 	var self = this;
 
-
 	var Comment = Parse.Object.extend("Comment");
 	var comment_query = new Parse.Query(Comment);
 	comment_query.equalTo("argument", self.argument_obj);
@@ -454,6 +497,7 @@ Argument_VM.prototype.show_all_comment = function(){
 	      var retrieved_comment = array[i];
 	      var retrieved_comment_context = retrieved_comment.get("context");
 	      var retrieved_count = retrieved_comment.get("count");
+	      console.log("retrieved comment count is "+ retrieved_count);
 	      if(retrieved_comment_context){
 		      console.log(retrieved_comment_context);
 		      var comment_existed = false;

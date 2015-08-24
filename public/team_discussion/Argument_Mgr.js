@@ -90,16 +90,13 @@ Argument_Mgr.prototype.ApplyTemplate = function(obj, argument_id, order_num){
 	self.existing_Argument_list.push(argument_id);
 	console.log("apply template");
 	order_num++;
-	console.log(order_num);
 	//var element_selector_str = "#argument_list .argument_child:nth-child(" + order_num + ")";
 	var Argument_html_Template = _.template($('[data-template="argument_template"]').html());
 	//var argument_element = $(element_selector_str);
     var argument_element = $("#argument_list");
-    console.log(argument_element);
 
     var data = {Argument_ID:argument_id};
     var argument_html_text = Argument_html_Template(data);
-    console.log(argument_html_text);
 
     argument_element.append(argument_html_text);
     //argument_element.html(argument_html_text);

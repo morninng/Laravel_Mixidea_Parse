@@ -63,7 +63,6 @@ TeamDiscussAppMgr.prototype.update_argument_from_server = function(){
   game_query.include(param_name);
   game_query.get(global_debate_game_id, {
     success: function(obj) {
-      console.log(obj);
       self.actual_game_obj = obj;
       var argument_obj_array = self.actual_game_obj.get(global_team_side +"_argument");
       self.argument_mgr.update_server_argument_data(argument_obj_array);
@@ -145,7 +144,6 @@ TeamDiscussAppMgr.prototype.count_timer_show = function() {
 TeamDiscussAppMgr.prototype.show_team_side = function(){
   
   var self = this;
-  console.log("show team side")
   $("span#team_category").html("<strong>" + global_team_side + "</strong>");
 }
 
@@ -195,10 +193,15 @@ TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
   var updated_element_counter = gapi.hangout.data.getValue(element_counter_key);
   var updated_element_counter_obj = JSON.parse(updated_element_counter);
 
-
+  console.log("counter json shared by hangout status");
+  console.log(updated_element_counter_obj);
 
   var element_updated = new Array();
   var element_added = new Array();
+
+  console.log("element counter stored as a object is ")
+  console.log(self.element_counter);
+
 
   for( updated_key  in updated_element_counter_obj ){
     var exist = false;
@@ -209,7 +212,9 @@ TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
         exist = true;
         if(updated_element_counter_obj[updated_key].count != self.element_counter[existing_key].count){
           counter_update = true;
-          element_updated.push(updated_element_counter_obj[updated_key])
+          element_updated.push(updated_element_counter_obj[updated_key]);
+          console.log("previous counter is" +  self.element_counter[existing_key].count);
+          console.log("next counter is" + updated_element_counter_obj[updated_key].count);
         }
       }
     }
@@ -220,27 +225,23 @@ TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
 
   var element_to_be_update = element_added.concat(element_updated);
   var arg_updated = false;
-  var comment_updated_arg_id_array = new Array();
+  var comment_updated_id_array = new Array();
+
   for(var i=0; i<element_to_be_update.length; i++ ){
     if( (element_to_be_update[i].type == "main" || element_to_be_update[i].type == "title") && !arg_updated){
       self.update_argument_from_server();
       arg_updated = true;
     }
-  }
 
-  for(var i=0; i<element_to_be_update.length; i++ ){
     if( element_to_be_update[i].type == "comment"){
-
-      var argument_id = element_to_be_update[i].parent;
-      var already_updated = false;
-      for(var j=0; j< comment_updated_arg_id.length; j++){
-        if(comment_updated_arg_id == comment_updated_arg_id_array[j]){
-          already_updated = true;
+      var comment_updated = false;
+      for(var j=0; j<comment_updated_id_array.length; j++){
+        if(comment_updated_id_array[j].parent == element_to_be_update[i].parent){
+          comment_updated = true;
         }
       }
-      if(!already_updated){
-        self.argument_mgr.update_comment_data_from_server(argument_id);
-        comment_updated_arg_id.push(argument_id);
+      if(!comment_updated){
+        self.argument_mgr.update_comment_data_from_server( element_to_be_update[i].parent);
       }
     }
   }
