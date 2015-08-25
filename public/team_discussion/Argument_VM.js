@@ -225,25 +225,26 @@ Argument_VM.prototype.show_title = function(){
 	var count = self.argument_obj.get("title_count");
 
 	if(title){
-		self.title_content_visible(true);
-		self.title_input_visible(false);
-		self.title_content(title);
+
+////////////counter managmenet///////
 		if(self.title_count != count){
+
+			self.title_content_visible(true);
+			self.title_input_visible(false);
+			self.title_content(title);
+
 			self.title_content_visible(true);
 			self.title_input_visible(false);
 
-////////////counter managmenet///////
 		    var parse_id = self.argument_obj.id;
 		    var TitleCounter = count;
 		    var obj_type = "title"
 		    var counter_obj = {type:obj_type, count:TitleCounter};
 			team_discussion_appmgr.element_counter[parse_id + "_title"] = counter_obj;
+		}
 ////////////counter managmenet//////"_title"
 
 
-
-
-		}
 	}else{
 		self.title_content_visible(false);
 		self.title_input_visible(true);

@@ -7,51 +7,51 @@ function GeneralConcept_Mgr(){
 
 }
 
-GeneralConcept_Mgr.prototype.initialize = function(parse_id){
+GeneralConcept_Mgr.prototype.initialize = function(general_concept_obj){
 
 	var self = this;
-	if(parse_id){
-		var Comment = Parse.Object.extend("Comment");
-		var comment_query = new Parse.Query(Comment);
-		comment_query.get(parse_id,{
-			success: function(obj){
-				self.general_concept_obj = obj;
-				self.ApplyTemplate();
-			},
-			error: function(){
-				console.log("error to get data");
-			}
-		});
+	if(general_concept_obj){
+
+		self.general_concept_obj = general_concept_obj;
+		self.ApplyTemplate();
 
 	}else{
 		var Comment = Parse.Object.extend("Comment");
 		var comment_obj = new Comment();
-		var param_name = global_team_side + "_general_concept"
-		team_discussion_appmgr.actual_game_obj.set(param_name, comment_obj);
+		comment_obj.set("count", 0);
+		var general_concept_param_name = global_team_side + "_general_concept"
+		team_discussion_appmgr.actual_game_obj.set(general_concept_param_name, comment_obj);
 		team_discussion_appmgr.actual_game_obj.save().then(
 			function(obj){
-				var general_concept = obj.get(param_name);
-				var general_concept_id = general_concept.id
-				var Comment = Parse.Object.extend("Comment");
-				var comment_query = new Parse.Query(Comment);
-				comment_query.get(general_concept_id,{
-					success: function(obj){
-						self.general_concept_obj = obj;
-						self.ApplyTemplate(obj);
-					},
-					error: function(){
-
-					}
-				});
+				self.general_concept_obj = comment_obj;
+				self.ApplyTemplate();
 			},
 			function(error) {
-			    // saving the object failed.
+				console.log(error);
 			}
 		);
 	}
 }
 
-GeneralConcept_Mgr.prototype.ApplyTemplate = function(parse_id){
+
+
+GeneralConcept_Mgr.prototype.update = function(){
+
+	var self = this;
+
+	self.general_concept_obj.fetch({
+	  success: function(obj) {
+	    self.general_concept_obj = obj;
+	    self.general_concept_vm.update(self.general_concept_obj);
+	  },
+	  error: function(obj, error) {
+	    console.log(obj);
+	  }
+	});
+
+}
+
+GeneralConcept_Mgr.prototype.ApplyTemplate = function(){
 
 
 	var self = this;

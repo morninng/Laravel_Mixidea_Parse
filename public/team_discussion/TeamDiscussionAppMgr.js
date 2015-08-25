@@ -10,22 +10,24 @@ function TeamDiscussAppMgr() {
 
   var Game = Parse.Object.extend("Game");
   var game_query = new Parse.Query(Game);
-  var param_name = global_team_side + "_argument";
-  game_query.include(param_name);
+  var argument_param_name = global_team_side + "_argument";
+  var general_concept_param_name = global_team_side + "_general_concept";
+  game_query.include(argument_param_name);
+  game_query.include(general_concept_param_name);
   game_query.include("participants");
   game_query.get(global_debate_game_id, {
     success: function(obj) {
 
       self.actual_game_obj = obj;
-      var general_concept = self.actual_game_obj.get(global_team_side +"_general_concept");
-      var argument_obj_array = self.actual_game_obj.get(global_team_side +"_argument");
+      var general_concept = self.actual_game_obj.get(general_concept_param_name);
+      var argument_obj_array = self.actual_game_obj.get(argument_param_name);
       
       self.participant_mgr_obj = new TeamDiscussion_ParticipantMgr();   
       self.participant_mgr_obj.update();
 
 
       if(general_concept)
-        self.general_concept_mgr.initialize(general_concept.id);
+        self.general_concept_mgr.initialize(general_concept);
       else{
         self.general_concept_mgr.initialize(null);
       }
@@ -232,6 +234,11 @@ TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
       self.update_argument_from_server();
       arg_updated = true;
     }
+
+    if( element_to_be_update[i].type == "concept"){
+      self.general_concept_mgr.update();
+    }
+
 
     if( element_to_be_update[i].type == "comment"){
       var comment_updated = false;

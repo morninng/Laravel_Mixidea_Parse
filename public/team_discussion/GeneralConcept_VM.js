@@ -10,14 +10,7 @@ function GeneralConcept_VM(){
   	self.content_text_input = ko.observable();
   	self.isTextboxFocused = ko.observable(false);
   	self.link_input = ko.observable("http://");
-
-}
-
-GeneralConcept_VM.prototype.initialize = function(general_concept_obj){
-
-	var self = this;
-	self.general_concept_obj = general_concept_obj;
-	self.show_retrieved_data();
+  	self.concept_count = -1;
 
   	self.isTextboxFocused.subscribe( function(focused) {
 	   if (!focused) {
@@ -28,22 +21,55 @@ GeneralConcept_VM.prototype.initialize = function(general_concept_obj){
 
 }
 
+GeneralConcept_VM.prototype.initialize = function(general_concept_obj){
+
+	var self = this;
+	self.update(general_concept_obj);
+
+}
+
+GeneralConcept_VM.prototype.update = function(general_concept_obj){
+	var self = this;
+	self.general_concept_obj = general_concept_obj;
+	self.show_retrieved_data();
+}
+
+
+
 GeneralConcept_VM.prototype.show_retrieved_data = function(general_concept_obj){
 
 	var self = this;
 	var context = self.general_concept_obj.get("context");
-  	if(context){
-  		self.content_text_input(context);
+	var count = self.general_concept_obj.get("count");
 
-  		convert_context = add_linebreak_html(context);
-  		self.content_text(convert_context);
-  		self.content_visible(true);
-  		self.input_visible(false);
+  	if(context){
+////////////counter managmenet///////
+		if(self.concept_count != count){
+
+	  		self.content_text_input(context);
+	  		convert_context = add_linebreak_html(context);
+	  		self.content_text(convert_context);
+	  		self.content_visible(true);
+	  		self.input_visible(false);
+
+		    var parse_id = self.general_concept_obj.id;
+		    var ConceptCounter = count;
+		    var obj_type = "concept"
+		    var counter_obj = {type:obj_type, count:ConceptCounter};
+			team_discussion_appmgr.element_counter[parse_id + "_concept"] = counter_obj;
+		}
+
+////////////counter managmenet///////
+
+
 	}else{
   		self.content_visible(false);
   		self.input_visible(true);
 	}
 
+
+
+/*
 	var link_list_array = self.general_concept_obj.get("link_url");
 	console.log(link_list_array);
 	self.link_array.removeAll();
@@ -63,6 +89,8 @@ GeneralConcept_VM.prototype.show_retrieved_data = function(general_concept_obj){
 			self.link_array.push(obj);
 		}
 	}
+*/
+
 }
 
 
@@ -95,6 +123,8 @@ GeneralConcept_VM.prototype.click_edit_concept = function(){
 
 
 }
+
+/*
 GeneralConcept_VM.prototype.click_add_link = function(){
 
 	var self = this;
@@ -134,7 +164,7 @@ GeneralConcept_VM.prototype.click_add_link = function(){
 	}
 
 }
-
+*/
 
 GeneralConcept_VM.prototype.click_cancel_concept = function(){
 
@@ -159,11 +189,43 @@ GeneralConcept_VM.prototype.save_concept = function(){
 	var context = self.content_text_input();
 	console.log(context);
 
+	counter = self.general_concept_obj.get("count");
+
+	if(typeof counter === "undefined"){
+		self.general_concept_obj.set("count", 0);
+	}else{
+		self.general_concept_obj.increment("count");
+	}
 	self.general_concept_obj.set("context", context);
 	self.general_concept_obj.save(null, {
 	  success: function(obj) {
-	    console.log("saved");
-	    self.update_data_from_server();
+
+////////counter managemrent////
+
+    	var parse_id = obj.id;
+	    var ConceptCounter = obj.get("count"); 	
+	    var obj_type = "concept";
+	    var new_counter_obj = new Object();
+	    var counter_obj = {type:obj_type, count:ConceptCounter, parent:self.arg_id};
+	    var element_counter_key =  "element_counter" + global_team_side;
+	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
+
+	    if(original_counter_obj){
+	    	new_counter_obj = JSON.parse(original_counter_obj);
+	    }else{
+	    	new_counter_obj = new Object();
+	    }
+	    new_counter_obj[parse_id + "_concept"] = counter_obj;
+	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
+
+
+	    var new_counter_object = new Object();
+	    new_counter_object[element_counter_key] = new_counter_obj_str;
+
+	    gapi.hangout.data.submitDelta(new_counter_object);
+
+////////counter managemrent////
+
 	  },
 	  error: function(obj, error) {
 	    alert('Failed to create new object, with error code: ' + error.message);
@@ -172,7 +234,7 @@ GeneralConcept_VM.prototype.save_concept = function(){
 	});
 
 }
-
+/*
 
 function isUrl(s) {
     var regexp = /((http|https):\/\/)?[A-Za-z0-9\.-]{3,}\.[A-Za-z]{2}/;	
@@ -190,3 +252,4 @@ function EncodeHTMLForm(data){
     }
     return params.join('&');
 }
+*/

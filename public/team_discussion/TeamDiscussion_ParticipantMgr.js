@@ -9,17 +9,21 @@ TeamDiscussion_ParticipantMgr.prototype.update = function(){
 
 	var self = this;
 
-	self.participants_obj_array = team_discussion_appmgr.actual_game_obj.get("participants");
+
 	self.own_parse_id = global_own_parse_id;
 	self.own_hangout_id = global_own_hangout_id;
-
+	var participants_array = team_discussion_appmgr.actual_game_obj.get("participants");
+	if(!participants_array){
+		return;
+	}
+	
 	var participant_obj = new Object();
 
-	for(var i=0; i< self.participants_obj_array.length; i++){
-		var parse_id = self.participants_obj_array[i].id;
-		var FirstName = self.participants_obj_array[i].get("FirstName");
-		var LastName = self.participants_obj_array[i].get("LastName");
-		var src = self.participants_obj_array[i].get("Profile_picture");
+	for(var i=0; i< self.participants_array.length; i++){
+		var parse_id = participants_array[i].id;
+		var FirstName = participants_array[i].get("FirstName");
+		var LastName = participants_array[i].get("LastName");
+		var src = participants_array[i].get("Profile_picture");
 		var obj = {first_name:FirstName, last_name:LastName, pict_src:src };
 		participant_obj[parse_id] = obj
 	}
