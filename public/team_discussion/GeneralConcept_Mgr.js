@@ -27,7 +27,7 @@ GeneralConcept_Mgr.prototype.initialize = function(general_concept_obj){
 				self.ApplyTemplate();
 			},
 			function(error) {
-				console.log(error);
+				console.log("general concept initialization failed" + error);
 			}
 		);
 	}
@@ -46,6 +46,7 @@ GeneralConcept_Mgr.prototype.update = function(){
 	  },
 	  error: function(obj, error) {
 	    console.log(obj);
+	    console.log("fetchign general concept has been failed");
 	  }
 	});
 

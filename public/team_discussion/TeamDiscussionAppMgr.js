@@ -45,7 +45,7 @@ function TeamDiscussAppMgr() {
     
     },
     error: function(error) {
-      alert("something happen and creating event failed" + error.message);
+      console.log("Retrieving Game obj data failed in TeamDiscussAppMgr()" + error.message);
       //data should be vaidated before upload and the error should not happen in server side
     }
   });
@@ -71,6 +71,7 @@ TeamDiscussAppMgr.prototype.update_argument_from_server = function(){
     },
     error: function(obj, error) {
       console.log(error);
+      console.log("update argument from server failed");
     }
   });
 }
