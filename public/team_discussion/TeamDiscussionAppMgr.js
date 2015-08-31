@@ -7,6 +7,8 @@ function TeamDiscussAppMgr() {
   self.argument_mgr = new Argument_Mgr();
   self.general_concept_mgr = new GeneralConcept_Mgr();
   self.element_counter = new Array();
+  self.own_edit_status = "default";
+  self.own_edit_element = null;
 
   var Game = Parse.Object.extend("Game");
   var game_query = new Parse.Query(Game);
@@ -176,8 +178,24 @@ TeamDiscussAppMgr.prototype.participants_change = function(){
 TeamDiscussAppMgr.prototype.update_hangout_status = function(){
   var self = this;
   self.retrieve_updated_element();
+  self.update_edit_status();
+}
+
+
+TeamDiscussAppMgr.prototype.update_edit_status = function(){
+
+  var self = this;
+
+  var edit_status_counter = get_hangout_edit_status_counter();
+
+  if(self.edit_status_counter != edit_status_counter){
+    self.argument_mgr.update_edit_status();
+   // self.general_concept_mgr.update_edit_status();
+  }
+  
 
 }
+
 
 /*  data to be exchanged by hangout status 
   parseID_AAA_main:{type:"arg_main", count:"33"},

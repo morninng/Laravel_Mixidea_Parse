@@ -3,7 +3,6 @@ function Argument_Mgr(){
 
 	var self = this;
 	self.existing_Argument_list = new Array();
-	self.general_concept_id = null;
 	self.definition = null;
 	self.team_side = null;
 	self.current_type = null;
@@ -172,3 +171,13 @@ Argument_Mgr.prototype.update_comment_data_from_server = function(argument_id){
 	eval("self.argument_vm_" + argument_id + ".apply_comment_data_from_server()");
 }
 
+Argument_Mgr.prototype.update_edit_status = function(){
+
+	var self = this;
+	for(var i=0; i< self.existing_Argument_list.length; i++){
+		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".update_edit_status();");
+		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".show_title();");
+		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".show_main_content();");
+	}
+
+}

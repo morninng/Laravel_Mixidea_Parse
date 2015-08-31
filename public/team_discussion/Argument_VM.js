@@ -9,14 +9,29 @@ function Argument_VM(){
 	self.refute_list = new Array();
 	self.comment_list = new Array();
 
+	self.main_editor = null;
+	self.title_editor = null;
 
 	self.title_count = -1;
-  	self.title_content_visible = ko.observable(false);
+//  	self.title_content_visible = ko.observable(false);
   	self.title_content = ko.observable(""); 
-  	self.title_input_visible = ko.observable(false);
+//  	self.title_input_visible = ko.observable(false);
   	self.title_input = ko.observable();
   	self.isTitleTextboxFocused = ko.observable(false); 
+  	self.is_default_TextboxFocused = ko.observable(false); 
 
+
+  	self.visible_title_textbox_default = ko.observable();
+  	self.visible_title_textbox_written = ko.observable();
+  	self.visible_title_textbox_edit = ko.observable();
+  	self.visible_editor_profile = ko.observable();
+  	self.editor_pict_src = ko.observable();
+  	self.editor_name = ko.observable();
+  	self.visible_button_title_save = ko.observable();
+  	self.visible_button_title_cancel = ko.observable();
+  	self.visible_button_title_edit = ko.observable();
+
+  	self.visible_editing_icon = ko.observable(false);
 
 	self.main_count = -1;
   	self.main_content_visible = ko.observable(false); 
@@ -35,6 +50,14 @@ function Argument_VM(){
   	self.isCommentInputTextboxFocused = ko.observable();
 
   	self.arg_id = null;
+
+
+  	self.is_default_TextboxFocused.subscribe( function(focused) {
+	   if (focused) {
+	   		console.log("default title textbox focused");
+			self.add_title_edit_status();
+		}
+	});
 
 	self.click_comment_edit_cancel = function(data){
 
@@ -172,13 +195,46 @@ function Argument_VM(){
 
 Argument_VM.prototype.initialize = function(argument_obj){
 
-	self = this;
+	var self = this;
 	self.argument_obj = argument_obj;
 	self.arg_id = argument_obj.id;
 	console.log(argument_obj.id);
 	self.show_All();
 }
 
+
+Argument_VM.prototype.update_edit_status = function(){
+	var self = this;
+
+	var is_api_ready = gapi.hangout.isApiReady();
+	if( !is_api_ready ){
+		self.main_editor = null;
+		self.title_editor = null;
+		return;
+	}_
+
+
+	var edit_status_str = gapi.hangout.data.getValue("edit_status");
+	if(!edit_status_str){
+		return;
+	}
+	var edit_status_obj = JSON.parse(edit_status_str);
+
+	var main_id = self.arg_id + "_main";
+	var title_id = self.arg_id + "_title";
+	self.main_editor = null;
+	self.title_editor = null;
+
+	for (var key in edit_status_obj){
+		if(edit_status_obj[key].id == main_id && is_hangout_exist(edit_status_obj[key].hangout_id)){
+			self.main_editor = key;
+		}
+		if(edit_status_obj[key].id == title_id && is_hangout_exist(edit_status_obj[key].hangout_id)){
+			self.title_editor = key;
+		}
+	}
+
+}
 
 Argument_VM.prototype.apply_comment_data_from_server = function(){
 
@@ -196,6 +252,7 @@ Argument_VM.prototype.apply_argument_data_from_server = function(updated_argumen
 	*/
 
 	self.argument_obj =updated_argument_obj;
+	self.update_edit_status();
 	self.show_title();
 	self.show_main_content();
 	self.show_comment_input();
@@ -211,6 +268,7 @@ Argument_VM.prototype.apply_argument_data_from_server = function(updated_argumen
 Argument_VM.prototype.show_All = function(){
 
 	var self = this;
+	self.update_edit_status();
 	self.show_title();
 	self.show_main_content();
 	self.show_all_comment();
@@ -223,33 +281,107 @@ Argument_VM.prototype.show_title = function(){
 	var self = this;
 	var title = self.argument_obj.get("title");
 	var count = self.argument_obj.get("title_count");
+	var others_under_editing = false;
 
-	if(title){
+	if(self.title_editor && self.title_editor!=global_own_parse_id ){
+		others_under_editing = true;
+	}
+
+	var own_edit_status =  team_discussion_appmgr.own_edit_status;
+	var own_edit_element =  team_discussion_appmgr.own_edit_element;
+	var under_editing_this_element = false;
+	var element_edit_param =  self.arg_id + "_title";;
+	if(element_edit_param == own_edit_element){
+		under_editing_this_element = true;
+	}
+
+/***** title display box *****/	
+
+	if(under_editing_this_element){
+		//do not change anything
+	}else{
+		if(own_edit_status == "default" && !title && !others_under_editing){
+			self.visible_title_textbox_default(true);
+			self.visible_title_textbox_written(false);
+			self.visible_title_textbox_edit(false);
+			self.title_content(title);
+			self.title_input(title);
+		}else{
+			self.visible_title_textbox_default(false);
+			self.visible_title_textbox_written(true);
+			self.visible_title_textbox_edit(false);
+			self.title_content(title);
+			self.title_input(title);
+		}
+	}
+
+
+
+/***** editor picture  *****/
+
+	if(self.title_editor){
+		var editor_profile = team_discussion_appmgr.participant_mgr_obj.get_user_profile(self.title_editor);
+		if(editor_profile){
+			self.editor_pict_src(editor_profile.pict_src); 
+			self.editor_name(editor_profile.first_name);
+			self.visible_editor_profile(true);
+		}
+		self.visible_editing_icon(true)
+	}else{
+		self.editor_pict_src(null);
+		self.editor_name(null);
+		self.visible_editor_profile(false);
+		self.visible_editing_icon(false)
+	}
+
+/***** title button *****/	
+
+	if(under_editing_this_element){
+		//do not change anything
+	}else{
+		if( others_under_editing){
+			self.visible_button_title_save(false);
+			self.visible_button_title_cancel(false);
+			self.visible_button_title_edit(false);
+		}else{
+			switch(own_edit_status){
+			case "default":
+				if(title){
+					self.visible_button_title_save(false);
+					self.visible_button_title_cancel(false);
+					self.visible_button_title_edit(true);
+				}else{
+					self.visible_button_title_save(true);
+					self.visible_button_title_cancel(false);
+					self.visible_button_title_edit(false);
+				}
+			break;
+			case "editing":
+				self.visible_button_title_save(false);
+				self.visible_button_title_cancel(false);
+				self.visible_button_title_edit(false);
+
+			break;
+			case "pending":
+				self.visible_button_title_save(false);
+				self.visible_button_title_cancel(false);
+				self.visible_button_title_edit(true);
+			break;
+			}
+		}
+	}
 
 ////////////counter managmenet///////
-		if(self.title_count != count){
-
-			self.title_content_visible(true);
-			self.title_input_visible(false);
-			self.title_content(title);
-
-			self.title_content_visible(true);
-			self.title_input_visible(false);
+	if(title && self.title_count != count){
 
 		    var parse_id = self.argument_obj.id;
 		    var TitleCounter = count;
 		    var obj_type = "title"
 		    var counter_obj = {type:obj_type, count:TitleCounter};
-			team_discussion_appmgr.element_counter[parse_id + "_title"] = counter_obj;
-		}
-////////////counter managmenet//////"_title"
-
-
-	}else{
-		self.title_content_visible(false);
-		self.title_input_visible(true);
+			team_discussion_appmgr.element_counter[parse_id + "_title"] = counter_obj;			
 	}
 	self.title_count = count;
+////////////counter managmenet//////
 }
 
 
@@ -280,6 +412,12 @@ Argument_VM.prototype.show_main_content = function(){
 		self.main_input_visible(true);
 	}
 	self.main_count = MainCounter;
+
+	console.log("show main content");
+	console.log("arg id is " + self.arg_id);
+	console.log("content visible = " + self.main_content_visible());
+	console.log("input visible = " + self.main_input_visible());
+
 }
 
 
@@ -287,15 +425,54 @@ Argument_VM.prototype.show_main_content = function(){
 Argument_VM.prototype.click_title_edit = function(){
 
 	var self = this;
-	title = self.argument_obj.get("title");
 
-	self.title_content_visible(false);
-	self.title_input_visible(true);
+/** appearance change **/
+	title = self.argument_obj.get("title");
 	self.title_input(title);
+	self.visible_title_textbox_default(false);
+	self.visible_title_textbox_written(false);
+	self.visible_title_textbox_edit(true);
 	self.isTitleTextboxFocused(true);
 
+  	self.visible_button_title_save(true);
+  	self.visible_button_title_cancel(true);
+  	self.visible_button_title_edit(false);
+
+	self.add_title_edit_status();
 }
 
+Argument_VM.prototype.add_title_edit_status = function(){
+
+	var self = this;
+
+	team_discussion_appmgr.own_edit_status = "editing";
+	team_discussion_appmgr.own_edit_element = self.arg_id + "_title";
+
+	var obj_id = self.arg_id + "_title";
+	var user_obj = {id:obj_id,taem:global_team_side, hangout_id:global_own_hangout_id };
+	console.log(user_obj);
+//	var own_edit_status_obj = eval("{" + global_own_parse_id + ":" + user_obj + "};" );
+
+	var new_edit_status_obj = new Object();
+	var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
+    if(current_edit_status_obj){
+    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
+    }
+
+    new_edit_status_obj[global_own_parse_id] = user_obj;
+	var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
+	console.log("new edit status " + new_edit_status_obj)
+    var edit_status_counter = get_hangout_edit_status_counter();
+    edit_status_counter++;
+    edit_status_counter_str = String(edit_status_counter);
+    console.log("edit status counter is " + edit_status_counter);
+
+	gapi.hangout.data.submitDelta({
+		"edit_status":new_edit_status_obj_str,
+		"edit_status_counter":edit_status_counter_str
+	});
+
+}
 
 Argument_VM.prototype.click_main_edit = function(){
 
@@ -347,10 +524,33 @@ Argument_VM.prototype.click_title_save = function(){
 
 	    var new_counter_obj = new Object();
 	    new_counter_obj[element_counter_key] = new_counter_obj_str;
-	    gapi.hangout.data.submitDelta(new_counter_obj);
+//	    gapi.hangout.data.submitDelta(new_counter_obj);
 
 ////////////counter managmenet////
 
+/*edit status management*/
+
+		team_discussion_appmgr.own_edit_status = "pending";
+		team_discussion_appmgr.own_edit_element = null;
+		self.title_editor = null;
+
+		var new_edit_status_obj = new Object();
+		var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
+	    if(current_edit_status_obj){
+	    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
+	    }
+	    delete new_edit_status_obj[global_own_parse_id];
+		var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
+	    var edit_status_counter = get_hangout_edit_status_counter();
+	    edit_status_counter++;
+	    edit_status_counter_str = String(edit_status_counter);
+
+
+	    var hangout_status_obj_title = new_counter_obj;
+	    hangout_status_obj_title["edit_status"] = new_edit_status_obj_str;
+	    hangout_status_obj_title["edit_status_counter"] = edit_status_counter_str;
+
+		gapi.hangout.data.submitDelta( hangout_status_obj_title);
 
 	  },
 	  error: function(obj, error) {
@@ -471,8 +671,27 @@ Argument_VM.prototype.click_comment_Add = function(){
 
 Argument_VM.prototype.click_title_cancel = function(){
 	var self = this;
+
+	team_discussion_appmgr.own_edit_status = "pending";
+	team_discussion_appmgr.own_edit_element = null;
+
 	self.show_title();
 
+	var new_edit_status_obj = new Object();
+	var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
+    if(current_edit_status_obj){
+    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
+    }
+    delete new_edit_status_obj[global_own_parse_id];
+	var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
+    var edit_status_counter = get_hangout_edit_status_counter();
+    edit_status_counter++;
+    edit_status_counter_str = String(edit_status_counter);
+
+	gapi.hangout.data.submitDelta({
+		"edit_status":new_edit_status_obj_str,
+		"edit_status_counter":edit_status_counter_str
+	});
 }
 
 Argument_VM.prototype.click_main_cancel = function(){
