@@ -76,7 +76,7 @@
              <p>Title: <span class="title_content" data-bind="html:title_content"></span></p>
            </div>
           <div data-bind="visible:visible_title_textbox_edit">
-            <p>Title: <input class="Title_Input_edit" type="text" data-bind="textInput: title_input, hasFocus: isTitleTextboxFocused" ></input></p>
+            <p>Title: <input class="Title_Input_edit" placeholder="input title of the argument" type="text" data-bind="textInput: title_input, hasFocus: isTitleTextboxFocused" ></input></p>
           </div>
           <div class="title_loading" >
             <div data-bind="visible:visible_editing_icon" class="spinner">

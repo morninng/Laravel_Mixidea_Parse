@@ -212,6 +212,9 @@ TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
   var self = this;
   var element_counter_key =  "element_counter" + global_team_side;
   var updated_element_counter = gapi.hangout.data.getValue(element_counter_key);
+  if(!updated_element_counter){
+    return;
+  }
   var updated_element_counter_obj = JSON.parse(updated_element_counter);
 
   console.log("counter json shared by hangout status");

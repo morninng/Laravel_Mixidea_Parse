@@ -206,6 +206,7 @@ Argument_VM.prototype.initialize = function(argument_obj){
 Argument_VM.prototype.update_edit_status = function(){
 	var self = this;
 
+	console.log("update edit profile has been callsed");
 	var is_api_ready = gapi.hangout.isApiReady();
 	if( !is_api_ready ){
 		self.main_editor = null;
@@ -228,9 +229,11 @@ Argument_VM.prototype.update_edit_status = function(){
 	for (var key in edit_status_obj){
 		if(edit_status_obj[key].id == main_id && is_hangout_exist(edit_status_obj[key].hangout_id)){
 			self.main_editor = key;
+			console.log("main editor has set with " + key);
 		}
 		if(edit_status_obj[key].id == title_id && is_hangout_exist(edit_status_obj[key].hangout_id)){
 			self.title_editor = key;
+			console.log("title editor has set with " + key);
 		}
 	}
 
@@ -279,6 +282,9 @@ Argument_VM.prototype.show_All = function(){
 
 Argument_VM.prototype.show_title = function(){
 	var self = this;
+
+	console.log("show title");
+
 	var title = self.argument_obj.get("title");
 	var count = self.argument_obj.get("title_count");
 	var others_under_editing = false;
@@ -301,6 +307,7 @@ Argument_VM.prototype.show_title = function(){
 		//do not change anything
 	}else{
 		if(own_edit_status == "default" && !title && !others_under_editing){
+			console.log("show default text box for title");
 			self.visible_title_textbox_default(true);
 			self.visible_title_textbox_written(false);
 			self.visible_title_textbox_edit(false);
@@ -320,8 +327,10 @@ Argument_VM.prototype.show_title = function(){
 /***** editor picture  *****/
 
 	if(self.title_editor){
+		console.log("editor exist");
 		var editor_profile = team_discussion_appmgr.participant_mgr_obj.get_user_profile(self.title_editor);
 		if(editor_profile){
+			console.log("show profile");
 			self.editor_pict_src(editor_profile.pict_src); 
 			self.editor_name(editor_profile.first_name);
 			self.visible_editor_profile(true);
