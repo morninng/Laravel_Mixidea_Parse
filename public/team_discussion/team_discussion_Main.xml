@@ -125,7 +125,7 @@
              <button data-bind="click:click_main_cancel">cancel</button>
            </div>
         </div>
-
+      </div>
 
       <div  class="comment">
         <ul data-bind="foreach:comment_array">
@@ -152,10 +152,10 @@
                 <button data-bind="click:click_comment_Add">Add</button>
              </div>
         </div>
+      </div>
+      <hr>
     </div>
-    <hr>
   </div>
-
 </script>
 
 
