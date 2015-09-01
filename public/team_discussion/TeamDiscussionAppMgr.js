@@ -277,3 +277,31 @@ TeamDiscussAppMgr.prototype.retrieve_updated_element = function(){
 
   return;
 }
+
+
+
+TeamDiscussAppMgr.prototype.add_edit_status = function(in_id, in_type){
+  var self = this;
+  self.own_edit_status = "editing";
+  self.own_edit_element = in_id + "_" + in_type;
+  var obj_id = in_id + "_" + in_type;
+  var user_obj = {id:obj_id,taem:global_team_side, hangout_id:global_own_hangout_id };
+  console.log(user_obj);
+  var new_edit_status_obj = new Object();
+  var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
+    if(current_edit_status_obj){
+      new_edit_status_obj = JSON.parse(current_edit_status_obj);
+    }
+    new_edit_status_obj[global_own_parse_id] = user_obj;
+  var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
+    var edit_status_counter = get_hangout_edit_status_counter();
+    edit_status_counter++;
+    edit_status_counter_str = String(edit_status_counter);
+  gapi.hangout.data.submitDelta({
+    "edit_status":new_edit_status_obj_str,
+    "edit_status_counter":edit_status_counter_str
+  });
+}
+
+
+

@@ -18,7 +18,7 @@ function Argument_VM(){
 //  	self.title_input_visible = ko.observable(false);
   	self.title_input = ko.observable();
   	self.isTitleTextboxFocused = ko.observable(false); 
-  	self.is_default_TextboxFocused = ko.observable(false); 
+  	self.is_default_TitleTextboxFocused = ko.observable(false); 
 
 
   	self.visible_title_textbox_default = ko.observable();
@@ -52,10 +52,10 @@ function Argument_VM(){
   	self.arg_id = null;
 
 
-  	self.is_default_TextboxFocused.subscribe( function(focused) {
+  	self.is_default_TitleTextboxFocused.subscribe( function(focused) {
 	   if (focused) {
 	   		console.log("default title textbox focused");
-			self.add_title_edit_status();
+			team_discussion_appmgr.add_edit_status(self.arg_id, "title");
 		}
 	});
 
@@ -426,10 +426,7 @@ Argument_VM.prototype.show_main_content = function(){
 	console.log("arg id is " + self.arg_id);
 	console.log("content visible = " + self.main_content_visible());
 	console.log("input visible = " + self.main_input_visible());
-
 }
-
-
 
 Argument_VM.prototype.click_title_edit = function(){
 
@@ -447,40 +444,7 @@ Argument_VM.prototype.click_title_edit = function(){
   	self.visible_button_title_cancel(true);
   	self.visible_button_title_edit(false);
 
-	self.add_title_edit_status();
-}
-
-Argument_VM.prototype.add_title_edit_status = function(){
-
-	var self = this;
-
-	team_discussion_appmgr.own_edit_status = "editing";
-	team_discussion_appmgr.own_edit_element = self.arg_id + "_title";
-
-	var obj_id = self.arg_id + "_title";
-	var user_obj = {id:obj_id,taem:global_team_side, hangout_id:global_own_hangout_id };
-	console.log(user_obj);
-//	var own_edit_status_obj = eval("{" + global_own_parse_id + ":" + user_obj + "};" );
-
-	var new_edit_status_obj = new Object();
-	var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
-    if(current_edit_status_obj){
-    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
-    }
-
-    new_edit_status_obj[global_own_parse_id] = user_obj;
-	var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
-	console.log("new edit status " + new_edit_status_obj)
-    var edit_status_counter = get_hangout_edit_status_counter();
-    edit_status_counter++;
-    edit_status_counter_str = String(edit_status_counter);
-    console.log("edit status counter is " + edit_status_counter);
-
-	gapi.hangout.data.submitDelta({
-		"edit_status":new_edit_status_obj_str,
-		"edit_status_counter":edit_status_counter_str
-	});
-
+	team_discussion_appmgr.add_edit_status(self.arg_id, "title");
 }
 
 Argument_VM.prototype.click_main_edit = function(){
