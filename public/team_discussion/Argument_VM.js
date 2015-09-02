@@ -9,9 +9,7 @@ function Argument_VM(){
 	self.refute_list = new Array();
 	self.comment_list = new Array();
 
-	self.main_editor = null;
 	self.title_editor = null;
-
 	self.title_count = -1;
 //  	self.title_content_visible = ko.observable(false);
   	self.title_content = ko.observable(""); 
@@ -19,7 +17,6 @@ function Argument_VM(){
   	self.title_input = ko.observable();
   	self.isTitleTextboxFocused = ko.observable(false); 
   	self.is_default_TitleTextboxFocused = ko.observable(false); 
-
 
   	self.visible_title_textbox_default = ko.observable();
   	self.visible_title_textbox_written = ko.observable();
@@ -30,16 +27,30 @@ function Argument_VM(){
   	self.visible_button_title_save = ko.observable();
   	self.visible_button_title_cancel = ko.observable();
   	self.visible_button_title_edit = ko.observable();
-
   	self.visible_editing_icon = ko.observable(false);
 
+	self.main_editor = null;
 	self.main_count = -1;
-  	self.main_content_visible = ko.observable(false); 
+  	// self.main_content_visible = ko.observable(false); 
   	self.main_content = ko.observable(""); 
-  	self.main_input_visible = ko.observable(false); 
+  	// self.main_input_visible = ko.observable(false); 
   	self.main_input = ko.observable();
-
   	self.isMainTextboxFocused = ko.observable(false);
+  	self.is_default_MainTextboxFocused = ko.observable(false);
+
+  	self.visible_MainArg_textbox_default = ko.observable();
+  	self.visible_MainArg_textbox_written = ko.observable();
+  	self.visible_MainArg_textbox_edit = ko.observable();
+  	self.visible_editor_MainArg_profile = ko.observable();
+  	self.editor_MainArg_pict_src = ko.observable();
+  	self.editor_MainArg_name = ko.observable();
+  	self.visible_button_MainArg_save = ko.observable();
+  	self.visible_button_MainArg_cancel = ko.observable();
+  	self.visible_button_MainArg_edit = ko.observable();
+  	self.visible_MainArg_editing_icon = ko.observable(false);
+
+
+
 	self.main_link_array = ko.observableArray();
   	self.main_link_input = ko.observable("http://");
 
@@ -56,6 +67,13 @@ function Argument_VM(){
 	   if (focused) {
 	   		console.log("default title textbox focused");
 			team_discussion_appmgr.add_edit_status(self.arg_id, "title");
+		}
+	});
+
+	self.is_default_MainTextboxFocused.subscribe( function(focused) {
+	   if (focused) {
+	   		console.log("main textbox focused");
+			team_discussion_appmgr.add_edit_status(self.arg_id, "main");
 		}
 	});
 
@@ -397,35 +415,110 @@ Argument_VM.prototype.show_title = function(){
 Argument_VM.prototype.show_main_content = function(){
 	var self = this;
 	var content = self.argument_obj.get("main_content");
-	var MainCounter = self.argument_obj.get("main_count");
-
+	var convert_context = null;
 	if(content){
   		convert_context = add_linebreak_html(content);
-		self.main_content(convert_context);
-		if(self.main_count != MainCounter){
-			self.main_content_visible(true);
-			self.main_input_visible(false);
+  	}
+	var MainCounter = self.argument_obj.get("main_count");
+	var others_under_editing = false;
 
-
-////////////counter managmenet////
-		    var parse_id =  self.argument_obj.id;
-		    var obj_type = "main";
-		    var counter_obj = {type:obj_type, count:MainCounter};
-			team_discussion_appmgr.element_counter[parse_id + "_main"] = counter_obj;
-////////////counter managmenet////
-
-
-		}
-	}else{
-		self.main_content_visible(false);
-		self.main_input_visible(true);
+	if(self.main_editor && self.main_editor!=global_own_parse_id ){
+		others_under_editing = true;
 	}
-	self.main_count = MainCounter;
 
-	console.log("show main content");
-	console.log("arg id is " + self.arg_id);
-	console.log("content visible = " + self.main_content_visible());
-	console.log("input visible = " + self.main_input_visible());
+	var own_edit_status =  team_discussion_appmgr.own_edit_status;
+	var own_edit_element =  team_discussion_appmgr.own_edit_element;
+	var under_editing_this_element = false;
+	var element_edit_param =  self.arg_id + "_main";;
+	if(element_edit_param == own_edit_element){
+		under_editing_this_element = true;
+	}
+
+/***** main content box *****/	
+	if(under_editing_this_element){
+		//do not change anything
+	}else{
+		if(own_edit_status == "default" && !content && !others_under_editing){
+			console.log("show default text box for arg context");
+			self.visible_MainArg_textbox_default(true);
+			self.visible_MainArg_textbox_written(false);
+			self.visible_MainArg_textbox_edit(false);
+			self.main_content(convert_context);
+			self.main_input(convert_context);
+		}else{
+			self.visible_MainArg_textbox_default(false);
+			self.visible_MainArg_textbox_written(true);
+			self.visible_MainArg_textbox_edit(false);
+			self.main_content(convert_context);
+			self.main_input(convert_context);
+		}
+	}
+
+/***** editor picture  *****/
+
+	if(self.main_editor){
+		console.log("main editor exist");
+		var editor_profile = team_discussion_appmgr.participant_mgr_obj.get_user_profile(self.main_editor);
+		if(editor_profile){
+			console.log("show profile");
+			self.editor_MainArg_pict_src(editor_profile.pict_src); 
+			self.editor_MainArg_name(editor_profile.first_name);
+			self.visible_editor_MainArg_profile(true);
+		}
+		self.visible_MainArg_editing_icon(true)
+	}else{
+		self.editor_MainArg_pict_src(null);
+		self.editor_MainArg_name(null);
+		self.visible_editor_MainArg_profile(false);
+		self.visible_MainArg_editing_icon(false)
+	}
+
+/***** main content button *****/	
+	if(under_editing_this_element){
+		//do not change anything
+	}else{
+		if( others_under_editing){
+			self.visible_button_MainArg_save(false);
+			self.visible_button_MainArg_cancel(false);
+			self.visible_button_MainArg_edit(false);
+		}else{
+			switch(own_edit_status){
+			case "default":
+				if(content){
+					self.visible_button_MainArg_save(false);
+					self.visible_button_MainArg_cancel(false);
+					self.visible_button_MainArg_edit(true);
+				}else{
+					self.visible_button_MainArg_save(true);
+					self.visible_button_MainArg_cancel(false);
+					self.visible_button_MainArg_edit(false);
+				}
+			break;
+			case "editing":
+				self.visible_button_MainArg_save(false);
+				self.visible_button_MainArg_cancel(false);
+				self.visible_button_MainArg_edit(false);
+
+			break;
+			case "pending":
+				self.visible_button_MainArg_save(false);
+				self.visible_button_MainArg_cancel(false);
+				self.visible_button_MainArg_edit(true);
+			break;
+			}
+		}
+	}
+
+////////////counter managmenet////
+	if(self.main_count != MainCounter){
+	    var parse_id =  self.argument_obj.id;
+	    var obj_type = "main";
+	    var counter_obj = {type:obj_type, count:MainCounter};
+		team_discussion_appmgr.element_counter[parse_id + "_main"] = counter_obj;
+		self.main_count = MainCounter;
+	}
+////////////counter managmenet////
+
 }
 
 Argument_VM.prototype.click_title_edit = function(){
@@ -451,13 +544,19 @@ Argument_VM.prototype.click_main_edit = function(){
 
 
 	var self = this;
+/** appearance change **/
 	content = self.argument_obj.get("main_content");
-
-	self.main_content_visible(false);
-	self.main_input_visible(true);
 	self.main_input(content);
+	self.visible_MainArg_textbox_default(false);
+	self.visible_MainArg_textbox_written(false);
+	self.visible_MainArg_textbox_edit(true);
 	self.isMainTextboxFocused(true);
 
+  	self.visible_button_MainArg_save(true);
+  	self.visible_button_MainArg_cancel(true);
+  	self.visible_button_MainArg_edit(false);
+
+	team_discussion_appmgr.add_edit_status(self.arg_id, "main");
 }
 
 
@@ -574,6 +673,26 @@ Argument_VM.prototype.click_main_save = function(){
 
 ////////////counter managmenet////
 
+/*edit status management*/
+		team_discussion_appmgr.own_edit_status = "pending";
+		team_discussion_appmgr.own_edit_element = null;
+		self.title_editor = null;
+
+		var new_edit_status_obj = new Object();
+		var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
+	    if(current_edit_status_obj){
+	    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
+	    }
+	    delete new_edit_status_obj[global_own_parse_id];
+		var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
+	    var edit_status_counter = get_hangout_edit_status_counter();
+	    edit_status_counter++;
+	    edit_status_counter_str = String(edit_status_counter);
+	    var hangout_status_obj_MainArg = new_counter_obj;
+	    hangout_status_obj_MainArg["edit_status"] = new_edit_status_obj_str;
+	    hangout_status_obj_MainArg["edit_status_counter"] = edit_status_counter_str;
+
+		gapi.hangout.data.submitDelta( hangout_status_obj_MainArg);
 
 	  },
 	  error: function(obj, error) {
@@ -669,10 +788,25 @@ Argument_VM.prototype.click_title_cancel = function(){
 
 Argument_VM.prototype.click_main_cancel = function(){
 	var self = this;
+	team_discussion_appmgr.own_edit_status = "pending";
+	team_discussion_appmgr.own_edit_element = null;
 	self.show_main_content();
-	self.main_content_visible(true);
-	self.main_input_visible(false);
 
+	var new_edit_status_obj = new Object();
+	var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
+    if(current_edit_status_obj){
+    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
+    }
+    delete new_edit_status_obj[global_own_parse_id];
+	var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
+    var edit_status_counter = get_hangout_edit_status_counter();
+    edit_status_counter++;
+    edit_status_counter_str = String(edit_status_counter);
+
+	gapi.hangout.data.submitDelta({
+		"edit_status":new_edit_status_obj_str,
+		"edit_status_counter":edit_status_counter_str
+	});
 }
 
 Argument_VM.prototype.show_all_comment = function(){
@@ -748,7 +882,7 @@ Argument_VM.prototype.show_comment_input = function(){
 	var main_content = self.main_content();
 	var title = self.title_content();
 
-	if(main_content.length >1 && title.length >1){
+	if(main_content && title && main_content.length >1 && title.length >1){
 		self.comment_input_visible(true);
 	}else{
 		self.comment_input_visible(false);

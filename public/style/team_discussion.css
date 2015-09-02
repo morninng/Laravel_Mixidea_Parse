@@ -167,13 +167,28 @@ ul {
 	display:flex;
 	flex-direction:row;
 }
+.main_arg{
+	display:flex;
+	flex-direction:row;
+}
 .title_left{
+	
+}
+.MainArg_left{
 	
 }
 .title_right{
 	
 }
+.MainArg_right{
+	
+}
 .title_button{
+	display:flex;
+	flex-direction:row;
+	padding:10px;
+}
+.MainArg_button{
 	display:flex;
 	flex-direction:row;
 	padding:10px;
@@ -184,10 +199,18 @@ ul {
 	float: right;
 	padding-right:15px;
 }
+.MainArg_loading{
+	margin-left: auto;
+	text-align:right;
+	float: right;
+	padding-right:15px;
+}
 .editor_info{
 	padding-left:5px;
 }
-
+.MainArg_editor_info{
+	padding-left:5px;
+}
 .title_content{
 	margin-left:10px;
 	margin-right:10px;
@@ -204,6 +227,25 @@ ul {
 	display:inline-block;
 }
 
+.MainArg_Content{
+	margin-left:10px;
+	margin-right:10px;
+	min-width:150px;
+	max-width:450px;
+	text-align: left;
+	vertical-align:middle;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top:5px; 
+	padding-bottom:5px;
+	min-height: 200px;
+	min-width: 400px;
+	display:inline-block;
+	border-style: solid;
+	border-width: thin;
+	background-color: #FCF5F5;
+}
+
 .Title_Input_default{
 	margin-left:20px;
 	margin-right:20px;
@@ -214,10 +256,34 @@ ul {
 
 }
 
+.MainArgDefault_input{
+	margin-left:20px;
+	margin-right:20px;
+	min-width:300px;
+	max-width:450px;
+	min-height: 200px;
+	border-style: solid;
+	border-width: medium;
+	background-color: #FFFFFF;
+
+}
+
 .Title_Input_edit{
 	margin-left:20px;
 	margin-right:20px;
 	min-width:400px;
+	padding: 20px;
+	border-style: solid;
+	border-width: medium;
+	background-color: #FFFFFF;
+	border-color: #D3D3D3;
+}
+
+.MainArg_input_edit{
+	margin-left:20px;
+	margin-right:20px;
+	min-width:500px;
+	min-height: 400px;
 	padding: 20px;
 	border-style: solid;
 	border-width: medium;
