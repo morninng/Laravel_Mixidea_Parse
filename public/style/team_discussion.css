@@ -148,6 +148,21 @@ ul {
 	width:100%;
 }
 
+.comment_ul{
+  list-style: none;
+  margin-left: 10px;
+}
+
+.comment_list{
+	width:100%;
+	display:flex;
+	flex-direction:row;
+	border-style: solid;
+	border-width: thin;
+	background-color: #FCF5F5;
+	margin:3px;
+}
+
 .title{
 	display:flex;
 	flex-direction:row;
@@ -165,7 +180,14 @@ ul {
 }
 .MainArg_left{
 }
+.comment_left{
+	margin:10px;
+	width:50px;
+}
 .concept_left{
+	flex:1;
+}
+.comment_center{
 	flex:1;
 }
 .title_right{
@@ -174,8 +196,10 @@ ul {
 	width:200px;
 	padding:20px;
 }
-.MainArg_right{
-	
+.MainArg_right{	
+}
+.comment_right{
+	width:70px;
 }
 .Concept_button{
 	display:flex;
@@ -238,6 +262,8 @@ ul {
 	/*overflow-y:scroll;*/
 
 }
+
+
 .title_content{
 	margin-left:10px;
 	margin-right:10px;
@@ -253,6 +279,7 @@ ul {
 	min-height:2em;
 	display:inline-block;
 }
+
 
 .MainArg_Content{
 	margin-left:10px;
@@ -272,6 +299,13 @@ ul {
 	border-width: thin;
 	background-color: #FCF5F5;
 }
+
+.comment_txt{
+	margin:1px;
+	padding:5px;
+	width: 100%;
+}
+
 
 .Title_Input_default{
 	margin-left:20px;
@@ -327,6 +361,17 @@ ul {
 	background-color: #FFFFFF;
 	border-color: #D3D3D3;
 }
+.comment_edit_input{
+	margin:1px;
+	padding:5px;
+	width:100%;
+	min-height: 200px;
+	border-style: solid;
+	border-width: medium;
+	background-color: #FFFFFF;
+	border-color: #D3D3D3;
+}
+
 
 /*
 .link_Add_Input{

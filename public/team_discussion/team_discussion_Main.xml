@@ -190,21 +190,41 @@
         </div>
       </div>
 
+
+
       <div  class="comment">
-        <ul data-bind="foreach:comment_array">
-          <div data-bind="visible:comment_content_visible">
-            <div class="general_concept_txt"><div data-bind="html:comment_content"></div></div>
-            <div align="right"><button data-bind="event:{click: $parent.click_comment_edit}">edit</button></div>
-          </div>
-          <div data-bind="visible:comment_edit_visible">
-            <textarea class="argument_comment_input" data-bind="textInput: comment_edit, hasFocus: isCommentEditTextboxFocused"></textarea><br>
-            <div align="right">
-              <button data-bind="event:{click: $parent.click_comment_edit_save}">save</button>
-              <button data-bind="event:{click: $parent.click_comment_edit_cancel}">cancel</button>
+        <p>Comment</p>
+        <ul class="comment_ul" data-bind="foreach:comment_array">
+          <li class="comment_list">
+            <div class="comment_left">
+              <img  data-bind="attr: {src: author_pict_src}">
             </div>
-          </div>
+            <div class="comment_center">
+              <div data-bind="visible:comment_content_visible">
+                <div class="comment_txt"><strong><span data-bind="text:author_name"></span> : </strong><span data-bind="html:comment_content"></span></div>
+              </div>
+              <div data-bind="visible:comment_edit_visible">
+                <textarea class="comment_edit_input" data-bind="textInput: comment_edit, hasFocus: isCommentEditTextboxFocused"></textarea>
+              </div>
+            </div>
+            <div class="comment_right">
+              <div class="comment_button">
+                <div data-bind="visible:comment_edit_button_visible" >
+                  <button data-bind="event:{click: $parent.click_comment_edit}">edit</button>
+                </div>
+                <div data-bind="visible:comment_save_button_visible" >
+                  <button data-bind="event:{click: $parent.click_comment_edit_save}">save</button>
+                </div>
+                <div data-bind="visible:comment_cancel_button_visible" >
+                  <button data-bind="event:{click: $parent.click_comment_edit_cancel}">cancel</button>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
+
+
 
 
 

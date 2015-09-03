@@ -87,15 +87,23 @@ function Argument_VM(){
 			}
 		}
 		if(!isNaN(index)){
+
 			obj = {
-				 comment_id:self.comment_array()[index].comment_id,
-				 comment_content: self.comment_array()[index].comment_content,
-				 comment_edit: self.comment_array()[index].comment_content,
+				 comment_id:data.comment_id,
+				 comment_content: data.comment_content,
+				 comment_edit: data.comment_edit,
+
 				 comment_content_visible: true,
 				 comment_edit_visible: false,
-				 isCommentEditTextboxFocused: false
-				};
+				 comment_edit_button_visible:true,
+				 comment_save_button_visible:false,
+				 comment_cancel_button_visible: false,
+				 author_pict_src:data.author_pict_src,
+				 author_name:data.author_name,
 
+				 isCommentEditTextboxFocused: false,
+				 count:data.count
+				};
 			self.comment_array.splice(index,1,obj);
 		}
 
@@ -184,9 +192,17 @@ function Argument_VM(){
 				 comment_id:data.comment_id,
 				 comment_content: data.comment_content,
 				 comment_edit: data.comment_edit,
+
 				 comment_content_visible: false,
 				 comment_edit_visible: true,
-				 isCommentEditTextboxFocused: true
+				 comment_edit_button_visible:false,
+				 comment_save_button_visible:true,
+				 comment_cancel_button_visible: true,
+				 author_pict_src:data.author_pict_src,
+				 author_name:data.author_name,
+
+				 isCommentEditTextboxFocused: true,
+				 count:data.count
 				};
 
 			self.comment_array.splice(index,1,obj);
@@ -712,7 +728,7 @@ Argument_VM.prototype.click_comment_Add = function(){
 	comment_obj.set("type", "extension");
 	comment_obj.set("count", 0);
 	comment_obj.set("team", global_team_side);
-	comment_obj.addUnique("author", global_own_parse_id);
+	comment_obj.set("author", global_own_parse_id);
 	comment_obj.save(null, {
 	  success: function(obj) {
 	  	self.comment_input("");
@@ -820,35 +836,50 @@ Argument_VM.prototype.show_all_comment = function(){
 	    for (var i = 0; i < array.length; i++) {
 	      var retrieved_comment = array[i];
 	      var retrieved_comment_context = retrieved_comment.get("context");
-	      var retrieved_count = retrieved_comment.get("count");
-	      console.log("retrieved comment count is "+ retrieved_count);
-	      if(retrieved_comment_context){
-		      console.log(retrieved_comment_context);
-		      var comment_existed = false;
-
-		      var obj = {
-		      		/* comment_obj:comment, */
-		      		 comment_id:retrieved_comment.id,
-		      		 comment_content: retrieved_comment_context,
-		      		 comment_edit: retrieved_comment_context,
-		      		 comment_content_visible: true,
-		      		 comment_edit_visible: false,
-		      		 isCommentEditTextboxFocused: false,
-		      		 count: retrieved_count
-		      		};
-
-		      for(var j=0; j<self.comment_array().length; j++){
-		      	if(self.comment_array()[j].comment_id == retrieved_comment.id){
-					comment_existed = true;
-					if(self.comment_array()[j].count != retrieved_count){
-						self.comment_array.splice(j,1,obj);
-					}
-		      	}
-		      }
-		      if(!comment_existed){
-		      	self.comment_array.push(obj);
-		      }
+		  var converted_comment_context = null;
+		  if(retrieved_comment_context){
+		  	converted_comment_context = add_linebreak_html(retrieved_comment_context);
 		  }
+
+	      var retrieved_count = retrieved_comment.get("count");
+	      var is_author_yourself = false;
+
+	      var comment_author = retrieved_comment.get("author");
+		  var comment_author_profile = team_discussion_appmgr.participant_mgr_obj.get_user_profile(comment_author);
+		  var comment_author_pict_src = comment_author_profile.pict_src;
+		  var comment_author_name = comment_author_profile.first_name;
+		  if(comment_author == global_own_parse_id){
+		  	is_author_yourself = true;
+		  }
+	      var obj = {
+	      		 comment_id:retrieved_comment.id,
+	      		 comment_content: converted_comment_context,
+	      		 comment_edit: retrieved_comment_context,
+
+	      		 comment_content_visible: true,
+	      		 comment_edit_visible: false,
+	      		 comment_edit_button_visible: is_author_yourself,
+	      		 comment_save_button_visible: false,
+	      		 comment_cancel_button_visible: false,
+
+	      		 author_pict_src: comment_author_pict_src,
+	      		 author_name:comment_author_name,
+
+	      		 isCommentEditTextboxFocused: false,
+	      		 count: retrieved_count
+	      };
+	      var comment_existed = false;
+	      for(var j=0; j<self.comment_array().length; j++){
+	      	if(self.comment_array()[j].comment_id == retrieved_comment.id){
+				comment_existed = true;
+				if(self.comment_array()[j].count != retrieved_count){
+					self.comment_array.splice(j,1,obj);
+				}
+	      	}
+	      }
+	      if(!comment_existed){
+	      	self.comment_array.push(obj);
+	      }
 
 
 ////////////counter management ///////
