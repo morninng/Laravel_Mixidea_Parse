@@ -48,18 +48,54 @@
 
 
 <script type="text/template" data-template="general_concept_template">
-    <div id='Concept'>
+    <div class='Concept'>
       <p class="concept_title">General Concept</p>
-      <div data-bind="visible:content_visible">
-        <div class="general_concept_txt"><div data-bind="html:content_text"></div></div>
-        <div align="right"><button   data-bind="click:click_edit_concept">edit</button></div>
-      </div>
-      <div data-bind="visible:input_visible">
-         <textarea class="general_concept_input" data-bind="textInput: content_text_input, hasFocus: isTextboxFocused"></textarea><br>
-         <div align="right"><button data-bind="click:click_save_concept">save</button></div>
+      <div class="concept_container">
+        <div class="concept_left">
+          <div>Content</div>
+          <div class="concept_text_container" data-bind="visible:visible_Concept_textbox_default">
+           <textarea class="general_concept_input" placeholder="input social background for your arguments, definition or teamstance should also be written here" data-bind="textInput: content_text_input, hasFocus: is_default_TextboxFocused"></textarea>
+          </div>
+          <div class="concept_text_container" data-bind="visible:visible_Concept_textbox_written">
+            <div class="general_concept_txt" data-bind="html:content_text"></div>
+          </div>
+          <div class="concept_text_container" data-bind="visible:visible_Concept_textbox_edit">
+            <textarea class="general_concept_input"  data-bind="textInput: content_text_input, hasFocus: isTextboxFocused"></textarea>
+          </div>
+        </div>
+        <div class="concept_right">
+          <div class="Concept_editor_info">
+            <div data-bind="visible:visible_editor_Concept_profile">
+              <img  data-bind="attr: {src: editor_Concept_pict_src}"><br>
+              <span data-bind="text:editor_Concept_name"></span>
+            </div>
+          </div>
+          <div class="Concept_button">
+            <div data-bind="visible:visible_button_Concept_save">
+              <button data-bind="click:click_save_concept">save</button>
+            </div>
+            <div data-bind="visible:visible_button_Concept_cancel">
+              <button data-bind="click:click_cancel_concept">cancel</button>
+            </div>
+            <div data-bind="visible:visible_button_Concept_edit">
+              <button data-bind="click:click_edit_concept">edit</button>
+            </div>
+          </div>
+          <div class="Concept_loading" >
+            <div data-bind="visible:visible_Concept_editing_icon" class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+              <div class="bounce4"></div>
+              <div class="bounce5"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 </script>
+
+
 
 
 <script type="text/template" data-template="argument_template">

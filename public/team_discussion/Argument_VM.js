@@ -634,7 +634,6 @@ Argument_VM.prototype.click_title_save = function(){
 
 Argument_VM.prototype.click_main_save = function(){
 
-
 	var self = this;
 
 	var context = self.main_input();
@@ -677,7 +676,6 @@ Argument_VM.prototype.click_main_save = function(){
 		team_discussion_appmgr.own_edit_status = "pending";
 		team_discussion_appmgr.own_edit_element = null;
 		self.title_editor = null;
-
 		var new_edit_status_obj = new Object();
 		var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
 	    if(current_edit_status_obj){
@@ -691,7 +689,6 @@ Argument_VM.prototype.click_main_save = function(){
 	    var hangout_status_obj_MainArg = new_counter_obj;
 	    hangout_status_obj_MainArg["edit_status"] = new_edit_status_obj_str;
 	    hangout_status_obj_MainArg["edit_status_counter"] = edit_status_counter_str;
-
 		gapi.hangout.data.submitDelta( hangout_status_obj_MainArg);
 
 	  },

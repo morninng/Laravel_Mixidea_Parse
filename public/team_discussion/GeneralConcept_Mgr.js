@@ -52,6 +52,14 @@ GeneralConcept_Mgr.prototype.update = function(){
 
 }
 
+GeneralConcept_Mgr.prototype.update_edit_status = function(){
+	var self = this;
+
+	self.general_concept_vm.update_edit_status();
+	self.general_concept_vm.show_concept();
+}
+
+
 GeneralConcept_Mgr.prototype.ApplyTemplate = function(){
 
 

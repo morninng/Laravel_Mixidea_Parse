@@ -190,7 +190,7 @@ TeamDiscussAppMgr.prototype.update_edit_status = function(){
 
   if(self.edit_status_counter != edit_status_counter){
     self.argument_mgr.update_edit_status();
-   // self.general_concept_mgr.update_edit_status();
+    self.general_concept_mgr.update_edit_status();
   }
   
 
