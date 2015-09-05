@@ -1,0 +1,81 @@
+<html>
+<head>  </head>
+<body>
+
+
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+
+
+<script>
+
+ var parse_app_id = "EWPPdrDVaAIqhRazWp8K0ZlmafAAPt93JiOAonvX";
+ var parse_js_key = "US6Lheio8PGcBdIpwGFhFSQVpi5GKunGf6hGq5Ze";
+ Parse.initialize(parse_app_id, parse_js_key);
+
+ var global_own_parse_id = "c8CUKLqLxt";
+ var global_debate_game_id = "n34vwlQZTC";
+ var global_team_side = "Gov";
+
+var req_obj = new Object();
+req_obj["team"] = global_team_side;
+req_obj["game_id"] = global_debate_game_id;
+//imitate_AddArguments(req_obj);
+
+Parse.Cloud.run('initial_AddArgument', req_obj, {
+  success: function(game_obj) {
+	  var param = global_team_side + "_argument"
+	  var arguments_array = game_obj.get(param);
+	  console.log(arguments_array);
+  },
+  error: function(error) {
+  }
+});
+
+
+function imitate_AddArguments (req_obj){
+	var game_id = req_obj.game_id;
+	var team_name = req_obj.team;
+
+	var Game = Parse.Object.extend("Game");
+	var game_query = new Parse.Query(Game);
+	game_query.get(game_id, {
+	  success: function(game_obj) {
+	  	var param = team_name + "_argument"
+	  	var argument_obj_array = game_obj.get(param);
+	  	if(argument_obj_array){
+	  		console.log("arguments already exist");
+	  		console.log(argument_obj_array);
+	  		return;
+	  	}
+		var Argument = Parse.Object.extend("Argument");
+		var argument_obj_1 = new Argument();
+		argument_obj_1.set("main_count",0);
+		argument_obj_1.set("title_count",0);
+		var argument_obj_2 = new Argument();
+		argument_obj_2.set("main_count",0);
+		argument_obj_2.set("title_count",0);
+		var param_name = team_name + "_argument";
+		game_obj.add(param_name, argument_obj_1);
+		game_obj.add(param_name, argument_obj_2);
+		game_obj.save().then(
+			function(obj){
+				console.log("arguments has been created");
+				console.log(argument_obj_1.id);
+				console.log(argument_obj_2.id);
+			},
+			function(error) {
+				console.log("arguments initialization failed");
+				console.log(error);
+			}
+		);
+	  },
+	  error: function(object, error) {
+		console.log("general concept initialization failed" + error);
+	    
+	  }
+	});
+}
+</script>
+
+</body>
+</html>

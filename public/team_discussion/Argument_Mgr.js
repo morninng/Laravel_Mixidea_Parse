@@ -15,6 +15,8 @@ Argument_Mgr.prototype.create_argument = function(){
 
 	var self = this;
 
+
+
 	var Argument = Parse.Object.extend("Argument");
 	var argument_obj_1 = new Argument();
 	argument_obj_1.set("main_count",0);
@@ -76,7 +78,26 @@ Argument_Mgr.prototype.initialize = function(argument_obj_array, team_side, curr
 			self.ApplyTemplate(argument_obj_array[i], argument_obj_array[i].id, i);
 		}
 	}else{
-		self.create_argument();
+		//self.create_argument();
+
+		var req_obj = new Object();
+		req_obj["team"] = global_team_side;
+		req_obj["game_id"] = global_debate_game_id;
+
+		Parse.Cloud.run('initial_AddArgument', req_obj, {
+		  success: function(game_obj) {
+			var param = global_team_side + "_argument"
+			var arguments_array = game_obj.get(param);
+			team_discussion_appmgr.actual_game_obj = game_obj;
+			team_discussion_appmgr.update_argument_from_server();
+		  },
+		  error: function(error) {
+		  	  console.log(error);
+		  }
+		});
+
+
+
 	}
 
 }
