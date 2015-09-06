@@ -250,7 +250,7 @@ Set_Hangout_obj_inGameObj.prototype.set_each_object = function(hangout_id_array,
         return null;
       }
       self.hangout_obj["main"] = hangout_id_array[0].get("HangoutID");
-      self.hangout_obj["Prop"] = hangout_id_array[1].get("HangoutID");
+      self.hangout_obj["Gov"] = hangout_id_array[1].get("HangoutID");
       self.hangout_obj["Opp"] = hangout_id_array[2].get("HangoutID");
      break;
     case "BP":

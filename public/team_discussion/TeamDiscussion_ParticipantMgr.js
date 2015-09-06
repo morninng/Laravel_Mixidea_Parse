@@ -11,7 +11,6 @@ function TeamDiscussion_ParticipantMgr(){
 TeamDiscussion_ParticipantMgr.prototype.update = function(){
 
 	var self = this;
-
 	console.log("participant manager update");
 
 	self.own_parse_id = global_own_parse_id;

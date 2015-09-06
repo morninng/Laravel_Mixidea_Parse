@@ -27,24 +27,12 @@ function Game_Status_Mgr(){
 
 Game_Status_Mgr.prototype.initialize = function(){
 	var self = this;
-	var game_id = appmgr.game_id;
 
-	var Game = Parse.Object.extend("Game");
-	var game_query = new Parse.Query(Game);
-	game_query.get(game_id, {
-	  success: function(obj) {
-	  	self.actual_game_obj = obj;
-	    var status_num = self.actual_game_obj.get("game_status");
-	    if(!status_num){
-	    	status_num = "introduction";
-	    }
-		self.apply_status(status_num);
-	  },
-	  error: function(object, error) {
-	  	console.log("error");
-	  }
-	});
 
+	var status_num = appmgr.actual_game_obj.get("game_status");
+	if(!status_num){
+	    status_num = "introduction";
+	}
 }
 
 
@@ -83,20 +71,32 @@ Game_Status_Mgr.prototype.update_server_status = function(str_status) {
 
 	if(str_status == "preparation"){
 		var prep_start_time = new Date();
-		self.actual_game_obj.set("prep_start_time", prep_start_time);
+		appmgr.actual_game_obj.set("prep_start_time", prep_start_time);
 	}
 
-	self.actual_game_obj.set("game_status", str_status);
-	self.actual_game_obj.save(null, {
+	appmgr.actual_game_obj.set("game_status", str_status);
+	appmgr.actual_game_obj.save(null, {
 	  success: function(obj) {
-
-	  	self.actual_game_obj = obj;
+	  	/*
 	  	var counter = get_game_status_counter();
 	  	counter++;
 	  	var counter_str = String(counter);
 		gapi.hangout.data.submitDelta({
 		   "game_status_counter":counter_str
+		});*/
+
+		var parse_data_counter = get_parse_data_changed_counter();
+		if(!parse_data_counter){
+			parse_data_counter = 0;
+		}
+		parse_data_counter++;
+		parse_data_counter_str = String(parse_data_counter);
+	    gapi.hangout.data.submitDelta({
+		        "parse_data_changed_counter":parse_data_counter_str
 		});
+
+
+
 
 	  },
 	  error: function(obj, error) {
@@ -110,18 +110,8 @@ Game_Status_Mgr.prototype.update_server_status = function(str_status) {
 Game_Status_Mgr.prototype.apply_updated_status = function() {
 	var self = this;
 
-	self.actual_game_obj.fetch({
-	  success: function(obj) {
-	    self.actual_game_obj = obj;
-	    var status_num = self.actual_game_obj.get("game_status");
-	    self.apply_status(status_num);
-	  },
-	  error: function(error_obj, error) {
-	    console.log("error");
-	  }
-	});
-
-
+	var status_num = appmgr.actual_game_obj.get("game_status");
+	self.apply_status(status_num);
 }
 
 
@@ -143,7 +133,7 @@ Game_Status_Mgr.prototype.apply_status = function(status_num) {
 		case "preparation":
 		self.indicate_class_preparation("game_status_indicate_focusued");
 		self.game_status_message("under preparation");
-		var start_time = self.actual_game_obj.get("prep_start_time");
+		var start_time = appmgr.actual_game_obj.get("prep_start_time");
 		console.log(start_time);
 		self.count_timer_start(start_time);
 		appmgr.chat_view_model.visible_hangout_button();

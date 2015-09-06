@@ -2,22 +2,41 @@
 function ParticipantMgr(){
 
 	var self = this;
-	self.debater_obj_array = new Array();
+	self.debater_obj = new Object();
 	self.audience_obj_array = new Array();
+	self.participants_obj = new Object();
 	self.game_style = null;
-	self.own_parse_id = null;
-	self.own_hangout_id = null;
 	self.parse_hangout_idmapping_array = new Object();
 }
 
-ParticipantMgr.prototype.initialize = function(game_obj, parse_user_id, hangout_id){
+ParticipantMgr.prototype.initialize = function(actual_game_obj, parse_user_id, hangout_id){
 
 	var self = this;
-	self.debater_obj_array = game_obj.debater_data_array;
-	self.audience_obj_array = game_obj.audience_data_array;
-	self.game_style = game_obj.game_style;
-	self.own_parse_id = parse_user_id;
-	self.own_hangout_id = hangout_id;
+
+	var participants_array = appmgr.actual_game_obj.get("participants");
+	if(participants_array){
+		for(var i=0; i< participants_array.length; i++){
+			var parse_id = participants_array[i].id;
+			var FirstName = participants_array[i].get("FirstName");
+			var LastName = participants_array[i].get("LastName");
+			var src = participants_array[i].get("Profile_picture");
+			var obj = {first_name:FirstName, last_name:LastName, pict_src:src };
+			self.participants_obj[parse_id] = obj
+		}
+	}
+	self.debater_obj = appmgr.actual_game_obj.get("participant_role");
+	audience_parseid_array = appmgr.actual_game_obj.get("audience_participants");
+
+	if(audience_parseid_array){
+		for(var i=0; i< audience_parseid_array.length; i++){
+			var num =i+1;
+		    eval("var role_name = 'audience" + num + "'");
+		    var user_parse_id = audience_parseid_array[i];
+		    self.audience_obj_array.push({ role:role_name, parse_id:user_parse_id });
+		}
+	}
+	self.game_style = appmgr.actual_game_obj.get("style");
+
 	self.update_hangout_participants();
 	self.setGameData();
 	self.participant_table = new ParticipantTableMgr(self.game_style);
@@ -29,8 +48,7 @@ ParticipantMgr.prototype.is_your_own_hangoutid = function(in_hangout_id){
 	if(!in_hangout_id){
 		return false;
 	}
-
-	if(in_hangout_id == self.own_hangout_id){
+	if(in_hangout_id == get_own_hangout_id()){
 		return true;
 	}
 	return false;
@@ -62,19 +80,48 @@ ParticipantMgr.prototype.get_own_group_name = function( ){
 
 	var self = this;
 
-	own_role_array = new Array();
-	own_role_array = self.get_own_role_array();
-	
+	var own_role_array = new Array();
+	own_role_array = self.get_role_array_fromParseID(global_own_parse_id);
+
 	own_group = self.getRoleGroup(own_role_array[0]);
 
 	return own_group;
 }
 
-ParticipantMgr.prototype.update_parse_data = function(game_obj ){
+ParticipantMgr.prototype.update_parse_data = function( ){
 
 	var self = this;
-	self.debater_obj_array = game_obj.debater_data_array;
-	self.audience_obj_array = game_obj.audience_data_array;
+
+	var participants_array = appmgr.actual_game_obj.get("participants");
+	if(participants_array){
+		for(var i=0; i< participants_array.length; i++){
+			var parse_id = participants_array[i].id;
+			var FirstName = participants_array[i].get("FirstName");
+			var LastName = participants_array[i].get("LastName");
+			var src = participants_array[i].get("Profile_picture");
+			var obj = {first_name:FirstName, last_name:LastName, pict_src:src };
+			self.participants_obj[parse_id] = obj
+		}
+	}
+	self.debater_obj = appmgr.actual_game_obj.get("participant_role");
+
+
+
+	audience_parseid_array = appmgr.actual_game_obj.get("audience_participants");
+	self.audience_obj_array.length=0;
+	if(audience_parseid_array){
+		for(var i=0; i<audience_parseid_array.length; i++){
+			var num =i+1;
+		    eval("var role_name = 'audience" + num + "'");
+		    var user_parse_id = audience_parseid_array[i];
+		    self.audience_obj_array.push({ role:role_name, parse_id:user_parse_id });
+		}
+	}
+
+
+
+	self.game_style = appmgr.actual_game_obj.get("style");
+
 	self.participant_table.UpdateUserObjAll();
 
 }
@@ -122,9 +169,6 @@ ParticipantMgr.prototype.set_parseid_hangoutid_mapping = function(parse_hangout_
 }
 */
 
-ParticipantMgr.prototype.refresh_serverdata = function(game_id){
-	
-}
 
 ParticipantMgr.prototype.setGameData = function(){
 
@@ -156,25 +200,33 @@ ParticipantMgr.prototype.get_all_rolename_array = function(){
 }
 
 
+ParticipantMgr.prototype.get_role_array_fromParseID = function(parse_id){
+
+	var self = this;
+
+	var role_array = new Array();
+
+	for(key in self.debater_obj){
+		if(self.debater_obj[key] == parse_id){
+	  		role_array.push(key);
+		}
+	}
+	for(var i=0; i< self.audience_obj_array.length; i++){
+	  if(self.audience_obj_array[i].parse_id == parse_id){
+	    role_array.push(self.audience_obj_array[i].role)
+	  }
+	}
+	return role_array;
+}
+
+
 ParticipantMgr.prototype.get_role_array = function(hangout_id){
 
 	var self = this;
 
 	var parse_id = self.getParseID_fromHangoutID(hangout_id);
-	var role_array = new Array();
 
-	for(var i=0; i< self.debater_obj_array.length; i++){
-	  if(self.debater_obj_array[i].parse_id == parse_id){
-	    role_array.push(self.debater_obj_array[i].role)
-	  }
-	}
-	for(var i=0; i< self.audience_obj_array; i++){
-	  if(self.audience_obj_array[i].parse_id == parse_id){
-	    role_array.push(self.audience_obj_array[i].role)
-	  }
-	}
-	
-	return role_array;
+	return self.get_role_array_fromParseID(parse_id);
 
 }
 
@@ -190,7 +242,7 @@ ParticipantMgr.prototype.get_own_role_array = function(){
 	var self = this;
 	var role_array = new Array();
 	
-	role_array = self.get_role_array(self.own_hangout_id);
+	role_array = self.get_role_array_fromParseID(global_own_parse_id);
 	return role_array;
 }
 
@@ -198,18 +250,9 @@ ParticipantMgr.prototype.get_own_role_array = function(){
 ParticipantMgr.prototype.getFirstName_fromParseID = function(parse_id){
 
 	var self = this;
-
-	for( var i=0; i<self.debater_obj_array.length; i++){
-		if(self.debater_obj_array[i].parse_id == parse_id){
-			var name = self.debater_obj_array[i].first_name;
-			return name;
-		}
-	}
-	for( var i=0; i<self.audience_obj_array.length; i++){
-		if(self.audience_obj_array[i].parse_id == parse_id){
-			var name = self.audience_obj_array[i].first_name;
-			return name;
-		}
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		return profile.first_name;
 	}
 	return null;
 
@@ -219,18 +262,9 @@ ParticipantMgr.prototype.getFirstName_fromHangoutID = function(hangout_id){
 
 	var self = this;
 	var parse_id = self.getParseID_fromHangoutID(hangout_id);
-
-	for( var i=0; i<self.debater_obj_array.length; i++){
-		if(self.debater_obj_array[i].parse_id == parse_id){
-			var name = self.debater_obj_array[i].first_name;
-			return name;
-		}
-	}
-	for( var i=0; i<self.audience_obj_array.length; i++){
-		if(self.audience_obj_array[i].parse_id == parse_id){
-			var name = self.audience_obj_array[i].first_name;
-			return name;
-		}
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		return profile.first_name;
 	}
 	return null;
 }
@@ -240,18 +274,10 @@ ParticipantMgr.prototype.getName_fromHangoutID = function(hangout_id){
 
 	var self = this;
 	var parse_id = self.getParseID_fromHangoutID(hangout_id);
-
-	for( var i=0; i<self.debater_obj_array.length; i++){
-		if(self.debater_obj_array[i].parse_id == parse_id){
-			var name = self.debater_obj_array[i].first_name + " " + self.debater_obj_array[i].last_name;
-			return name;
-		}
-	}
-	for( var i=0; i<self.audience_obj_array.length; i++){
-		if(self.audience_obj_array[i].parse_id == parse_id){
-			var name = self.audience_obj_array[i].first_name + " " + self.audience_obj_array[i].last_name;
-			return name;
-		}
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		var full_name = profile.first_name + profile.last_name;
+		return full_name;
 	}
 	return null;
 }
@@ -260,18 +286,9 @@ ParticipantMgr.prototype.getPictSrc_fromHangoutID = function(hangout_id){
 
 	var self = this;
 	var parse_id = self.getParseID_fromHangoutID(hangout_id);
-
-	for( var i=0; i<self.debater_obj_array.length; i++){
-		if(self.debater_obj_array[i].parse_id == parse_id){
-			var pict_src = self.debater_obj_array[i].pict_src;
-			return pict_src;
-		}
-	}
-	for( var i=0; i<self.audience_obj_array.length; i++){
-		if(self.audience_obj_array[i].parse_id == parse_id){
-			var pict_src = self.audience_obj_array[i].pict_src;
-			return pict_src;
-		}
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		return profile.pict_src;
 	}
 	return null;
 }
@@ -328,7 +345,7 @@ ParticipantMgr.prototype.isAudience_yourself = function(){
 
 	var self = this;
 	for(var i=0; i< self.audience_obj_array.length; i++){
-	  if(self.audience_obj_array[i].parse_id == self.own_parse_id){
+	  if(self.audience_obj_array[i].parse_id == global_own_parse_id){
 	    return true;
 	  }
 	}
@@ -340,26 +357,22 @@ ParticipantMgr.prototype.isDebater_yourself = function(){
 
 	var self = this;
 
-	for(var i=0; i< self.debater_obj_array.length; i++){
-	  if(self.debater_obj_array[i].parse_id == self.own_parse_id ){
-	  	return true;
-	  }
+	for(key in self.debater_obj){
+		if(self.debater_obj[key] == global_own_parse_id){
+	  		return true;	
+		}
 	}
+
 	return false;	
 }
 
 ParticipantMgr.prototype.getUserPictureSrc = function(role_name){
 
 	var self = this;
-	for(var i=0; i< self.debater_obj_array.length; i++){
-	  if(self.debater_obj_array[i].role == role_name){
-	    return self.debater_obj_array[i].pict_src;
-	  }
-	}
-	for(var i=0; i <self.audience_obj_array.length; i++){
-	  if(self.audience_obj_array[i].role == role_name){
-	    return self.audience_obj_array[i].pict_src;
-	  }
+	var parse_id = self.getParseID_fromRole(role_name)
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		return profile.pict_src;
 	}
 	return null;
 }
@@ -367,15 +380,10 @@ ParticipantMgr.prototype.getUserPictureSrc = function(role_name){
 ParticipantMgr.prototype.getUserFirstName = function(role_name){
 
 	var self = this;
-	for(var i=0; i< self.debater_obj_array.length; i++){
-	  if(self.debater_obj_array[i].role == role_name){
-	    return self.debater_obj_array[i].first_name;
-	  }
-	}
-	for(var i=0; i <self.audience_obj_array.length; i++){
-	  if(self.audience_obj_array[i].role == role_name){
-	    return self.audience_obj_array[i].first_name;
-	  }
+	var parse_id = self.getParseID_fromRole(role_name)
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		return profile.first_name;
 	}
 	return null;
 }
@@ -385,15 +393,12 @@ ParticipantMgr.prototype.getUserFirstName = function(role_name){
 ParticipantMgr.prototype.getUserFullName = function(role_name){
 
 	var self = this;
-	for(var i=0; i< self.debater_obj_array.length; i++){
-	  if(self.debater_obj_array[i].role == role_name){
-	    return self.debater_obj_array[i].first_name + self.debater_obj_array[i].last_name;
-	  }
-	}
-	for(var i=0; i <self.audience_obj_array.length; i++){
-	  if(self.audience_obj_array[i].role == role_name){
-	    return self.debater_obj_array[i].first_name + self.debater_obj_array[i].last_name;
-	  }
+
+	var parse_id = self.getParseID_fromRole(role_name)
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		var full_name = profile.first_name + profile.last_name;
+		return full_name;
 	}
 	return null;
 }
@@ -411,10 +416,12 @@ ParticipantMgr.prototype.get_hangout_id = function(role_name){
 }
 
 ParticipantMgr.prototype.getParseID_fromRole = function(role_name){
+
 	var self = this;
-	for(var i=0; i< self.debater_obj_array.length; i++){
-		if(self.debater_obj_array[i].role == role_name){
-			return self.debater_obj_array[i].parse_id;
+
+	for(key in self.debater_obj){
+		if(key == role_name){
+	  		return self.debater_obj[key];	
 		}
 	}
 	for(var i=0; i< self.audience_obj_array.length; i++){
@@ -424,8 +431,6 @@ ParticipantMgr.prototype.getParseID_fromRole = function(role_name){
 	}
 	return null;
 }
-
-
 
 ParticipantMgr.prototype.is_Login = function(role_name){
 	var self = this;

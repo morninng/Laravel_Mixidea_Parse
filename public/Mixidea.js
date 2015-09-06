@@ -13,15 +13,18 @@
  var global_debate_game_id = appData_split[1];
  var global_original_hangout_appid = appData_split[2];
  var global_own_hangout_id = "";
- var appmgr = new AppMgr(global_debate_game_id, global_own_parse_id);
+ var appmgr = new AppMgr();
 
 
 function Mixidea_init(){
 
-  Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: global_debate_game_id},{
-    success: function(game_obj) {
-    update_own_state(global_own_hangout_id, global_own_parse_id);
- 		appmgr.initialize(game_obj, global_own_hangout_id);
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.include("participants");
+  game_query.get(global_debate_game_id, {
+    success: function(actual_game_obj) {
+    update_own_state();
+ 		appmgr.initialize(actual_game_obj);
     },
     error: function(error) {
       alert("something happen and creating event failed" + error.message);

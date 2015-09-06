@@ -18,16 +18,15 @@ ChatViewModel.prototype.initialize = function(in_hangout_id){
   self.own_hangout_id = in_hangout_id;
 }
 
-ChatViewModel.prototype.update = function( hangout_url_obj){
+ChatViewModel.prototype.update = function(){
 
   var self = this;
-
+  var hangout_url_obj = appmgr.actual_game_obj.get("hangout_id");
   if(!hangout_url_obj){
     return;
   }
   self.hangout_url_obj = hangout_url_obj;
   self.show_hangout_button();
-
 }
 
 ChatViewModel.prototype.show_hangout_button = function(){

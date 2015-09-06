@@ -162,4 +162,13 @@ function filter_array_with_existing_hangouID(in_hangoutid_array){
   return new_hangoutid_array;
 }
 
+function get_own_hangout_id(){
 
+  var is_api_ready = gapi.hangout.isApiReady();
+  if( !is_api_ready ){
+    console.log("blank hangout id has been returned");
+    return null;
+  }
+  return gapi.hangout.getLocalParticipantId();
+
+}

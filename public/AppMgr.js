@@ -1,10 +1,10 @@
 
-function AppMgr(in_game_id, in_own_parse_id ) {
+function AppMgr() {
   	var self = this;
-	self.own_parse_id=in_own_parse_id;
-	self.game_id=in_game_id;
+	self.own_parse_id=global_own_parse_id;
+	self.game_id=global_debate_game_id;
 	self.own_hangoutid = "";
-	self.game_obj = new Object();
+	self.actual_game_obj = new Object();
 	self.game_status = 2;
 	// self.participant_changed_counter = 0;
 	self.hangout_mapping_changed_counter = 0;
@@ -16,11 +16,11 @@ function AppMgr(in_game_id, in_own_parse_id ) {
 	self.first_update_done = false;
 }
 
-AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
+AppMgr.prototype.initialize = function(in_actual_game_obj){
 
   	var self = this;
 
-	self.own_hangoutid = in_own_hangout_id;
+	self.own_hangoutid = get_own_hangout_id();
 	self.participant_manager_object = new ParticipantMgr();
 
 	// hangout statusで受け取るJSONコード
@@ -62,11 +62,9 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
 	};
 */
 
-	self.game_obj = in_game_obj;
+	self.actual_game_obj = in_actual_game_obj;
 	self.game_obj_counter =	get_game_obj_counter();
-	self.participant_manager_object.initialize(self.game_obj, self.own_parse_id, self.own_hangoutid); 
-
-
+	self.participant_manager_object.initialize(); 
 
 
 	var Transcription_html_Template = _.template($('[data-template="transcription_template"]').html());
@@ -77,7 +75,8 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
     self.transcription_mgr = new TranscriptionMgr();
     var transcription_el = document.getElementById('transcription_area');
     ko.applyBindings(self.transcription_mgr , transcription_el);
-    self.transcription_mgr.initialize(self.game_obj.speech_transcription_id);
+    var transcription_obj = self.actual_game_obj.get("speech_transcription");
+    self.transcription_mgr.initialize(transcription_obj.id);
 
 	//hangout_statusで受け取る game statusをparticipantmgr, container_modelview, chat_mgr,に反映 
 	//participant changed eventが走るときに毎回呼び出す。
@@ -129,7 +128,6 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
     var chat_el = document.getElementById('chat_template_area');
     ko.applyBindings(self.chat_view_model, chat_el);
     self.chat_view_model.initialize(self.own_hangoutid);
-//    self.chat_view_model.update(self.game_obj.hangout_ids);
 
 
 	var Title_html_Template = _.template($('[data-template="title_template"]').html());
@@ -140,7 +138,7 @@ AppMgr.prototype.initialize = function(in_game_obj, in_own_hangout_id){
     self.title_view_model = new title_VM();
     var title_el = document.getElementById('title_template_area');
     ko.applyBindings(self.title_view_model, title_el);
-    self.title_view_model.initialize(self.game_id, self.game_obj, self.own_parse_id);
+    self.title_view_model.initialize();
 
 
 
@@ -174,7 +172,7 @@ AppMgr.prototype.update_hangout_status = function(event){
 		self.participant_manager_object.update_parseid_hangoutid_mapping();
 		self.participant_manager_object.update_hangout_participants();	
 		self.participant_manager_object.participant_table.UpdateUserObjAll();
-    	self.chat_view_model.update(self.game_obj.hangout_ids);
+    	self.chat_view_model.update();
 		self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
 	}
 
@@ -197,36 +195,32 @@ AppMgr.prototype.update_hangout_status = function(event){
     	self.transcription_counter = get_transcription_counter();
     }
 
-	if( self.game_status_counter != get_game_status_counter()){
-    	self.game_status_mgr.apply_updated_status();
-    	self.game_status_counter = get_game_status_counter();
-    }
 
 	if(self.parse_data_changed_counter = get_parse_data_changed_counter()){
 
-		Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: self.game_id},{
-		    success: function(game_obj) {
-		    	self.game_obj = game_obj;
-		  		self.participant_manager_object.update_parse_data(self.game_obj);
+		var Game = Parse.Object.extend("Game");
+		var game_query = new Parse.Query(Game);
+		game_query.include("participants");
+		game_query.get(global_debate_game_id, {
+		  success: function(actual_game_obj) {
+			self.actual_game_obj = actual_game_obj;
+				self.participant_manager_object.update_parse_data();
+			self.title_view_model.update();
+    		self.game_status_mgr.apply_updated_status();
 
-    			self.title_view_model.update( self.game_obj );
-
-		  		var hangout_speech_status = get_hangout_speech_status();
-				self.video_view_model.update_button(hangout_speech_status);
-				self.video_view_model.update_speaker(hangout_speech_status);
-				self.video_view_model.update_poi_candidate(hangout_speech_status);
-    			self.chat_view_model.update(self.game_obj.hangout_ids);
-				self.hangout_speech_status_counter = get_hangout_speech_status_counter();
-
-		  		self.parse_data_changed_counter  = get_parse_data_changed_counter();
-		    },
-		    error: function(error) {
-		      
-		    }
+	  		var hangout_speech_status = get_hangout_speech_status();
+			self.video_view_model.update_button(hangout_speech_status);
+			self.video_view_model.update_speaker(hangout_speech_status);
+			self.video_view_model.update_poi_candidate(hangout_speech_status);
+			self.chat_view_model.update();
+			self.hangout_speech_status_counter = get_hangout_speech_status_counter();
+	  		self.parse_data_changed_counter  = get_parse_data_changed_counter();
+		  },
+		  error: function(error) { 
+		  	console.log(error); 
+		  }
 		});
-
 	}
-
 	self.first_update_done = true;
 }
 
@@ -234,17 +228,20 @@ AppMgr.prototype.participants_change = function(participant_change){
 
 	var self = this;
 
-	self.participant_manager_object.update_hangout_participants();	
-	Parse.Cloud.run('Cloud_GetHangoutGameData_debate', { game_id: self.game_id},{
-	    success: function(game_obj) {
-	    	self.game_obj = game_obj;
-	  		self.participant_manager_object.update_parse_data(self.game_obj);
-			},
-	    error: function(error) {
-	      
-	    }
-	});
+	self.participant_manager_object.update_hangout_participants();
 
+	var Game = Parse.Object.extend("Game");
+	var game_query = new Parse.Query(Game);
+	game_query.include("participants");
+	game_query.get(global_debate_game_id, {
+	  success: function(actual_game_obj) {
+	    self.actual_game_obj = actual_game_obj;
+	  	self.participant_manager_object.update_parse_data();
+		},
+	  error: function(error) {
+	  	console.log(error);    
+	   }
+	});
 }
 
 AppMgr.prototype.receive_message = function(received_message){
