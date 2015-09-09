@@ -15,6 +15,7 @@ function WebSpeech_Recognition(){
   self.recognition.lang = "en-US";
 
   self.recognition.onresult = function(e){
+  	console.log("web speech api on result called");
     var results = e.results;
     for(var i = e.resultIndex; i<results.length; i++){
       if(results[i].isFinal){
@@ -71,6 +72,7 @@ WebSpeech_Recognition.prototype.store_transcription_onParse = function(transcrip
 	if(!self.available){
 		return ;
 	}
+	console.log(transcript_text);
 
 	var current_role = appmgr.video_view_model.get_current_speaker_role();  /*this is not poi_speaker role*/
 	console.log(current_role);

@@ -217,6 +217,7 @@ Parse.Cloud.define("JoinGame_Audience", function(request, response) {
         }
         if(!user_exist){
           self.game_obj.add("audience_participants", self.user_id);
+          self.game_obj.addUnique("participants", self.user);
           self.game_obj.save().then(function(obj){
             console.log("game object saved");
             self.game_obj = obj;

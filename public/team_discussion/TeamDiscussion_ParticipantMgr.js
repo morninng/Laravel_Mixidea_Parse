@@ -42,7 +42,12 @@ TeamDiscussion_ParticipantMgr.prototype.get_user_profile = function(in_parse_id)
 	var self = this;
 
 	var profile = self.participants_obj[in_parse_id];
-	return profile;
+	if(profile){
+		return profile;
+	}
+
+	var obj = {first_name:"unrecognized user", last_name:"", pict_src:"" };
+	return obj;
 }
 
 

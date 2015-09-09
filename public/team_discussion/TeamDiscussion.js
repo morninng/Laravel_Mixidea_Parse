@@ -28,6 +28,7 @@ function Hangout_Init() {
     console.log("hangout api ready");
     if(e.isApiReady){
       global_own_hangout_id = gapi.hangout.getLocalParticipantId();
+      console.log("own hangout id " + global_own_hangout_id);
       //team_discussion_appmgr.update_edit_status();
 
     	gapi.hangout.data.onStateChanged.add(function(event) {

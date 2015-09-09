@@ -91,6 +91,13 @@ Create_Event.prototype.create_round_game = function(request, response,i){
   mixidea_game.set("motion", self.param.game_obj_array[i].motion);
   mixidea_game.set("date_time", self.param.event_datetime);
   mixidea_game.set('parent_event', self.event_object.id);
+  var participant_obj = new Object();
+  var audience_participant = new Array();
+  var participant = new Array();
+  mixidea_game.set('participant_role', participant_obj);
+  mixidea_game.set('audience_participants', audience_participant);
+  mixidea_game.set('participants', participant);
+
   console.log("before calling saving mixidea game ")
 
   mixidea_game.save().then(function(game_obj){

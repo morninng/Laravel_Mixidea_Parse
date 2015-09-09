@@ -7,6 +7,7 @@ function ParticipantMgr(){
 	self.participants_obj = new Object();
 	self.game_style = null;
 	self.parse_hangout_idmapping_array = new Object();
+	self.role_array = new Array();
 }
 
 ParticipantMgr.prototype.initialize = function(actual_game_obj, parse_user_id, hangout_id){
@@ -127,19 +128,7 @@ ParticipantMgr.prototype.update_parse_data = function( ){
 }
 
 
-ParticipantMgr.prototype.update_game_status = function(game_status){
 
-	var self = this;
-	switch(game_status){
-		case 1:
-		case 2:
-		case 3:
-		break;
-		case 4:
-		case 5:
-		break;
-	}
-}
 
 //participant changed eventが呼ばれたときに、毎回呼び出す。
 
@@ -162,12 +151,7 @@ ParticipantMgr.prototype.update_parseid_hangoutid_mapping = function(){
 	var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
 	self.parse_hangout_idmapping_array = parse_hangout_mapping_array;
 }
-/*
-ParticipantMgr.prototype.set_parseid_hangoutid_mapping = function(parse_hangout_mapping){
-	var self = this;
-	self.parse_hangout_idmapping_array = parse_hangout_mapping;
-}
-*/
+
 
 
 ParticipantMgr.prototype.setGameData = function(){

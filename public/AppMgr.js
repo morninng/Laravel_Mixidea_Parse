@@ -196,15 +196,15 @@ AppMgr.prototype.update_hangout_status = function(event){
     }
 
 
-	if(self.parse_data_changed_counter = get_parse_data_changed_counter()){
-
+	if(self.first_update_done == false || self.parse_data_changed_counter != get_parse_data_changed_counter()){
+//	if(true){
 		var Game = Parse.Object.extend("Game");
 		var game_query = new Parse.Query(Game);
 		game_query.include("participants");
 		game_query.get(global_debate_game_id, {
 		  success: function(actual_game_obj) {
 			self.actual_game_obj = actual_game_obj;
-				self.participant_manager_object.update_parse_data();
+			self.participant_manager_object.update_parse_data();
 			self.title_view_model.update();
     		self.game_status_mgr.apply_updated_status();
 
