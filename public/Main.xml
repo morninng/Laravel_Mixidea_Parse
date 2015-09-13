@@ -30,6 +30,7 @@
   
 	    <div id="container_left_pain" data-bind="css: left_column_css_class">
 		    <div id="video_area"></div>
+        <div id="impression_area"></div>
 	    </div>
 
       <div id="container_center">
@@ -63,6 +64,27 @@
 </div>
 
 
+
+<script type="text/template" data-template="impression_template">
+
+  <div id="impression_container">
+    <div class="hearhear">
+      <input type="image" id="hearhear_img" src="https://s3.amazonaws.com/mixidea/good.png" data-bind="event:{click:click_hearhear}">
+      <ul class="impression_ul" data-bind="foreach:{data:hearhear_users, beforeRemove:remove_fadeout } ">
+        <li><img class="impression_member_img" data-bind="attr: {src:pict_src}"></li>
+      </ul>
+    </div>
+    <div class="booboo">
+      <input type="image" id="booboo_img" src="https://s3.amazonaws.com/mixidea/bad.png" data-bind="click:click_booboo">
+      <ul class="impression_ul" data-bind="foreach:{data:booboo_users, beforeRemove:remove_fadeout } ">
+        <li><img class="impression_member_img" data-bind="attr: {src:pict_src}"></li>
+      </ul>
+    </div>
+  </div>
+
+</script>
+
+
 <script type="text/template" data-template="transcription_template">
       <p><strong data-bind="text:transcription_title"></strong></p>
       <div data-bind="foreach: {data: transcription_array, as: 'transcript_obj'}">
@@ -76,7 +98,7 @@
 <script type="text/html" id="user_status_template">
   <div data-bind= "visible:participant_visible">
      <div data-bind="css: user_status_css">
-        <div>  
+        <div>
           <img style="max-width:50px;" data-bind="attr: {src: pict_src}">
         </div>
         <div>
@@ -88,7 +110,6 @@
              <button data-bind = "visible: cancel_visible, event:{click:cancel}">cancel</button>
            </div>
         </div>
-
         <div class='loader' align="center" data-bind = "visible:loading_visible"> Loading </div>
      </div>
   </div>
@@ -316,6 +337,12 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/UserStatus_VM.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Chat_Mgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/title_Mgr.js"></script>
+
+
+<script type="text/javascript" src="https://mixidea.parseapp.com/ImpressionMgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/sound_mgr.js"></script>
+
+
 <script type="text/javascript" src="https://mixidea.parseapp.com/Mixidea.js"></script>
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/Game_Status_Mgr.js"></script>

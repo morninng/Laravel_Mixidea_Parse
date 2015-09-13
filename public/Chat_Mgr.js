@@ -82,7 +82,9 @@ ChatViewModel.prototype.click_sendbutton = function(data, event){
   var text =  document.forms.chat_send_form.chat_textarea.value;
 
   if(text.length > 1){
-    gapi.hangout.data.sendMessage(text);
+    var chat_message_obj = {type:"chat",message:text};
+    var chat_message_str = JSON.stringify(chat_message_obj);
+    gapi.hangout.data.sendMessage(chat_message_str);
     self.chat_message_array.push({chat_class:"message_css_own", sender_name:"Me: ", chat_message:text});
     self.initial_message_visible(false);
   }
@@ -90,28 +92,25 @@ ChatViewModel.prototype.click_sendbutton = function(data, event){
   document.forms.chat_send_form.chat_textarea.value = "";
 }
 
-ChatViewModel.prototype.receive_message = function(received_message){
+/*
+　{type:chat:message:AAAAAAAAAAAAAAAAAAAAAaaa}
+*/
+ChatViewModel.prototype.receive_message = function(received_message, sender_hangout_id){
 
   var self = this;
-  self.initial_message_visible(false);
-
-
-  var sender_hangout_id = received_message.senderId;
-  var message = received_message.message;
-  var message_text = ":" + message;
-
-  var message_css = null;
-  var name = null;
 
   is_my_partner = appmgr.participant_manager_object.isYourPartner(sender_hangout_id);
   if(!is_my_partner){
     return;
   }
+  
+  var message_shown = ":" + received_message;
+  var message_css = null;
+  var name = null;
+  name = appmgr.participant_manager_object.getFirstName_fromHangoutID(sender_hangout_id);
+  message_css = "message_css_others";
 
-
-  	name = appmgr.participant_manager_object.getFirstName_fromHangoutID(sender_hangout_id);
-  	message_css = "message_css_others";
-
-  self.chat_message_array.push({chat_class:"message_css_others", sender_name:name, chat_message:message_text});
+  self.initial_message_visible(false);
+  self.chat_message_array.push({chat_class:"message_css_others", sender_name:name, chat_message:message_shown});
 
 }

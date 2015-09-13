@@ -89,6 +89,8 @@
         "hangout_speech_status_counter":speech_counter_str
     });
 
+
+
  }
 
  self.take_poi = function(data, event){
@@ -110,6 +112,10 @@
         "hangout_speech_status_counter":speech_counter_str
     });
 
+    var taken_message_obj = {type:"sound", message:{type:"taken",user_id:global_own_parse_id}};
+    var taken_message_str = JSON.stringify(taken_message_obj);
+    gapi.hangout.data.sendMessage(taken_message_str);
+    appmgr.sound_mgr.play_sound_taken();
  }
 }
 
@@ -576,6 +582,12 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
         "hangout_speech_status_counter":speech_counter_str,
         "hangout_speech_status": speech_obj_str
   });
+
+  var poi_message_obj = {type:"sound", message:{type:"poi",user_id:global_own_parse_id}};
+  var poi_message_str = JSON.stringify(poi_message_obj);
+  gapi.hangout.data.sendMessage(poi_message_str);
+  appmgr.sound_mgr.play_sound_poi();
+
  }
 
  VideoViewModel.prototype.finish_poi = function(){
@@ -600,6 +612,11 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
         "hangout_speech_status": speech_obj_str
   });
 
+
+  var poi_finish_message_obj = {type:"sound", message:{type:"poi_finish",user_id:global_own_parse_id}};
+  var poi_finish_message_str = JSON.stringify(poi_finish_message_obj);
+  gapi.hangout.data.sendMessage(poi_finish_message_str);
+  appmgr.sound_mgr.play_sound_poi_finish();
 
  }
 

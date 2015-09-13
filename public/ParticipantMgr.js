@@ -239,8 +239,18 @@ ParticipantMgr.prototype.getFirstName_fromParseID = function(parse_id){
 		return profile.first_name;
 	}
 	return null;
-
 }
+
+ParticipantMgr.prototype.getPict_fromParseID = function(parse_id){
+
+	var self = this;
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		return profile.pict_src;
+	}
+	return null;
+}
+
 
 ParticipantMgr.prototype.getFirstName_fromHangoutID = function(hangout_id){
 

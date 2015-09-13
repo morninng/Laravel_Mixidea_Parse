@@ -152,11 +152,19 @@ AppMgr.prototype.initialize = function(in_actual_game_obj){
     ko.applyBindings(self.game_status_mgr , gamestatus_el);
 	self.game_status_mgr.initialize();
 
+	self.sound_mgr = new SoundMgr();
+	self.sound_mgr.init();
 
 
+	var Impression_html_Template = _.template($('[data-template="impression_template"]').html());
+    var impression_element = $("#impression_area");
+    var impression_html_text = Impression_html_Template();
+    impression_element.html(impression_html_text);
 
+	self.impression_mgr = new ImpressionMgr();
+    var impression_el = document.getElementById('impression_area');
+    ko.applyBindings(self.impression_mgr , impression_el);
 
-    console.log("")
 }
 
 
@@ -247,7 +255,21 @@ AppMgr.prototype.participants_change = function(participant_change){
 AppMgr.prototype.receive_message = function(received_message){
 
 	var self = this;
-	self.chat_view_model.receive_message(received_message)
+
+	var sender_hangout_id = received_message.senderId;
+
+	received_message_json = JSON.parse(received_message.message);
+	var type = received_message_json["type"];
+	var message_obj = received_message_json["message"];
+
+	switch (type){
+		case "sound":
+			self.impression_mgr.receive_message(message_obj);
+		break;
+		case "chat":
+			self.chat_view_model.receive_message(message_obj, sender_hangout_id);
+		break;
+	}
 
 }
 
