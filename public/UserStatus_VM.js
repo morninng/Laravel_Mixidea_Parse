@@ -7,7 +7,8 @@ function user_status_VM(role_name){
   self.pict_src = ko.observable("https://mixidea.parseapp.com/picture/1.jpg");
   self.user_status_css = ko.observable("notapplicant");
   self.parse_id_of_this_role = ko.observable(null);
-  self.loading_visible = ko.observable(false);
+//  self.loading_visible = ko.observable(false);
+  self.button_visible = ko.observable(true);
 
   self.own_parse_id = appmgr.own_parse_id;
   self.game_id = appmgr.game_id;
@@ -24,9 +25,9 @@ user_status_VM.prototype.update_user_status = function(){
 	var self = this;
 	self.update_user_info(self.role_name);
 	self.update_user_login_status(self.role_name);
-	self.update_button_byGamestatus();
+//	self.update_button_byGamestatus();
 	self.update_button_status(self.role_name);
-  	self.loading_visible = ko.observable(false);
+//  	self.loading_visible = ko.observable(false);
 
 }
 
@@ -127,20 +128,6 @@ user_status_VM.prototype.update_button_status = function(role_name){
 
 
 
-user_status_VM.prototype.update_button_byGamestatus = function(){
-
-	var self = this;
-	var game_status = appmgr.game_status;
-	switch(game_status){
-		case 1:
-		case 2:
-		case 3:
-		break;
-		case 4:
-		case 5:
-		break;
-	}
-}
 
 user_status_VM.prototype.convert_role_name = function(role_name){
 
@@ -166,155 +153,192 @@ var convert_table = {
 user_status_VM.prototype.decline = function(){
   
 	var self = this;
-	self.loading_visible(true);
+//	self.loading_visible(true);
+
+	self.button_visible(false);
+/*
 	var Game = Parse.Object.extend("Game");
 	var game_query = new Parse.Query(Game);
 	game_query.get(global_debate_game_id , {
 	  success: function(actual_game_obj) {
-	  	var participant_obj = actual_game_obj.get("participant_role");
-	  	delete participant_obj[self.role_name];
-	  	actual_game_obj.set("participant_role",participant_obj);
-	  	var is_debater_exist = false;
-	  	var parse_id_ofThisRole = self.parse_id_of_this_role();
-	  	for( key in participant_obj){
-	  		if(participant_obj[key] == parse_id_ofThisRole){
-	  			is_debater_exist = true;
-	  		}
-	  	}
-  	  	if(!is_debater_exist){	
-	  		var audience_array = actual_game_obj.get("audience_participants");
-	  		if(!audience_array){
-	  			audience_array = new Array();
-	  		}
-	  		audience_array.push(parse_id_ofThisRole);
-	  		actual_game_obj.set("audience_participants",audience_array);
-	  	}
-	  	actual_game_obj.save(null, {
-		  success: function(obj) {
-		    console.log(obj);
 
-			var parse_data_counter = get_parse_data_changed_counter();
-			if(!parse_data_counter){
-				parse_data_counter = 0;
-			}
-			parse_data_counter++;
-			parse_data_counter_str = String(parse_data_counter);
-		    gapi.hangout.data.submitDelta({
-			        "parse_data_changed_counter":parse_data_counter_str
-			});		    
-		  },
-		  error: function(obj, error) {
-		    alert('Failed to save object.' + error.message);
-		  }
+*/
+
+
+  	var participant_obj = appmgr.actual_game_obj.get("participant_role");
+  	delete participant_obj[self.role_name];
+  	appmgr.actual_game_obj.set("participant_role",participant_obj);
+  	var is_debater_exist = false;
+  	var parse_id_ofThisRole = self.parse_id_of_this_role();
+  	for( key in participant_obj){
+  		if(participant_obj[key] == parse_id_ofThisRole){
+  			is_debater_exist = true;
+  		}
+  	}
+	  	if(!is_debater_exist){	
+  		var audience_array = appmgr.actual_game_obj.get("audience_participants");
+  		if(!audience_array){
+  			audience_array = new Array();
+  		}
+  		audience_array.push(parse_id_ofThisRole);
+  		appmgr.actual_game_obj.set("audience_participants",audience_array);
+  	}
+  	appmgr.actual_game_obj.save(null, {
+	  success: function(obj) {
+	    console.log(obj);
+
+		var parse_data_counter = get_parse_data_changed_counter();
+		if(!parse_data_counter){
+			parse_data_counter = 0;
+		}
+		parse_data_counter++;
+		parse_data_counter_str = String(parse_data_counter);
+	    gapi.hangout.data.submitDelta({
+		        "parse_data_changed_counter":parse_data_counter_str
 		});
+		self.button_visible(true);
+	  },
+	  error: function(obj, error) {
+		self.button_visible(true);
+	    alert('Failed to save object.' + error.message);
+	  }
+	});
+
+
+/*
 	  },
 	  error: function(object, error) {
 	    alert('Failed to save object.' + error.message);
 	  }
 	});
+*/
+
+
+
 }
 
 user_status_VM.prototype.join = function(){
 
 	var self = this;
-	self.loading_visible(true);
+	self.button_visible(false);
+//	self.loading_visible(true);
+/*
 	var Game = Parse.Object.extend("Game");
 	var game_query = new Parse.Query(Game);
 	game_query.get(global_debate_game_id , {
 	  success: function(actual_game_obj) {
+*/
+  	participant_obj = appmgr.actual_game_obj.get("participant_role");
+  	if(participant_obj[self.role_name]){
+  		alert("this role has been already assigned to others");
+		self.button_visible(true);
+  		return;
+  	}
+  	participant_obj[self.role_name] = global_own_parse_id;
 
-	  	participant_obj = actual_game_obj.get("participant_role");
-	  	if(participant_obj[self.role_name]){
-	  		alert("this role has been already assigned to others");
-	  		return;
+  	audience_array = appmgr.actual_game_obj.get("audience_participants");
+  	if(audience_array){
+	  	for(var i=0; i< audience_array.length; i++){
+	  		if(audience_array[i] == self.own_parse_id){
+	  			var removed = audience_array.splice(i,1);
+	  		}
 	  	}
-	  	participant_obj[self.role_name] = self.own_parse_id;
+	}
+  	appmgr.actual_game_obj.set("participant_role",participant_obj);
+  	appmgr.actual_game_obj.set("audience_participants",audience_array);
+  	appmgr.actual_game_obj.save(null, {
+	  success: function(obj) {
+	    console.log(obj);
 
-	  	audience_array = actual_game_obj.get("audience_participants");
-	  	if(audience_array){
-		  	for(var i=0; i< audience_array.length; i++){
-		  		if(audience_array[i] == self.own_parse_id){
-		  			var removed = audience_array.splice(i,1);
-		  		}
-		  	}
+		var parse_data_counter = get_parse_data_changed_counter();
+		if(!parse_data_counter){
+			parse_data_counter = 0;
 		}
-	  	actual_game_obj.set("participant_role",participant_obj);
-	  	actual_game_obj.set("audience_participants",audience_array);
-	  	actual_game_obj.save(null, {
-		  success: function(obj) {
-		    console.log(obj);
-
-			var parse_data_counter = get_parse_data_changed_counter();
-			if(!parse_data_counter){
-				parse_data_counter = 0;
-			}
-			parse_data_counter++;
-			parse_data_counter_str = String(parse_data_counter);
-		    gapi.hangout.data.submitDelta({
-			        "parse_data_changed_counter":parse_data_counter_str
-			});
-
-		  },
-		  error: function(obj, error) {
-		    alert('Failed to save object.' + error.message);
-		  }
+		parse_data_counter++;
+		parse_data_counter_str = String(parse_data_counter);
+	    gapi.hangout.data.submitDelta({
+		        "parse_data_changed_counter":parse_data_counter_str
 		});
+		self.button_visible(true);
+	  },
+	  error: function(obj, error) {
+		self.button_visible(true);
+	    alert('Failed to save object.' + error.message);
+	  }
+	});
+
+/*
 	  },
 	  error: function(object, error) {
 	    alert('Failed to save object.' + error.message);
 	  }
 	});
+*/
 }
 
 user_status_VM.prototype.cancel = function(){
 
 	var self = this;
-	self.loading_visible(true);
+	self.button_visible(false);
+//	self.loading_visible(true);
+
+
+/*	
 	var Game = Parse.Object.extend("Game");
 	var game_query = new Parse.Query(Game);
 	game_query.get(global_debate_game_id , {
 	  success: function(actual_game_obj) {
-	  	participant_obj = actual_game_obj.get("participant_role");
-	  	delete participant_obj[self.role_name];
-	  	actual_game_obj.set("participant_role",participant_obj);
-	  	var is_debater_exist = false;
-	  	for( key in participant_obj){
-	  		if(participant_obj[key] == self.own_parse_id){
-	  			is_debater_exist = true;
-	  		}
-	  	}
-	  	if(!is_debater_exist){	
-	  		audience_array = actual_game_obj.get("audience_participants");
-	  		if(!audience_array){
-	  			audience_array = new Array();
-	  		}
-	  		audience_array.push(self.own_parse_id);
-	  		actual_game_obj.set("audience_participants",audience_array);
-	  	}
-	  	actual_game_obj.save(null, {
-		  success: function(obj) {
-		    console.log(obj);
+*/
 
-			var parse_data_counter = get_parse_data_changed_counter();
-			if(!parse_data_counter){
-				parse_data_counter = 0;
-			}
-			parse_data_counter++;
-			parse_data_counter_str = String(parse_data_counter);
-		    gapi.hangout.data.submitDelta({
-			        "parse_data_changed_counter":parse_data_counter_str
-			});
 
-		  },
-		  error: function(obj, error) {
-		    alert('Failed to save object.' + error.message);
-		  }
+  	participant_obj = appmgr.actual_game_obj.get("participant_role");
+  	delete participant_obj[self.role_name];
+  	appmgr.actual_game_obj.set("participant_role",participant_obj);
+  	var is_debater_exist = false;
+  	for( key in participant_obj){
+  		if(participant_obj[key] == self.own_parse_id){
+  			is_debater_exist = true;
+  		}
+  	}
+  	if(!is_debater_exist){	
+  		audience_array = appmgr.actual_game_obj.get("audience_participants");
+  		if(!audience_array){
+  			audience_array = new Array();
+  		}
+  		audience_array.push(self.own_parse_id);
+  		appmgr.actual_game_obj.set("audience_participants",audience_array);
+  	}
+  	appmgr.actual_game_obj.save(null, {
+	  success: function(obj) {
+	    console.log(obj);
+
+		var parse_data_counter = get_parse_data_changed_counter();
+		if(!parse_data_counter){
+			parse_data_counter = 0;
+		}
+		parse_data_counter++;
+		parse_data_counter_str = String(parse_data_counter);
+	    gapi.hangout.data.submitDelta({
+		        "parse_data_changed_counter":parse_data_counter_str
 		});
+		self.button_visible(true);
+
+	  },
+	  error: function(obj, error) {
+		self.button_visible(true);
+	    alert('Failed to save object.' + error.message);
+	  }
+	});
+
+/*
 	  },
 	  error: function(object, error) {
 	    alert('Failed to save object.' + error.message);
 	  }
 	});
+*/
+
+
 }
 
 

@@ -104,13 +104,12 @@
         <div>
            <p class="user_status_p" data-bind ="text:role"></p>
            <p class="user_status_p" data-bind ="text:user_name"></p>
-           <div class="user_status_p" align="center" >
+           <div data-bind= "visible:button_visible" class="user_status_p" align="center" >
              <button data-bind = "visible: decline_visible, event:{click:decline}">decline</button>
              <button data-bind = "visible: join_visible, event:{click:join}">join</button>
              <button data-bind = "visible: cancel_visible, event:{click:cancel}">cancel</button>
            </div>
         </div>
-        <div class='loader' align="center" data-bind = "visible:loading_visible"> Loading </div>
      </div>
   </div>
 </script>
