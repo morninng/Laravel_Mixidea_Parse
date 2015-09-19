@@ -14,6 +14,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/loading.css">
 	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/Debate.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/video_ui.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -175,48 +176,61 @@
 
 
 <script type="text/template" data-template="video_area_template">
+  <div id="video_area_container">
+    <div id="start_speech" data-bind="visible:visible_start_speech">
+      <p>Start Speech with one of your roles</p>
+      <ul data-bind="foreach: start_speech_role_name_array">
+        <li>
+          <button class="btn btn-primary" data-bind="click:$parent.click_speech_start, text:button_role_name"></button>
+        </li>
+      </ul>
+    </div>
+    <div id="speaker_info" data-bind="visible:visible_speaker_info">
+      <div id="speaker_container">  
+        <div class="speech_role" data-bind="text:speech_role"></div>
+        <div class="speaker_name" data-bind="text:speaker_name"></div>
+      </div>
+      <div id="timer_container">
+        <div class="timer_prefix" data-bind="text:timer_prefix"></div>
+        <div class="timer_value" data-bind="text:timer_value"></div>
+      </div>
+    </div>
 
-  <div id="speach_role_timer" data-bind="visible: speech_visible" style="display:none">
-    <p>
-      <strong><span data-bind="text:speech_role" style="float:left"></span></strong> &nbsp;
-      <span data-bind="text:speaker_name" style="float:left"></span>
-    </p>
-    <div data-bind="text:speech_time" style="float:right"></div>
-  </div>
-  
-  <div style="clear:both">
-  	<button data-bind="visible: complete_speech_button, event:{click:click_complete_speech}">Complete Speech</button>
-  	<button data-bind="visible: poi_button, event:{click:click_poi}"> Poi</button>
-  	<button data-bind="visible: finish_poi_button, event:{click:finish_poi}">Finish Poi</button>
-  	<button data-bind="visible: finish_poi_bySpeaker_button, event:{click:finish_poi_bySpeaker}">Finish Poi</button>
-  </div>
-  <div data-bind="visible: start_speech_button_visible">
-  	<div align="right"><strong>Start speech as</strong></div>
-	<ul style="text-align:right;list-style:none" data-bind="foreach: start_speech_role_name_array">
-	 <li>
-	   <div>
-	   　 	<button data-bind="click:$parent.click_speech_start, text:button_role_name"></button>
-	   <div>
-	  </li>
-	</ul> 
-  </div>
-  <div style="clear:both"></div>
-  <div id="video_canvas_dummy_layout" data-bind="attr: {style: video_canvas_style_str}"></div>
-  <div data-bind="visible: poi_candidate_visible" style="clear:both; border: 1px solid #0000FF;">
-    <strong>poi candidate</strong>
-	<ul data-bind="foreach: poi_candidate_view_array"　style="list-style:none;">
-	  <li >
-	   <div style="padding:2px; border: 1px solid #00FF00; margin:4px;">
-	      <div class="profile_container" style="float:left">
-	     	 <img style="float:left; max-height:30px" data-bind="attr: {src: img_url}">
-	   　 	 <div style="float:left" data-bind = "text:name" ></div>
-	      </div>
-		  <button data-bind="visible: PoiTake_button_visible, click:$parent.take_poi" style = "display:none; float:left"> take poi</button>
-	   　  <button data-bind="visible: cancel_button_visible, click:$parent.cancel_poi" style = "display:none; float:left">cancel poi</button> 
-	   	  <div style="clear: both;"></div>
-	   </div>
-	  </li>
-	</ul>
+    <div id="complete_button_container"  data-bind="visible:visible_complete_button">
+      <button class="btn btn-primary" data-bind="event:{click:click_complete_speech}">Complete Speech</button>
+    </div>
+    <div id="video_canvas_dummy_layout" data-bind="attr: {style: video_canvas_style_str}">
+      <div style="height:100px" ></div>
+    </div>
+    <div id="poi_container">
+      <div id="poi_button_container" data-bind="visible:visible_poi_button">
+        <button class="btn btn-danger" data-bind="event:{click:click_poi}"> Poi</button>
+      </div>
+      <div id="Finish_button_container" data-bind="visible:visible_finish_button">
+        <button class="btn btn-danger" data-bind="event:{click:finish_poi}">Finish Poi</button>
+      </div>
+      <div id="Finish_button_Speaker_container" data-bind="visible:visible_finish_poi_bySpeaker">
+        <button class="btn btn-danger" data-bind="event:{click:finish_poi_bySpeaker}">Finish Poi</button>
+      </div>
+      <div id="poi_candidate_container">
+        <ul data-bind="foreach: poi_candidate_view_array">
+          <li>
+            <div class="poi_list_container">
+              <div class="poi_profile">
+                <img class="poi_candidate_img" data-bind="attr: {src: img_url}">
+                <span class="poi_candidate_name" data-bind="text:name"></span>
+              </div>
+              <div class="candidate_button_container" data-bind="visible: PoiTake_button_visible">
+                <button data-bind="click:$parent.take_poi"> take poi</button>
+              </div>
+              <div class="candidate_button_container" data-bind="visible: Cancel_button_visible">
+                <button data-bind="click:$parent.cancel_poi">cancel poi</button> 
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </script>
 

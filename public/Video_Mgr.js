@@ -2,40 +2,10 @@
 
   var self = this;
 
-  self.speech_visible = ko.observable(false);
-  self.speech_role = ko.observable(); 
-  self.speaker_name = ko.observable(); 
-  self.speech_time = ko.observable();
 
-  self.video_canvas_style_str = ko.observable();
-
- // self.normal_buttons = ko.observable(false);
-  self.complete_speech_button = ko.observable(false); 
-  self.poi_button = ko.observable(false); 
-  self.finish_poi_button = ko.observable(false); 
-  self.finish_poi_bySpeaker_button = ko.observable(false); 
-    
-  self.start_speech_button_visible = ko.observable(false); 
+/*start speech area*/
+  self.visible_start_speech = ko.observable(false); 
   self.start_speech_role_name_array = ko.observableArray();
-  
-  self.poi_candidate_visible = ko.observable(true); 
-  self.poi_candidate_view_array = ko.observableArray();
-
-  self.current_speaker = null;
-  self.current_speaker_role = null;
-  self.own_hangout_id = own_hangout_id;
-  self.hangout_speech_status = null;
-  self.timer = null;
-
-  self.speech_duration = 0;
-  self.canvas = gapi.hangout.layout.getVideoCanvas();
-
-  self.speech_recognition = new WebSpeech_Recognition();
-  var transcription_obj = appmgr.actual_game_obj.get("speech_transcription");
-  self.speech_recognition.initialize(transcription_obj.id);
-  self.under_recording = false;
-
-
   self.click_speech_start = function(data, event){
     console.log(data.button_role_name);
     var speech_obj = get_hangout_speech_status();
@@ -48,13 +18,10 @@
     speech_obj["poi_speaker"] = null;
     speech_obj_str = JSON.stringify(speech_obj);
 
-
     var speech_counter = get_hangout_speech_status_counter();
     speech_counter++;
     speech_counter_str = String(speech_counter);
-
     var speech_id = self.get_guid();
-
     gapi.hangout.data.submitDelta({
         "hangout_speech_status": speech_obj_str,
         "hangout_speech_status_counter":speech_counter_str,
@@ -62,8 +29,96 @@
     });
   }
 
- self.cancel_poi = function(data, event){
 
+/* speaker info area */
+  self.visible_speaker_info = ko.observable(false); 
+  self.speech_role = ko.observable(); 
+  self.speaker_name = ko.observable(); 
+//  self.speech_time = ko.observable();
+  self.timer_prefix = ko.observable();
+  self.timer_value = ko.observable();
+
+/*complete button*/
+  self.visible_complete_button = ko.observable(false); 
+  self.click_complete_speech = function(){
+    var self = this;
+    var speech_counter = get_hangout_speech_status_counter();
+    speech_counter++;
+    speech_counter_str = String(speech_counter);
+    gapi.hangout.data.submitDelta({
+          "hangout_speech_status_counter":speech_counter_str
+    },["hangout_speech_status"]);
+  }
+
+/*video dummy area*/
+  self.video_canvas_style_str = ko.observable();
+
+
+/*poi field*/
+  self.visible_poi_button = ko.observable(true);
+  self.click_poi = function(){
+    var self = this;
+    var speech_obj = get_hangout_speech_status();
+    if(!speech_obj){
+      speech_obj = new Object();
+    }
+    if(speech_obj["poi_candidate"]){
+      speech_obj["poi_candidate"].push(self.own_hangout_id);
+    }else{
+      speech_obj["poi_candidate"] = new Array();
+      speech_obj["poi_candidate"].push(self.own_hangout_id);
+    }
+    speech_obj_str = JSON.stringify(speech_obj);
+    var speech_counter = get_hangout_speech_status_counter();
+    speech_counter++;
+    speech_counter_str = String(speech_counter);
+    gapi.hangout.data.submitDelta({
+          "hangout_speech_status_counter":speech_counter_str,
+          "hangout_speech_status": speech_obj_str
+    });
+    var poi_message_obj = {type:"sound", message:{type:"poi",user_id:global_own_parse_id}};
+    var poi_message_str = JSON.stringify(poi_message_obj);
+    gapi.hangout.data.sendMessage(poi_message_str);
+    appmgr.sound_mgr.play_sound_poi();
+  }
+  self.visible_finish_button = ko.observable(false); 
+
+  self.finish_poi = function(){
+    var self = this;
+    var speech_obj = get_hangout_speech_status();
+    if(!speech_obj){
+      speech_obj = new Object();
+    }
+    if(speech_obj["poi_candidate"]){
+      speech_obj["poi_candidate"] = new Array(); 
+    }
+    speech_obj["poi_speaker"] = null;
+
+    speech_obj_str = JSON.stringify(speech_obj);
+    var speech_counter = get_hangout_speech_status_counter();
+    speech_counter++;
+    speech_counter_str = String(speech_counter);
+
+    gapi.hangout.data.submitDelta({
+          "hangout_speech_status_counter":speech_counter_str,
+          "hangout_speech_status": speech_obj_str
+    });
+    var poi_finish_message_obj = {type:"sound", message:{type:"poi_finish",user_id:global_own_parse_id}};
+    var poi_finish_message_str = JSON.stringify(poi_finish_message_obj);
+    gapi.hangout.data.sendMessage(poi_finish_message_str);
+    appmgr.sound_mgr.play_sound_poi_finish();
+  }
+
+  self.visible_finish_poi_bySpeaker = ko.observable(false); 
+  self.finish_poi_bySpeaker = function(){
+    var self = this;
+    self.finish_poi();
+  }
+
+
+  self.poi_candidate_view_array = ko.observableArray();
+  //self.poi_candidate_visible = ko.observable(true); 
+  self.cancel_poi = function(data, event){
     var speech_obj = get_hangout_speech_status();
     if(!speech_obj){
       speech_obj = new Object();
@@ -88,12 +143,8 @@
         "hangout_speech_status": speech_obj_str,
         "hangout_speech_status_counter":speech_counter_str
     });
-
-
-
- }
-
- self.take_poi = function(data, event){
+  }
+  self.take_poi = function(data, event){
     var speech_obj = get_hangout_speech_status();
     if(!speech_obj){
       speech_obj = new Object();
@@ -116,18 +167,23 @@
     var taken_message_str = JSON.stringify(taken_message_obj);
     gapi.hangout.data.sendMessage(taken_message_str);
     appmgr.sound_mgr.play_sound_taken();
- }
-}
-
-VideoViewModel.prototype.get_guid = function() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
   }
-  return s4() + s4();
-}
 
+  self.current_speaker = null;
+  self.current_speaker_role = null;
+  self.own_hangout_id = own_hangout_id;
+  self.hangout_speech_status = null;
+  self.timer = null;
+
+  self.speech_duration = 0;
+  self.canvas = gapi.hangout.layout.getVideoCanvas();
+
+  self.speech_recognition = new WebSpeech_Recognition();
+  var transcription_obj = appmgr.actual_game_obj.get("speech_transcription");
+  self.speech_recognition.initialize(transcription_obj.id);
+  self.under_recording = false;
+
+}
 
 
 VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
@@ -147,7 +203,8 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
   if(poi_speaker_obj){
     self.OwnSpeechHaneler(poi_speaker_obj, "poi");
-    self.poi_candidate_view_array().splice(0, self.poi_candidate_view_array.length);
+    //self.poi_candidate_view_array().splice(0, self.poi_candidate_view_array.length);
+    self.remove_candidate_all();
     self.show_Speaker(poi_speaker_obj, "poi");
     self.OthersSpeechHaneler(poi_speaker_obj, "poi");
 
@@ -237,7 +294,8 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
   var self = this;
   if(self.current_speaker != hangout_id){
-    self.speech_time("speech start");
+    // self.speech_time("speech start");
+    self.timer_value("speech start");
     if(!self.timer ){
       self.timer = setInterval( function(){self.countTimer()},1000);
       console.log("start timer is" + self.timer);
@@ -266,14 +324,21 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   var duration_mod = self.speech_duration % 60;
   var minutes = (self.speech_duration - duration_mod)/60;
   var second = duration_mod;
-  var timer_msg = "time spent:   " + minutes + "min " + second + "sec";
-  self.speech_time(timer_msg);
+  var timer_str = minutes + "min " + second + "sec";
+  //self.speech_time(timer_msg);
+
+  self.timer_value(timer_str);
+
+
+
  }
 
  VideoViewModel.prototype.StopTimer = function(){
     var self = this;
     self.speech_duration = 0;
-    self.speech_time("");
+    //self.speech_time("");
+    self.timer_value("");
+    self.timer_prefix("");
     console.log("clear timer is" + self.timer);
     clearInterval(self.timer);
     self.timer = null;
@@ -292,26 +357,27 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     var name = appmgr.participant_manager_object.getName_fromHangoutID(hangout_id);
     var pict_src = appmgr.participant_manager_object.getPictSrc_fromHangoutID(hangout_id);
     role_name  = role_name + ":   ";
-    self.speech_visible(true);
     if(type=="poi"){
       self.speech_role("poi: "); 
     }else{
       self.speech_role(role_name);   
     }
     self.speaker_name(name); 
-    self.speech_time();
+  //  self.speech_time();
     self.current_speaker = hangout_id;
  //   self.start_speech();
     self.feed = gapi.hangout.layout.createParticipantVideoFeed(hangout_id);
-
+    self.visible_speaker_info(true);
   }else{
     // discussion mode  
-    self.speech_visible(true);
-    self.speech_role("discussion mode: "); 
-    self.speaker_name(" anyone can talk");
-    self.speech_time();
+    //self.speech_role("discussion mode: "); 
+    //self.speaker_name(" anyone can talk");
+  //  self.speech_time();
     self.current_speaker = null;
     self.feed = gapi.hangout.layout.getDefaultVideoFeed();
+    self.speech_role(null);
+    self.speaker_name(null); 
+    self.visible_speaker_info(false);
   }
 
 
@@ -364,21 +430,21 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   var is_already_poied_yourself = self.is_already_poied(hangout_speech_status);
   var is_debater_yourself = appmgr.participant_manager_object.isDebater_yourself();
 
-  self.complete_speech_button(false);
-  self.poi_button(false);
-  self.finish_poi_button(false);
-  self.finish_poi_bySpeaker_button(false);
+  self.visible_complete_button(false);
+  self.visible_poi_button(false);
+  self.visible_finish_button(false);
+  self.visible_finish_poi_bySpeaker(false);
   self.hide_start_speech_button();
 
 
   if(poi_speaker_hangout_id){
     if(is_poi_speaker_yourself){
       //complete poi
-      self.finish_poi_button(true);
+      self.visible_finish_button(true);
     }else{
       if(is_speaker_yourself){
         //force finish
-        self.finish_poi_bySpeaker_button(true);
+        self.visible_finish_poi_bySpeaker(true);
       }else{
         //nothing to show
       }
@@ -388,7 +454,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
       if(is_speaker_yourself){
         //stop speech
         //self.show_stop_speech_button();
-        self.complete_speech_button(true);
+        self.visible_complete_button(true);
 
       }else{
         if(is_speaker_group_member){
@@ -404,7 +470,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
 
             }else{
               // poi
-              self.poi_button(true);
+              self.visible_poi_button(true);
             }
           }
         }
@@ -442,7 +508,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   var own_role_array = appmgr.participant_manager_object.get_own_role_array();
 
   if(own_role_array.length > 0){
-    self.start_speech_button_visible(true);
+    self.visible_start_speech(true);
   }
 
   for(var i=0; i< own_role_array.length; i++){
@@ -456,20 +522,20 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
  VideoViewModel.prototype.hide_start_speech_button = function(){
   var self = this;
   self.start_speech_role_name_array.removeAll();
-  self.start_speech_button_visible(false);
+  self.visible_start_speech(false);
 
  }
 /*
  VideoViewModel.prototype.show_stop_speech_button = function(){
   var self = this;
 //  self.normal_buttons(true);
-  self.complete_speech_button(true);
+  self.visible_complete_button(true);
 
  }
  VideoViewModel.prototype.hide_stop_speech_button = function(){
   var self = this;
  // self.normal_buttons(false);
-  self.complete_speech_button(false);
+  self.visible_complete_button(false);
 
  }
 */
@@ -497,10 +563,10 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
 
 
   if( !next_candidate_array || next_candidate_array.length==0){
-    self.poi_candidate_visible(false);
-    self.poi_candidate_view_array();
+//    self.poi_candidate_visible(false);
+    self.remove_candidate_all();
   }else{
-    self.poi_candidate_visible(true);
+  //  self.poi_candidate_visible(true);
     var new_poi_candidate_array = _.difference(next_candidate_array, current_poi_candidate_array);
     var remove_poi_candidate_array = _.difference(current_poi_candidate_array, next_candidate_array);
     for(var i=0; i<new_poi_candidate_array.length; i++){
@@ -528,7 +594,7 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
   }
 
 
-  self.poi_candidate_view_array.push({img_url:pict_src, name:name,PoiTake_button_visible:poi_take_visible, cancel_button_visible:poi_cancel_visible, hangout_id: in_hangout_id});
+  self.poi_candidate_view_array.push({img_url:pict_src, name:name,PoiTake_button_visible:poi_take_visible, Cancel_button_visible:poi_cancel_visible, hangout_id: in_hangout_id});
  }
 
 
@@ -538,99 +604,20 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
   self.poi_candidate_view_array.remove(function(item) { return item.hangout_id == in_hangout_id });
  }
 
-  VideoViewModel.prototype.remove_candidate_all = function(in_hangout_id){
-  var self = this;
-  }
-
-
-
-
-
- VideoViewModel.prototype.click_complete_speech = function(){
-  var self = this;
-  
-  var speech_counter = get_hangout_speech_status_counter();
-  speech_counter++;
-  speech_counter_str = String(speech_counter);
-
-  gapi.hangout.data.submitDelta({
-        "hangout_speech_status_counter":speech_counter_str
-  },["hangout_speech_status"]);
-
- }
-
- VideoViewModel.prototype.click_poi = function(){
-  var self = this;
- 
-  var speech_obj = get_hangout_speech_status();
-  if(!speech_obj){
-    speech_obj = new Object();
-  }
-  if(speech_obj["poi_candidate"]){
-    speech_obj["poi_candidate"].push(self.own_hangout_id);
-  }else{
-    speech_obj["poi_candidate"] = new Array();
-    speech_obj["poi_candidate"].push(self.own_hangout_id);
-  }
-
-  speech_obj_str = JSON.stringify(speech_obj);
-  var speech_counter = get_hangout_speech_status_counter();
-  speech_counter++;
-  speech_counter_str = String(speech_counter);
-
-  gapi.hangout.data.submitDelta({
-        "hangout_speech_status_counter":speech_counter_str,
-        "hangout_speech_status": speech_obj_str
-  });
-
-  var poi_message_obj = {type:"sound", message:{type:"poi",user_id:global_own_parse_id}};
-  var poi_message_str = JSON.stringify(poi_message_obj);
-  gapi.hangout.data.sendMessage(poi_message_str);
-  appmgr.sound_mgr.play_sound_poi();
-
- }
-
- VideoViewModel.prototype.finish_poi = function(){
-  var self = this;
- 
-  var speech_obj = get_hangout_speech_status();
-  if(!speech_obj){
-    speech_obj = new Object();
-  }
-  if(speech_obj["poi_candidate"]){
-    speech_obj["poi_candidate"] = new Array(); 
-  }
-  speech_obj["poi_speaker"] = null;
-
-  speech_obj_str = JSON.stringify(speech_obj);
-  var speech_counter = get_hangout_speech_status_counter();
-  speech_counter++;
-  speech_counter_str = String(speech_counter);
-
-  gapi.hangout.data.submitDelta({
-        "hangout_speech_status_counter":speech_counter_str,
-        "hangout_speech_status": speech_obj_str
-  });
-
-
-  var poi_finish_message_obj = {type:"sound", message:{type:"poi_finish",user_id:global_own_parse_id}};
-  var poi_finish_message_str = JSON.stringify(poi_finish_message_obj);
-  gapi.hangout.data.sendMessage(poi_finish_message_str);
-  appmgr.sound_mgr.play_sound_poi_finish();
-
- }
-
- VideoViewModel.prototype.finish_poi_bySpeaker = function(){
-  var self = this;
-  self.finish_poi();
- 
+ VideoViewModel.prototype.remove_candidate_all = function(){
+    var self = this;
+    self.poi_candidate_view_array.removeAll();
  }
 
 
 
 
- VideoViewModel.prototype.updateModel = function(){
-   var self = this;
-   self.speech_visible(true);
- }
+VideoViewModel.prototype.get_guid = function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4();
+}
 
