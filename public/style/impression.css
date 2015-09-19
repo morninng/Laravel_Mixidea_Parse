@@ -1,0 +1,39 @@
+#hearhear_img{
+	width:50px;
+	height:50px;
+	padding:5px;
+}
+
+#booboo_img{
+	width:50px;
+	height:50px;
+	padding:5px;
+}
+
+
+.impression_member_img{
+	padding:5px;
+}
+
+.hearhear {
+}
+
+.booboo{
+}
+
+.impression_ul{
+	padding-left: 0;
+	list-style: none;
+	margin-top:0px;
+	margin-bottom:0px;
+	text-align:center;
+}
+
+
+#impression_container {
+	display:flex;
+	direction:row;
+	width:200px;
+	justify-content:space-around;
+	background-color: #FFE4E1;
+}
