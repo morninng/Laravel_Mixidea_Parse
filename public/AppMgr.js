@@ -117,17 +117,15 @@ AppMgr.prototype.initialize = function(in_actual_game_obj){
 	self.video_view_model.update_poi_candidate(hangout_speech_status);
 
 
-
 	var Chat_html_Template = _.template($('[data-template="chat_template"]').html());
-    var chat_element = $("#chat_area");
+    var chat_element = $("#absolute_pain_1");
     var Chat_html_text = Chat_html_Template();
     chat_element.html(Chat_html_text);
 
-
     self.chat_view_model = new ChatViewModel();
-    var chat_el = document.getElementById('chat_template_area');
+    var chat_el = document.getElementById('chat_field');
     ko.applyBindings(self.chat_view_model, chat_el);
-    self.chat_view_model.initialize(self.own_hangoutid);
+    self.chat_view_model.update();
 
 
 	var Title_html_Template = _.template($('[data-template="title_template"]').html());
@@ -270,8 +268,8 @@ AppMgr.prototype.receive_message = function(received_message){
 			self.chat_view_model.receive_message(message_obj, sender_hangout_id);
 		break;
 	}
-
 }
+
 
 AppMgr.prototype.get_hangout_speech_status = function(){
 
@@ -286,7 +284,5 @@ AppMgr.prototype.get_hangout_speech_status = function(){
     hangout_speech_status_obj["speaker"] = null;
     hangout_speech_status_obj["poi_candidate"] = new Array();
   }
-
   return hangout_speech_status_obj;
-
 }

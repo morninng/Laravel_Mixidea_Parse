@@ -127,7 +127,7 @@ Game_Status_Mgr.prototype.apply_status = function(status_num) {
 		self.game_status_message("introduction: you can introduce each other with the participants");
 		self.indicate_class_introduction("game_status_indicate_focusued");
 		self.count_timer_hide();
-		appmgr.chat_view_model.unvisible_hangout_button();
+	//	appmgr.chat_view_model.unvisible_hangout_button();
 
 		break;
 		case "preparation":
@@ -136,25 +136,25 @@ Game_Status_Mgr.prototype.apply_status = function(status_num) {
 		var start_time = appmgr.actual_game_obj.get("prep_start_time");
 		console.log(start_time);
 		self.count_timer_start(start_time);
-		appmgr.chat_view_model.visible_hangout_button();
+	//	appmgr.chat_view_model.visible_hangout_button();
 
 		break;
 		case "debate":
 		self.indicate_class_debate("game_status_indicate_focusued");
 		self.game_status_message("time to debate");
 		self.count_timer_hide();
-		appmgr.chat_view_model.unvisible_hangout_button();
+	//	appmgr.chat_view_model.unvisible_hangout_button();
 
 		break;
 		case "evaluation":
 		self.indicate_class_evaluation("game_status_indicate_focusued");
 		self.game_status_message("make a comment and discuss each other");
 		self.count_timer_hide();
-		appmgr.chat_view_model.unvisible_hangout_button();
+	//	appmgr.chat_view_model.unvisible_hangout_button();
 
 		break;
 		case "complete":
-		appmgr.chat_view_model.unvisible_hangout_button();
+	//	appmgr.chat_view_model.unvisible_hangout_button();
 
 		break;
 

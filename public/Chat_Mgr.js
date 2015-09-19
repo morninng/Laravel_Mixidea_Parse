@@ -2,22 +2,57 @@
 function ChatViewModel() {
 
   var self = this;
+
+  self.same_member_parseid_array = new Array();
+  self.chat_text_input = ko.observable();
   self.chat_message_array = ko.observableArray();
-  self.hangout_visible = ko.observable(true); 
-  self.hangout_url = ko.observable(); 
+  self.chat_header_title = ko.observable();
+  self.visible_maximize_button = ko.observable(false);
+  self.visible_collapse_button = ko.observable(true);
 
+  self.team_side_str = null;
 
-  self.initial_message_visible = ko.observable(true); 
-  self.message_visible = ko.observable(false); 
- // self.group_member_hangoutid_array = new Array();
 }
 
-ChatViewModel.prototype.initialize = function(in_hangout_id){
+ChatViewModel.prototype.update = function(){
   
   var self = this;
-  self.own_hangout_id = in_hangout_id;
+
+  var team_side_str = appmgr.participant_manager_object.get_own_group_name();
+  var title_bar = "chatroom among " + team_side_str;
+  self.chat_header_title(title_bar);
+  if(team_side_str != self.team_side_str){
+
+    self.chat_message_array.removeAll();
+    self.team_side_str = team_side_str;
+  }
+
 }
 
+
+
+
+
+
+
+
+ChatViewModel.prototype.click_collapse = function(){
+  var self = this;
+   $('#msg_wrap').slideUp("slow");
+  self.visible_maximize_button(true);
+  self.visible_collapse_button(false);
+}
+
+ChatViewModel.prototype.click_expand = function(){
+
+  var self = this;
+   $('#msg_wrap').slideDown("slow");
+  self.visible_maximize_button(false);
+  self.visible_collapse_button(true);
+}
+
+
+/*
 ChatViewModel.prototype.update = function(){
 
   var self = this;
@@ -28,6 +63,8 @@ ChatViewModel.prototype.update = function(){
   self.hangout_url_obj = hangout_url_obj;
   self.show_hangout_button();
 }
+*/
+/*
 
 ChatViewModel.prototype.show_hangout_button = function(){
 
@@ -54,18 +91,19 @@ ChatViewModel.prototype.show_hangout_button = function(){
   console.log(hangout_link_str);
 
 }
-
+*/
+/*
 ChatViewModel.prototype.unvisible_hangout_button = function(){
   var self = this;
   self.hangout_visible(false); 
 }
-
-
+*/
+/*
 ChatViewModel.prototype.visible_hangout_button = function(){
   var self = this;
   self.hangout_visible(true); 
 }
-
+*/
 
 
 /*
@@ -76,9 +114,37 @@ ChatViewModel.prototype.update_group_member = function(){
 }
 */
 
-ChatViewModel.prototype.click_sendbutton = function(data, event){
+
+ChatViewModel.prototype.onEnterTextbox = function(data, event){
 
   var self = this;
+
+  if(event.keyCode === 13 ){
+    var text_message = self.chat_text_input();
+    if(text_message.length>1){
+      self.send_hangout_message(text_message);
+      self.show_own_message(text_message);
+      self.chat_text_input(null);
+      $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+    }
+  }
+}
+ChatViewModel.prototype.show_own_message = function(text_message){
+
+  var self = this;
+  var chat_message_obj = {chat_message:text_message, chat_box_class:"chat_msg_own", sender_name:""}
+  self.chat_message_array.push(chat_message_obj);
+}
+
+ChatViewModel.prototype.send_hangout_message = function(text){
+  var self = this;
+  var chat_message_obj = {type:"chat",message:text};
+  var chat_message_str = JSON.stringify(chat_message_obj);
+  gapi.hangout.data.sendMessage(chat_message_str);
+}
+
+
+      /*
   var text =  document.forms.chat_send_form.chat_textarea.value;
 
   if(text.length > 1){
@@ -90,7 +156,11 @@ ChatViewModel.prototype.click_sendbutton = function(data, event){
   }
 
   document.forms.chat_send_form.chat_textarea.value = "";
-}
+  */
+
+
+
+
 
 /*
 　{type:chat:message:AAAAAAAAAAAAAAAAAAAAAaaa}
@@ -103,14 +173,16 @@ ChatViewModel.prototype.receive_message = function(received_message, sender_hang
   if(!is_my_partner){
     return;
   }
-  
-  var message_shown = ":" + received_message;
-  var message_css = null;
-  var name = null;
-  name = appmgr.participant_manager_object.getFirstName_fromHangoutID(sender_hangout_id);
-  message_css = "message_css_others";
+  $('#msg_wrap').slideDown("slow");
+  self.visible_maximize_button(false);
+  self.visible_collapse_button(true);
 
-  self.initial_message_visible(false);
-  self.chat_message_array.push({chat_class:"message_css_others", sender_name:name, chat_message:message_shown});
+  var message_shown = ":" + received_message;
+  var name = appmgr.participant_manager_object.getFirstName_fromHangoutID(sender_hangout_id);
+
+  var chat_message_obj = {chat_box_class:"chat_msg_other", sender_name:name, chat_message:message_shown}
+  self.chat_message_array.push(chat_message_obj);
+
+  $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
 
 }
