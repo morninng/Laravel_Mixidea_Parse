@@ -26,26 +26,7 @@ form {margin-bottom: 0px;}
 }
 
 
-.message_css_own{
-  color: red;
 
-}
-
-.message_css_others{
-  color: black;
-
-}
-
-
-#hangout_group_discuss_message{
-
-	font-family: sans-serif;
-	font-size: large;
-	color: #0000ff;
-	padding-top: 5px;
-	padding-bottom: 5px;
-
-}
 
 #whole {
 	width: 100%;
@@ -148,32 +129,8 @@ form {margin-bottom: 0px;}
 
 
 
-#speech_status {
-	background-color: #FFCCCC;
-	width: 300px;
-	margin: 2px;
-	float: left;
-}
 
 
-
-#partner_message {
-background-color: #CCCC00;
-width: 300px;
-margin: 4px 4px 4px 4px;
-}
-
-#partner_hangout {
-	background-color: #DDDDFF;
-	width: 280px;
-	margin: 10px;
-}
-
-#chat_field {
-	background-color: #ffffe0;
-	width: 280px;
-	margin: 10px;
-}
 
 
 /* original */
