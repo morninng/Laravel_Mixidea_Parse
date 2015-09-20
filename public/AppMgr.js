@@ -270,19 +270,3 @@ AppMgr.prototype.receive_message = function(received_message){
 	}
 }
 
-
-AppMgr.prototype.get_hangout_speech_status = function(){
-
-  var hangout_speech_status_str = gapi.hangout.data.getValue("hangout_speech_status");
-  var hangout_speech_status_obj;
-
-  if(hangout_speech_status_str){
-    hangout_speech_status_obj = JSON.parse(hangout_speech_status_str);
-  }else{
-    hangout_speech_status_obj = new Object();
-    hangout_speech_status_obj["poi_speaker"] = null;
-    hangout_speech_status_obj["speaker"] = null;
-    hangout_speech_status_obj["poi_candidate"] = new Array();
-  }
-  return hangout_speech_status_obj;
-}

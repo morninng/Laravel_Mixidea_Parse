@@ -1,0 +1,14 @@
+
+.transcription_name {
+	margin-bottom:0px;
+	margin-top:5px;
+	font-weight:bold;
+}
+
+
+#transcription_field div{
+	flex:1;
+	min-width: 200px;
+	border-style: solid;
+	border-width: thin;
+}

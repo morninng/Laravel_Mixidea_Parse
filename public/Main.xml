@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/user_status.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/participant_table.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/impression.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/transcription.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/title.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 

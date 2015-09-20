@@ -2,13 +2,6 @@ p { line-height: 100% }
 div { line-height: 110% }
 form {margin-bottom: 0px;}
 
-.transcription_name {
-	margin-bottom:0px;
-	margin-top:5px;
-	font-weight:bold;
-}
-
-
 
 
 
@@ -34,9 +27,6 @@ form {margin-bottom: 0px;}
 	width: 1012px;
 }
 
-#title_container{
-	display: flex;
-}
 
 .game_status_indicate{
 	vertical-align: middle;
@@ -47,65 +37,13 @@ form {margin-bottom: 0px;}
 }
 
 
-#event-title{
-	width: 1012px;
-	border-style: solid;
-	border-width: thin;
-	position: relative;
-}
-
-#motion_title{
-	margin-left: 5px;
-	margin-right: 5px;
-	padding-left: 5px;
-	padding-right: 5px;
-
-}
-
-#motion_sentence{
-	margin-left: 10px;
-	padding-left: 10px;
-	font-family: sans-serif;
-	font-size: x-large;
-}
-
-#event_left{
-	max-width: 1100px;
-	min-width: 500px;
-	vertical-align: text-bottom;
-}
-#event_title_input{
-	min-width: 400px;
-}
-
-#event_title_show_out{
-	font-size: large;
-	padding-top: 8px;
-	padding-bottom: 0px;
-	display: flex;
-	flex-wrap: nowrap;
-}
-#event_title_show_in{
-	padding: 5px;
-	font-weight:normal;
-	max-width: 1100px;
-	min-width: 500px;
-}
 
 
 
-.title_button{
-	position: absolute;
-	bottom:   5;
-	display: flex;
-	flex-wrap: nowrap;
-}
 
 
-#event_right{
-	vertical-align: text-bottom;
-	position:relative;
-}
+
+
 
 
 
@@ -193,53 +131,8 @@ form {margin-bottom: 0px;}
 	color: #ff0000;
 }
 
-#transcription_field div{
-	flex:1;
-	min-width: 200px;
-	border-style: solid;
-	border-width: thin;
-}
 
 
-
-
-#impression_container {
-	display:flex;
-	direction:row;
-	width:200px;
-	justify-content:space-around;
-	background-color: #FFE4E1;
-}
-.hearhear {
-}
-
-.booboo{
-}
-
-.impression_ul{
-	padding-left: 0;
-	list-style: none;
-	margin-top:0px;
-	margin-bottom:0px;
-	text-align:center;
-}
-
-.impression_member_img{
-	padding:5px;
-}
-
-
-#hearhear_img{
-	width:50px;
-	height:50px;
-	padding:5px;
-}
-
-#booboo_img{
-	width:50px;
-	height:50px;
-	padding:5px;
-}
 
 /* two_column */
 
