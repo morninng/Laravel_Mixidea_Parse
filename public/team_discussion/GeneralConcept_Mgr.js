@@ -77,11 +77,11 @@ GeneralConcept_Mgr.prototype.ApplyTemplate = function(){
 
 	var self = this;
 	var GeneralConcept_html_Template = _.template($('[data-template="general_concept_template"]').html());
-    var generalConcept_element = $("#second_left_second");
+    var generalConcept_element = $("#general_concept_pain");
     var generalConcept_html_text = GeneralConcept_html_Template();
     generalConcept_element.html(generalConcept_html_text);
 	self.general_concept_vm = new GeneralConcept_VM();
-    var general_concept_el = document.getElementById('second_left_second');
+    var general_concept_el = document.getElementById('general_concept_pain');
     ko.applyBindings(self.general_concept_vm , general_concept_el);
 	self.general_concept_vm.initialize(self.general_concept_obj);
 }

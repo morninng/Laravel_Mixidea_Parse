@@ -1,0 +1,73 @@
+
+
+
+#general_concept_pain {
+  	background-color: #00FF00;
+	overflow-y: scroll; 
+  	padding:5px;
+  	max-height:300px;
+  	min-height:200px;
+  	width:100%;
+}
+
+.concept_title{
+	font-weight: bold;
+	font-size:large;
+	width:100%;
+}
+.concept_left{
+	flex:1;
+}
+.concept_right{
+	width:200px;
+	padding:20px;
+}
+.Concept{
+	width:100%;
+}
+.concept_container{
+	display:flex;
+	flex-direction:row;
+}
+.concept_text_container{
+	width:100%;
+}
+
+.general_concept_input {
+	margin-bottom:0px;
+	margin:10px;
+	padding:10px;
+	border-style: solid;
+	border-width: medium;
+	min-height: 200px;
+	width: 100%;
+	background-color: #FFFFFF;
+}
+
+.general_concept_txt {
+	margin:10px;
+	padding-left:10px;
+	padding-right:10px;
+	border-style: solid;
+	border-width: thin;
+	min-height: 100px;
+	width: 100%;
+	background-color: #FCF5F5;
+	/*overflow-y:scroll;*/
+}
+.Concept_editor_info{
+	padding-left:5px;
+}
+
+.Concept_button{
+	display:flex;
+	flex-direction:row;
+	padding:10px;
+	margin:20px;
+}
+.Concept_loading{
+	margin-left: auto;
+	text-align:right;
+	float: right;
+	padding-right:15px;	
+}

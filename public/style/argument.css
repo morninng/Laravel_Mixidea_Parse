@@ -1,0 +1,206 @@
+
+#argument_list {
+	width: 100%;
+	display: table;
+	overflow:scroll;
+}
+
+.argument_element{
+	display: table-cell;
+	min-width: 540px;
+	border: 1px solid #000000;
+	padding: 15px;
+	margin: 4px;
+	overflow: scroll;
+
+}
+
+.Title_Input_default{
+	margin-left:20px;
+	margin-right:20px;
+	min-width:300px;
+	border-style: solid;
+	border-width: thin;
+	border-color: #D3D3D3;
+
+}
+
+.Title_Input_edit{
+	margin-left:20px;
+	margin-right:20px;
+	min-width:400px;
+	padding: 20px;
+	border-style: solid;
+	border-width: medium;
+	background-color: #FFFFFF;
+	border-color: #D3D3D3;
+}
+
+.title_loading{
+	margin-left: auto;
+	text-align:right;
+	float: right;
+	padding-right:15px;
+}
+
+
+.title_right{
+}
+.editor_info{
+	padding-left:5px;
+}
+.title_button{
+	display:flex;
+	flex-direction:row;
+	padding:10px;
+}
+
+.main_arg{
+	display:flex;
+	flex-direction:row;
+}
+.MainArg_left{
+}
+.MainArgDefault_input{
+	margin-left:20px;
+	margin-right:20px;
+	min-width:300px;
+	max-width:450px;
+	min-height: 200px;
+	border-style: solid;
+	border-width: medium;
+	background-color: #FFFFFF;
+
+}
+
+.MainArg_Content{
+	margin-left:10px;
+	margin-right:10px;
+	min-width:150px;
+	max-width:450px;
+	text-align: left;
+	vertical-align:middle;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top:5px; 
+	padding-bottom:5px;
+	min-height: 200px;
+	min-width: 400px;
+	display:inline-block;
+	border-style: solid;
+	border-width: thin;
+	background-color: #FCF5F5;
+}
+
+.MainArg_input_edit{
+	margin-left:20px;
+	margin-right:20px;
+	min-width:500px;
+	min-height: 400px;
+	padding: 20px;
+	border-style: solid;
+	border-width: medium;
+	background-color: #FFFFFF;
+	border-color: #D3D3D3;
+}
+
+.MainArg_loading{
+	margin-left: auto;
+	text-align:right;
+	float: right;
+	padding-right:15px;
+}
+
+.MainArg_right{	
+}
+
+.MainArg_editor_info{
+	padding-left:5px;
+}
+
+.MainArg_button{
+	display:flex;
+	flex-direction:row;
+	padding:10px;
+}
+
+.comment_txt{
+	margin:1px;
+	padding:5px;
+	width: 100%;
+}
+
+.comment_ul{
+  list-style: none;
+  margin-left: 10px;
+}
+
+.comment_list{
+	width:100%;
+	display:flex;
+	flex-direction:row;
+	border-style: solid;
+	border-width: thin;
+	background-color: #FCF5F5;
+	margin:3px;
+}
+
+.comment_left{
+	margin:10px;
+	width:50px;
+}
+
+
+.comment_center{
+	flex:1;
+}
+
+.comment_edit_input{
+	margin:1px;
+	padding:5px;
+	width:100%;
+	min-height: 200px;
+	border-style: solid;
+	border-width: medium;
+	background-color: #FFFFFF;
+	border-color: #D3D3D3;
+}
+
+.comment_right{
+	width:70px;
+}
+
+.comment_button{
+	
+}
+
+.argument_comment_input{
+	margin:10px;
+	padding:10px;
+	border-style: solid;
+	border-width: medium;
+	min-height: 80px;
+	width: 90%;
+	background-color: #FFFFFF;
+
+}
+
+
+.MainArg_input_edit{
+	margin-left:20px;
+	margin-right:20px;
+	min-width:500px;
+	min-height: 400px;
+	padding: 20px;
+	border-style: solid;
+	border-width: medium;
+	background-color: #FFFFFF;
+	border-color: #D3D3D3;
+}
+
+
+
+
+
+
+

@@ -52,22 +52,14 @@ ul {
 	font-size: x-large;
 }
 
-#second_left_first {
+#motion_pain {
   	background-color: #FF0000;
   	width: 100%;
 	padding:10px;
 	font-size: large;
 }
-#second_left_second {
-  	background-color: #00FF00;
-	overflow-y: scroll; 
-  	padding:5px;
-  	max-height:300px;
-  	min-height:200px;
-  	width:100%;
-}
 
-#second_left_third {
+#definition_pain {
   	background-color: #0000FF;
   	padding:5px;
   	width:100%;
@@ -108,160 +100,21 @@ ul {
 	width: 100%;
 }
 
-#argument_list {
-	width: 100%;
-	display: table;
-	overflow:scroll;
-}
-
-.argument_element{
-	display: table-cell;
-	min-width: 540px;
-	border: 1px solid #000000;
-	padding: 15px;
-	margin: 4px;
-	overflow: scroll;
-
-}
 
 
-.argument_comment_input{
-	margin:10px;
-	padding:10px;
-	border-style: solid;
-	border-width: medium;
-	min-height: 80px;
-	width: 90%;
-	background-color: #FFFFFF;
-
-}
 
 
-.concept_title{
-	font-weight: bold;
-	font-size:large;
-}
-.Concept{
-	width:100%;
-}
-.concept_title{
-	width:100%;
-}
 
-.comment_ul{
-  list-style: none;
-  margin-left: 10px;
-}
 
-.comment_list{
-	width:100%;
-	display:flex;
-	flex-direction:row;
-	border-style: solid;
-	border-width: thin;
-	background-color: #FCF5F5;
-	margin:3px;
-}
 
 .title{
-	display:flex;
-	flex-direction:row;
-}
-.main_arg{
-	display:flex;
-	flex-direction:row;
-}
-.concept_container{
 	display:flex;
 	flex-direction:row;
 }
 
 .title_left{
 }
-.MainArg_left{
-}
-.comment_left{
-	margin:10px;
-	width:50px;
-}
-.concept_left{
-	flex:1;
-}
-.comment_center{
-	flex:1;
-}
-.title_right{
-}
-.concept_right{
-	width:200px;
-	padding:20px;
-}
-.MainArg_right{	
-}
-.comment_right{
-	width:70px;
-}
-.Concept_button{
-	display:flex;
-	flex-direction:row;
-	padding:10px;
-	margin:20px;
-}
-.title_button{
-	display:flex;
-	flex-direction:row;
-	padding:10px;
-}
-.MainArg_button{
-	display:flex;
-	flex-direction:row;
-	padding:10px;
-}
-.title_loading{
-	margin-left: auto;
-	text-align:right;
-	float: right;
-	padding-right:15px;
-}
-.MainArg_loading{
-	margin-left: auto;
-	text-align:right;
-	float: right;
-	padding-right:15px;
-}
-.Concept_loading{
-	margin-left: auto;
-	text-align:right;
-	float: right;
-	padding-right:15px;	
-}
 
-.editor_info{
-	padding-left:5px;
-}
-.MainArg_editor_info{
-	padding-left:5px;
-}
-.Concept_editor_info{
-	padding-left:5px;
-}
-
-.concept_text_container{
-	width:100%;
-}
-
-.general_concept_txt {
-	margin:10px;
-	padding-left:10px;
-	padding-right:10px;
-	border-style: solid;
-	border-width: thin;
-	min-height: 100px;
-	width: 100%;
-	background-color: #FCF5F5;
-	/*overflow-y:scroll;*/
-
-}
 
 
 .title_content{
@@ -281,96 +134,7 @@ ul {
 }
 
 
-.MainArg_Content{
-	margin-left:10px;
-	margin-right:10px;
-	min-width:150px;
-	max-width:450px;
-	text-align: left;
-	vertical-align:middle;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top:5px; 
-	padding-bottom:5px;
-	min-height: 200px;
-	min-width: 400px;
-	display:inline-block;
-	border-style: solid;
-	border-width: thin;
-	background-color: #FCF5F5;
-}
 
-.comment_txt{
-	margin:1px;
-	padding:5px;
-	width: 100%;
-}
-
-
-.Title_Input_default{
-	margin-left:20px;
-	margin-right:20px;
-	min-width:300px;
-	border-style: solid;
-	border-width: thin;
-	border-color: #D3D3D3;
-
-}
-
-.MainArgDefault_input{
-	margin-left:20px;
-	margin-right:20px;
-	min-width:300px;
-	max-width:450px;
-	min-height: 200px;
-	border-style: solid;
-	border-width: medium;
-	background-color: #FFFFFF;
-
-}
-.general_concept_input {
-	margin-bottom:0px;
-	margin:10px;
-	padding:10px;
-	border-style: solid;
-	border-width: medium;
-	min-height: 200px;
-	width: 100%;
-	background-color: #FFFFFF;
-}
-
-.Title_Input_edit{
-	margin-left:20px;
-	margin-right:20px;
-	min-width:400px;
-	padding: 20px;
-	border-style: solid;
-	border-width: medium;
-	background-color: #FFFFFF;
-	border-color: #D3D3D3;
-}
-
-.MainArg_input_edit{
-	margin-left:20px;
-	margin-right:20px;
-	min-width:500px;
-	min-height: 400px;
-	padding: 20px;
-	border-style: solid;
-	border-width: medium;
-	background-color: #FFFFFF;
-	border-color: #D3D3D3;
-}
-.comment_edit_input{
-	margin:1px;
-	padding:5px;
-	width:100%;
-	min-height: 200px;
-	border-style: solid;
-	border-width: medium;
-	background-color: #FFFFFF;
-	border-color: #D3D3D3;
-}
 
 
 /*
