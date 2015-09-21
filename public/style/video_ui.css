@@ -1,6 +1,10 @@
 
 #video_area_container{
 	width:100%;
+	background-color: #F0F8FF;
+	text-align:center;
+	padding-top: 10px;
+	padding-bottom: 10px
 }
 
 #start_speech {

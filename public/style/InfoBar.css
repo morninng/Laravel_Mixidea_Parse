@@ -1,0 +1,36 @@
+#info_intro {
+	margin:10px;
+	background-color: #F5F5F5;
+}
+#info_intro p:first-child {
+	margin-left:10px;
+	font-size: medium; 
+	text-decoration: underline;
+}
+
+#info_intro p:last-child {
+	margin-left:10px;
+	font-weight: bold;  
+}
+
+#info_prep{
+	margin:10px;
+	background-color: #F5F5F5;
+}
+
+#info_prep p {
+	margin-left:10px;
+	font-size: medium; 
+	text-decoration: underline;
+}
+
+#link_team_room {
+	text-align:center;
+	padding-top:20px;
+	padding-bottom:20px;
+	padding-left:10px;
+	padding-right:10px;
+	background-color: #FFE4E1;
+	float:right;
+	width:200px;
+}

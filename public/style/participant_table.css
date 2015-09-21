@@ -1,6 +1,93 @@
 
+/*
 #audience_list{
 	padding: 5px;
 	float: left;
+	border: 1px solid #000000;
+}
+*/
+
+
+
+.team_name_row {
+	width:100%;
+	display:flex;
+	flex-direction: row;
+}
+
+.team_name_row > div{
+	width:50%;
+	text-align:center;
+	border: 1px solid #000000;
+}
+.teame_name {
+	width:80%;
+	margin:10px auto 10px auto;
+	font-weight: bold;
+	background-color: #D3D3D3
+}
+.participant_row {
+	width:100%;
+	display:flex;
+	flex-direction: row;
+}
+
+.participant_row > div{
+	width:50%;
+}
+
+.participant {
+	display:flex;
+	flex-direction: row;
+	border: 1px solid #000000;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+.participant_name{
+	flex:1;
+	text-align:center;
+}
+
+.participant_role {
+	margin-left:10px;
+	width:30px;
+	font-weight: bold;
+}
+.participant_button{
+	margin-left:auto;
+	margin-right:10px;
+}
+.participant_name{ 
+}
+
+#debater_list_title{
+	text-align:center;
+	font-weight: bold;
+	margin-bottom:0px;
+	text-decoration: underline;
+}
+
+#audience_list_title{
+	text-align:center;
+	font-weight: bold;
+	margin-bottom:0px;
+	text-decoration: underline;
+}
+
+
+#audience_list{
+	padding: 5px;
+	float: left;
+	border: 1px solid #000000;
+}
+
+#audience_list ul{
+	list-style-type: none;
+}
+
+
+#audience_list li{
+	display: inline-block;
+	list-style-type: none;
 	border: 1px solid #000000;
 }
