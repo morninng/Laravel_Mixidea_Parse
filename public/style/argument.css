@@ -15,7 +15,7 @@
 
 }
 
-.Title_Input_default{
+.ArgTitle_Input_default{
 	margin-left:20px;
 	margin-right:20px;
 	min-width:300px;
@@ -25,7 +25,7 @@
 
 }
 
-.Title_Input_edit{
+.ArgTitle_Input_edit{
 	margin-left:20px;
 	margin-right:20px;
 	min-width:400px;
@@ -36,7 +36,7 @@
 	border-color: #D3D3D3;
 }
 
-.title_loading{
+.arg_title_loading{
 	margin-left: auto;
 	text-align:right;
 	float: right;
@@ -44,12 +44,12 @@
 }
 
 
-.title_right{
+.arg_title_right{
 }
-.editor_info{
+.arg_editor_info{
 	padding-left:5px;
 }
-.title_button{
+.arg_title_button{
 	display:flex;
 	flex-direction:row;
 	padding:10px;
@@ -124,18 +124,18 @@
 	padding:10px;
 }
 
-.comment_txt{
+.arg_comment_txt{
 	margin:1px;
 	padding:5px;
 	width: 100%;
 }
 
-.comment_ul{
+.arg_comment_ul{
   list-style: none;
   margin-left: 10px;
 }
 
-.comment_list{
+.arg_comment_list{
 	width:100%;
 	display:flex;
 	flex-direction:row;
@@ -145,17 +145,17 @@
 	margin:3px;
 }
 
-.comment_left{
+.arg_comment_left{
 	margin:10px;
 	width:50px;
 }
 
 
-.comment_center{
+.arg_comment_center{
 	flex:1;
 }
 
-.comment_edit_input{
+.arg_comment_edit_input{
 	margin:1px;
 	padding:5px;
 	width:100%;
@@ -166,12 +166,12 @@
 	border-color: #D3D3D3;
 }
 
-.comment_right{
+.arg_comment_right{
 	width:70px;
 }
 
-.comment_button{
-	
+.arg_comment_button{
+
 }
 
 .argument_comment_input{
@@ -201,6 +201,8 @@
 
 
 
-
+.arg_comment{
+	
+}
 
 

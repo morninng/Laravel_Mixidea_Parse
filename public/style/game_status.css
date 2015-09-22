@@ -71,3 +71,10 @@
 	top:-2px;
 	z-index:2;
 }
+
+#goto_reflection{
+	float:right;
+	padding-right:10px;
+	background-color:#F5FFFA;
+	padding-bottom:5px;
+}

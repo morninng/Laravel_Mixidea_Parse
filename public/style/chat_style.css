@@ -1,7 +1,7 @@
 
 
 .msg_box{
-	right:50px;
+	right:20px;
 	position:fixed;
 	bottom:-5px;
 	width:250px;
@@ -102,12 +102,13 @@
 
 
 .window_icon {
-	margin:5px;
+	float:right;
+	margin:1px;
 	cursor:pointer;
 }
 .window_icon img{
-	width:20px;
-	height:20px;
+	width:22px;
+	height:22px;
 }
 .window_title{
 	flex:1;

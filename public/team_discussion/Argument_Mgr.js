@@ -78,7 +78,6 @@ Argument_Mgr.prototype.initialize = function(argument_obj_array, team_side, curr
 			self.ApplyTemplate(argument_obj_array[i], argument_obj_array[i].id, i);
 		}
 	}else{
-		//self.create_argument();
 
 		var req_obj = new Object();
 		req_obj["team"] = global_team_side;
@@ -110,16 +109,11 @@ Argument_Mgr.prototype.ApplyTemplate = function(obj, argument_id, order_num){
 	self.existing_Argument_list.push(argument_id);
 	console.log("apply template");
 	order_num++;
-	//var element_selector_str = "#argument_list .argument_child:nth-child(" + order_num + ")";
 	var Argument_html_Template = _.template($('[data-template="argument_template"]').html());
-	//var argument_element = $(element_selector_str);
     var argument_element = $("#argument_list");
-
     var data = {Argument_ID:argument_id};
     var argument_html_text = Argument_html_Template(data);
-
     argument_element.append(argument_html_text);
-    //argument_element.html(argument_html_text);
     
     eval("self.argument_vm_" + argument_id + "= new Argument_VM();");
     var element_name = 'Arg_' + argument_id;
@@ -180,7 +174,6 @@ Argument_Mgr.prototype.update_server_argument_data = function(argument_obj_array
 		}else{
 			var argument_vm_obj = eval("self.argument_vm_" + argument_obj_array[i].id);
 			argument_vm_obj.apply_argument_data_from_server(argument_obj_array[i]);
-			// eval("self.argument_vm_" + argument_id + ".apply_argument_data_from_server(argument_obj_array[i])");
 		}
 	}
 }
