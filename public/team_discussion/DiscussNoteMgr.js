@@ -23,71 +23,8 @@ DiscussNoteMgr.prototype.initialize = function(setting){
     self[obj_name] = new Argument_Mgr(self.arg_array[i]);
     self[obj_name].initialize();
   }
-/*
-  self.arg_id_list = new Array();
-  self.argument_mgr = new Argument_Mgr();
-  self.general_concept_mgr = new GeneralConcept_Mgr();
-  self.element_counter = new Array();
-*/
-  /*
-  var Game = Parse.Object.extend("Game");
-  var game_query = new Parse.Query(Game);
-  var argument_param_name = global_team_side + "_argument";
-  var general_concept_param_name = global_team_side + "_general_concept";
-  game_query.include(argument_param_name);
-  game_query.include(general_concept_param_name);
-  game_query.include("participants");
-  game_query.get(global_debate_game_id, {
-    success: function(obj) {
-
-
-      self.actual_game_obj = obj;
-    //  var general_concept = self.actual_game_obj.get(general_concept_param_name);
-      var argument_obj_array = self.actual_game_obj.get(argument_param_name);
-    /*  
-      if(general_concept)
-        self.general_concept_mgr.initialize(general_concept);
-      else{
-        self.general_concept_mgr.initialize(null);
-      }
-*/
-/*
-      if(argument_obj_array){
-        self.argument_mgr.initialize(argument_obj_array);
-      }else{
-        self.argument_mgr.initialize(null);
-      }
-    },
-    error: function(error) {
-      console.log("Retrieving Game obj data failed in TeamDiscussAppMgr()" + error.message);
-      //data should be vaidated before upload and the error should not happen in server side
-    }
-  });
-*/
 }
-/*
 
-DiscussNoteMgr.prototype.update_argument_from_server = function(){
-
-  var self = this;
-
-  var Game = Parse.Object.extend("Game");
-  var game_query = new Parse.Query(Game);
-  var param_name = global_team_side + "_argument";
-  game_query.include(param_name);
-  game_query.get(global_debate_game_id, {
-    success: function(obj) {
-      self.actual_game_obj = obj;
-      var argument_obj_array = self.actual_game_obj.get(global_team_side +"_argument");
-      self.argument_mgr.update_server_argument_data(argument_obj_array);
-    },
-    error: function(obj, error) {
-      console.log(error);
-      console.log("update argument from server failed");
-    }
-  });
-}
-*/
 
 DiscussNoteMgr.prototype.update_hangout_status = function(){
   var self = this;
