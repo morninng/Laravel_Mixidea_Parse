@@ -334,14 +334,14 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
  }
 
  VideoViewModel.prototype.StopTimer = function(){
-    var self = this;
-    self.speech_duration = 0;
-    //self.speech_time("");
-    self.timer_value("");
-    self.timer_prefix("");
-    console.log("clear timer is" + self.timer);
-    clearInterval(self.timer);
-    self.timer = null;
+  var self = this;
+  self.speech_duration = 0;
+  //self.speech_time("");
+  self.timer_value("");
+  self.timer_prefix("");
+  console.log("clear timer is" + self.timer);
+  clearInterval(self.timer);
+  self.timer = null;
  }
 
  VideoViewModel.prototype.show_Speaker = function(speaker_obj, type){

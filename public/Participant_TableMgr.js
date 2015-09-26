@@ -1,4 +1,3 @@
-//残す
 
 function ParticipantTableMgr(game_style){
 
@@ -12,8 +11,6 @@ function ParticipantTableMgr(game_style){
 	}
 
 }
-
-
 
 
 ParticipantTableMgr.prototype.CreateUserObj = function(role_name, container_name){

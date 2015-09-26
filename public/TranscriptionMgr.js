@@ -37,7 +37,7 @@ TranscriptionMgr.prototype.update = function(){
 		self.transcription_array.destroyAll();
 		self.current_speech_id = next_speech_id;
 		self.speech_array_length = 0;
-  		self.current_user_id = null;
+  	self.current_user_id = null;
 	}
 
 

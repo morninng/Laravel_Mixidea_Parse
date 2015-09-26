@@ -7,7 +7,6 @@ function user_status_VM(role_name){
   self.pict_src = ko.observable("https://mixidea.parseapp.com/picture/1.jpg");
   self.user_status_css = ko.observable("notapplicant");
   self.parse_id_of_this_role = ko.observable(null);
-//  self.loading_visible = ko.observable(false);
   self.button_visible = ko.observable(true);
 
   self.own_parse_id = appmgr.own_parse_id;
@@ -25,10 +24,7 @@ user_status_VM.prototype.update_user_status = function(){
 	var self = this;
 	self.update_user_info(self.role_name);
 	self.update_user_login_status(self.role_name);
-//	self.update_button_byGamestatus();
 	self.update_button_status(self.role_name);
-//  	self.loading_visible = ko.observable(false);
-
 }
 
 user_status_VM.prototype.update_user_info = function(role_name){
@@ -153,235 +149,152 @@ var convert_table = {
 user_status_VM.prototype.decline = function(){
   
 	var self = this;
-//	self.loading_visible(true);
 
 	self.button_visible(false);
-/*
-	var Game = Parse.Object.extend("Game");
-	var game_query = new Parse.Query(Game);
-	game_query.get(global_debate_game_id , {
-	  success: function(actual_game_obj) {
 
-*/
-
-
-  	var participant_obj = appmgr.actual_game_obj.get("participant_role");
-  	delete participant_obj[self.role_name];
-  	appmgr.actual_game_obj.set("participant_role",participant_obj);
-  	var is_debater_exist = false;
-  	var parse_id_ofThisRole = self.parse_id_of_this_role();
-  	for( key in participant_obj){
-  		if(participant_obj[key] == parse_id_ofThisRole){
-  			is_debater_exist = true;
-  		}
-  	}
-	  	if(!is_debater_exist){	
-  		var audience_array = appmgr.actual_game_obj.get("audience_participants");
-  		if(!audience_array){
-  			audience_array = new Array();
-  		}
-  		audience_array.push(parse_id_ofThisRole);
-  		appmgr.actual_game_obj.set("audience_participants",audience_array);
-  	}
-  	appmgr.actual_game_obj.save(null, {
+	var participant_obj = appmgr.actual_game_obj.get("participant_role");
+	delete participant_obj[self.role_name];
+	appmgr.actual_game_obj.set("participant_role",participant_obj);
+	var is_debater_exist = false;
+	var parse_id_ofThisRole = self.parse_id_of_this_role();
+	for( key in participant_obj){
+		if(participant_obj[key] == parse_id_ofThisRole){
+			is_debater_exist = true;
+		}
+	}
+	if(!is_debater_exist){
+		var audience_array = appmgr.actual_game_obj.get("audience_participants");
+		if(!audience_array){
+			audience_array = new Array();
+		}
+		audience_array.push(parse_id_ofThisRole);
+		appmgr.actual_game_obj.set("audience_participants",audience_array);
+	}	
+	appmgr.actual_game_obj.save(null, {
 	  success: function(obj) {
 	    console.log(obj);
 
-		var parse_data_counter = get_parse_data_changed_counter();
-		if(!parse_data_counter){
-			parse_data_counter = 0;
-		}
-		parse_data_counter++;
-		parse_data_counter_str = String(parse_data_counter);
-	    gapi.hangout.data.submitDelta({
-		        "parse_data_changed_counter":parse_data_counter_str
-		});
-		self.button_visible(true);
+			var parse_data_counter = get_parse_data_changed_counter();
+			if(!parse_data_counter){
+				parse_data_counter = 0;
+			}
+			parse_data_counter++;
+			parse_data_counter_str = String(parse_data_counter);
+		    gapi.hangout.data.submitDelta({
+			        "parse_data_changed_counter":parse_data_counter_str
+			});
+			self.button_visible(true);
 	  },
 	  error: function(obj, error) {
-		self.button_visible(true);
-	    alert('Failed to save object.' + error.message);
+			self.button_visible(true);
+		  alert('Failed to save object.' + error.message);
 	  }
 	});
-
-
-/*
-	  },
-	  error: function(object, error) {
-	    alert('Failed to save object.' + error.message);
-	  }
-	});
-*/
-
-
-
 }
 
 user_status_VM.prototype.join = function(){
 
 	var self = this;
 	self.button_visible(false);
-//	self.loading_visible(true);
-/*
-	var Game = Parse.Object.extend("Game");
-	var game_query = new Parse.Query(Game);
-	game_query.get(global_debate_game_id , {
-	  success: function(actual_game_obj) {
-*/
-  	participant_obj = appmgr.actual_game_obj.get("participant_role");
-  	if(participant_obj[self.role_name]){
-  		alert("this role has been already assigned to others");
-		self.button_visible(true);
-  		return;
-  	}
-  	participant_obj[self.role_name] = global_own_parse_id;
 
-  	audience_array = appmgr.actual_game_obj.get("audience_participants");
-  	if(audience_array){
-	  	for(var i=0; i< audience_array.length; i++){
-	  		if(audience_array[i] == self.own_parse_id){
-	  			var removed = audience_array.splice(i,1);
-	  		}
-	  	}
+	participant_obj = appmgr.actual_game_obj.get("participant_role");
+	if(participant_obj[self.role_name]){
+		alert("this role has been already assigned to others");
+		self.button_visible(true);
+		return;
 	}
-  	appmgr.actual_game_obj.set("participant_role",participant_obj);
-  	appmgr.actual_game_obj.set("audience_participants",audience_array);
-  	appmgr.actual_game_obj.save(null, {
+	participant_obj[self.role_name] = global_own_parse_id;
+
+	audience_array = appmgr.actual_game_obj.get("audience_participants");
+	if(audience_array){
+  	for(var i=0; i< audience_array.length; i++){
+  		if(audience_array[i] == self.own_parse_id){
+  			var removed = audience_array.splice(i,1);
+  		}
+  	}
+	}
+	appmgr.actual_game_obj.set("participant_role",participant_obj);
+	appmgr.actual_game_obj.set("audience_participants",audience_array);
+	appmgr.actual_game_obj.save(null, {
 	  success: function(obj) {
 	    console.log(obj);
-
-		var parse_data_counter = get_parse_data_changed_counter();
-		if(!parse_data_counter){
-			parse_data_counter = 0;
-		}
-		parse_data_counter++;
-		parse_data_counter_str = String(parse_data_counter);
-	    gapi.hangout.data.submitDelta({
-		        "parse_data_changed_counter":parse_data_counter_str
-		});
-		self.button_visible(true);
+			var parse_data_counter = get_parse_data_changed_counter();
+			if(!parse_data_counter){
+				parse_data_counter = 0;
+			}
+			parse_data_counter++;
+			parse_data_counter_str = String(parse_data_counter);
+		    gapi.hangout.data.submitDelta({
+			        "parse_data_changed_counter":parse_data_counter_str
+			});
+			self.button_visible(true);
 	  },
 	  error: function(obj, error) {
-		self.button_visible(true);
-	    alert('Failed to save object.' + error.message);
+			self.button_visible(true);
+		  alert('Failed to save object.' + error.message);
 	  }
 	});
-
-/*
-	  },
-	  error: function(object, error) {
-	    alert('Failed to save object.' + error.message);
-	  }
-	});
-*/
 }
 
 user_status_VM.prototype.cancel = function(){
 
 	var self = this;
 	self.button_visible(false);
-//	self.loading_visible(true);
 
-
-/*	
-	var Game = Parse.Object.extend("Game");
-	var game_query = new Parse.Query(Game);
-	game_query.get(global_debate_game_id , {
-	  success: function(actual_game_obj) {
-*/
-
-
-  	participant_obj = appmgr.actual_game_obj.get("participant_role");
-  	delete participant_obj[self.role_name];
-  	appmgr.actual_game_obj.set("participant_role",participant_obj);
-  	var is_debater_exist = false;
-  	for( key in participant_obj){
-  		if(participant_obj[key] == self.own_parse_id){
-  			is_debater_exist = true;
-  		}
-  	}
-  	if(!is_debater_exist){	
-  		audience_array = appmgr.actual_game_obj.get("audience_participants");
-  		if(!audience_array){
-  			audience_array = new Array();
-  		}
-  		audience_array.push(self.own_parse_id);
-  		appmgr.actual_game_obj.set("audience_participants",audience_array);
-  	}
-  	appmgr.actual_game_obj.save(null, {
+	participant_obj = appmgr.actual_game_obj.get("participant_role");
+	delete participant_obj[self.role_name];
+	appmgr.actual_game_obj.set("participant_role",participant_obj);
+	var is_debater_exist = false;
+	for( key in participant_obj){
+		if(participant_obj[key] == self.own_parse_id){
+			is_debater_exist = true;
+		}
+	}
+	if(!is_debater_exist){	
+		audience_array = appmgr.actual_game_obj.get("audience_participants");
+		if(!audience_array){
+			audience_array = new Array();
+		}
+		audience_array.push(self.own_parse_id);
+		appmgr.actual_game_obj.set("audience_participants",audience_array);
+	}
+	appmgr.actual_game_obj.save(null, {
 	  success: function(obj) {
 	    console.log(obj);
 
-		var parse_data_counter = get_parse_data_changed_counter();
-		if(!parse_data_counter){
-			parse_data_counter = 0;
-		}
-		parse_data_counter++;
-		parse_data_counter_str = String(parse_data_counter);
-	    gapi.hangout.data.submitDelta({
-		        "parse_data_changed_counter":parse_data_counter_str
-		});
-		self.button_visible(true);
+			var parse_data_counter = get_parse_data_changed_counter();
+			if(!parse_data_counter){
+				parse_data_counter = 0;
+			}
+			parse_data_counter++;
+			parse_data_counter_str = String(parse_data_counter);
+		    gapi.hangout.data.submitDelta({
+			        "parse_data_changed_counter":parse_data_counter_str
+			});
+			self.button_visible(true);
 
 	  },
 	  error: function(obj, error) {
-		self.button_visible(true);
-	    alert('Failed to save object.' + error.message);
-	  }
+			self.button_visible(true);
+		    alert('Failed to save object.' + error.message);
+		}
 	});
-
-/*
-	  },
-	  error: function(object, error) {
-	    alert('Failed to save object.' + error.message);
-	  }
-	});
-*/
-
-
 }
 
 
 user_status_VM.prototype.cancel_debater_from_hangout = function(){
 
-/*
-  var cancel_obj = { game_id: debate_game_id, game_role:, own_user_id: ,own_user_key: };
- 
-  Parse.Cloud.run('Cloud_Hangout_cancel_debater', cancel_obj,{
-    success: function(game_obj) {
-    	// update hangout status, participant_role_count ++;
-    },
-    error: function(error) {
-      alert( error.message);
-    }
-  });
-*/
+
 }
 
 user_status_VM.prototype.cancel_audience_from_hangout = function(){
-/*
-  var cancel_obj = { game_id: debate_game_id, own_user_id: ,own_user_key: };
- 
-  Parse.Cloud.run('Cloud_Hangout_cancel_debater', cancel_obj,{
-    success: function(game_obj) {
-    	// update hangout status, participant_role_count ++;
-    },
-    error: function(error) {
-      alert( error.message);
-    }
-  });
-*/
+
 }
 
 
 user_status_VM.prototype.enable_user_participant_change = function(status){
   
 	var self = this;
-// statusがPreparation前になったときに、Joinボタンおよびdeclineボタンを表示
-// 　→ユーザ設定がありで未ログイン
-// 　　　→Declineボタンを表示
-// 　→ユーザ設定なしで、同一チームのロールか、Audienceのとき
-// 　　　→Joinボタンを表示  
-  
+
 }
 

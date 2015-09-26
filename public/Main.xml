@@ -353,7 +353,6 @@
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/TranscriptionMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Video_Mgr.js"></script>
-<script type="text/javascript" src="https://mixidea.parseapp.com/MainContainerAppViewModel.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/AppMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/ParticipantMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Participant_TableMgr.js"></script>

@@ -66,10 +66,10 @@ title_VM.prototype.send_title = function(){
  
   Parse.Cloud.run('Cloud_Hangout_update_motion', update_motion_obj,{
     success: function(actual_game_obj) {
-	        var title = actual_game_obj.get("motion");
-	        self.title_sentence(title);
-		    self.title_show(true);
-		    self.title_input(false);
+	    var title = actual_game_obj.get("motion");
+	    self.title_sentence(title);
+		  self.title_show(true);
+		  self.title_input(false);
 
 			var parse_data_counter = get_parse_data_changed_counter();
 			if(!parse_data_counter){
@@ -77,7 +77,7 @@ title_VM.prototype.send_title = function(){
 			}
 			parse_data_counter++;
 			parse_data_counter_str = String(parse_data_counter);
-		    gapi.hangout.data.submitDelta({
+		  gapi.hangout.data.submitDelta({
 			        "parse_data_changed_counter":parse_data_counter_str
 			});
     },

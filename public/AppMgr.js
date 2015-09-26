@@ -6,7 +6,6 @@ function AppMgr() {
 	self.own_hangoutid = "";
 	self.actual_game_obj = new Object();
 	self.game_status = 2;
-	// self.participant_changed_counter = 0;
 	self.hangout_mapping_changed_counter = 0;
 	self.hangout_speech_status_counter = 0; 
 	self.game_obj_counter = 0;
@@ -118,36 +117,36 @@ AppMgr.prototype.initialize = function(in_actual_game_obj){
 
 
 	var Chat_html_Template = _.template($('[data-template="chat_template"]').html());
-    var chat_element = $("#absolute_pain_1");
-    var Chat_html_text = Chat_html_Template();
-    chat_element.html(Chat_html_text);
+  var chat_element = $("#absolute_pain_1");
+  var Chat_html_text = Chat_html_Template();
+  chat_element.html(Chat_html_text);
 
-    self.chat_view_model = new ChatViewModel();
-    var chat_el = document.getElementById('chat_field');
-    ko.applyBindings(self.chat_view_model, chat_el);
-    self.chat_view_model.update();
+  self.chat_view_model = new ChatViewModel();
+  var chat_el = document.getElementById('chat_field');
+  ko.applyBindings(self.chat_view_model, chat_el);
+  self.chat_view_model.update();
 
 
 	var Title_html_Template = _.template($('[data-template="title_template"]').html());
-    var title_element = $("#title_area");
-    var Title_html_text = Title_html_Template();
-    title_element.html(Title_html_text);
+  var title_element = $("#title_area");
+  var Title_html_text = Title_html_Template();
+  title_element.html(Title_html_text);
 
-    self.title_view_model = new title_VM();
-    var title_el = document.getElementById('title_template_area');
-    ko.applyBindings(self.title_view_model, title_el);
-    self.title_view_model.initialize();
+  self.title_view_model = new title_VM();
+  var title_el = document.getElementById('title_template_area');
+  ko.applyBindings(self.title_view_model, title_el);
+  self.title_view_model.initialize();
 
 
 
 	var GameStatus_html_Template = _.template($('[data-template="gamestatus_template"]').html());
-    var gamestatus_element = $("#game_status_area");
-    var gamestatus_html_text = GameStatus_html_Template();
-    gamestatus_element.html(gamestatus_html_text);
+  var gamestatus_element = $("#game_status_area");
+  var gamestatus_html_text = GameStatus_html_Template();
+  gamestatus_element.html(gamestatus_html_text);
     
 	self.game_status_mgr = new Game_Status_Mgr();
-    var gamestatus_el = document.getElementById('game_status_area');
-    ko.applyBindings(self.game_status_mgr , gamestatus_el);
+  var gamestatus_el = document.getElementById('game_status_area');
+  ko.applyBindings(self.game_status_mgr , gamestatus_el);
 	self.game_status_mgr.initialize();
 
 	self.sound_mgr = new SoundMgr();
@@ -155,13 +154,13 @@ AppMgr.prototype.initialize = function(in_actual_game_obj){
 
 
 	var Impression_html_Template = _.template($('[data-template="impression_template"]').html());
-    var impression_element = $("#impression_area");
-    var impression_html_text = Impression_html_Template();
-    impression_element.html(impression_html_text);
+  var impression_element = $("#impression_area");
+  var impression_html_text = Impression_html_Template();
+  impression_element.html(impression_html_text);
 
 	self.impression_mgr = new ImpressionMgr();
-    var impression_el = document.getElementById('impression_area');
-    ko.applyBindings(self.impression_mgr , impression_el);
+  var impression_el = document.getElementById('impression_area');
+  ko.applyBindings(self.impression_mgr , impression_el);
 
 }
 
@@ -197,9 +196,9 @@ AppMgr.prototype.update_hangout_status = function(event){
 
 
 	if( self.transcription_counter != get_transcription_counter()){
-    	self.transcription_mgr.update();
-    	self.transcription_counter = get_transcription_counter();
-    }
+  	self.transcription_mgr.update();
+  	self.transcription_counter = get_transcription_counter();
+  }
 
 
 	if(self.first_update_done == false || self.parse_data_changed_counter != get_parse_data_changed_counter()){
@@ -209,18 +208,18 @@ AppMgr.prototype.update_hangout_status = function(event){
 		game_query.include("participants");
 		game_query.get(global_debate_game_id, {
 		  success: function(actual_game_obj) {
-			self.actual_game_obj = actual_game_obj;
-			self.participant_manager_object.update_parse_data();
-			self.title_view_model.update();
-    		self.game_status_mgr.apply_updated_status();
+				self.actual_game_obj = actual_game_obj;
+				self.participant_manager_object.update_parse_data();
+				self.title_view_model.update();
+	    	self.game_status_mgr.apply_updated_status();
 
-	  		var hangout_speech_status = get_hangout_speech_status();
-			self.video_view_model.update_button(hangout_speech_status);
-			self.video_view_model.update_speaker(hangout_speech_status);
-			self.video_view_model.update_poi_candidate(hangout_speech_status);
-			self.chat_view_model.update();
-			self.hangout_speech_status_counter = get_hangout_speech_status_counter();
-	  		self.parse_data_changed_counter  = get_parse_data_changed_counter();
+		  	var hangout_speech_status = get_hangout_speech_status();
+				self.video_view_model.update_button(hangout_speech_status);
+				self.video_view_model.update_speaker(hangout_speech_status);
+				self.video_view_model.update_poi_candidate(hangout_speech_status);
+				self.chat_view_model.update();
+				self.hangout_speech_status_counter = get_hangout_speech_status_counter();
+		  		self.parse_data_changed_counter  = get_parse_data_changed_counter();
 		  },
 		  error: function(error) { 
 		  	console.log(error); 

@@ -31,9 +31,9 @@ ParticipantMgr.prototype.initialize = function(actual_game_obj, parse_user_id, h
 	if(audience_parseid_array){
 		for(var i=0; i< audience_parseid_array.length; i++){
 			var num =i+1;
-		    eval("var role_name = 'audience" + num + "'");
-		    var user_parse_id = audience_parseid_array[i];
-		    self.audience_obj_array.push({ role:role_name, parse_id:user_parse_id });
+	    eval("var role_name = 'audience" + num + "'");
+	    var user_parse_id = audience_parseid_array[i];
+	    self.audience_obj_array.push({ role:role_name, parse_id:user_parse_id });
 		}
 	}
 	self.game_style = appmgr.actual_game_obj.get("style");
@@ -83,7 +83,6 @@ ParticipantMgr.prototype.get_own_group_name = function( ){
 
 	var own_role_array = new Array();
 	own_role_array = self.get_role_array_fromParseID(global_own_parse_id);
-
 	own_group = self.getRoleGroup(own_role_array[0]);
 
 	return own_group;
@@ -113,21 +112,14 @@ ParticipantMgr.prototype.update_parse_data = function( ){
 	if(audience_parseid_array){
 		for(var i=0; i<audience_parseid_array.length; i++){
 			var num =i+1;
-		    eval("var role_name = 'audience" + num + "'");
-		    var user_parse_id = audience_parseid_array[i];
-		    self.audience_obj_array.push({ role:role_name, parse_id:user_parse_id });
+		  eval("var role_name = 'audience" + num + "'");
+		  var user_parse_id = audience_parseid_array[i];
+		  self.audience_obj_array.push({ role:role_name, parse_id:user_parse_id });
 		}
 	}
-
-
-
 	self.game_style = appmgr.actual_game_obj.get("style");
-
 	self.participant_table.UpdateUserObjAll();
-
 }
-
-
 
 
 //participant changed eventが呼ばれたときに、毎回呼び出す。

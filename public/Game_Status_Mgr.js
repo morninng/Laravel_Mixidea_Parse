@@ -77,27 +77,15 @@ Game_Status_Mgr.prototype.update_server_status = function(str_status) {
 	appmgr.actual_game_obj.set("game_status", str_status);
 	appmgr.actual_game_obj.save(null, {
 	  success: function(obj) {
-	  	/*
-	  	var counter = get_game_status_counter();
-	  	counter++;
-	  	var counter_str = String(counter);
-		gapi.hangout.data.submitDelta({
-		   "game_status_counter":counter_str
-		});*/
-
-		var parse_data_counter = get_parse_data_changed_counter();
-		if(!parse_data_counter){
-			parse_data_counter = 0;
-		}
-		parse_data_counter++;
-		parse_data_counter_str = String(parse_data_counter);
-	    gapi.hangout.data.submitDelta({
-		        "parse_data_changed_counter":parse_data_counter_str
-		});
-
-
-
-
+			var parse_data_counter = get_parse_data_changed_counter();
+			if(!parse_data_counter){
+				parse_data_counter = 0;
+			}
+			parse_data_counter++;
+			parse_data_counter_str = String(parse_data_counter);
+		    gapi.hangout.data.submitDelta({
+			        "parse_data_changed_counter":parse_data_counter_str
+			});
 	  },
 	  error: function(obj, error) {
 
