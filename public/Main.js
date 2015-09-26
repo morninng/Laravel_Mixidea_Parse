@@ -4,8 +4,6 @@
  var parse_js_key = "US6Lheio8PGcBdIpwGFhFSQVpi5GKunGf6hGq5Ze";
  Parse.initialize(parse_app_id, parse_js_key);
 
- var container_modelview = new ContainerMainAppViewModel();
- ko.applyBindings(container_modelview);
  var appData = gadgets.views.getParams()['appData'];	
  console.log(appData);
  var appData_split = appData.split("_");
