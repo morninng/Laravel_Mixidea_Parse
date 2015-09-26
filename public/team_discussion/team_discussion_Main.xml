@@ -44,7 +44,7 @@
   </div>
 
   <div id="third_row">
-    <div id="argument_list">
+    <div id="argument_pain">
     </div>
   </div>
 
@@ -248,13 +248,11 @@
   <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
   <script src="https://mixidea.parseapp.com/team_discussion/Argument_Mgr.js"></script>
   <script src="https://mixidea.parseapp.com/team_discussion/Argument_VM.js"></script>
-  <script src="https://mixidea.parseapp.com/team_discussion/Definition_Mgr.js"></script>
-  <script src="https://mixidea.parseapp.com/team_discussion/Definition_VM.js"></script>
-  <script src="https://mixidea.parseapp.com/team_discussion/GeneralConcept_Mgr.js"></script>
-  <script src="https://mixidea.parseapp.com/team_discussion/GeneralConcept_VM.js"></script>
-  <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussionAppMgr.js"></script>
-  <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussion.js"></script>
+
+  <script src="https://mixidea.parseapp.com/team_discussion/DiscussNoteMgr.js"></script>
   <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussion_ParticipantMgr.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/ConstructLayout.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussion.js"></script>
 
 
 

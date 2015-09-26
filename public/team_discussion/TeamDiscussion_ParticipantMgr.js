@@ -4,9 +4,24 @@ function TeamDiscussion_ParticipantMgr(){
 	var self = this;
 	self.participants_obj = new Object();
 
-	console.log("team discussion participant new");
+}
+
+
+TeamDiscussion_ParticipantMgr.prototype.participants_change = function(){
+  var self = this;
+
+	actual_game_obj.fetch({
+	  success: function(Obj) {
+	    actual_game_obj = Obj;
+      	self.participant_mgr_obj.update();
+	  },
+	  error: function(Obj, error) {
+	  	console.log("fetch fail" + error);
+	  }
+	});
 
 }
+
 
 TeamDiscussion_ParticipantMgr.prototype.update = function(){
 
@@ -15,7 +30,7 @@ TeamDiscussion_ParticipantMgr.prototype.update = function(){
 
 	self.own_parse_id = global_own_parse_id;
 	self.own_hangout_id = global_own_hangout_id;
-	var participants_array = team_discussion_appmgr.actual_game_obj.get("participants");
+	var participants_array = actual_game_obj.get("participants");
 		
 	console.log( participants_array);
 
@@ -63,4 +78,9 @@ TeamDiscussion_ParticipantMgr.prototype.is_your_own_parseid = function(in_parse_
 }
 
 
+TeamDiscussion_ParticipantMgr.prototype.get_own_group_name = function( ){
+
+	return global_team_side;
+
+}
 

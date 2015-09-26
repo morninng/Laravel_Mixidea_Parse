@@ -11,69 +11,71 @@ function Argument_VM(){
 
 	self.title_editor = null;
 	self.title_count = -1;
-//  	self.title_content_visible = ko.observable(false);
-  	self.title_content = ko.observable(""); 
-//  	self.title_input_visible = ko.observable(false);
-  	self.title_input = ko.observable();
-  	self.isTitleTextboxFocused = ko.observable(false); 
-  	self.is_default_TitleTextboxFocused = ko.observable(false); 
+  self.title_content = ko.observable(""); 
+  self.title_input = ko.observable();
+  self.isTitleTextboxFocused = ko.observable(false); 
+  self.is_default_TitleTextboxFocused = ko.observable(false); 
 
-  	self.visible_title_textbox_default = ko.observable();
-  	self.visible_title_textbox_written = ko.observable();
-  	self.visible_title_textbox_edit = ko.observable();
-  	self.visible_editor_profile = ko.observable();
-  	self.editor_pict_src = ko.observable();
-  	self.editor_name = ko.observable();
-  	self.visible_button_title_save = ko.observable();
-  	self.visible_button_title_cancel = ko.observable();
-  	self.visible_button_title_edit = ko.observable();
-  	self.visible_editing_icon = ko.observable(false);
+  self.visible_title_textbox_default = ko.observable();
+  self.visible_title_textbox_written = ko.observable();
+  self.visible_title_textbox_edit = ko.observable();
+  self.visible_editor_profile = ko.observable();
+  self.editor_pict_src = ko.observable();
+  self.editor_name = ko.observable();
+  self.visible_button_title_save = ko.observable();
+  self.visible_button_title_cancel = ko.observable();
+  self.visible_button_title_edit = ko.observable();
+  self.visible_editing_icon = ko.observable(false);
 
 	self.main_editor = null;
 	self.main_count = -1;
-  	// self.main_content_visible = ko.observable(false); 
-  	self.main_content = ko.observable(""); 
-  	// self.main_input_visible = ko.observable(false); 
-  	self.main_input = ko.observable();
-  	self.isMainTextboxFocused = ko.observable(false);
-  	self.is_default_MainTextboxFocused = ko.observable(false);
+  // self.main_content_visible = ko.observable(false); 
+  self.main_content = ko.observable(""); 
+  // self.main_input_visible = ko.observable(false); 
+  self.main_input = ko.observable();
+  self.isMainTextboxFocused = ko.observable(false);
+  self.is_default_MainTextboxFocused = ko.observable(false);
 
-  	self.visible_MainArg_textbox_default = ko.observable();
-  	self.visible_MainArg_textbox_written = ko.observable();
-  	self.visible_MainArg_textbox_edit = ko.observable();
-  	self.visible_editor_MainArg_profile = ko.observable();
-  	self.editor_MainArg_pict_src = ko.observable();
-  	self.editor_MainArg_name = ko.observable();
-  	self.visible_button_MainArg_save = ko.observable();
-  	self.visible_button_MainArg_cancel = ko.observable();
-  	self.visible_button_MainArg_edit = ko.observable();
-  	self.visible_MainArg_editing_icon = ko.observable(false);
+  self.visible_MainArg_textbox_default = ko.observable();
+  self.visible_MainArg_textbox_written = ko.observable();
+  self.visible_MainArg_textbox_edit = ko.observable();
+  self.visible_editor_MainArg_profile = ko.observable();
+  self.editor_MainArg_pict_src = ko.observable();
+  self.editor_MainArg_name = ko.observable();
+  self.visible_button_MainArg_save = ko.observable();
+  self.visible_button_MainArg_cancel = ko.observable();
+  self.visible_button_MainArg_edit = ko.observable();
+  self.visible_MainArg_editing_icon = ko.observable(false);
 
 
 
 	self.main_link_array = ko.observableArray();
-  	self.main_link_input = ko.observable("http://");
+  self.main_link_input = ko.observable("http://");
 
-  	self.comment_array = ko.observableArray(false); 
-  		// in the content array, content , edit field, edit button exist
-  	self.comment_input = ko.observable(); 
-  	self.comment_input_visible = ko.observable(false);
-  	self.isCommentInputTextboxFocused = ko.observable();
+  self.comment_array = ko.observableArray(false); 
+  	// in the content array, content , edit field, edit button exist
+  self.comment_input = ko.observable(); 
+  self.comment_input_visible = ko.observable(false);
+  self.isCommentInputTextboxFocused = ko.observable();
 
-  	self.arg_id = null;
+  self.arg_id = null;
 
 
-  	self.is_default_TitleTextboxFocused.subscribe( function(focused) {
+  self.is_default_TitleTextboxFocused.subscribe( function(focused) {
 	   if (focused) {
 	   		console.log("default title textbox focused");
-			team_discussion_appmgr.add_edit_status(self.arg_id, "title");
-		}
+			  global_own_edit_status = "editing";
+			  global_own_edit_element = self.arg_id + "_" + "title";
+				util_add_edit_status(self.arg_id, "title");
+			}
 	});
 
 	self.is_default_MainTextboxFocused.subscribe( function(focused) {
 	   if (focused) {
 	   		console.log("main textbox focused");
-			team_discussion_appmgr.add_edit_status(self.arg_id, "main");
+			  global_own_edit_status = "editing";
+			  global_own_edit_element = self.arg_id + "_" + "main";
+				util_add_edit_status(self.arg_id, "main");
 		}
 	});
 
@@ -106,9 +108,6 @@ function Argument_VM(){
 				};
 			self.comment_array.splice(index,1,obj);
 		}
-
-
-
 	}
 
 	self.click_comment_edit_save = function(data){
@@ -116,9 +115,6 @@ function Argument_VM(){
 		console.log(editid_comment);
 		var parse_id = data.comment_id;
 		console.log(parse_id);
-		/*
-		var comment_obj = data.comment_obj;
-		console.log(comment_obj);*/
 
 		var Comment = Parse.Object.extend("Comment");
 		var comment_query = new Parse.Query(Comment);;
@@ -126,40 +122,12 @@ function Argument_VM(){
 		comment_query.get(parse_id, {
 		  success: function(obj) {
 		  	obj.set("context",editid_comment);
-		  	obj.increment("count");
+		  	obj.increment("comment_count");
 		  	obj.save(null, {
-			  success: function(obj) {
-		//    	team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
-
+			  success: function(comment_o) {
 ////////counter managemrent////
 
-    	var parse_id = obj.id;
-	    var CommentCounter = obj.get("count");
-	    console.log("comment count is "+ CommentCounter);
-	    var obj_type = "comment";
-	    var new_counter_obj = new Object();
-	    var counter_obj = {type:obj_type, count:CommentCounter, parent:self.arg_id};
-	    var element_counter_key =  "element_counter" + global_team_side;
-	    console.log(element_counter_key);
-
-	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
-	    console.log("original element counter in save event");
-	    console.log(original_counter_obj)
-	    if(original_counter_obj){
-	    	new_counter_obj = JSON.parse(original_counter_obj);
-	    }else{
-	    	new_counter_obj = new Object();
-	    }
-	    new_counter_obj[parse_id + "_comment"] = counter_obj;
-	    console.log("parse id is" + parse_id);
-	    console.log("new element counter after incremented");
-	    console.log(new_counter_obj);
-	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
-
-	    var new_counter_object = new Object();
-	    new_counter_object[element_counter_key] = new_counter_obj_str;
-
-	    gapi.hangout.data.submitDelta(new_counter_object);
+			util_send_argument_counter(comment_o,"comment",self.team_name, self.arg_id, self.team_name);
 
 ////////counter managemrent////
 
@@ -210,29 +178,21 @@ function Argument_VM(){
 	}
 
 }
-/*
- comment object in parse
- {
-	{ author_list:"xxxx",author_role:"audience",like:1, link_url}
- }
- comment object for knockout
-  {comment_content_visible: false, comment_content:"aaaa", link_url:"http://",
-    link_image_url:"http://", link_title, link_desription , comment_edit_visible,
-     comment_edit, isCommentEditTextboxFocused,  link_input:"http://",  }
-
- click_comment_edit
- click_comment_edit_save
- click_comment_edit_cancel
-*/
 
 
 
-Argument_VM.prototype.initialize = function(argument_obj){
+Argument_VM.prototype.initialize = function(argument_obj, setting){
 
 	var self = this;
+	self.setting = setting;
+	self.team_name = setting.team_name;
+	self.element = setting.element;
+	self.template = setting.template;
+	self.comment_query_team_array = setting.comment_query_array;
+
 	self.argument_obj = argument_obj;
 	self.arg_id = argument_obj.id;
-	console.log(argument_obj.id);
+	console.log(self.argument_obj.id);
 	self.show_All();
 }
 
@@ -240,14 +200,13 @@ Argument_VM.prototype.initialize = function(argument_obj){
 Argument_VM.prototype.update_edit_status = function(){
 	var self = this;
 
-	console.log("update edit profile has been callsed");
+	console.log("update edit profile has been called");
 	var is_api_ready = gapi.hangout.isApiReady();
 	if( !is_api_ready ){
 		self.main_editor = null;
 		self.title_editor = null;
 		return;
 	}_
-
 
 	var edit_status_str = gapi.hangout.data.getValue("edit_status");
 	if(!edit_status_str){
@@ -283,23 +242,11 @@ Argument_VM.prototype.apply_argument_data_from_server = function(updated_argumen
 
 	var self = this;
 
-	/*
-	self.argument_obj.fetch({
-	  success: function(obj) {
-	*/
-
 	self.argument_obj =updated_argument_obj;
 	self.update_edit_status();
 	self.show_title();
 	self.show_main_content();
 	self.show_comment_input();
-	/*
-	  },
-	  error: function(obj, error) {
-	  	console.log("error");
-	  }
-	});
-*/
 }
 
 Argument_VM.prototype.show_All = function(){
@@ -317,8 +264,6 @@ Argument_VM.prototype.show_All = function(){
 Argument_VM.prototype.show_title = function(){
 	var self = this;
 
-	console.log("show title");
-
 	var title = self.argument_obj.get("title");
 	var count = self.argument_obj.get("title_count");
 	var others_under_editing = false;
@@ -327,8 +272,8 @@ Argument_VM.prototype.show_title = function(){
 		others_under_editing = true;
 	}
 
-	var own_edit_status =  team_discussion_appmgr.own_edit_status;
-	var own_edit_element =  team_discussion_appmgr.own_edit_element;
+	var own_edit_status =  global_own_edit_status;
+	var own_edit_element =  global_own_edit_element;
 	var under_editing_this_element = false;
 	var element_edit_param =  self.arg_id + "_title";;
 	if(element_edit_param == own_edit_element){
@@ -362,7 +307,7 @@ Argument_VM.prototype.show_title = function(){
 
 	if(self.title_editor){
 		console.log("editor exist");
-		var editor_profile = team_discussion_appmgr.participant_mgr_obj.get_user_profile(self.title_editor);
+		var editor_profile = participant_mgr_obj.get_user_profile(self.title_editor);
 		if(editor_profile){
 			console.log("show profile");
 			self.editor_pict_src(editor_profile.pict_src); 
@@ -421,7 +366,7 @@ Argument_VM.prototype.show_title = function(){
 		    var TitleCounter = count;
 		    var obj_type = "title"
 		    var counter_obj = {type:obj_type, count:TitleCounter};
-			team_discussion_appmgr.element_counter[parse_id + "_title"] = counter_obj;			
+				global_element_counter[parse_id + "_title"] = counter_obj;			
 	}
 	self.title_count = count;
 ////////////counter managmenet//////
@@ -442,8 +387,8 @@ Argument_VM.prototype.show_main_content = function(){
 		others_under_editing = true;
 	}
 
-	var own_edit_status =  team_discussion_appmgr.own_edit_status;
-	var own_edit_element =  team_discussion_appmgr.own_edit_element;
+	var own_edit_status =  global_own_edit_status;
+	var own_edit_element = global_own_edit_element;
 	var under_editing_this_element = false;
 	var element_edit_param =  self.arg_id + "_main";;
 	if(element_edit_param == own_edit_element){
@@ -474,7 +419,7 @@ Argument_VM.prototype.show_main_content = function(){
 
 	if(self.main_editor){
 		console.log("main editor exist");
-		var editor_profile = team_discussion_appmgr.participant_mgr_obj.get_user_profile(self.main_editor);
+		var editor_profile = participant_mgr_obj.get_user_profile(self.main_editor);
 		if(editor_profile){
 			console.log("show profile");
 			self.editor_MainArg_pict_src(editor_profile.pict_src); 
@@ -530,7 +475,7 @@ Argument_VM.prototype.show_main_content = function(){
 	    var parse_id =  self.argument_obj.id;
 	    var obj_type = "main";
 	    var counter_obj = {type:obj_type, count:MainCounter};
-		team_discussion_appmgr.element_counter[parse_id + "_main"] = counter_obj;
+			global_element_counter[parse_id + "_main"] = counter_obj;
 		self.main_count = MainCounter;
 	}
 ////////////counter managmenet////
@@ -553,7 +498,9 @@ Argument_VM.prototype.click_title_edit = function(){
   	self.visible_button_title_cancel(true);
   	self.visible_button_title_edit(false);
 
-	team_discussion_appmgr.add_edit_status(self.arg_id, "title");
+	global_own_edit_status = "editing";
+	global_own_edit_element = self.arg_id + "_" + "title";
+	util_add_edit_status(self.arg_id, "title");
 }
 
 Argument_VM.prototype.click_main_edit = function(){
@@ -572,7 +519,9 @@ Argument_VM.prototype.click_main_edit = function(){
   	self.visible_button_MainArg_cancel(true);
   	self.visible_button_MainArg_edit(false);
 
-	team_discussion_appmgr.add_edit_status(self.arg_id, "main");
+	global_own_edit_status = "editing";
+	global_own_edit_element = self.arg_id + "_" + "main";
+	util_add_edit_status(self.arg_id, "main");
 }
 
 
@@ -592,53 +541,19 @@ Argument_VM.prototype.click_title_save = function(){
 	    self.argument_obj = obj;
 
 ////////////counter managmenet////
-	    var parse_id = obj.id;
-	    var TitleCounter = obj.get("title_count");
-	    var obj_type = "title";
-	    var new_counter_obj = new Object();
-	    var counter_obj = {type:obj_type, count:TitleCounter};
-	    var element_counter_key =  "element_counter" + global_team_side;
-	    console.log(element_counter_key);
 
-	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
-	    if(original_counter_obj){
-	    	new_counter_obj = JSON.parse(original_counter_obj);
-	    }else{
-	    	new_counter_obj = new Object();
-	    }
-	    new_counter_obj[parse_id + "_title"] = counter_obj;
-	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
-	    console.log(new_counter_obj_str);
+			util_send_argument_counter(self.argument_obj,"title",self.team_name, null);
 
-	    var new_counter_obj = new Object();
-	    new_counter_obj[element_counter_key] = new_counter_obj_str;
-//	    gapi.hangout.data.submitDelta(new_counter_obj);
 
 ////////////counter managmenet////
 
 /*edit status management*/
 
-		team_discussion_appmgr.own_edit_status = "pending";
-		team_discussion_appmgr.own_edit_element = null;
+		global_own_edit_status = "pending";
+		global_own_edit_element = null;
 		self.title_editor = null;
 
-		var new_edit_status_obj = new Object();
-		var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
-	    if(current_edit_status_obj){
-	    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
-	    }
-	    delete new_edit_status_obj[global_own_parse_id];
-		var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
-	    var edit_status_counter = get_hangout_edit_status_counter();
-	    edit_status_counter++;
-	    edit_status_counter_str = String(edit_status_counter);
-
-
-	    var hangout_status_obj_title = new_counter_obj;
-	    hangout_status_obj_title["edit_status"] = new_edit_status_obj_str;
-	    hangout_status_obj_title["edit_status_counter"] = edit_status_counter_str;
-
-		gapi.hangout.data.submitDelta( hangout_status_obj_title);
+		util_remove_edit_status();
 
 	  },
 	  error: function(obj, error) {
@@ -657,55 +572,22 @@ Argument_VM.prototype.click_main_save = function(){
 	self.argument_obj.set("main_content", context);
 	self.argument_obj.increment("main_count");
 	self.argument_obj.save(null, {
-	  success: function(obj) {
+	  success: function(argument_obj) {
 	    console.log("saved");
 	 //   team_discussion_appmgr.update_argument_from_server();
 
-	 	self.argument_obj = obj
+	 	self.argument_obj = argument_obj
 
 ////////////counter managmenet////
-
-	    var parse_id = obj.id;
-	    var MainCounter = obj.get("main_count");
-	    var obj_type = "main";
-	    var new_counter_obj = new Object();
-	    var counter_obj = {type:obj_type, count:MainCounter};
-	    var element_counter_key =  "element_counter" + global_team_side;
-
-	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
-	    if(original_counter_obj){
-	    	new_counter_obj = JSON.parse(original_counter_obj);
-	    }else{
-	    	new_counter_obj = new Object();
-	    }
-	    new_counter_obj[parse_id + "_main"] = counter_obj;
-	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
-
-	    var new_counter_obj = new Object();
-	    new_counter_obj[element_counter_key] = new_counter_obj_str;
-	    gapi.hangout.data.submitDelta(new_counter_obj);
-
+			util_send_argument_counter(argument_obj,"main",self.team_name, null);
 
 ////////////counter managmenet////
 
 /*edit status management*/
-		team_discussion_appmgr.own_edit_status = "pending";
-		team_discussion_appmgr.own_edit_element = null;
-		self.title_editor = null;
-		var new_edit_status_obj = new Object();
-		var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
-	    if(current_edit_status_obj){
-	    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
-	    }
-	    delete new_edit_status_obj[global_own_parse_id];
-		var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
-	    var edit_status_counter = get_hangout_edit_status_counter();
-	    edit_status_counter++;
-	    edit_status_counter_str = String(edit_status_counter);
-	    var hangout_status_obj_MainArg = new_counter_obj;
-	    hangout_status_obj_MainArg["edit_status"] = new_edit_status_obj_str;
-	    hangout_status_obj_MainArg["edit_status_counter"] = edit_status_counter_str;
-		gapi.hangout.data.submitDelta( hangout_status_obj_MainArg);
+			global_own_edit_status = "pending";
+			global_own_edit_element = null;
+			self.title_editor = null;
+			util_remove_edit_status();
 
 	  },
 	  error: function(obj, error) {
@@ -719,6 +601,7 @@ Argument_VM.prototype.click_main_save = function(){
 Argument_VM.prototype.click_comment_Add = function(){
 
 	var self = this;
+	var own_team_side = participant_mgr_obj.get_own_group_name();
 
 	var comment_context = self.comment_input();
 	var Comment = Parse.Object.extend("Comment");
@@ -726,40 +609,18 @@ Argument_VM.prototype.click_comment_Add = function(){
 	comment_obj.set("context", comment_context);
 	comment_obj.set("argument", self.argument_obj);
 	comment_obj.set("type", "extension");
-	comment_obj.set("count", 0);
-	comment_obj.set("team", global_team_side);
+	comment_obj.set("comment_count", 0);
+	comment_obj.set("team", own_team_side);
 	comment_obj.set("author", global_own_parse_id);
 	comment_obj.save(null, {
-	  success: function(obj) {
+	  success: function(comment_o) {
 	  	self.comment_input("");
 	  //  team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
 
 ///////////counter management////////////
 
-	    var parse_id = obj.id;
-	    var CommentCounter = obj.get("count");
-	    var obj_type = "comment";
-	    var new_counter_obj = new Object();
-	    var counter_obj = {type:obj_type, count:CommentCounter, parent:self.arg_id};
-	    var element_counter_key =  "element_counter" + global_team_side;
-
-	    var original_counter_obj = gapi.hangout.data.getValue(element_counter_key);
-	    if(original_counter_obj){
-	    	new_counter_obj = JSON.parse(original_counter_obj);
-	    }else{
-	    	new_counter_obj = new Object();
-	    }
-	    new_counter_obj[parse_id + "_comment"] = counter_obj;
-	    var new_counter_obj_str = JSON.stringify(new_counter_obj);
-
-	    var new_counter_obj = new Object();
-	    new_counter_obj[element_counter_key] = new_counter_obj_str;
-	    gapi.hangout.data.submitDelta(new_counter_obj);
-
-
-
+	    util_send_argument_counter(comment_o,"comment",self.team_name, self.arg_id, self.team_name);
 ///////////counter management////////////
-
 
 	  },
 	  error: function(obj, error) {
@@ -777,49 +638,20 @@ Argument_VM.prototype.click_comment_Add = function(){
 Argument_VM.prototype.click_title_cancel = function(){
 	var self = this;
 
-	team_discussion_appmgr.own_edit_status = "pending";
-	team_discussion_appmgr.own_edit_element = null;
-
+	global_own_edit_status = "pending";
+	global_own_edit_element = null;
 	self.show_title();
 
-	var new_edit_status_obj = new Object();
-	var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
-    if(current_edit_status_obj){
-    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
-    }
-    delete new_edit_status_obj[global_own_parse_id];
-	var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
-    var edit_status_counter = get_hangout_edit_status_counter();
-    edit_status_counter++;
-    edit_status_counter_str = String(edit_status_counter);
-
-	gapi.hangout.data.submitDelta({
-		"edit_status":new_edit_status_obj_str,
-		"edit_status_counter":edit_status_counter_str
-	});
+	util_remove_edit_status();
 }
 
 Argument_VM.prototype.click_main_cancel = function(){
 	var self = this;
-	team_discussion_appmgr.own_edit_status = "pending";
-	team_discussion_appmgr.own_edit_element = null;
+	global_own_edit_status = "pending";
+	global_own_edit_element = null;
 	self.show_main_content();
 
-	var new_edit_status_obj = new Object();
-	var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");
-    if(current_edit_status_obj){
-    	new_edit_status_obj = JSON.parse(current_edit_status_obj);
-    }
-    delete new_edit_status_obj[global_own_parse_id];
-	var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
-    var edit_status_counter = get_hangout_edit_status_counter();
-    edit_status_counter++;
-    edit_status_counter_str = String(edit_status_counter);
-
-	gapi.hangout.data.submitDelta({
-		"edit_status":new_edit_status_obj_str,
-		"edit_status_counter":edit_status_counter_str
-	});
+	util_remove_edit_status();
 }
 
 Argument_VM.prototype.show_all_comment = function(){
@@ -829,52 +661,65 @@ Argument_VM.prototype.show_all_comment = function(){
 	var Comment = Parse.Object.extend("Comment");
 	var comment_query = new Parse.Query(Comment);
 	comment_query.equalTo("argument", self.argument_obj);
-	comment_query.equalTo("team", global_team_side);
+//	comment_query.equalTo("team", global_team_side);
+	comment_query.containedIn("team",self.comment_query_team_array);
+
 	comment_query.find({
 	  success: function(array) {
 
 	    for (var i = 0; i < array.length; i++) {
 	      var retrieved_comment = array[i];
 	      var retrieved_comment_context = retrieved_comment.get("context");
-		  var converted_comment_context = null;
-		  if(retrieved_comment_context){
-		  	converted_comment_context = add_linebreak_html(retrieved_comment_context);
-		  }
+				var converted_comment_context = null;
+				if(retrieved_comment_context){
+					converted_comment_context = add_linebreak_html(retrieved_comment_context);
+				}
 
-	      var retrieved_count = retrieved_comment.get("count");
+	      var retrieved_count = retrieved_comment.get("comment_count");
 	      var is_author_yourself = false;
 
+
+	      var retrieved_team = retrieved_comment.get("team");
+	      var team_side = "Aud_style";
+	      if(retrieved_team == "Gov" || retrieved_team == "Prop" || retrieved_team == "OG" || retrieved_team == "CG"){
+	      	team_style = "Prop_style"
+	      }else if(retrieved_team == "Opp" || retrieved_team == "OO" ||retrieved_team == "CO" ){
+	      	team_style = "Opp_style"
+	      }
+
 	      var comment_author = retrieved_comment.get("author");
-		  var comment_author_profile = team_discussion_appmgr.participant_mgr_obj.get_user_profile(comment_author);
-		  var comment_author_pict_src = comment_author_profile.pict_src;
-		  var comment_author_name = comment_author_profile.first_name;
-		  if(comment_author == global_own_parse_id){
-		  	is_author_yourself = true;
-		  }
+				var comment_author_profile = participant_mgr_obj.get_user_profile(comment_author);
+				var comment_author_pict_src = comment_author_profile.pict_src;
+				var comment_author_name = comment_author_profile.first_name;
+				if(comment_author == global_own_parse_id){
+					is_author_yourself = true;
+				}
 	      var obj = {
-	      		 comment_id:retrieved_comment.id,
-	      		 comment_content: converted_comment_context,
-	      		 comment_edit: retrieved_comment_context,
+					comment_id:retrieved_comment.id,
+					comment_content: converted_comment_context,
+					comment_edit: retrieved_comment_context,
 
-	      		 comment_content_visible: true,
-	      		 comment_edit_visible: false,
-	      		 comment_edit_button_visible: is_author_yourself,
-	      		 comment_save_button_visible: false,
-	      		 comment_cancel_button_visible: false,
+					comment_content_visible: true,
+					comment_edit_visible: false,
+					comment_edit_button_visible: is_author_yourself,
+					comment_save_button_visible: false,
+					comment_cancel_button_visible: false,
 
-	      		 author_pict_src: comment_author_pict_src,
-	      		 author_name:comment_author_name,
+					author_pict_src: comment_author_pict_src,
+					author_name:comment_author_name,
 
-	      		 isCommentEditTextboxFocused: false,
-	      		 count: retrieved_count
+					isCommentEditTextboxFocused: false,
+					count: retrieved_count,
+
+					team_side_style: team_style 
 	      };
 	      var comment_existed = false;
 	      for(var j=0; j<self.comment_array().length; j++){
 	      	if(self.comment_array()[j].comment_id == retrieved_comment.id){
-				comment_existed = true;
-				if(self.comment_array()[j].count != retrieved_count){
-					self.comment_array.splice(j,1,obj);
-				}
+						comment_existed = true;
+						if(self.comment_array()[j].count != retrieved_count){
+							self.comment_array.splice(j,1,obj);
+						}
 	      	}
 	      }
 	      if(!comment_existed){
@@ -888,13 +733,9 @@ Argument_VM.prototype.show_all_comment = function(){
 		    var CommentCounter = retrieved_count;
 		    var obj_type = "comment";
 		    var counter_obj = {type:obj_type,parent:self.arg_id, count:CommentCounter};
-			team_discussion_appmgr.element_counter[parse_id + "_comment"] = counter_obj;
+				global_element_counter[parse_id + "_comment"] = counter_obj;
 
 ////////////counter management ///////
-
-
-
-
 	    }
 	  },
 	  error: function(error) {
@@ -917,9 +758,6 @@ Argument_VM.prototype.show_comment_input = function(){
 	}
 }
 
-
-Argument_VM.prototype.set_template = function(){
-}
 
 
 
@@ -985,17 +823,6 @@ hangout_obj
 
 // edit status is applied only to main_content and title
 // comment update is always possible by the writer.
-
-Argument_VM.prototype.edit_status = function(psrse_id){
-
-	if(!parse_id){
-		//show edit button
-	}else if(parse_id != global_own_id){
-		//disable edit button and show writer's name
-	}else{
-		//show text_box to edit by the user
-	}
-}
 
 
 	//更新中のIDを取得し、それは変更不可にする。

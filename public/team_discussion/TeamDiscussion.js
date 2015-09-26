@@ -19,9 +19,56 @@
  console.log(appData);
  console.log(global_team_side);
 
- team_discussion_appmgr = new TeamDiscussAppMgr();
+ var actual_game_obj = new Object();
+ var participant_mgr_obj = new TeamDiscussion_ParticipantMgr();
+ var discussion_note_obj = new DiscussNoteMgr();
 
- window.onload = Hangout_Init;
+ var discussion_note_setting = {
+    Arg:[
+        {
+          team_name:global_team_side, 
+          element:"#argument_pain",
+          template:"argument_template",
+          comment_query_array:[global_team_side]
+        }
+      ] /*,
+    concept:[
+        {
+          team_name:global_team_side,
+          element:"concept_pain",
+          template:"concept_template"
+        }
+      ]*/
+  };
+
+window.onload = function(){
+  Hangout_Init();
+  TeamDiscussion_Init();
+
+}
+
+function TeamDiscussion_Init() {
+
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.include("participants");
+  game_query.get(global_debate_game_id, {
+    success: function(obj) {
+      actual_game_obj = obj;
+      var layout_obj = new ConstructLayout();
+      participant_mgr_obj.update();
+      discussion_note_obj.initialize(discussion_note_setting, participant_mgr_obj);
+
+    },
+    error: function(error) {
+      alert("something happen and creating event failed" + error.message);
+      //data should be vaidated before upload and the error should not happen in server side
+    }
+  });
+}
+
+
+
 
 function Hangout_Init() {
   gapi.hangout.onApiReady.add(function(e){
@@ -29,18 +76,15 @@ function Hangout_Init() {
     if(e.isApiReady){
       global_own_hangout_id = gapi.hangout.getLocalParticipantId();
       console.log("own hangout id " + global_own_hangout_id);
-      //team_discussion_appmgr.update_edit_status();
+
 
     	gapi.hangout.data.onStateChanged.add(function(event) {
-
-          team_discussion_appmgr.update_hangout_status(event);
-          
+          discussion_note_obj.update_hangout_status(event);   
         });
-        gapi.hangout.onParticipantsChanged.add(function(participant_change) {
 
-          team_discussion_appmgr.participants_change(participant_change);
-
-        });
+      gapi.hangout.onParticipantsChanged.add(function(participant_change) {
+          participant_mgr_obj.participants_change();
+      });
     }
   });
 }
