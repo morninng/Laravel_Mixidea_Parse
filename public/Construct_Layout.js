@@ -74,13 +74,7 @@ Construct_Layout.prototype.construct_common_layout = function(){
   video_view_model.update();
 
 
-  var Impression_html_Template = _.template($('[data-template="impression_template"]').html());
-  var impression_element = $("#container_main_left_above_left_below");
-  var impression_html_text = Impression_html_Template();
-  impression_element.html(impression_html_text);
-	self.impression_mgr = new ImpressionMgr();
-  var impression_el = document.getElementById('impression_container');
-  ko.applyBindings(self.impression_mgr , impression_el);
+
 
   var Chat_html_Template = _.template($('[data-template="chat_template"]').html());
   var chat_element = $("#absolute_pain_1");
@@ -107,6 +101,7 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   title_view_model_wrapper.remove_editable("#top_left");
   title_view_model_wrapper.update_fixed_title("#top_left");
 
+ impression_wrapper_obj.add("#container_main_left_above_left_below");
 
   participant_table.remove_table();
 
@@ -177,9 +172,12 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   $("#container_main_left_below").css('display','');
   $("#top_right").html("");
 
+  impression_wrapper_obj.remove("#container_main_left_above_left_below");
+ 
 
   title_view_model_wrapper.remove_fixed_title("#top_left");
   title_view_model_wrapper.update_editable("#top_left");
+
 
 
   $("#container_main").width(1000);
@@ -230,6 +228,8 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   title_view_model_wrapper.remove_fixed_title("#top_left");
   title_view_model_wrapper.update_editable("#top_left");
 
+  impression_wrapper_obj.remove("#container_main_left_above_left_below");
+ 
 
   $("#container_main_right").width(450);
   participant_table.update_table("#container_main_right");

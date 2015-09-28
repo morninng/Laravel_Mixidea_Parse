@@ -23,6 +23,7 @@
  sound_mgr.init();
  var title_view_model_wrapper = new Title_VM_wrapper();
  var transcription_mgr = null;
+ var impression_wrapper_obj = new Impression_wrapper();
 
  var participant_table = new ParticipantTableMgr();
 
@@ -214,7 +215,7 @@ AppMgr.prototype.receive_message = function(received_message){
 
   switch (type){
     case "sound":
-      impression_mgr.receive_message(message_obj);
+      impression_wrapper_obj.receive_message(message_obj);
     break;
     case "chat":
       chat_view_model.receive_message(message_obj, sender_hangout_id);
