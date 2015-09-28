@@ -1,3 +1,79 @@
+function Title_VM_wrapper(){
+	var self = this;
+	self.title_VM_editable = null;
+	self.title_VM_fixed = false;
+	self.title_editable_el = null;
+}
+
+Title_VM_wrapper.prototype.update_from_server = function(){
+	var self = this;
+	if(!self.title_VM_editable){
+		return
+	}
+	self.title_VM_editable.update();
+}
+
+Title_VM_wrapper.prototype.remove_editable = function(el_name){
+
+	var self = this;
+	if(!self.title_VM_editable){
+		return;
+	}
+	ko.cleanNode(self.title_editable_el);
+	var title_element = $(el_name);
+	title_element.html(null);
+	self.title_VM_editable = null;
+	self.title_editable_el = null;
+}
+
+Title_VM_wrapper.prototype.update_editable = function(el_name){
+
+	var self = this;
+
+	if(!self.title_VM_editable){
+
+		self.title_VM_editable = new title_VM();
+	  var Title_html_Template = _.template($('[data-template="title_template_editable"]').html());
+	  var title_element = $(el_name);
+	  var Title_html_text = Title_html_Template();
+	  title_element.html(Title_html_text);
+	  self.title_editable_el = document.getElementById('title_template_area');
+	  ko.applyBindings(self.title_VM_editable, self.title_editable_el);
+	}
+	self.title_VM_editable.update();
+}
+
+Title_VM_wrapper.prototype.update_fixed_title = function(el_name){
+
+	var self = this;
+	var title_str = actual_game_obj.get("motion");
+
+	if(!self.title_VM_fixed){
+		self.title_VM_fixed = true;
+	  var Title_html_Template = _.template($('[data-template="title_template_fixed"]').html());
+	  var title_element = $(el_name);
+	  var Title_html_text = Title_html_Template({motion:title_str});
+	  title_element.html(Title_html_text);
+	}
+}
+
+Title_VM_wrapper.prototype.remove_fixed_title = function(el_name){
+
+	var self = this;
+	if(!self.title_VM_fixed){
+		return;
+	}
+
+	var title_element = $(el_name);
+	title_element.html(null);
+	self.title_VM_fixed = false;
+
+
+}
+
+
+
+
 function title_VM(){
 
 	var self = this;
@@ -9,34 +85,20 @@ function title_VM(){
 	self.title_count = 0;
 }
 
-title_VM.prototype.initialize = function(){
 
-	var self = this;
-	self.title_show(true);
-	var title = actual_game_obj.get("motion");
-
-	self.title_sentence(title);
-	var title_width = $("#event_title_show_out").width();
-	var title_width_str = "width:" + String(title_width) + "px"
-	self.title_width(title_width_str);
-	self.title_input(false);
-	self.title_value(title);
-	self.title_count = 1;
-
-}
 
 title_VM.prototype.update = function(){
 
 	var self = this;
 	self.title_show(true);
 	var title = actual_game_obj.get("motion");
+
 	self.title_sentence(title);
 	var title_width = $("#event_title_show_out").width();
 	var title_width_str = "width:" + String(title_width) + "px"
 	self.title_width(title_width_str);
 	self.title_input(false);
 	self.title_value(title);
-	self.title_count++;
 
 }
 

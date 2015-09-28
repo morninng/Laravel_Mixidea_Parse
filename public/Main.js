@@ -21,7 +21,7 @@
  var appmgr = new AppMgr();
  var sound_mgr = new SoundMgr();
  sound_mgr.init();
- var title_view_model = new title_VM();
+ var title_view_model_wrapper = new Title_VM_wrapper();
  var transcription_mgr = null;
 
  var participant_table = new ParticipantTableMgr();
@@ -160,7 +160,7 @@ AppMgr.prototype.update_hangout_status = function(event){
       success: function(obj) {
         actual_game_obj = obj;
         participant_mgr_obj.update_parse_data();
-        title_view_model.update();
+        title_view_model_wrapper.update_from_server();
 
         video_view_model.update();
 

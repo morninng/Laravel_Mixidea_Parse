@@ -62,7 +62,13 @@
 	position:relative;
 }
 
+#text_fixed_title{
+	padding-top:4px;
+	font-size: xx-large;;
+	font-family: sans-serif;
+	text-align:center;
 
+}
 
 
 

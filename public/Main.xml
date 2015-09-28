@@ -187,8 +187,13 @@
   </div>
 </script>
 
+ <script type="text/template" data-template="title_template_fixed">
+    <div id="text_fixed_title"><%= motion %></div>
+ </script>
 
- <script type="text/template" data-template="title_template">
+
+
+ <script type="text/template" data-template="title_template_editable">
     <div id="title_template_area">
 	  <form id="title_form">
       <div id="title_container">

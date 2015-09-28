@@ -103,8 +103,10 @@ DiscussNoteMgr.prototype.retrieve_updated_element = function(){
       var team_name = self.arg_array[i].team_name;
       var element_counter_key =  "element_counter" + team_name;
       var updated_element_counter_str = gapi.hangout.data.getValue(element_counter_key);
-      var updated_element_counter_json = JSON.parse(updated_element_counter_str);
-      updated_element_counter_all = concatenate_json(updated_element_counter_all, updated_element_counter_json);
+      if(updated_element_counter_str){
+        var updated_element_counter_json = JSON.parse(updated_element_counter_str);
+        updated_element_counter_all = concatenate_json(updated_element_counter_all, updated_element_counter_json);
+      }
     }
   }
   if(self.concept_array){
@@ -112,8 +114,10 @@ DiscussNoteMgr.prototype.retrieve_updated_element = function(){
       var team_name = self.arg_array[i].team_name;
       var element_counter_key =  "element_counter" + team_name;
       var updated_element_counter_str = gapi.hangout.data.getValue(element_counter_key);
-      var updated_element_counter_json = JSON.parse(updated_element_counter_str);
-      updated_element_counter_all = concatenate_json(updated_element_counter_all, updated_element_counter_json);
+      if(updated_element_counter_str){
+       var updated_element_counter_json = JSON.parse(updated_element_counter_str);
+       updated_element_counter_all = concatenate_json(updated_element_counter_all, updated_element_counter_json);
+      }
     }
   }
 //

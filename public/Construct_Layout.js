@@ -55,13 +55,6 @@ Construct_Layout.prototype.construct_common_layout = function(){
 
   var self = this;
 
-  var Title_html_Template = _.template($('[data-template="title_template"]').html());
-  var title_element = $("#top_left");
-  var Title_html_text = Title_html_Template();
-  title_element.html(Title_html_text);
-  var title_el = document.getElementById('title_template_area');
-  ko.applyBindings(title_view_model, title_el);
-  title_view_model.initialize();
 
   status_bar_html_Template = _.template($('[data-template="status_bar_template"]').html());
   var status_bar_element = $("#container_second_top");
@@ -110,6 +103,9 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   $("#container_main_left_below").css('display','none');
   $("#container_main").width(1200);
   $("#container_main_right").width(900);
+
+  title_view_model_wrapper.remove_editable("#top_left");
+  title_view_model_wrapper.update_fixed_title("#top_left");
 
 
   participant_table.remove_table();
@@ -182,6 +178,8 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   $("#top_right").html("");
 
 
+  title_view_model_wrapper.remove_fixed_title("#top_left");
+  title_view_model_wrapper.update_editable("#top_left");
 
 
   $("#container_main").width(1000);
@@ -227,6 +225,10 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   $("#container_main_left_above_right").css('display','');
   $("#container_main_left_below").css('display','');
   $("#top_right").html("");
+
+
+  title_view_model_wrapper.remove_fixed_title("#top_left");
+  title_view_model_wrapper.update_editable("#top_left");
 
 
   $("#container_main_right").width(450);
