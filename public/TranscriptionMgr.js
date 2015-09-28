@@ -9,12 +9,13 @@ function TranscriptionMgr(){
   self.current_user_id = null;
 }
 
-TranscriptionMgr.prototype.initialize = function(speech_transcription_id){
+TranscriptionMgr.prototype.initialize = function(){
 
 //load data
 
 	var self = this;
-	
+
+	var speech_transcription_id = actual_game_obj.get("speech_transcription").id;
 	var Speech_Transcription = Parse.Object.extend("Speech_Transcription");
 	var speech_transcription_query = new Parse.Query(Speech_Transcription);
 	speech_transcription_query.get(speech_transcription_id, {
@@ -38,6 +39,9 @@ TranscriptionMgr.prototype.update = function(){
 		self.current_speech_id = next_speech_id;
 		self.speech_array_length = 0;
   	self.current_user_id = null;
+	}
+	if(!self.speech_transcription_obj){
+		return;
 	}
 
 

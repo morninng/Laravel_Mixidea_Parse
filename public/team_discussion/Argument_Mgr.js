@@ -115,7 +115,7 @@ Argument_Mgr.prototype.update_argument_from_server = function(){
 
   var Game = Parse.Object.extend("Game");
   var game_query = new Parse.Query(Game);
-  var param_name = global_team_side + "_argument";
+  var param_name = self.team_name + "_argument";
   game_query.include(param_name);
   game_query.get(global_debate_game_id, {
     success: function(obj) {

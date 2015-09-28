@@ -74,11 +74,11 @@ WebSpeech_Recognition.prototype.store_transcription_onParse = function(transcrip
 	}
 	console.log(transcript_text);
 
-	var current_role = appmgr.video_view_model.get_current_speaker_role();  /*this is not poi_speaker role*/
+	var current_role = video_view_model.get_current_speaker_role();  /*this is not poi_speaker role*/
 	console.log(current_role);
-	var current_speech_time = appmgr.video_view_model.get_current_time();
+	var current_speech_time = video_view_model.get_current_time();
 	var current_speech_id = get_speech_id();
-	var user_parse_id = appmgr.own_parse_id;
+	var user_parse_id = global_own_parse_id;
 	var transcription_obj = {id: current_speech_id, t: String(current_speech_time),
 							 script: transcript_text,user_id:user_parse_id, type: self.type };
 	console.log(transcription_obj);

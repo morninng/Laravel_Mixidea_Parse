@@ -57,7 +57,7 @@ function TeamDiscussion_Init() {
       actual_game_obj = obj;
       var layout_obj = new ConstructLayout();
       participant_mgr_obj.update();
-      discussion_note_obj.initialize(discussion_note_setting, participant_mgr_obj);
+      discussion_note_obj.initialize(discussion_note_setting,);
 
     },
     error: function(error) {

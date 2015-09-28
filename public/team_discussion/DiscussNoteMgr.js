@@ -16,6 +16,7 @@ DiscussNoteMgr.prototype.initialize = function(setting){
   var self = this;
 
   self.arg_array = setting["Arg"];
+  self.concept_array = setting["Concept"];
 
   for(var i=0; i<self.arg_array.length; i++){
     var team_name = self.arg_array[i].team_name;
@@ -36,6 +37,11 @@ DiscussNoteMgr.prototype.update_hangout_status = function(){
 DiscussNoteMgr.prototype.update_edit_status = function(){
 
   var self = this;
+
+  if(!self.arg_array){
+    return;
+  }
+
 
   var edit_status_counter = get_hangout_edit_status_counter();
 
@@ -90,18 +96,31 @@ team_nameにより、適切なオブジェクトにデータ取得をさせる�
 DiscussNoteMgr.prototype.retrieve_updated_element = function(){
 
   var self = this;
-  var element_counter_key =  "element_counter" + global_team_side;
-  var updated_element_counter = gapi.hangout.data.getValue(element_counter_key);
-  if(!updated_element_counter){
-    return;
-  }
-  var updated_element_counter_obj = JSON.parse(updated_element_counter);
+  var updated_element_counter_all = new Object()
 
+  if(self.arg_array){
+    for(var i=0; i<self.arg_array.length; i++){
+      var team_name = self.arg_array[i].team_name;
+      var element_counter_key =  "element_counter" + team_name;
+      var updated_element_counter_str = gapi.hangout.data.getValue(element_counter_key);
+      var updated_element_counter_json = JSON.parse(updated_element_counter_str);
+      updated_element_counter_all = concatenate_json(updated_element_counter_all, updated_element_counter_json);
+    }
+  }
+  if(self.concept_array){
+    for(var i=0; i<self.concept_array.length; i++){
+      var team_name = self.arg_array[i].team_name;
+      var element_counter_key =  "element_counter" + team_name;
+      var updated_element_counter_str = gapi.hangout.data.getValue(element_counter_key);
+      var updated_element_counter_json = JSON.parse(updated_element_counter_str);
+      updated_element_counter_all = concatenate_json(updated_element_counter_all, updated_element_counter_json);
+    }
+  }
 //
 
 
   console.log("counter json shared by hangout status");
-  console.log(updated_element_counter_obj);
+  console.log(updated_element_counter_all);
 
   var element_updated = new Array();
   var element_added = new Array();
@@ -110,23 +129,23 @@ DiscussNoteMgr.prototype.retrieve_updated_element = function(){
   console.log(global_element_counter);
 
 
-  for( updated_key  in updated_element_counter_obj ){
+  for( updated_key  in updated_element_counter_all ){
     var exist = false;
     var counter_update = false;
     for( existing_key in global_element_counter){
 
       if(existing_key == updated_key){
         exist = true;
-        if(updated_element_counter_obj[updated_key].count != global_element_counter[existing_key].count){
+        if(updated_element_counter_all[updated_key].count != global_element_counter[existing_key].count){
           counter_update = true;
-          element_updated.push(updated_element_counter_obj[updated_key]);
+          element_updated.push(updated_element_counter_all[updated_key]);
           console.log("previous counter is" +  global_element_counter[existing_key].count);
-          console.log("next counter is" + updated_element_counter_obj[updated_key].count);
+          console.log("next counter is" + updated_element_counter_all[updated_key].count);
         }
       }
     }
     if(!exist){
-      element_added.push(updated_element_counter_obj[updated_key])
+      element_added.push(updated_element_counter_all[updated_key])
     }
   }
 
@@ -167,7 +186,6 @@ DiscussNoteMgr.prototype.retrieve_updated_element = function(){
       }
     }
   }
-  return;
 }
 /*
 edit status object

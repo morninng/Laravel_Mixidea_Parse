@@ -18,7 +18,7 @@ ChatViewModel.prototype.update = function(){
   
   var self = this;
 
-  var team_side_str = appmgr.participant_manager_object.get_own_group_name();
+  var team_side_str = participant_mgr_obj.get_own_group_name();
   var title_bar = "chatroom among " + team_side_str;
   self.chat_header_title(title_bar);
   if(team_side_str != self.team_side_str){
@@ -169,7 +169,7 @@ ChatViewModel.prototype.receive_message = function(received_message, sender_hang
 
   var self = this;
 
-  is_my_partner = appmgr.participant_manager_object.isYourPartner(sender_hangout_id);
+  is_my_partner = participant_mgr_obj.isYourPartner(sender_hangout_id);
   if(!is_my_partner){
     return;
   }
@@ -178,7 +178,7 @@ ChatViewModel.prototype.receive_message = function(received_message, sender_hang
   self.visible_collapse_button(true);
 
   var message_shown = ":" + received_message;
-  var name = appmgr.participant_manager_object.getFirstName_fromHangoutID(sender_hangout_id);
+  var name = participant_mgr_obj.getFirstName_fromHangoutID(sender_hangout_id);
 
   var chat_message_obj = {chat_box_class:"chat_msg_other", sender_name:name, chat_message:message_shown}
   self.chat_message_array.push(chat_message_obj);

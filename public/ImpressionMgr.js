@@ -25,7 +25,7 @@ ImpressionMgr.prototype.receive_message = function(message_obj){
 
   switch (type){
     case "poi":
-      appmgr.sound_mgr.play_sound_poi();
+      sound_mgr.play_sound_poi();
     break;
     case "hearhear":
       self.show_hearhear_user(user_parse_id);
@@ -34,10 +34,10 @@ ImpressionMgr.prototype.receive_message = function(message_obj){
       self.show_booboo_user(user_parse_id);
     break;
     case "taken":
-      appmgr.sound_mgr.play_sound_taken();
+      sound_mgr.play_sound_taken();
     break;
     case "poi_finish":
-      appmgr.sound_mgr.play_sound_poi_finish();
+      sound_mgr.play_sound_poi_finish();
     break;
   }
 
@@ -76,26 +76,26 @@ ImpressionMgr.prototype.click_booboo = function(){
 ImpressionMgr.prototype.show_hearhear_user = function(user_id){
 
 	var self = this;
-  var src = appmgr.participant_manager_object.getPict_fromParseID(user_id);
+  var src = participant_mgr_obj.getPict_fromParseID(user_id);
   var unique_id = get_guid();
   var object = {id:unique_id, pict_src:src};
   self.hearhear_users.push(object);
 
   var timer; 
   timer = setTimeout(function(){self.remove_hearhear(object)},1000);
-  appmgr.sound_mgr.play_sound_heahear();
+  sound_mgr.play_sound_heahear();
 }
 
 ImpressionMgr.prototype.show_booboo_user = function(user_id){
   var self = this;
-  var src = appmgr.participant_manager_object.getPict_fromParseID(user_id);
+  var src = participant_mgr_obj.getPict_fromParseID(user_id);
   var unique_id = get_guid();
   var object = {id:unique_id, pict_src:src};
   self.booboo_users.push(object);
 
   var timer; 
   timer = setTimeout(function(){self.remove_booboo(object)},1000);
-  appmgr.sound_mgr.play_sound_booboo();
+  sound_mgr.play_sound_booboo();
 
 }
 

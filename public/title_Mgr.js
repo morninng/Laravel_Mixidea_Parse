@@ -13,7 +13,7 @@ title_VM.prototype.initialize = function(){
 
 	var self = this;
 	self.title_show(true);
-	var title = appmgr.actual_game_obj.get("motion");
+	var title = actual_game_obj.get("motion");
 
 	self.title_sentence(title);
 	var title_width = $("#event_title_show_out").width();
@@ -29,7 +29,7 @@ title_VM.prototype.update = function(){
 
 	var self = this;
 	self.title_show(true);
-	var title = appmgr.actual_game_obj.get("motion");
+	var title = actual_game_obj.get("motion");
 	self.title_sentence(title);
 	var title_width = $("#event_title_show_out").width();
 	var title_width_str = "width:" + String(title_width) + "px"

@@ -10,11 +10,11 @@ function ParticipantMgr(){
 	self.role_array = new Array();
 }
 
-ParticipantMgr.prototype.initialize = function(actual_game_obj, parse_user_id, hangout_id){
+ParticipantMgr.prototype.initialize = function(){
 
 	var self = this;
 
-	var participants_array = appmgr.actual_game_obj.get("participants");
+	var participants_array = actual_game_obj.get("participants");
 	if(participants_array){
 		for(var i=0; i< participants_array.length; i++){
 			var parse_id = participants_array[i].id;
@@ -25,8 +25,8 @@ ParticipantMgr.prototype.initialize = function(actual_game_obj, parse_user_id, h
 			self.participants_obj[parse_id] = obj
 		}
 	}
-	self.debater_obj = appmgr.actual_game_obj.get("participant_role");
-	audience_parseid_array = appmgr.actual_game_obj.get("audience_participants");
+	self.debater_obj = actual_game_obj.get("participant_role");
+	audience_parseid_array = actual_game_obj.get("audience_participants");
 
 	if(audience_parseid_array){
 		for(var i=0; i< audience_parseid_array.length; i++){
@@ -36,11 +36,10 @@ ParticipantMgr.prototype.initialize = function(actual_game_obj, parse_user_id, h
 	    self.audience_obj_array.push({ role:role_name, parse_id:user_parse_id });
 		}
 	}
-	self.game_style = appmgr.actual_game_obj.get("style");
+	self.game_style = actual_game_obj.get("style");
 
 	self.update_hangout_participants();
 	self.setGameData();
-	self.participant_table = new ParticipantTableMgr(self.game_style);
 
 }
 
@@ -92,7 +91,7 @@ ParticipantMgr.prototype.update_parse_data = function( ){
 
 	var self = this;
 
-	var participants_array = appmgr.actual_game_obj.get("participants");
+	var participants_array = actual_game_obj.get("participants");
 	if(participants_array){
 		for(var i=0; i< participants_array.length; i++){
 			var parse_id = participants_array[i].id;
@@ -103,11 +102,9 @@ ParticipantMgr.prototype.update_parse_data = function( ){
 			self.participants_obj[parse_id] = obj
 		}
 	}
-	self.debater_obj = appmgr.actual_game_obj.get("participant_role");
+	self.debater_obj = actual_game_obj.get("participant_role");
 
-
-
-	audience_parseid_array = appmgr.actual_game_obj.get("audience_participants");
+	audience_parseid_array = actual_game_obj.get("audience_participants");
 	self.audience_obj_array.length=0;
 	if(audience_parseid_array){
 		for(var i=0; i<audience_parseid_array.length; i++){
@@ -117,8 +114,7 @@ ParticipantMgr.prototype.update_parse_data = function( ){
 		  self.audience_obj_array.push({ role:role_name, parse_id:user_parse_id });
 		}
 	}
-	self.game_style = appmgr.actual_game_obj.get("style");
-	self.participant_table.UpdateUserObjAll();
+	self.game_style = actual_game_obj.get("style");
 }
 
 
@@ -154,17 +150,17 @@ ParticipantMgr.prototype.setGameData = function(){
 	switch(game_style){
 	  case 'NorthAmerica':
 		self.role_array = ["PrimeMinister","LeaderOpposition","MemberGovernment","MemberOpposition","ReplyPM","LOReply","Audince1","Audince2","Audince3","Audince4"];
-		self.role_group_array = {PrimeMinister:"Gov",LeaderOpposition:"Opp",MemberGovernment:"Gov",MemberOpposition:"Opp",ReplyPM:"Gov",LOReply:"Opp",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud"};
+		self.role_group_array = {PrimeMinister:"Gov",LeaderOpposition:"Opp",MemberGovernment:"Gov",MemberOpposition:"Opp",ReplyPM:"Gov",LOReply:"Opp",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud",audience5:"Aud",audience6:"Aud",audience7:"Aud",audience8:"Aud",audience9:"Aud",audience10:"Aud"};
 		break;
 	  case 'Asian':
 	  	self.role_array = ["PrimeMinister","LeaderOpposition","DeptyPrimeMinister","DeptyLeaderOpposition",
                       "GovernmentWhip","OppositionWhip","GovermentReply","OppositionReply","Audince1","Audince2"];
-		self.role_group_array = {PrimeMinister:"Gov",LeaderOpposition:"Opp",DeptyPrimeMinister:"Gov",DeptyLeaderOpposition:"Opp",GovernmentWhip:"Gov",OppositionWhip:"Opp",GovermentReply:"Gov",OppositionReply:"Opp",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud"};
+		self.role_group_array = {PrimeMinister:"Gov",LeaderOpposition:"Opp",DeptyPrimeMinister:"Gov",DeptyLeaderOpposition:"Opp",GovernmentWhip:"Gov",OppositionWhip:"Opp",GovermentReply:"Gov",OppositionReply:"Opp",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud",audience5:"Aud",audience6:"Aud",audience7:"Aud",audience8:"Aud",audience9:"Aud",audience10:"Aud"};
 		break;
 	  case 'BP':
 	  	self.role_array = ["PrimeMinister","LeaderOpposition","DeptyPrimeMinister","DeptyLeaderOpposition",
                       "MemberGovernment","MemberOpposition","GovermentWhip","OppositionWhip","Audince1","Audince2"];
-		self.role_group_array = {PrimeMinister:"OG",LeaderOpposition:"OO",DeptyPrimeMinister:"OG",DeptyLeaderOpposition:"OO",MemberGovernment:"CG",MemberOpposition:"CO",GovermentWhip:"CG",OppositionWhip:"CO",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud"};
+		self.role_group_array = {PrimeMinister:"OG",LeaderOpposition:"OO",DeptyPrimeMinister:"OG",DeptyLeaderOpposition:"OO",MemberGovernment:"CG",MemberOpposition:"CO",GovermentWhip:"CG",OppositionWhip:"CO",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud",audience5:"Aud",audience6:"Aud",audience7:"Aud",audience8:"Aud",audience9:"Aud",audience10:"Aud"};
 		break;
 	}
 }
@@ -232,6 +228,17 @@ ParticipantMgr.prototype.getFirstName_fromParseID = function(parse_id){
 	}
 	return null;
 }
+
+ParticipantMgr.prototype.get_user_profile = function(parse_id){
+
+	var self = this;
+	var profile =  self.participants_obj[parse_id];
+	if(profile){
+		return profile;
+	}
+	return null;
+}
+
 
 ParticipantMgr.prototype.getPict_fromParseID = function(parse_id){
 

@@ -1,3 +1,5 @@
+
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <Module>
   <ModulePrefs title="Skelton">
@@ -8,68 +10,98 @@
 
 <![CDATA[ 
 
+
+
 <script type="text/javascript" src="//plus.google.com/hangouts/_/api/v1/hangout.js">
 </script>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
 	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/loading.css">
-	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/Debate.css">
-  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/video_ui.css">
-  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/chat_style.css">
-  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/user_status.css">
-  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/participant_table.css">
+	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/chat_style.css">
+
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/Debate.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/structure.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/DirectionBar.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/impression.css">
-  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/transcription.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/InfoBar.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/participant_table.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/user_status.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/video_ui.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/title.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/game_status.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/argument.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/general_concept.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/transcription.css">
+
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+
 
 
 <div id="whole">
 <div id="inner_whole">
 
   <div id="container_top">
-	    <div id = "title_area"></div>
+      <div id = "top_left"></div>
+      <div id = "top_right"></div>
   </div>
 
-  <div id="container_main" style="clear:both">
-  
-	    <div id="container_left_pain" data-bind="css: left_column_css_class">
-		    <div id="video_area"></div>
-        <div id="impression_area"></div>
-	    </div>
-
-      <div id="container_center">
-        <div id="container_center_upper">
-          <div id="game_status_area"></div>
-        </div>
-
-        <div id="container_center_low">
-    	    <div id="container_center_pain" data-bind="css: center_column_css_class">
-    	    </div>
-    	    <div id="container_right_pain" data-bind="css: right_column_css_class">
-    		    <div id="right-top-pain">
-    			     <div id="participant_table"></div>
-    			     <p align="center"><strong>Audiences</strong></p>
-    			     <div id="audience_list"></div>
-    		    </div>
-    		    <div id="right-middle-pain"></div>
-    	    </div>
-        </div>
-      </div>
-
-      <div id="transcription_field">
-        <div id="transcription_area"></div>
-      </div>
+  <div id="container_second_top">
   </div>
 
- 
+  <div id="container_main">
+      <div id="container_main_left">
+        <div id="container_main_left_above">
+            <div id="container_main_left_above_left">
+              <div id="container_main_left_above_left_up"></div>
+              <div id="container_main_left_above_left_below"></div>
+            </div>
+            <div id="container_main_left_above_right"></div>
+        </div>
+        <div id="container_main_left_below"></div>
+      </div>
+      <div id="container_main_right">
+      </div>
+    </div>
+  </div>
 
 </div>
 </div>
 
 <div id="absolute_pain_1"></div>
+<div id="absolute_pain_2"></div>
+
+
+
+
+<script type="text/template" data-template="discussion_single_template">
+
+
+    <div id="general_concept_pain"></div>
+    <div id="argument_pain"></div>
+
+</script>
+
+<script type="text/template" data-template="discussion_double_template">
+
+
+    <div id="general_concept_pain"></div>
+    <div id="argument_pain"></div>
+
+</script>
+
+<script type="text/template" data-template="discussion_quadruple_template">
+
+    <div id="general_concept_pain"></div>
+    <div id="argument_pain"></div>
+
+</script>
+
+  
 
 
 <script type="text/template" data-template="chat_template">
@@ -295,6 +327,10 @@
    <td><div id='LOR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
    </tbody>
   </table>
+
+  <% _.each(list, function(e,i){ %>
+    <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}" style="float:left;"></div>
+  <% }); %>
 </script>
 
 
@@ -312,6 +348,10 @@
        <td><div id='OR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
    </tbody>
   </table>
+
+  <% _.each(list, function(e,i){ %>
+    <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}" style="float:left;"></div>
+  <% }); %>
 </script>
 
 
@@ -332,15 +372,277 @@
    		<td><div id='OW_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
    </tbody>
   </table>
+
+  <% _.each(list, function(e,i){ %>
+    <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}" style="float:left;"></div>
+  <% }); %>
 </script>
 
 
 
-<script type="text/template" data-template="audience_list_template">
- <% _.each(list, function(e,i){ %>
-  <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}" style="float:left;"></div>
- <% }); %>
+
+
+<script type="text/template" data-template="goto_reflection_template">
+  <div id="goto_reflection">
+  After all speech over, go to reflection
+      <button id="start_reflec_button" class="btn btn-success"> Goto Reflection</button>
+  </div>
 </script>
+
+
+
+
+
+
+
+
+
+
+<script type="text/template" data-template="introduction_direction_template">
+  <div id="direction_container">
+    <div>
+      <p>set preparation time</p>
+      <select name="prep_duration" size="1">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="25">25</option>
+      <option value="30" selected>30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+      <option value="60">60</option>
+    </select>
+    <button> update </button>
+    </div>
+    <div class="direction button">
+      <p>when everything is ready, debater should start preparation</p>
+      <button id="start_prep_button" class="btn btn-success"> Start Preparation</button>
+    </div>
+  </div>
+</script>
+
+
+
+
+
+<script type="text/template" data-template="intro_info_template">
+ <div id="info_intro">
+   <p>What you should do before preparation</p>
+   <ul>
+    <li>Introduce each other among participants</li>
+    <li>decide motion and update it on the above button</li>
+    <li>decide preparation time</li>
+    <li>update the role unless all debaters are not loged in</li>
+   </ul>
+   <p>after these points has been completed, you can start preparation</p>
+ </div>
+</script>
+
+<script type="text/template" data-template="preparation_direction_template">
+  <div id="direction_container">
+    <div id="preparation_time">
+      <p>preparation time spent</p>
+      <span >10:20</span>
+    </div>
+    <div class="direction button">
+      <p>Click here! after all attendance came back and preparation has expired</p>
+      <button id="start_debate_button" class="btn btn-success"> Start Debate!</button>
+    </div>
+  </div>
+</script>
+
+
+
+<script type="text/template" data-template="prep_info_audience_template">
+ <div id="info_prep">
+   <div id="link_team_room">
+       <div>
+       link to <strong> team discussion room </strong> for <strong>Government</strong>
+       <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png"
+      alt="Start a Hangout"
+      style="border:0;width:100px;height:24px;"/>
+      </div>
+       <div>
+       link to <strong> team discussion room </strong> for <strong>Opposition</strong>
+       <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png"
+      alt="Start a Hangout"
+      style="border:0;width:100px;height:24px;"/>
+      </div>
+
+   </div>
+   <p>What you should do before debate</p>
+   <ul>
+    <li>Audience can remain here and talk with other audiences</li>
+    <li>if you want to see how debater construct the argument you can go to debater <strong> Team Discussion Room </strong>, however audience should be silent and should not write anything there.</li>
+
+   </ul>
+   <p>How to go to <strong> Team Discussion Room</strong></p>
+   <ul>
+    <li>Click HangoutButton on the right</li>
+    <li>After new window has opened, click Join button</li>
+    <li>Following button appear and you should chose right button "Close existing window"</li>
+    <li>Wait your partner to come and construct your argument together</li>
+   </ul>
+ </div>
+</script>
+
+
+
+<script type="text/template" data-template="status_bar_template">
+ <div id="staus_bar">
+   <div id="status_intro" class="status_bar_element">introduction</div>
+   <div id="status_prep" class="status_bar_element">preparation</div>
+   <div id="status_debate" class="status_bar_element">debate</div>
+   <div id="status_reflec" class="status_bar_element">reflection</div>
+   <div id="status_complete" class="status_bar_element_last">complete</div>
+  </div>
+</script>
+
+
+
+<script type="text/template" data-template="argument_template">
+  <div class = "argument_element">
+    <h2>Argumet</h2>
+    <div id='Arg_<%= Argument_ID %>'>
+
+      <div class="title">
+        <div class="title_left">
+          <div data-bind="visible:visible_title_textbox_default">
+            <p>Title: <input class="ArgTitle_Input_default" placeholder="input title of the argument" type="text" data-bind="textInput: title_input, hasFocus: is_default_TitleTextboxFocused" ></input></p>
+          </div>
+          <div data-bind="visible:visible_title_textbox_written">
+             <p>Title: <span class="title_content" data-bind="html:title_content"></span></p>
+           </div>
+          <div data-bind="visible:visible_title_textbox_edit">
+            <p>Title: <input class="ArgTitle_Input_edit" type="text" data-bind="textInput: title_input, hasFocus: isTitleTextboxFocused" ></input></p>
+          </div>
+          <div class="arg_title_loading" >
+            <div data-bind="visible:visible_editing_icon" class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+              <div class="bounce4"></div>
+              <div class="bounce5"></div>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="arg_title_right">
+          <div class="arg_editor_info">
+            <div data-bind="visible:visible_editor_profile">
+              <img  data-bind="attr: {src: editor_pict_src}"><br>
+              <span data-bind="text:editor_name"></span>
+            </div>
+          </div>
+          <div class="arg_title_button">
+            <div data-bind="visible:visible_button_title_save">
+              <button data-bind="click:click_title_save">save</button>
+            </div>
+            <div data-bind="visible:visible_button_title_cancel">
+              <button data-bind="click:click_title_cancel">cancel</button>
+            </div>
+            <div data-bind="visible:visible_button_title_edit">
+              <button data-bind="click:click_title_edit">edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main_arg">
+        <div class="MainArg_left">
+          <div>Content</div>
+          <div data-bind="visible:visible_MainArg_textbox_default">
+           <textarea class="MainArgDefault_input" data-bind="textInput: main_input, hasFocus: is_default_MainTextboxFocused"></textarea>
+          </div>
+          <div data-bind="visible:visible_MainArg_textbox_written">
+            <div class="MainArg_Content" data-bind="html:main_content"></div>
+          </div>
+          <div data-bind="visible:visible_MainArg_textbox_edit">
+            <textarea class="MainArg_input_edit" placeholder="input principle, reason exmple " data-bind="textInput: main_input, hasFocus: isMainTextboxFocused"></textarea>
+          </div>
+          <div class="MainArg_loading" >
+            <div data-bind="visible:visible_MainArg_editing_icon" class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+              <div class="bounce4"></div>
+              <div class="bounce5"></div>
+            </div>
+          </div>
+        </div>
+        <div class="MainArg_right">
+          <div class="MainArg_editor_info">
+            <div data-bind="visible:visible_editor_MainArg_profile">
+              <img  data-bind="attr: {src: editor_MainArg_pict_src}"><br>
+              <span data-bind="text:editor_MainArg_name"></span>
+            </div>
+          </div>
+          <div class="MainArg_button">
+            <div data-bind="visible:visible_button_MainArg_save">
+              <button data-bind="click:click_main_save">save</button>
+            </div>
+            <div data-bind="visible:visible_button_MainArg_cancel">
+              <button data-bind="click:click_main_cancel">cancel</button>
+            </div>
+            <div data-bind="visible:visible_button_MainArg_edit">
+              <button data-bind="click:click_main_edit">edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div  class="arg_comment">
+        <p>Comment</p>
+        <ul class="arg_comment_ul" data-bind="foreach:comment_array">
+          <li class="arg_comment_list">
+            <div class="arg_comment_left">
+              <img  data-bind="attr: {src: author_pict_src}">
+            </div>
+            <div class="arg_comment_center">
+              <div data-bind="visible:comment_content_visible">
+                <div class="arg_comment_txt"><strong><span data-bind="text:author_name"></span> : </strong><span data-bind="html:comment_content"></span></div>
+              </div>
+              <div data-bind="visible:comment_edit_visible">
+                <textarea class="arg_comment_edit_input" data-bind="textInput: comment_edit, hasFocus: isCommentEditTextboxFocused"></textarea>
+              </div>
+            </div>
+            <div class="arg_comment_right">
+              <div class="comment_button">
+                <div data-bind="visible:comment_edit_button_visible" >
+                  <button data-bind="event:{click: $parent.click_comment_edit}">edit</button>
+                </div>
+                <div data-bind="visible:comment_save_button_visible" >
+                  <button data-bind="event:{click: $parent.click_comment_edit_save}">save</button>
+                </div>
+                <div data-bind="visible:comment_cancel_button_visible" >
+                  <button data-bind="event:{click: $parent.click_comment_edit_cancel}">cancel</button>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+
+      <div class="comment_input">
+        <div data-bind="visible:comment_input_visible">
+             comment: <textarea class="argument_comment_input" data-bind="textInput: comment_input, hasFocus: isCommentInputTextboxFocused"></textarea><br>
+             <div align="right">
+                <button data-bind="click:click_comment_Add">Add</button>
+             </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+</script>
+
+
+
+
 
 
 
@@ -353,7 +655,6 @@
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/TranscriptionMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Video_Mgr.js"></script>
-<script type="text/javascript" src="https://mixidea.parseapp.com/AppMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/ParticipantMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Participant_TableMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/UserStatus_VM.js"></script>
@@ -365,14 +666,18 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/sound_mgr.js"></script>
 
 
+<script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/DiscussNoteMgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/Argument_Mgr.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/Argument_VM.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/hangout_util_teamdiscussion.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/util/utility_func.js"></script>
+
+<script type="text/javascript" src="https://mixidea.parseapp.com/Construct_Layout.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/Game_Status_Mgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Main.js"></script>
 
-<script type="text/javascript" src="https://mixidea.parseapp.com/Game_Status_Mgr.js"></script>
 
 
-<script type="text/javascript">
-  window.onload = Hangout_Init(); 
-</script>
 
 ]]>
 

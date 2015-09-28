@@ -134,7 +134,7 @@ BufferLoader.prototype.loadBuffer = function(url, index) {
         }
         loader.bufferList[index] = buffer;
         if (++loader.loadCount == loader.urlList.length)
-          loader.onload.call(appmgr.sound_mgr, loader.bufferList);
+          loader.onload.call(sound_mgr, loader.bufferList);
       },
       function(error) {
         console.error('decodeAudioData error', error);

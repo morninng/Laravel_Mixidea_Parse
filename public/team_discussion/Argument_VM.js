@@ -680,7 +680,7 @@ Argument_VM.prototype.show_all_comment = function(){
 
 
 	      var retrieved_team = retrieved_comment.get("team");
-	      var team_side = "Aud_style";
+	      var team_style = "Aud_style";
 	      if(retrieved_team == "Gov" || retrieved_team == "Prop" || retrieved_team == "OG" || retrieved_team == "CG"){
 	      	team_style = "Prop_style"
 	      }else if(retrieved_team == "Opp" || retrieved_team == "OO" ||retrieved_team == "CO" ){

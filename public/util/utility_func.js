@@ -11,3 +11,11 @@ function add_linebreak_html(context){
 }
 
 
+function concatenate_json(obj_added, obj_add){
+
+	for(key in obj_add){
+	  obj_added[key] = obj_add[key]
+	}
+	return obj_added
+
+}
