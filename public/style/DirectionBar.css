@@ -4,7 +4,7 @@
 	display:flex;
 	flex-direction:column;
 	align-content:space-around;
-	height:230;
+	height:160;
 }
 #direction_container p{
 
@@ -14,11 +14,11 @@
 
 
 #direction_container > div:first-child {
-	margin-top:40px;
+	margin-top:20px;
 
 }
 #direction_container > div:last-child {
-	margin-top:20px;
+	margin-top:10px;
 
 }
 

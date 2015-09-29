@@ -222,6 +222,16 @@
 	</div>
  </script>
 
+
+
+<script type="text/template" data-template="video_area_default_template">
+  <div id="video_area_container_default">
+    <div id="video_canvas_dummy_layout_default">
+    </div>
+  </div>
+</script>
+
+
 <script type="text/template" data-template="video_area_template">
   <div id="video_area_container">
     <div id="start_speech" data-bind="visible:visible_start_speech">

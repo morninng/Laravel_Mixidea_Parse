@@ -63,16 +63,6 @@ Construct_Layout.prototype.construct_common_layout = function(){
 
 
 
-  $("#container_main_left_above_left").width(300);
-  var Video_html_Template = _.template($('[data-template="video_area_template"]').html());
-  var video_element = $("#container_main_left_above_left_up");
-  var Video_html_text = Video_html_Template();
-  video_element.html(Video_html_text);
-  video_view_model.initialize();
-  var video_el = document.getElementById('video_area_container');
-  ko.applyBindings(video_view_model, video_el);
-  video_view_model.update();
-
 
 
 
@@ -155,6 +145,9 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   $("#status_debate").removeClass("status_bar_element");
   $("#status_debate").addClass("status_bar_element_selected");
 
+  video_view_wrapper.remove_defaultView();
+  $("#container_main_left_above_left").width(300);
+  video_view_wrapper.show_SpeakerView("#container_main_left_above_left_up");
 
   transcription_mgr = new TranscriptionMgr();
   transcription_mgr.initialize();
@@ -172,7 +165,7 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   $("#container_main_left_below").css('display','');
   $("#top_right").html("");
 
-  impression_wrapper_obj.remove("#container_main_left_above_left_below");
+  impression_wrapper_obj.remove();
  
 
   title_view_model_wrapper.remove_fixed_title("#top_left");
@@ -184,10 +177,8 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
 
 
 
-  // var left_height = $("#container_main_left_above_left_below").height() + $("#container_main_left_above_left_up").height();
-
   // $("#container_main_left_above_right").height(left_height);
-  $("#container_main_left_above_right").height(230);
+ // $("#container_main_left_above_right").height(230);
   $("#container_main_left_above_right").width(250);
 	var PrepDirect_html_Template = _.template($('[data-template="introduction_direction_template"]').html());
   var PrepDirect_element = $("#container_main_left_above_right");
@@ -212,6 +203,9 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   $("#status_intro").addClass("status_bar_element_selected");
 
 
+  $("#container_main_left_above_left").width(300);
+  video_view_wrapper.remove_SpeakerView();
+  video_view_wrapper.show_defaultView("#container_main_left_above_left_up");
 
 }
 
@@ -228,7 +222,7 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   title_view_model_wrapper.remove_fixed_title("#top_left");
   title_view_model_wrapper.update_editable("#top_left");
 
-  impression_wrapper_obj.remove("#container_main_left_above_left_below");
+  impression_wrapper_obj.remove();
  
 
   $("#container_main_right").width(450);
@@ -239,7 +233,7 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   $("#status_prep").addClass("status_bar_element_selected");
 
 /* ********** */
-  $("#container_main_left_above_right").height(230);
+ // $("#container_main_left_above_right").height(230);
   $("#container_main_left_above_right").width(250);
   var PrepDirect_html_Template = _.template($('[data-template="preparation_direction_template"]').html());
   var PrepDirect_element = $("#container_main_left_above_right");
@@ -253,6 +247,11 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   var intro_info_element = $("#container_main_left_below");
   var intro_info_html_text = intro_info_html_Template();
   intro_info_element.html(intro_info_html_text);
+
+
+  $("#container_main_left_above_left").width(300);
+  video_view_wrapper.remove_SpeakerView();
+  video_view_wrapper.show_defaultView("#container_main_left_above_left_up");
 
 }
 

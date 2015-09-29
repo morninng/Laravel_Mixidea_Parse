@@ -1,3 +1,118 @@
+function VideoViewWrapper(){
+  var self = this;
+  self.video_default_vm = null;
+  self.video_speaker_vm = null;
+}
+
+
+VideoViewWrapper.prototype.update_from_server = function(){
+  var self = this;
+  if(!self.video_speaker_vm ){
+    return;
+  }
+  self.video_speaker_vm.update();
+
+}
+
+
+
+VideoViewWrapper.prototype.show_defaultView = function(el_name){
+
+  var self = this;
+  if(self.video_default_vm){return;  }
+
+
+  self.video_default_vm = new DefultVideoView();
+  self.video_default_vm.create(el_name);
+
+
+}
+VideoViewWrapper.prototype.remove_defaultView = function(){
+
+  var self = this;
+  if(!self.video_default_vm){return;  }
+  self.video_default_vm.remove();
+  self.video_default_vm = null;
+
+}
+
+VideoViewWrapper.prototype.show_SpeakerView = function(el_name){
+  var self = this;
+  if(self.video_speaker_vm){
+    return;
+  }
+
+  self.video_speaker_vm = new VideoViewModel();
+
+  var Video_html_Template = _.template($('[data-template="video_area_template"]').html());
+  self.video_element = $(el_name);
+  var Video_html_text = Video_html_Template();
+  self.video_element.html(Video_html_text);
+  self.video_speaker_vm.initialize();
+  self.video_el = document.getElementById('video_area_container');
+  ko.applyBindings(self.video_speaker_vm, self.video_el);
+  self.video_speaker_vm.update();
+}
+
+VideoViewWrapper.prototype.remove_SpeakerView = function(){
+
+  var self = this;
+  if(!self.video_speaker_vm){
+    return;
+  }
+  ko.cleanNode(self.video_el);
+  self.video_element.html(null);
+  self.video_element = null
+  self.video_el = null;
+  self.video_speaker_vm = null;
+
+}
+
+
+function DefultVideoView(){
+  var self = this;
+  self.canvas = null;
+  self.feed = null;
+
+}
+
+DefultVideoView.prototype.create = function(el_name){
+  var self = this;
+
+  var DefaultVideo_html_Template = _.template($('[data-template="video_area_default_template"]').html());
+  self.video_element = $(el_name);
+  var DefaultVideo_html_text = DefaultVideo_html_Template();
+  self.video_element.html(DefaultVideo_html_text);
+
+
+  self.canvas = gapi.hangout.layout.getVideoCanvas();
+  self.feed = gapi.hangout.layout.getDefaultVideoFeed();
+
+
+
+  var video_width = $("div#video_area_container_default").width() - 20;
+  var offset = $("div#video_canvas_dummy_layout_default").offset()
+  var height_all = offset.top + 5;
+
+  self.canvas.setVideoFeed(self.feed);
+  self.canvas.setWidth(video_width);
+  self.canvas.setPosition(10,height_all);
+  self.canvas.setVisible(true);
+  var ratio = self.canvas.getAspectRatio();
+  var video_height = video_width / ratio;
+
+  var dummy_video_element = $("#video_canvas_dummy_layout_default");
+  dummy_video_element.width(video_width);
+  dummy_video_element.height(video_height);
+}
+
+DefultVideoView.prototype.remove= function(){
+  var self = this;
+  self.canvas = null;
+  self.feed = null;
+  self.video_element.html(null)
+}
+
  function VideoViewModel(){
 
   var self = this;
@@ -27,7 +142,7 @@ VideoViewModel.prototype.initialize = function(){
     var speech_counter = get_hangout_speech_status_counter();
     speech_counter++;
     speech_counter_str = String(speech_counter);
-    var speech_id = self.get_guid();
+    var speech_id = get_guid();
     gapi.hangout.data.submitDelta({
         "hangout_speech_status": speech_obj_str,
         "hangout_speech_status_counter":speech_counter_str,
@@ -631,12 +746,4 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
 
 
 
-VideoViewModel.prototype.get_guid = function() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4();
-}
 

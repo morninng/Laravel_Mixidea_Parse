@@ -9,9 +9,9 @@ Impression_wrapper.prototype.add = function(el_name){
     self.impression_vm_obj = new ImpressionMgr();
 
     var Impression_html_Template = _.template($('[data-template="impression_template"]').html());
-    var impression_element = $(el_name);
+    self.impression_element = $(el_name);
     var impression_html_text = Impression_html_Template();
-    impression_element.html(impression_html_text);
+    self.impression_element.html(impression_html_text);
     self.impression_el = document.getElementById('impression_container');
     ko.applyBindings(self.impression_vm_obj , self.impression_el);
   }
@@ -24,8 +24,7 @@ Impression_wrapper.prototype.remove = function(el_name){
     return;
   }
   ko.cleanNode(self.impression_el);
-  var impression_element = $(el_name);
-  impression_element.html(null);
+  self.impression_element.html(null);
   self.impression_vm_obj = null;
   self.impression_el = null;
 

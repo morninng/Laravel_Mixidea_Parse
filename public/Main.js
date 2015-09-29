@@ -17,7 +17,7 @@
  var discussion_note_obj = new DiscussNoteMgr();
  var game_status_obj =  new Game_Status_Mgr();
  var layout_obj = new Construct_Layout();
- var video_view_model = new VideoViewModel();
+ var video_view_wrapper = new VideoViewWrapper();
  var appmgr = new AppMgr();
  var sound_mgr = new SoundMgr();
  sound_mgr.init();
@@ -125,7 +125,7 @@ AppMgr.prototype.update_hangout_status = function(event){
 
     participant_mgr_obj.update_parseid_hangoutid_mapping();
     participant_mgr_obj.update_hangout_participants();  
-    participant_table.UpdateUserObjAll();
+    participant_table.update_table_from_server();
     chat_view_model.update();
     self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
   }
@@ -133,7 +133,7 @@ AppMgr.prototype.update_hangout_status = function(event){
   if(self.first_update_done == false || self.hangout_speech_status_counter != get_hangout_speech_status_counter()){
     var hangout_speech_status = get_hangout_speech_status();
 
-    video_view_model.update();
+    video_view_wrapper.update_from_server();
     self.hangout_speech_status_counter = get_hangout_speech_status_counter();
   }
 
@@ -163,7 +163,7 @@ AppMgr.prototype.update_hangout_status = function(event){
         participant_mgr_obj.update_parse_data();
         title_view_model_wrapper.update_from_server();
 
-        video_view_model.update();
+        video_view_wrapper.update_from_server();
 
         layout_obj.update_from_server();
 
