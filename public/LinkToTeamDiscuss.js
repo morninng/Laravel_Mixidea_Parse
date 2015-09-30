@@ -63,6 +63,17 @@ LinkToTeamDiscuss.prototype.delete = function(){
 LinkToTeamDiscuss.prototype.update = function(){
 
 	var self = this;
+
+  var team_disucussion_hangout_appid = "918649959098";
+  var game_id = appmgr.game_id;
+  var hangout_query_key = "&gd=";
+  var hangout_query_value = "?gid=";
+  var hangout_gid = "?gid=";
+  var hangout_query_split = "_";
+  var first_query_value = global_own_parse_id;
+  var second_query_value = global_debate_game_id;
+  var third_query_value = global_original_hangout_appid;
+
 	var link_name_list = new Array();
 	var is_audience = participant_mgr_obj.isAudience_yourself();
 	if(is_audience){
@@ -73,9 +84,15 @@ LinkToTeamDiscuss.prototype.update = function(){
 	self.link_team_list.removeAll();
 	for(var i=0; i<link_name_list.length; i++){
 		link_href_list = actual_game_obj.get("hangout_id");
-		var link_href = link_href_list[link_name_list[i]];
-		if(link_href){
-			var obj = {team_name:link_name_list[i], team_discussion_link_url: link_href};
+		var hangout_domain = link_href_list[link_name_list[i]];
+		if(hangout_domain){
+	  var fourth_query_value = link_name_list[i];
+	  var hangout_link_str= hangout_domain + hangout_gid + team_disucussion_hangout_appid
+               + hangout_query_key + first_query_value + hangout_query_split
+                + second_query_value + hangout_query_split + third_query_value
+                + hangout_query_split + fourth_query_value;
+
+			var obj = {team_name:link_name_list[i], team_discussion_link_url: hangout_link_str};
 			self.link_team_list.push(obj);
 		}
 	}
