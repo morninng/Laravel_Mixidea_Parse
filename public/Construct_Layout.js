@@ -62,10 +62,6 @@ Construct_Layout.prototype.construct_common_layout = function(){
   status_bar_element.html(status_bar_html_text);
 
 
-
-
-
-
   var Chat_html_Template = _.template($('[data-template="chat_template"]').html());
   var chat_element = $("#absolute_pain_1");
   var Chat_html_text = Chat_html_Template();
@@ -87,6 +83,8 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   $("#container_main_left_below").css('display','none');
   $("#container_main").width(1200);
   $("#container_main_right").width(900);
+
+  link_to_teamdisucuss_obj.remove_Link();
 
   title_view_model_wrapper.remove_editable("#top_left");
   title_view_model_wrapper.update_fixed_title("#top_left");
@@ -152,9 +150,9 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   transcription_mgr = new TranscriptionMgr();
   transcription_mgr.initialize();
 
-/*not original from here*/
 
 
+  preparation_time.hide();
 
 }
 
@@ -167,6 +165,7 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
 
   impression_wrapper_obj.remove();
  
+  link_to_teamdisucuss_obj.remove_Link();
 
   title_view_model_wrapper.remove_fixed_title("#top_left");
   title_view_model_wrapper.update_editable("#top_left");
@@ -207,6 +206,7 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   video_view_wrapper.remove_SpeakerView();
   video_view_wrapper.show_defaultView("#container_main_left_above_left_up");
 
+  preparation_time.hide();
 }
 
 
@@ -253,42 +253,8 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   video_view_wrapper.remove_SpeakerView();
   video_view_wrapper.show_defaultView("#container_main_left_above_left_up");
 
+  $("#link_team_room").width(200);
+  link_to_teamdisucuss_obj.show_Link("#link_team_room");
+  preparation_time.show();
 }
-
-
-Construct_Layout.prototype.count_timer_start = function(start_time) {
-	var self = this;
-    clearInterval(self.timer);
-	self.timer = setInterval( function(){self.count_timer_show(start_time)}, 1000);
-}
-
-Construct_Layout.prototype.count_timer_show = function(start_time) {
-	var self = this;
-	var current_time = new Date();
-	var elapsed_time = current_time - start_time;
-	var elapled_second = elapsed_time/1000
-	var elapsed_hour = elapled_second/60/60;
-	elapsed_hour = Math.floor(elapsed_hour);
-	var elapsed_minute = (elapled_second - elapsed_hour*60*60)/60;
-	elapsed_minute = Math.floor(elapsed_minute);
-
-	elapled_second = elapled_second - elapsed_hour*60*60 - elapsed_minute*60;
-	elapled_second = Math.floor(elapled_second);
-
-	elapled_second = ("0" + elapled_second).slice(-2);
-	elapsed_minute = ("0" + elapsed_minute).slice(-2);
-
-	self.preparation_time(elapsed_minute + ":" + elapled_second + " has passed");
-
-
-}
-
-Construct_Layout.prototype.count_timer_hide = function() {
-
-	var self = this;
-	self.preparation_time(null);
-    clearInterval(self.timer);
-
-}
-
 

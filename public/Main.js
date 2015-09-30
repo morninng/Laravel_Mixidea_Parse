@@ -24,8 +24,10 @@
  var title_view_model_wrapper = new Title_VM_wrapper();
  var transcription_mgr = null;
  var impression_wrapper_obj = new Impression_wrapper();
+ var link_to_teamdisucuss_obj = new LinkToTeamDiscussWrapper();
 
  var participant_table = new ParticipantTableMgr();
+ var preparation_time = new PreparationTimer()
 
   window.onload = function(){
     Hangout_Init();
@@ -168,9 +170,8 @@ AppMgr.prototype.update_hangout_status = function(event){
         layout_obj.update_from_server();
 
         chat_view_model.update();
-
-
         participant_table.update_table_from_server();
+        link_to_teamdisucuss_obj.update_from_server();
 
         self.hangout_speech_status_counter = get_hangout_speech_status_counter();
           self.parse_data_changed_counter  = get_parse_data_changed_counter();

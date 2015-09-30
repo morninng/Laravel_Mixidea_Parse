@@ -151,20 +151,27 @@ ParticipantMgr.prototype.setGameData = function(){
 	  case 'NorthAmerica':
 		self.role_array = ["PrimeMinister","LeaderOpposition","MemberGovernment","MemberOpposition","ReplyPM","LOReply","Audince1","Audince2","Audince3","Audince4"];
 		self.role_group_array = {PrimeMinister:"Gov",LeaderOpposition:"Opp",MemberGovernment:"Gov",MemberOpposition:"Opp",ReplyPM:"Gov",LOReply:"Opp",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud",audience5:"Aud",audience6:"Aud",audience7:"Aud",audience8:"Aud",audience9:"Aud",audience10:"Aud"};
+		self.group_name_array = ["Gov","Opp"];
 		break;
 	  case 'Asian':
 	  	self.role_array = ["PrimeMinister","LeaderOpposition","DeptyPrimeMinister","DeptyLeaderOpposition",
                       "GovernmentWhip","OppositionWhip","GovermentReply","OppositionReply","Audince1","Audince2"];
 		self.role_group_array = {PrimeMinister:"Gov",LeaderOpposition:"Opp",DeptyPrimeMinister:"Gov",DeptyLeaderOpposition:"Opp",GovernmentWhip:"Gov",OppositionWhip:"Opp",GovermentReply:"Gov",OppositionReply:"Opp",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud",audience5:"Aud",audience6:"Aud",audience7:"Aud",audience8:"Aud",audience9:"Aud",audience10:"Aud"};
+		self.group_name_array = ["Gov","Opp"];
 		break;
 	  case 'BP':
 	  	self.role_array = ["PrimeMinister","LeaderOpposition","DeptyPrimeMinister","DeptyLeaderOpposition",
                       "MemberGovernment","MemberOpposition","GovermentWhip","OppositionWhip","Audince1","Audince2"];
 		self.role_group_array = {PrimeMinister:"OG",LeaderOpposition:"OO",DeptyPrimeMinister:"OG",DeptyLeaderOpposition:"OO",MemberGovernment:"CG",MemberOpposition:"CO",GovermentWhip:"CG",OppositionWhip:"CO",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud",audience5:"Aud",audience6:"Aud",audience7:"Aud",audience8:"Aud",audience9:"Aud",audience10:"Aud"};
+		self.group_name_array = ["OG","OO","CG","CO"];
 		break;
 	}
 }
 
+ParticipantMgr.prototype.get_all_debater_group_name_array = function(){
+  var self = this;
+  return self.group_name_array;
+}
 
 ParticipantMgr.prototype.get_all_rolename_array = function(){
   var self = this;

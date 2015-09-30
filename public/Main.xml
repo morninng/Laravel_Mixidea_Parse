@@ -11,7 +11,6 @@
 <![CDATA[ 
 
 
-
 <script type="text/javascript" src="//plus.google.com/hangouts/_/api/v1/hangout.js">
 </script>
 
@@ -308,7 +307,7 @@
         <div>
           <button data-bind="enabled:prep_finish_enabled, attr:{class:prep_finish_class}, click:click_PrepFinish">preparation<br>finish</button>
         </div>
-        <div data-bind ="attr:{class:indicate_class_debate}"">
+        <div data-bind ="attr:{class:indicate_class_debate}">
           Debate<br>time
         </div>
         <div>
@@ -457,7 +456,7 @@
   <div id="direction_container">
     <div id="preparation_time">
       <p>preparation time spent</p>
-      <span >10:20</span>
+      <span id="preparation_time_value"></span>
     </div>
     <div class="direction button">
       <p>Click here! after all attendance came back and preparation has expired</p>
@@ -468,23 +467,42 @@
 
 
 
+
+
+
+
+
+
+
+<script type="text/template" data-template="LinkToTeamDiscuss_template" >
+  <div id="link_team_room_container">
+    <ul data-bind="foreach:link_team_list">
+      <li>
+        <div>
+          <div>
+            link to <strong> team discussion room </strong> for <span data-bind="text:team_name"></span>
+          </div>
+          <a data-bind="attr: { href: team_discussion_link_url }" target="_blank">
+              <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png" style="border:0;width:100px;height:24px;"/>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</script>
+
+
+
+
+
+
+
+
+
+
 <script type="text/template" data-template="prep_info_audience_template">
  <div id="info_prep">
-   <div id="link_team_room">
-       <div>
-       link to <strong> team discussion room </strong> for <strong>Government</strong>
-       <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png"
-      alt="Start a Hangout"
-      style="border:0;width:100px;height:24px;"/>
-      </div>
-       <div>
-       link to <strong> team discussion room </strong> for <strong>Opposition</strong>
-       <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png"
-      alt="Start a Hangout"
-      style="border:0;width:100px;height:24px;"/>
-      </div>
-
-   </div>
+   <div id="link_team_room"></div>
    <p>What you should do before debate</p>
    <ul>
     <li>Audience can remain here and talk with other audiences</li>
@@ -666,6 +684,8 @@
 <script type="text/javascript" src="//www.parsecdn.com/js/parse-1.4.2.min.js"></script>
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/hangout_data_util.js"></script>
+
+<script type="text/javascript" src="https://mixidea.parseapp.com/PreparationTimer.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/WebSpeech_Recognition.js"></script>
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/TranscriptionMgr.js"></script>
@@ -680,6 +700,7 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/ImpressionMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/sound_mgr.js"></script>
 
+<script type="text/javascript" src="https://mixidea.parseapp.com/LinkToTeamDiscuss.js"></script>
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/DiscussNoteMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/Argument_Mgr.js"></script>

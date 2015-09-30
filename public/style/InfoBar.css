@@ -34,3 +34,6 @@
 	float:right;
 	width:200px;
 }
+#link_team_room_container ul{
+	list-style:none;
+}
