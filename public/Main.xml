@@ -173,7 +173,7 @@
         </div>
       </div>
       <div id="transcription_wrap">
-        <div class="transcript_body">
+        <div class="transcript_body" data-bind="event: { mouseover: mouseover_trans_field, mouseout: mouseout_trans_field }">
           <ul data-bind="foreach: transcript_message_array">
             <li>
                   <div data-bind="css:transcription_box_class">
