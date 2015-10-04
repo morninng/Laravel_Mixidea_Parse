@@ -11,7 +11,13 @@
  var global_debate_game_id = appData_split[1];
  var global_original_hangout_appid = appData_split[2];
  var global_team_side = appData_split[3];
+ var global_own_team_side = appData_split[4];
  var global_own_hangout_id = "";
+
+ var user_editable_flag = false
+ if(global_team_side == global_own_team_side){
+  user_editable_flag = true
+ }
 
  console.log(global_original_hangout_appid);
  console.log(global_debate_game_id);
@@ -29,7 +35,8 @@
           team_name:global_team_side, 
           element:"#argument_pain",
           template:"argument_template",
-          comment_query_array:[global_team_side]
+          comment_query_array:[global_team_side],
+          user_editable:user_editable_flag
         }
       ] /*,
     concept:[
@@ -57,7 +64,7 @@ function TeamDiscussion_Init() {
       actual_game_obj = obj;
       var layout_obj = new ConstructLayout();
       participant_mgr_obj.update();
-      discussion_note_obj.initialize(discussion_note_setting,);
+      discussion_note_obj.initialize(discussion_note_setting);
 
     },
     error: function(error) {

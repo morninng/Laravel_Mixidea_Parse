@@ -6,6 +6,7 @@ function Argument_Mgr(setting){
 	self.team_name = setting.team_name; //このチーム名は、自分のチーム名ではなく、Argumentを発信したteam_name
 	self.element = setting.element;
 	self.template = setting.template;
+	self.user_editable = setting.user_editable;
 	self.comment_query_team_array = setting.comment_query_array;
 
   self.argument_param_name = self.team_name + "_argument";

@@ -2,6 +2,10 @@
 function Argument_VM(){
 
 	var self = this;
+
+
+	self.user_editable = ko.observable(false);
+
 	self.argument_title = null;
 	self.argument_context = null;
 	self.link_list = new Array();
@@ -189,6 +193,8 @@ Argument_VM.prototype.initialize = function(argument_obj, setting){
 	self.element = setting.element;
 	self.template = setting.template;
 	self.comment_query_team_array = setting.comment_query_array;
+
+	self.user_editable(setting.user_editable);
 
 	self.argument_obj = argument_obj;
 	self.arg_id = argument_obj.id;

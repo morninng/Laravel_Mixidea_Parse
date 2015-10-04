@@ -13,7 +13,7 @@ TeamDiscussion_ParticipantMgr.prototype.participants_change = function(){
 	actual_game_obj.fetch({
 	  success: function(Obj) {
 	    actual_game_obj = Obj;
-      	self.participant_mgr_obj.update();
+      	self.update();
 	  },
 	  error: function(Obj, error) {
 	  	console.log("fetch fail" + error);

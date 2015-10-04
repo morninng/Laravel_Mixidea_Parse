@@ -104,7 +104,8 @@ Construct_Layout.prototype.construct_layout_debate = function(){
           team_name:"Gov", 
           element:"#argument_pain",
           template:"argument_template",
-          comment_query_array:[self.own_group_name]
+          comment_query_array:[self.own_group_name],
+          user_editable:false
         }
       ]
     }
@@ -117,7 +118,8 @@ Construct_Layout.prototype.construct_layout_debate = function(){
           team_name:self.own_group_name, 
           element:"#argument_pain",
           template:"argument_template",
-          comment_query_array:[self.own_group_name]
+          comment_query_array:[self.own_group_name],
+          user_editable:true
         }
       ]
     }
