@@ -78,26 +78,18 @@
 
 
 <script type="text/template" data-template="discussion_single_template">
-
-
     <div id="general_concept_pain"></div>
     <div id="argument_pain"></div>
-
 </script>
 
 <script type="text/template" data-template="discussion_double_template">
-
-
     <div id="general_concept_pain"></div>
     <div id="argument_pain"></div>
-
 </script>
 
 <script type="text/template" data-template="discussion_quadruple_template">
-
     <div id="general_concept_pain"></div>
     <div id="argument_pain"></div>
-
 </script>
 
   
@@ -157,12 +149,44 @@
 </script>
 
 
+
 <script type="text/template" data-template="transcription_template">
-      <p><strong data-bind="text:transcription_title"></strong></p>
-      <div data-bind="foreach: {data: transcription_array, as: 'transcript_obj'}">
-              <p class="transcription_name" data-bind="visible:transcript_obj.role_split_visible"><span data-bind="text:transcript_obj.speaker_type"></span> - <span data-bind="text:transcript_obj.speaker_name"></span></p>
-              <span data-bind="text:transcript_obj.transcription_message"></span>
+  <div id="transcription_field">
+    <div id="transcript_box" data-bind="visible:visible_transctiption_box" >
+      <div class="transcript_head">
+        <span data-bind="text:transcript_header_title"></span>
+
+        <div class="window_icon_transcript">
+          <div data-bind="event:{click:click_close}">
+            <img src="https://s3.amazonaws.com/mixidea/Close.png">
+          </div>
+        </div>
+        <div class="window_icon_transcript" data-bind="visible:visible_collapse_button">
+          <div data-bind="event:{click:click_collapse}">
+            <img src="https://s3.amazonaws.com/mixidea/minimize.png">
+          </div>
+        </div>
+        <div class="window_icon_transcript" data-bind="visible:visible_maximize_button">
+          <div data-bind="event:{click:click_expand}">
+            <img src="https://s3.amazonaws.com/mixidea/maximize.png">
+          </div>
+        </div>
       </div>
+      <div id="transcription_wrap">
+        <div class="transcript_body">
+          <ul data-bind="foreach: transcript_message_array">
+            <li>
+                  <div data-bind="css:transcription_box_class">
+                    <span class="transcription_role" data-bind="text:speaker_role"></span>
+                    <span class="transcription_name" data-bind="text:speaker_name"></span>
+                    <span class="transcription_message" data-bind="text:transcription_message"></span>
+                  </div>
+             </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </script>
 
 

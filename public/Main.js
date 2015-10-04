@@ -25,6 +25,7 @@
  var transcription_mgr = null;
  var impression_wrapper_obj = new Impression_wrapper();
  var link_to_teamdisucuss_obj = new LinkToTeamDiscussWrapper();
+ var transcript_box_obj = new transcript_box_wrapper();
 
  var participant_table = new ParticipantTableMgr();
  var preparation_time = new PreparationTimer()
@@ -144,8 +145,8 @@ AppMgr.prototype.update_hangout_status = function(event){
   }
 
 
-  if(transcription_mgr && self.transcription_counter != get_transcription_counter()){
-    transcription_mgr.update();
+  if( self.transcription_counter != get_transcription_counter()){
+    transcript_box_obj.update_status_from_server();
     self.transcription_counter = get_transcription_counter();
   }
 

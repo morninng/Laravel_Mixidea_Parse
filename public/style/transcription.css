@@ -1,14 +1,115 @@
 
-.transcription_name {
-	margin-bottom:0px;
-	margin-top:5px;
+#transcript_box{
+	right:300px;
+	position:fixed;
+	bottom:-5px;
+	width:600px;
+	background:white;
+	border-radius:5px 5px 0px 0px;
+	z-index: 2;
+}
+
+.transcript_head{
+	background:#FF1493;
+	margin:0px;
+	color:white;
+	padding:1px;
+	font-weight:small;
+	border-radius:5px 5px 0px 0px;
+	text-align:center;
+}
+
+
+.transcript_body{
+	left:20px; 
+	background:#F0F8FF;
+	max-height:100px;
+	font-size:12px;
+	overflow:auto;
+	overflow-x: hidden;
+	padding-top:1px;
+}
+
+
+.transcript_speaker{
+	position:relative;
+	background:#dbedfe;
+	padding-left:6px;
+	padding-right:5px;
+	padding-bottom:3px;
+	padding-top:1px;
+	min-height:10px;
+	margin-bottom:5px;
+	margin-right:10px;
+	border-radius:5px;
+}
+.transcript_speaker:before{
+	content:"";
+	position:absolute;
+	width:0px;
+	height:0px;
+	border: 10px solid;
+	border-color: transparent #dbedfe transparent transparent;
+	left:-20px;
+	top:7px;
+}
+
+
+.transcript_poi{
+	background:#FDE4CE;
+	padding-left:6px;
+	padding-right:5px;
+	padding-bottom:3px;
+	padding-top:4px;
+	min-height:15px;
+	margin-bottom:5px;
+	position:relative;
+	margin-left:10px;
+	border-radius:5px;
+}
+
+.transcript_poi:after{
+	content:"";
+	position:absolute;
+	width:0px;
+	height:0px;
+	border: 6px solid;
+	border-color: transparent transparent transparent #FDE4CE;
+	right:-12px;
+	top:5px;
+}
+
+
+.transcript_body ul{
+	list-style-type: none;
+	padding-top:1px;
+	margin-top:1px;
+	margin-left:0px;
+	margin-right:0px;
+	padding-left:0px;
+	padding-right:0px;
+}
+
+
+.window_icon_transcript {
+	float:right;
+}
+
+.window_icon_transcript img{
+	display:block !important;
+	visibility:visible !important;
+	cursor:pointer;
+	width:16px;
+	height:16px;
+}
+
+.transcription_role{
 	font-weight:bold;
+	font-size:xx-small;
+}
+.transcription_name{
+	font-weight:bold;
+	font-family: "Times New Roman";
+	font-style: italic;
 }
 
-
-#transcription_field div{
-	flex:1;
-	min-width: 200px;
-	border-style: solid;
-	border-width: thin;
-}

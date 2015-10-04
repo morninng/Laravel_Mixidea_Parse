@@ -69,6 +69,19 @@ VideoViewWrapper.prototype.remove_SpeakerView = function(){
 }
 
 
+VideoViewWrapper.prototype.get_current_speaker_role = function(){
+  var self = this;
+  return self.video_speaker_vm.get_current_speaker_role();
+
+}
+
+VideoViewWrapper.prototype.get_current_time = function(){
+  var self = this;
+  return self.video_speaker_vm.get_current_time();
+}
+
+
+
 function DefultVideoView(){
   var self = this;
   self.canvas = null;
@@ -299,8 +312,6 @@ VideoViewModel.prototype.initialize = function(){
   self.canvas = gapi.hangout.layout.getVideoCanvas();
 
   self.speech_recognition = new WebSpeech_Recognition();
-  var transcription_obj = actual_game_obj.get("speech_transcription");
-  self.speech_recognition.initialize(transcription_obj.id);
   self.under_recording = false;
 
 }
@@ -375,7 +386,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
           self.under_recording = true;
           console.log("own speech start");
           var role_name = speaker_obj.role;
-          self.speech_recognition.start_recognition(type, role_name); 
+          self.speech_recognition.start_recognition(type); 
           return;
       }
   }else{

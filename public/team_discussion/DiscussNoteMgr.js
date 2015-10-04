@@ -123,14 +123,10 @@ DiscussNoteMgr.prototype.retrieve_updated_element = function(){
 //
 
 
-  console.log("counter json shared by hangout status");
-  console.log(updated_element_counter_all);
 
   var element_updated = new Array();
   var element_added = new Array();
 
-  console.log("element counter stored as a object is ")
-  console.log(global_element_counter);
 
 
   for( updated_key  in updated_element_counter_all ){
@@ -143,8 +139,6 @@ DiscussNoteMgr.prototype.retrieve_updated_element = function(){
         if(updated_element_counter_all[updated_key].count != global_element_counter[existing_key].count){
           counter_update = true;
           element_updated.push(updated_element_counter_all[updated_key]);
-          console.log("previous counter is" +  global_element_counter[existing_key].count);
-          console.log("next counter is" + updated_element_counter_all[updated_key].count);
         }
       }
     }

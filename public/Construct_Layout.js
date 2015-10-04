@@ -147,8 +147,7 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   $("#container_main_left_above_left").width(300);
   video_view_wrapper.show_SpeakerView("#container_main_left_above_left_up");
 
-  transcription_mgr = new TranscriptionMgr();
-  transcription_mgr.initialize();
+  transcript_box_obj.show("#absolute_pain_2");
 
 
 
@@ -205,7 +204,8 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   $("#container_main_left_above_left").width(300);
   video_view_wrapper.remove_SpeakerView();
   video_view_wrapper.show_defaultView("#container_main_left_above_left_up");
-
+  
+  transcript_box_obj.hide();
   preparation_time.hide();
 }
 
@@ -255,6 +255,8 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
 
   $("#link_team_room").width(200);
   link_to_teamdisucuss_obj.show_Link("#link_team_room");
+
+  transcript_box_obj.hide();
   preparation_time.show();
 }
 

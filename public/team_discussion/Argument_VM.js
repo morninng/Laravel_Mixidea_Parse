@@ -200,7 +200,6 @@ Argument_VM.prototype.initialize = function(argument_obj, setting){
 Argument_VM.prototype.update_edit_status = function(){
 	var self = this;
 
-	console.log("update edit profile has been called");
 	var is_api_ready = gapi.hangout.isApiReady();
 	if( !is_api_ready ){
 		self.main_editor = null;
@@ -286,7 +285,6 @@ Argument_VM.prototype.show_title = function(){
 		//do not change anything
 	}else{
 		if(own_edit_status == "default" && !title && !others_under_editing){
-			console.log("show default text box for title");
 			self.visible_title_textbox_default(true);
 			self.visible_title_textbox_written(false);
 			self.visible_title_textbox_edit(false);
@@ -400,7 +398,6 @@ Argument_VM.prototype.show_main_content = function(){
 		//do not change anything
 	}else{
 		if(own_edit_status == "default" && !content && !others_under_editing){
-			console.log("show default text box for arg context");
 			self.visible_MainArg_textbox_default(true);
 			self.visible_MainArg_textbox_written(false);
 			self.visible_MainArg_textbox_edit(false);

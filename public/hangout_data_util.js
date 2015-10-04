@@ -120,6 +120,10 @@ function get_game_status_counter(){
 function  get_speech_id(){
 
   var unique_speech_id = gapi.hangout.data.getValue("speech_id");
+  if(!unique_speech_id){
+    return "1111";
+  }
+
 
   return unique_speech_id;
 }
