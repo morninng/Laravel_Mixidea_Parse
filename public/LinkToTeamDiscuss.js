@@ -73,6 +73,7 @@ LinkToTeamDiscuss.prototype.update = function(){
   var first_query_value = global_own_parse_id;
   var second_query_value = global_debate_game_id;
   var third_query_value = global_original_hangout_appid;
+  var fifth_query_value = participant_mgr_obj.get_own_group_name();
 
 	var link_name_list = new Array();
 	var is_audience = participant_mgr_obj.isAudience_yourself();
@@ -90,7 +91,8 @@ LinkToTeamDiscuss.prototype.update = function(){
 	  var hangout_link_str= hangout_domain + hangout_gid + team_disucussion_hangout_appid
                + hangout_query_key + first_query_value + hangout_query_split
                 + second_query_value + hangout_query_split + third_query_value
-                + hangout_query_split + fourth_query_value;
+                + hangout_query_split + fourth_query_value
+                + hangout_query_split + fifth_query_value;
 
 			var obj = {team_name:link_name_list[i], team_discussion_link_url: hangout_link_str};
 			self.link_team_list.push(obj);
