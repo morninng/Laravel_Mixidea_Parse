@@ -197,7 +197,9 @@ AppMgr.prototype.participants_change = function(participant_change){
   game_query.get(global_debate_game_id, {
     success: function(actual_game_obj) {
       actual_game_obj = actual_game_obj;
-      participant_mgr_obj.update_parse_data();
+      participant_mgr_obj.update_parse_data();  
+      participant_table.update_table_from_server();
+      video_view_wrapper.update_from_server();
     },
     error: function(error) {
       console.log(error);    
