@@ -66,6 +66,9 @@ VideoViewWrapper.prototype.remove_SpeakerView = function(){
   self.video_el = null;
   self.video_speaker_vm = null;
 
+  gapi.hangout.data.clearValue("hangout_speech_status");
+
+
 }
 
 
@@ -123,7 +126,7 @@ DefultVideoView.prototype.remove= function(){
   var self = this;
   self.canvas = null;
   self.feed = null;
-  self.video_element.html(null)
+  self.video_element.html(null);
 }
 
  function VideoViewModel(){
