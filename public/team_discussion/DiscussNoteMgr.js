@@ -2,6 +2,136 @@ var global_own_edit_status;
 var global_own_edit_element;
 var global_element_counter;
 
+
+function DiscussNoteWrapper(){
+  var self = this;
+
+}
+
+DiscussNoteWrapper.prototype.update_from_server = function(){
+
+  var self = this;
+  if(!self.discussion_note_obj){
+    return;
+  }
+  self.discussion_note_obj.update_hangout_status();
+
+}
+
+
+DiscussNoteWrapper.prototype.removeAll = function(){
+  var self = this;
+  if(!self.discussion_note_obj){
+    return;
+  }
+  self.discussion_note_obj.remove_all();
+  self.discussion_element.html(null);
+  self.discussion_note_obj = null;
+
+
+
+}
+
+DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
+
+  var self = this;
+
+  self.discussion_note_obj = new DiscussNoteMgr();
+
+  var is_audience = participant_mgr_obj.isAudience_yourself();
+
+
+  if(is_audience){
+    link_name_list = participant_mgr_obj.get_all_debater_group_name_array();
+    /*create discussion setting obj*/
+    var comment_query_list = new Array();
+    for(var i=0; i<link_name_list.length; i++){
+      comment_query_list[i] = link_name_list[i]
+    }
+    comment_query_list.push("Aud");
+    var Arg_setting_array = new Array();
+    for(var i=0; i< link_name_list.length; i++){
+      var obj = { 
+          template:"argument_template",
+          comment_query_array:comment_query_list,
+          user_editable:false
+        }
+      obj["element"] = "#argument_pain" + link_name_list[i];
+      obj["team_name"] = link_name_list[i];
+      obj["element"] = "#argument_pain" + link_name_list[i];
+      Arg_setting_array.push(obj);
+    }
+    discussion_note_setting = {Arg:Arg_setting_array};
+
+    /*create template*/
+    var tab_obj_array = new Array();
+    for(var i=0; i< link_name_list.length; i++){
+
+      var active = "";
+      if(i==0){
+        active = "active";
+      }
+      var tab_obj = {name:link_name_list[i],active_str:active};
+      tab_obj_array.push(tab_obj);
+    }
+  //  var data = { team_list:tab_obj_array};
+
+    template_name = "discussion_multiple_template";
+    temp_name = "[data-template='" + template_name + "']";
+    var DiscussTab_Template = _.template($(temp_name).html());
+    self.discussion_element = $(el_name);
+    var discussion_tab_html_text = DiscussTab_Template({list:tab_obj_array});
+    self.discussion_element.html(discussion_tab_html_text);
+
+  }else{
+    var own_goup_name = participant_mgr_obj.get_own_group_name();
+/*create discussion setting obj*/
+    discussion_note_setting = {
+    Arg:[
+        {
+          team_name:own_goup_name, 
+          element:"#argument_pain",
+          template:"argument_template",
+          comment_query_array:[own_goup_name],
+          user_editable:true
+        }
+      ]
+    }
+
+/*create template*/
+    template_name = "discussion_single_template";
+    var temp_name = "[data-template='" + template_name + "']";
+    var discussion_Note_Template = _.template($(temp_name).html());
+    self.discussion_element = $(el_name);
+    var discussion_note_html_text = discussion_Note_Template();
+    self.discussion_element.html(discussion_note_html_text);
+  }
+
+
+
+  self.discussion_note_obj.initialize(discussion_note_setting);
+
+
+}
+
+
+DiscussNoteWrapper.prototype.CreateLayout_reflection = function(){
+
+  var self = this;
+  
+  var is_audience = participant_mgr_obj.isAudience_yourself();
+  if(is_audience){
+    link_name_list = participant_mgr_obj.get_all_debater_group_name_array();
+  }else{
+    link_name_list[0] = participant_mgr_obj.get_own_group_name();
+  }
+
+}
+
+
+
+
+
 function DiscussNoteMgr() {
 
   var self = this;
@@ -25,6 +155,23 @@ DiscussNoteMgr.prototype.initialize = function(setting){
     self[obj_name].initialize();
   }
 }
+
+DiscussNoteMgr.prototype.remove_all = function(){
+
+  var self = this;
+
+  for(var i=0; i<self.arg_array.length; i++){
+    var team_name = self.arg_array[i].team_name;
+    var obj_name = "argument_mgr_obj_" + team_name;
+    if(self[obj_name]){
+      self[obj_name].remove_all();
+      self[obj_name] = null;
+    }
+  }
+
+}
+
+
 
 
 DiscussNoteMgr.prototype.update_hangout_status = function(){

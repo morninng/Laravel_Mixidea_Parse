@@ -14,7 +14,7 @@
 // global object
  var actual_game_obj = new Object();
  var participant_mgr_obj = new ParticipantMgr();
- var discussion_note_obj = new DiscussNoteMgr();
+ var discussion_note_obj = new DiscussNoteWrapper();
  var game_status_obj =  new Game_Status_Mgr();
  var layout_obj = new Construct_Layout();
  var video_view_wrapper = new VideoViewWrapper();
@@ -150,8 +150,8 @@ AppMgr.prototype.update_hangout_status = function(event){
     self.transcription_counter = get_transcription_counter();
   }
 
-  if(actual_game_obj.get("game_status") == "debate"){
-    discussion_note_obj.update_hangout_status();
+  if(true){
+    discussion_note_obj.update_from_server();
   }
 
 

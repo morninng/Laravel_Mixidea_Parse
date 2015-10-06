@@ -83,16 +83,26 @@
     <div id="argument_pain"></div>
 </script>
 
-<script type="text/template" data-template="discussion_double_template">
-    <div id="general_concept_pain"></div>
-    <div id="argument_pain"></div>
-</script>
 
-<script type="text/template" data-template="discussion_quadruple_template">
-    <div id="general_concept_pain"></div>
-    <div id="argument_pain"></div>
+<script type="text/template" data-template="discussion_multiple_template">
+  <div id="discussion_note_container">
+    <div role="tabpanel">
+      <ul class="nav nav-tabs" role="tablist">
+        <% _.each(list, function(e,i){ %>
+          <li class="<%= e.active_str %> tab_name_font"><a href="#<%= e.name %>" aria-controls="<%= e.name %>" data-toggle="tab"><%= e.name %></a></li>
+        <% });%>
+      </ul>
+      <div class="tab-content">
+        <% _.each(list, function(e,i){ %>
+        <div role="tabpanel" class="tab-pane <%= e.active_str %>" id="<%= e.name %>">
+          <div id="argument_pain<%= e.name %>">
+          </div>
+        </div>
+        <% });%>
+      </div>
+    </div>
+  </div>
 </script>
-
   
 
 
@@ -558,6 +568,9 @@
 
 
 
+
+
+
 <script type="text/template" data-template="argument_template">
   <div class = "argument_element">
     <h2>Argumet</h2>
@@ -744,7 +757,7 @@
 
 
 
-
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
 
 

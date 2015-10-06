@@ -94,45 +94,7 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   participant_table.remove_table();
 
 
- var discussion_note_setting = new Object();
- var template_name = null;
-  if(self.is_audience_yourself){
-
-    discussion_note_setting = {
-    Arg:[
-        {
-          team_name:"Gov", 
-          element:"#argument_pain",
-          template:"argument_template",
-          comment_query_array:[self.own_group_name],
-          user_editable:false
-        }
-      ]
-    }
-    template_name = "discussion_single_template";
-
-  }else{
-    discussion_note_setting = {
-    Arg:[
-        {
-          team_name:self.own_group_name, 
-          element:"#argument_pain",
-          template:"argument_template",
-          comment_query_array:[self.own_group_name],
-          user_editable:true
-        }
-      ]
-    }
-    template_name = "discussion_single_template";
-  }
-  template_name = "[data-template='" + template_name + "']";
-  var discussion_Note_Template = _.template($(template_name).html());
-  var discussion_note_element = $("#container_main_right");
-  var discussion_note_html_text = discussion_Note_Template();
-  discussion_note_element.html(discussion_note_html_text);
-
-  discussion_note_obj.initialize(discussion_note_setting);
-
+  discussion_note_obj.CreateLayout_debating("#container_main_right");
 
   $("#top_right").width(250);
   var GotoReflection_Template = _.template($('[data-template="goto_reflection_template"]').html());
@@ -171,7 +133,7 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   title_view_model_wrapper.remove_fixed_title("#top_left");
   title_view_model_wrapper.update_editable("#top_left");
 
-
+  discussion_note_obj.removeAll();
 
   $("#container_main").width(1000);
 
@@ -226,6 +188,7 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
 
   impression_wrapper_obj.remove();
  
+  discussion_note_obj.removeAll();
 
   $("#container_main_right").width(450);
   participant_table.update_table("#container_main_right");

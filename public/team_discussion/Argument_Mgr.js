@@ -57,6 +57,17 @@ Argument_Mgr.prototype.initialize = function(){
 }
 
 
+Argument_Mgr.prototype.remove_all = function(){
+
+	var self = this;
+
+	for(var i=0; i< self.existing_Argument_list.length; i++){
+	  var element_name = 'Arg_' + self.existing_Argument_list[i];
+	  var argument_el = document.getElementById(element_name);
+	  ko.cleanNode(argument_el);
+	}
+
+}
 
 
 

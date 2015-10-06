@@ -10,10 +10,13 @@ function TeamDiscussion_ParticipantMgr(){
 TeamDiscussion_ParticipantMgr.prototype.participants_change = function(){
   var self = this;
 
-	actual_game_obj.fetch({
-	  success: function(Obj) {
-	    actual_game_obj = Obj;
-      	self.update();
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.include("participants");
+  game_query.get(global_debate_game_id, {
+    success: function(obj) {
+      actual_game_obj = obj;
+      self.update();
 	  },
 	  error: function(Obj, error) {
 	  	console.log("fetch fail" + error);

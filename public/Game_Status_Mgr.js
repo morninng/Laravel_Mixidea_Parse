@@ -71,7 +71,7 @@ Game_Status_Mgr.prototype.update_server_status = function(str_status) {
 			});
 	  },
 	  error: function(obj, error) {
-
+	  	console.log("fail update status");
 	  }
 	});
 }
