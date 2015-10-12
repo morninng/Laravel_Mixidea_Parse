@@ -118,6 +118,8 @@ function AppMgr() {
   self.hangout_speech_status_counter = 0; 
   self.game_obj_counter = 0;
   self.parse_data_changed_counter = 0;
+  self.discuss_note_edit_counter = 0;
+  self.discuss_note_content_counter = 0;
   self.transcription_counter = 0
   self.AfterDiscuss_counter = 0
   self.first_update_done = false;
@@ -145,9 +147,6 @@ AppMgr.prototype.update_hangout_status = function(event){
     self.hangout_speech_status_counter = get_hangout_speech_status_counter();
   }
 
-  if(self.first_update_done == false || self.game_obj_counter != get_game_obj_counter()){
-    
-  }
 
 
   if( self.transcription_counter != get_transcription_counter()){
@@ -155,9 +154,17 @@ AppMgr.prototype.update_hangout_status = function(event){
     self.transcription_counter = get_transcription_counter();
   }
 
-  if(true){
-    discussion_note_obj.update_from_server();
+
+  if( self.discuss_note_edit_counter != get_hangout_discuss_note_edit_counter()){
+    discussion_note_obj.update_from_server_edit_status();
+    self.discuss_note_edit_counter = get_hangout_discuss_note_edit_counter()
   }
+
+  if( self.discuss_note_content_counter != get_hangout_discuss_note_content_counter()){
+    discussion_note_obj.update_from_server_content_status();
+    self.discuss_note_content_counter = get_hangout_discuss_note_content_counter()
+  }
+
 
   if( self.AfterDiscuss_counter != get_hangout_after_discuss_counter()){
     

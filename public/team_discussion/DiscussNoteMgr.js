@@ -8,13 +8,23 @@ function DiscussNoteWrapper(){
   
 }
 
-DiscussNoteWrapper.prototype.update_from_server = function(){
 
+
+DiscussNoteWrapper.prototype.update_from_server_edit_status = function(){
   var self = this;
   if(!self.discussion_note_obj){
     return;
   }
-  self.discussion_note_obj.update_hangout_status();
+  self.discussion_note_obj.update_edit_status();
+
+}
+
+DiscussNoteWrapper.prototype.update_from_server_content_status = function(){
+  var self = this;
+  if(!self.discussion_note_obj){
+    return;
+  }
+  self.discussion_note_obj.retrieve_updated_content();
 
 }
 
@@ -223,11 +233,6 @@ DiscussNoteMgr.prototype.remove_all = function(){
 
 
 
-DiscussNoteMgr.prototype.update_hangout_status = function(){
-  var self = this;
-  self.retrieve_updated_element();
-  self.update_edit_status();
-}
 
 
 DiscussNoteMgr.prototype.update_edit_status = function(){
@@ -238,17 +243,13 @@ DiscussNoteMgr.prototype.update_edit_status = function(){
     return;
   }
 
-
-  var edit_status_counter = get_hangout_edit_status_counter();
-
-  if(self.edit_status_counter != edit_status_counter){
-    for(var i=0; i<self.arg_array.length; i++){
-      var team_name = self.arg_array[i].team_name;
-      var obj_name = "argument_mgr_obj_" + team_name;
-      self[obj_name].update_edit_status();
-    //self.general_concept_mgr.update_edit_status();
-    }
+  for(var i=0; i<self.arg_array.length; i++){
+    var team_name = self.arg_array[i].team_name;
+    var obj_name = "argument_mgr_obj_" + team_name;
+    self[obj_name].update_edit_status();
+  //self.general_concept_mgr.update_edit_status();
   }
+
 }
 
 /*
@@ -289,7 +290,7 @@ team_nameにより、適切なオブジェクトにデータ取得をさせる�
 */
 
 
-DiscussNoteMgr.prototype.retrieve_updated_element = function(){
+DiscussNoteMgr.prototype.retrieve_updated_content = function(){
 
   var self = this;
   var updated_element_counter_all = new Object()
@@ -316,9 +317,6 @@ DiscussNoteMgr.prototype.retrieve_updated_element = function(){
       }
     }
   }
-//
-
-
 
   var element_updated = new Array();
   var element_added = new Array();

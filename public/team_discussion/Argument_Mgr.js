@@ -170,8 +170,6 @@ Argument_Mgr.prototype.update_comment_data_from_server = function(argument_id){
 
 
 
-
-
 Argument_Mgr.prototype.update_edit_status = function(){
 
 	var self = this;

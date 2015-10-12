@@ -304,7 +304,7 @@ GeneralConcept_VM.prototype.click_cancel_concept = function(){
     }
     delete new_edit_status_obj[global_own_parse_id];
 	var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
-    var edit_status_counter = get_hangout_edit_status_counter();
+    var edit_status_counter = get_hangout_discuss_note_edit_counter();
     edit_status_counter++;
     edit_status_counter_str = String(edit_status_counter);
 

@@ -1,8 +1,19 @@
 
 
-function get_hangout_edit_status_counter(){
+function get_hangout_discuss_note_edit_counter(){
 
   var counter_str = gapi.hangout.data.getValue("edit_status_counter");
+  var counter = Number(counter_str);
+  if(Number.isInteger(counter)){
+    return counter;
+  }
+  return 0;
+}
+
+
+ function get_hangout_discuss_note_content_counter(){
+
+  var counter_str = gapi.hangout.data.getValue("content_counter");
   var counter = Number(counter_str);
   if(Number.isInteger(counter)){
     return counter;
@@ -48,9 +59,18 @@ function util_send_argument_counter(obj, obj_type, in_team_name, arg_id){
   }
   new_counter_obj[parse_id + "_" + obj_type] = counter_obj;
   var new_counter_obj_str = JSON.stringify(new_counter_obj);
-  var new_counter_obj = new Object();
-  new_counter_obj[element_counter_key] = new_counter_obj_str;
-  gapi.hangout.data.submitDelta(new_counter_obj);
+
+
+
+  var content_counter = get_hangout_discuss_note_content_counter();
+  content_counter++;
+  var content_counter_str = String(content_counter);
+
+  var new_content_obj = new Object();
+  new_content_obj[element_counter_key] = new_counter_obj_str;
+  new_content_obj["content_counter"] = content_counter_str;
+
+  gapi.hangout.data.submitDelta(new_content_obj);
 
 }
 
@@ -70,7 +90,7 @@ function util_add_edit_status(in_id, in_type){
   }
   new_edit_status_obj[global_own_parse_id] = user_obj;
   var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
-  var edit_status_counter = get_hangout_edit_status_counter();
+  var edit_status_counter = get_hangout_discuss_note_edit_counter();
   edit_status_counter++;
   edit_status_counter_str = String(edit_status_counter);
   gapi.hangout.data.submitDelta({
@@ -89,7 +109,7 @@ function util_remove_edit_status(){
     }
     delete new_edit_status_obj[global_own_parse_id];
     var new_edit_status_obj_str = JSON.stringify(new_edit_status_obj);
-    var edit_status_counter = get_hangout_edit_status_counter();
+    var edit_status_counter = get_hangout_discuss_note_edit_counter();
     edit_status_counter++;
     edit_status_counter_str = String(edit_status_counter);
 
