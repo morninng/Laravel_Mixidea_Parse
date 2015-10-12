@@ -22,11 +22,12 @@
 	flex-direction:row;
 }
 
-
+#msg_wrap{
+	background:#F5F5F5;
+}
 
 
 .msg_body{
-	background:white;
 	height:150px;
 	font-size:12px;
 	padding:10px;

@@ -51,11 +51,12 @@ ul {
 #game_motion{
 	font-weight: bold; 
 	font-size: x-large;
+	font-style: italic;
 }
 
 #motion_pain {
-  	background-color: #FFE4B5;
-  	width: 100%;
+  background-color: #FFE4B5;
+  width: 100%;
 	padding:10px;
 	font-size: large;
 }
