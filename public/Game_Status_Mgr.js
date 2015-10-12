@@ -8,6 +8,7 @@ Game_Status_Mgr.prototype.initialize = function(){
 	self.$el_start_prep_container = $("#container_main_left_above_right");
 	self.$el_start_debate_container = $("#container_main_left_above_right");
 	self.$el_start_reflec_container = $("#top_right");
+	self.$el_game_complete_container = $("#top_right");
 	self.handleEvents()
 
 }
@@ -16,6 +17,7 @@ Game_Status_Mgr.prototype.handleEvents = function(){
 	self.$el_start_prep_container.on("click","#start_prep_button", function(e){self.click_PrepStart();});
 	self.$el_start_debate_container.on("click","#start_debate_button", function(e){self.click_DebateStart();});
 	self.$el_start_reflec_container.on("click","#start_reflec_button", function(e){self.click_ReflecStart();});
+	self.$el_game_complete_container.on("click","#game_complete_button", function(e){self.click_GameComplete();});
 }
 
 
@@ -37,14 +39,14 @@ Game_Status_Mgr.prototype.click_DebateStart = function() {
 Game_Status_Mgr.prototype.click_ReflecStart = function() {
 	var self = this;
 	console.log("eval start");
-	self.update_server_status("introduction");
+	self.update_server_status("reflection");
 
 }
 
 Game_Status_Mgr.prototype.click_GameComplete = function() {
 	var self = this;
 	console.log("game complete");
-	self.update_server_status("complete");
+	self.update_server_status("introduction");
 
 }
 

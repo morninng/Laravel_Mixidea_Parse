@@ -15,6 +15,13 @@ VideoViewWrapper.prototype.update_from_server = function(){
 }
 
 
+VideoViewWrapper.prototype.hide_video = function(){
+
+  var canvas = gapi.hangout.layout.getVideoCanvas();
+  canvas.setVisible(false);
+
+}
+
 
 VideoViewWrapper.prototype.show_defaultView = function(el_name){
 

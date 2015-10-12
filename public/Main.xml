@@ -33,6 +33,7 @@
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/argument.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/general_concept.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/transcription.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/AfterDiscuss.css">
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -439,6 +440,13 @@
 </script>
 
 
+<script type="text/template" data-template="goto_complete_template">
+  <div id="goto_complete">
+  After every discussion finish, go to final point
+      <button id="game_complete_button" class="btn btn-success"> Complte Game</button>
+  </div>
+</script>
+
 
 
 
@@ -756,6 +764,101 @@
 </script>
 
 
+<script type="text/template" data-template="after_discuss_related_link_template">
+
+  <div id="related_link_container">
+    <p class="after_discuss_title">related link </p>
+    Let us investigate the information related to the motion and share each other
+    <div>
+      <ul data-bind="foreach:link_array">
+        <li>
+
+          <div class="related_link_item">
+            <div class="link_image">
+              <img data-bind="attr:{src: img_src}">
+            </div>
+            <div class="related_link_text">
+              <p>
+                <a data-bind="attr:{href: link_url}" target="_blank">
+                  <span class="link_title" data-bind="html:title"></span> 
+                </a><br>
+                <span class="link_description" data-bind="html:description"></span><br>
+                <span class="link_site_name" data-bind="html:site_name"></span>
+              </p>
+            </div>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+    <div id="link_input">
+      <input type="text" class="link_input_style" placeholder="http://" data-bind="textInput: input_url, event:{keyup: onEnterLinkInput}" autofocus></input>
+      <div data-bind="visible:visible_link_loading" class="link_loading" >
+        <div  class="spinner">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+          <div class="bounce4"></div>
+          <div class="bounce5"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</script>
+
+<script type="text/template" data-template="after_discuss_arg_template">
+  <div class="AfterDiscuss_container">
+    <p class="after_discuss_title"><%= data.title %> </p>
+    Think more argument and share each other
+    <div>
+      <ul data-bind="foreach:<%= data.content_array %>">
+        <li>
+
+          <div class="after_dis_item">
+            <div class="user_field">
+              <img data-bind="attr:{src: user_img_src}">
+              <span data-bind="text: user_name"></span>
+              <div data-bind="visible:visible_edit_button">
+                <button class="btn btn-primary" data-bind="click:$parent.edit_content">edit</button>
+              </div>
+              <div data-bind="visible:visible_edit_context">
+                <br>
+                <button class="btn btn-success" data-bind="click:$parent.edit_conten_save">save</button><br><br>
+                <button class="btn btn-inverse" data-bind="click:$parent.edit_conten_cancel">cancel</button><br>
+              </div>
+            </div>
+            <div class="after_dis_context">
+              <div data-bind="visible:visible_context_text">
+                <div data-bind="text:context_text"></div>
+              </div>
+              <div data-bind="visible:visible_edit_context">
+                <textarea class="after_discuss_opinion" data-bind="textInput: context_edit"></textarea>
+              </div>
+            </div>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+    <div class="opinion_input_container">
+       <textarea class="after_discuss_opinion" placeholder="Anyone can add additional argument regardless of your role " data-bind="textInput: <%= data.textarea %>"></textarea>
+    </div>
+    <div class="add_after_discuss_button_container">
+      <button class="btn btn-primary" data-bind="click: <%= data.button %>" >share</button>
+      <div data-bind="visible:<%= data.visible_loading %>" class="link_loading" >
+        <div  class="spinner">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+          <div class="bounce4"></div>
+          <div class="bounce5"></div>
+        </div>
+    </div>
+</script>
+
+
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
@@ -783,6 +886,7 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/sound_mgr.js"></script>
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/LinkToTeamDiscuss.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/AfterDiscussParse.js"></script>
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/DiscussNoteMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/Argument_Mgr.js"></script>

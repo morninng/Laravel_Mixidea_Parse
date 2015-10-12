@@ -5,7 +5,7 @@ var global_element_counter;
 
 function DiscussNoteWrapper(){
   var self = this;
-
+  
 }
 
 DiscussNoteWrapper.prototype.update_from_server = function(){
@@ -115,22 +115,66 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
 }
 
 
-DiscussNoteWrapper.prototype.CreateLayout_reflection = function(){
+DiscussNoteWrapper.prototype.CreateLayout_reflection = function(el_name){
 
   var self = this;
-  
+  self.discussion_note_obj = new DiscussNoteMgr();
   var is_audience = participant_mgr_obj.isAudience_yourself();
-  if(is_audience){
-    link_name_list = participant_mgr_obj.get_all_debater_group_name_array();
-  }else{
-    link_name_list[0] = participant_mgr_obj.get_own_group_name();
+
+  link_name_list = participant_mgr_obj.get_all_debater_group_name_array();
+
+  /*create discussion setting obj*/
+  var comment_query_list = new Array();
+  for(var i=0; i<link_name_list.length; i++){
+    comment_query_list[i] = link_name_list[i]
   }
+  comment_query_list.push("Aud");
+  var Arg_setting_array = new Array();
+  for(var i=0; i< link_name_list.length; i++){
+    var obj = { 
+        template:"argument_template",
+        comment_query_array:comment_query_list,
+        user_editable:false
+      }
+    obj["element"] = "#argument_pain" + link_name_list[i];
+    obj["team_name"] = link_name_list[i];
+    obj["element"] = "#argument_pain" + link_name_list[i];
+    Arg_setting_array.push(obj);
+  }
+  discussion_note_setting = {Arg:Arg_setting_array};
+  /*create template*/
+  var tab_obj_array = new Array();
+  for(var i=0; i< link_name_list.length; i++){
+
+    var active = "";
+    /*
+    if(i==0){
+      active = "active";
+    }
+    */
+    var tab_obj = {name:link_name_list[i],active_str:active};
+    tab_obj_array.push(tab_obj);
+  }
+
+  var summary_tab_name = "PostGameOpinion";
+  var summary_tab_obj = {name:summary_tab_name, active_str:"active"};
+  tab_obj_array.push(summary_tab_obj);
+
+  template_name = "discussion_multiple_template";
+  temp_name = "[data-template='" + template_name + "']";
+  var DiscussTab_Template = _.template($(temp_name).html());
+  self.discussion_element = $(el_name);
+  var discussion_tab_html_text = DiscussTab_Template({list:tab_obj_array});
+  self.discussion_element.html(discussion_tab_html_text);
+
+
+  self.discussion_note_obj.initialize(discussion_note_setting);
 
 }
 
 
 
-
+ 
 
 function DiscussNoteMgr() {
 

@@ -1,0 +1,94 @@
+
+#after_discuss_container{
+	background-color:#F0F8FF;
+
+}
+
+.after_discuss_title{
+	font-size: large;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.related_link_item {
+	margin-top:5px;
+	margin-left:10px;
+	padding-right:50px;
+	background-color:#DCDCDC;
+	width:100%;
+	display:flex;
+	flex-direction:row;
+}
+.related_link_text{
+	flex:1;
+	padding-left:10px;
+	padding-right:10px;
+}
+
+.link_image img{
+	max-height:80px;
+}
+.link_site_name{
+	float:right;
+	color:#708090;
+}
+#related_link_container ul{
+	list-style:none;
+}
+
+#link_input{
+	display:flex;
+}
+
+.link_input_style{
+	width :600px;
+	font-size: large;
+	font-weight: bold;
+	margin-left:100px;
+}
+
+
+.after_discuss_opinion{
+	padding:10px;
+	border-style: solid;
+	border-width: medium;
+	min-height: 200px;
+	width: 100%;
+	background-color: #FFFFFF;
+
+}
+.opinion_input_container{
+	width:100%;
+	padding-bottom:0px;
+	padding-top:10px;
+	padding-left:30px;
+	padding-right:30px;
+}
+
+.add_after_discuss_button_container{
+	display:flex;
+	justify-content: flex-end;
+	margin-top:10px;
+	margin-right:50px;
+}
+
+.after_dis_item{
+	display:flex;
+}
+.user_field{
+	border:solid 1px;
+	padding:10px;
+}
+
+.after_dis_context{
+	border:solid 1px;
+	flex:1;
+	padding: 3px;
+	
+}
+
+.AfterDiscuss_container ul{
+	list-style:none;
+}
+
+

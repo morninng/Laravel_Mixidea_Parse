@@ -13,15 +13,14 @@ Title_VM_wrapper.prototype.update_from_server = function(){
 	self.title_VM_editable.update();
 }
 
-Title_VM_wrapper.prototype.remove_editable = function(el_name){
+Title_VM_wrapper.prototype.remove_editable = function(){
 
 	var self = this;
 	if(!self.title_VM_editable){
 		return;
 	}
 	ko.cleanNode(self.title_editable_el);
-	var title_element = $(el_name);
-	title_element.html(null);
+	self.title_element.html(null);
 	self.title_VM_editable = null;
 	self.title_editable_el = null;
 }
@@ -34,9 +33,9 @@ Title_VM_wrapper.prototype.update_editable = function(el_name){
 
 		self.title_VM_editable = new title_VM();
 	  var Title_html_Template = _.template($('[data-template="title_template_editable"]').html());
-	  var title_element = $(el_name);
+	  self.title_element = $(el_name);
 	  var Title_html_text = Title_html_Template();
-	  title_element.html(Title_html_text);
+	  self.title_element.html(Title_html_text);
 	  self.title_editable_el = document.getElementById('title_template_area');
 	  ko.applyBindings(self.title_VM_editable, self.title_editable_el);
 	}

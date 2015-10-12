@@ -27,6 +27,9 @@
  var link_to_teamdisucuss_obj = new LinkToTeamDiscussWrapper();
  var transcript_box_obj = new transcript_box_wrapper();
 
+ var after_debate_obj = new AfterDebateTabWrapper();
+
+
  var participant_table = new ParticipantTableMgr();
  var preparation_time = new PreparationTimer()
 
