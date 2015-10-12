@@ -186,9 +186,6 @@ DiscussNoteWrapper.prototype.CreateLayout_reflection = function(el_name){
   self.discussion_note_obj.initialize(discussion_note_setting);
 
 }
-
-
-
  
 
 function DiscussNoteMgr() {
