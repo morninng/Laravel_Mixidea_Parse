@@ -1,12 +1,16 @@
 
 #after_discuss_container{
 	background-color:#F0F8FF;
+	padding-left:30px;
+	padding-top:10px;
 
 }
 
 .after_discuss_title{
+	margin-top:10px;
 	font-size: large;
 	font-weight: bold;
+	font-style: italic;
 	text-decoration: underline;
 }
 
@@ -60,6 +64,7 @@
 .opinion_input_container{
 	width:100%;
 	padding-bottom:0px;
+	font-size: large;
 	padding-top:10px;
 	padding-left:30px;
 	padding-right:30px;

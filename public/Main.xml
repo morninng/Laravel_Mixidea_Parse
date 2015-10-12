@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/loading_spinner.css">
 	<link rel="stylesheet" href="https://mixidea.parseapp.com/style/chat_style.css">
 
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/tab.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/Debate.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/structure.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/DirectionBar.css">
@@ -90,7 +91,7 @@
     <div role="tabpanel">
       <ul class="nav nav-tabs" role="tablist">
         <% _.each(list, function(e,i){ %>
-          <li class="<%= e.active_str %> tab_name_font"><a href="#<%= e.name %>" aria-controls="<%= e.name %>" data-toggle="tab"><%= e.name %></a></li>
+          <li class="<%= e.active_str %> tab_name_font"><a class="own_tab_property" href="#<%= e.name %>" aria-controls="<%= e.name %>" data-toggle="tab"><%= e.name %></a></li>
         <% });%>
       </ul>
       <div class="tab-content">
