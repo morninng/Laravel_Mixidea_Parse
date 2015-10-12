@@ -118,6 +118,7 @@ function AppMgr() {
   self.game_obj_counter = 0;
   self.parse_data_changed_counter = 0;
   self.transcription_counter = 0
+  self.AfterDiscuss_counter = 0
   self.first_update_done = false;
 }
 
@@ -156,6 +157,13 @@ AppMgr.prototype.update_hangout_status = function(event){
   if(true){
     discussion_note_obj.update_from_server();
   }
+
+  if( self.AfterDiscuss_counter != get_hangout_after_discuss_counter()){
+    
+    after_debate_obj.update_from_server();
+    self.AfterDiscuss_counter = get_hangout_after_discuss_counter();
+  }
+
 
 
   if(self.first_update_done == false || self.parse_data_changed_counter != get_parse_data_changed_counter()){

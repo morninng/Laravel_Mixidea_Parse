@@ -119,9 +119,9 @@ DiscussNoteWrapper.prototype.CreateLayout_reflection = function(el_name){
 
   var self = this;
   self.discussion_note_obj = new DiscussNoteMgr();
-  var is_audience = participant_mgr_obj.isAudience_yourself();
 
-  link_name_list = participant_mgr_obj.get_all_debater_group_name_array();
+  var link_name_list = participant_mgr_obj.get_all_debater_group_name_array();
+  var own_group_name = participant_mgr_obj.get_own_group_name()
 
   /*create discussion setting obj*/
   var comment_query_list = new Array();
@@ -136,6 +136,11 @@ DiscussNoteWrapper.prototype.CreateLayout_reflection = function(el_name){
         comment_query_array:comment_query_list,
         user_editable:false
       }
+    var editable = false;
+    if(own_group_name == link_name_list[i]){
+      editable = true;
+    }
+    obj["user_editable"] = editable;
     obj["element"] = "#argument_pain" + link_name_list[i];
     obj["team_name"] = link_name_list[i];
     obj["element"] = "#argument_pain" + link_name_list[i];

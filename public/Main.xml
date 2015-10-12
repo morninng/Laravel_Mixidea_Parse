@@ -820,10 +820,10 @@
             <div class="user_field">
               <img data-bind="attr:{src: user_img_src}">
               <span data-bind="text: user_name"></span>
-              <div data-bind="visible:visible_edit_button">
+              <div class="opinion_button" data-bind="visible:visible_edit_button">
                 <button class="btn btn-primary" data-bind="click:$parent.edit_content">edit</button>
               </div>
-              <div data-bind="visible:visible_edit_context">
+              <div class="opinion_button" data-bind="visible:visible_edit_context">
                 <br>
                 <button class="btn btn-success" data-bind="click:$parent.edit_conten_save">save</button><br><br>
                 <button class="btn btn-inverse" data-bind="click:$parent.edit_conten_cancel">cancel</button><br>
@@ -831,7 +831,7 @@
             </div>
             <div class="after_dis_context">
               <div data-bind="visible:visible_context_text">
-                <div data-bind="text:context_text"></div>
+                <div data-bind="html:context_text"></div>
               </div>
               <div data-bind="visible:visible_edit_context">
                 <textarea class="after_discuss_opinion" data-bind="textInput: context_edit"></textarea>

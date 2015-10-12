@@ -8,8 +8,11 @@ function AfterDebateTabWrapper(){
 
 AfterDebateTabWrapper.prototype.update_from_server = function(){
 
-
-
+	var self = this
+	if(!self.after_debate_obj){
+		return;
+	}
+	self.after_debate_obj.show_all();
 }
 
 AfterDebateTabWrapper.prototype.create = function(root_element_name){
@@ -130,7 +133,7 @@ function AfterDebateTab(){
 				arg_obj.increment("count");
 				arg_obj.save(null, {
 					success: function(obj) {
-						self.show_all();
+	  				self.increment_hangout_counter();
 					},
 				  error: function(gameScore, error) {
 						alert("fail to save");
@@ -245,7 +248,7 @@ AfterDebateTab.prototype.onEnterLinkInput = function(){
 			actual_game_obj.save(null, {
 			  success: function(obj) {
 			  	self.input_url(null);
-			  	self.show_all();
+	  			self.increment_hangout_counter();
 			  },
 			  error: function(gameScore, error) {
 			  	alert("fail to save");
@@ -320,7 +323,8 @@ AfterDebateTab.prototype.save_initial_content = function(text, content_type){
 	  			break;
 	  		break;
 	  	}
-	  	self.show_all();
+	  	self.increment_hangout_counter();
+
 	  },
 	  error: function(gameScore, error) {
 	  	alert("fail to save");
@@ -406,13 +410,22 @@ AfterDebateTab.prototype.show_after_dis_opinion = function(opinion_array, type){
 
 			var context_obj = new Object();
 			context_obj["id"] = opinion_array[i].id;
-			context_obj["user_img_src"] = "";
-			context_obj["user_name"] = "Yuta";
-			context_obj["visible_edit_button"] = true;
+			var user_parse_id = opinion_array[i].get("user");
+
+			context_obj["user_img_src"] = participant_mgr_obj.getPict_fromParseID(user_parse_id);
+			context_obj["user_name"] = participant_mgr_obj.getFirstName_fromParseID(user_parse_id);
+
+			var edit_content_available = false;
+			if(user_parse_id == global_own_parse_id){
+				edit_content_available = true;
+			}
+			context_obj["visible_edit_button"] = edit_content_available;
 			context_obj["visible_edit_context"] = false;
 			context_obj["visible_context_text"] = true;
 			context_obj["context_edit"] = opinion_array[i].get("context");
-			context_obj["context_text"] = opinion_array[i].get("context");
+			var content_text = opinion_array[i].get("context");
+			var converted_text =  add_linebreak_html(content_text);
+			context_obj["context_text"] = converted_text;
 			context_obj["count"] = opinion_array[i].get("count");
 			context_obj["arg_type"] = type;
 			var exist = false;
@@ -467,9 +480,17 @@ AfterDebateTab.prototype.show_links = function(){
   	}
 	});
 }
+ 
 
-
-
+AfterDebateTab.prototype.increment_hangout_counter = function(){
+	var self = this;
+  var after_discuss_counter = get_hangout_after_discuss_counter();
+  after_discuss_counter++;
+  after_discuss_counter_str = String(after_discuss_counter);
+  gapi.hangout.data.submitDelta({
+      "hangout_AfterDiscuss_counter":after_discuss_counter_str,
+  });
+}
 
 function is_valid_Url(s) {
     var regexp = /((http|https):\/\/)?[A-Za-z0-9\.-]{3,}\.[A-Za-z]{2}/;	

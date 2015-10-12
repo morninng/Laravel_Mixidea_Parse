@@ -41,6 +41,17 @@ function get_hangout_speech_status_counter(){
   return 0;
 }
 
+function get_hangout_after_discuss_counter(){
+
+  var counter_str = gapi.hangout.data.getValue("hangout_AfterDiscuss_counter");
+  var counter = Number(counter_str);
+  if(Number.isInteger(counter)){
+    return counter;
+  }
+  return 0;
+}
+
+
 
 function get_parse_data_counter(){
   var counter_str = gapi.hangout.data.getValue("parse_data_counter");
@@ -50,7 +61,7 @@ function get_parse_data_counter(){
   }
   return 0;
 }
-
+ 
 
 function get_hangout_speech_status(){
 
