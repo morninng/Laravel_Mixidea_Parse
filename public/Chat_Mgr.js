@@ -1,5 +1,5 @@
 function ChatVM_wrapper() {
-
+  var self = this;
 
 }
 
