@@ -18,10 +18,11 @@ ul {
 }
 
 #first_row {
-	width: 100%;
-/*	min-height:80px;*/
+		width: 100%;
   	background-color: #D0D0D0;
-  	padding:7px;
+  	padding-top:3px;
+  	padding-bottom:3px;
+  	padding-left:20px;
 }
 
 #second_row {
@@ -53,7 +54,7 @@ ul {
 }
 
 #motion_pain {
-  	background-color: #FF0000;
+  	background-color: #FFE4B5;
   	width: 100%;
 	padding:10px;
 	font-size: large;

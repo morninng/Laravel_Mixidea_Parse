@@ -26,7 +26,7 @@
 <div id="whole">
 <div id="inner_whole">
 
-  <div id="first_row">Mixidea team discussion area for <span id="team_category"></span></div>
+  <div id="first_row"> team discussion area for <span id="team_category"></span></div>
   <div id="second_row">
     <div id="second_left">
       <div id="motion_pain">motion: <span id="game_motion"></span></div>
