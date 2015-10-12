@@ -4,7 +4,7 @@ function user_status_VM(role_name){
   self.role_name = role_name;
   self.role = ko.observable();
   self.user_name = ko.observable("no applicant");
-  self.pict_src = ko.observable("https://mixidea.parseapp.com/picture/1.jpg");
+  self.pict_src = ko.observable("https://s3.amazonaws.com/mixidea/1.jpg");
   self.user_status_css = ko.observable("notapplicant");
   self.parse_id_of_this_role = ko.observable(null);
   self.button_visible = ko.observable(true);
@@ -22,9 +22,9 @@ function user_status_VM(role_name){
 user_status_VM.prototype.update_user_status = function(){
 
 	var self = this;
+	self.update_button_status(self.role_name);
 	self.update_user_info(self.role_name);
 	self.update_user_login_status(self.role_name);
-	self.update_button_status(self.role_name);
 }
 
 user_status_VM.prototype.update_user_info = function(role_name){
@@ -40,7 +40,11 @@ user_status_VM.prototype.update_user_info = function(role_name){
 	self.parse_id_of_this_role(parse_id_of_this_role);
 	if(parse_id_of_this_role == null){
 		self.user_name("no applicant");
-		self.pict_src("https://mixidea.parseapp.com/picture/1.jpg");
+		if(self.join_visible()){
+			self.pict_src("https://s3.amazonaws.com/mixidea/wamt_you_small.png");
+		}else{
+			self.pict_src("https://s3.amazonaws.com/mixidea/1.jpg");
+		}
 		return ;
 	}
 

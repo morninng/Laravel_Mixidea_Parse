@@ -105,7 +105,7 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
 
   title_view_model_wrapper.update_editable("#top_left");
 
-  $("#container_main_right").width(450);
+  $("#container_main_right").width(550);
   participant_table.update_table("#container_main_right");
 
   $("#container_main_left_above_left").width(300);
@@ -157,7 +157,7 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
 
   title_view_model_wrapper.update_editable("#top_left");
 
-  $("#container_main_right").width(450);
+  $("#container_main_right").width(550);
   participant_table.update_table("#container_main_right");
 
 

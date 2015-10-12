@@ -205,22 +205,15 @@
 
 
 <script type="text/html" id="user_status_template">
-  <div data-bind= "visible:participant_visible">
-     <div data-bind="css: user_status_css">
-        <div>
-          <img style="max-width:50px;" data-bind="attr: {src: pict_src}">
-        </div>
-        <div>
-           <p class="user_status_p" data-bind ="text:role"></p>
-           <p class="user_status_p" data-bind ="text:user_name"></p>
-           <div data-bind= "visible:button_visible" class="user_status_p" align="center" >
-             <button data-bind = "visible: decline_visible, event:{click:decline}">decline</button>
-             <button data-bind = "visible: join_visible, event:{click:join}">join</button>
-             <button data-bind = "visible: cancel_visible, event:{click:cancel}">cancel</button>
-           </div>
-        </div>
-     </div>
-  </div>
+    <div class="participant" data-bind="visible:participant_visible, css: user_status_css">
+      <p class="participant_role" data-bind ="text:role"></p>
+      <img data-bind="attr: {src: pict_src}">
+      <div class="participant_name" data-bind ="text:user_name"></div>
+      <div class="participant_button" data-bind= "visible:button_visible" align="center" >
+       <button data-bind = "visible: decline_visible, event:{click:decline}">decline</button>
+       <button data-bind = "visible: join_visible, event:{click:join}">join</button>
+       <button data-bind = "visible: cancel_visible, event:{click:cancel}">cancel</button>
+    </div>
 </script>
 
  <script type="text/template" data-template="title_template_fixed">
@@ -386,23 +379,50 @@
 
 
 <script type="text/template" data-template="Asian_Template">
-  <table class='table table-bordered'>
-   <thead><tr><th>Proposition</th><th>Opposition</th></tr></thead>
-   <tbody>
-   <tr><td><div id='PM_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
-       <td><div id='LO_Container' data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   <tr><td><div id='DPM_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
-       <td><div id='DLO_Container' data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   <tr><td><div id='GW_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
-        <td><div id='OW_Container' data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   <tr><td><div id='GR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
-       <td><div id='OR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   </tbody>
-  </table>
-
-  <% _.each(list, function(e,i){ %>
-    <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}" style="float:left;"></div>
-  <% }); %>
+   <p id="debater_list_title">Debaters</p>
+   <div class="team_name_row">
+      <div>
+        <div class="teame_name">Proposition</div>
+      </div>
+      <div>
+        <div class="teame_name">Opposition</div>
+      </div>
+   </div>
+   <div class="participant_row">
+      <div id='PM_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='LO_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>  
+   <div class="participant_row">
+      <div id='DPM_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='DLO_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>
+   <div class="participant_row">
+      <div id='GW_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='OW_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>
+   <div class="participant_row">
+      <div id='GR_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='OR_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>
+   <p id="audience_list_title">Audiences</p>
+   <div id="audience_list">
+     <ul>
+      <% _.each(list, function(e,i){ %>
+        <li>
+          <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}">
+          </div>
+        </li>
+      <% }); %>
+     </ul>
+   </div>
 </script>
 
 
