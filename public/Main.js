@@ -29,6 +29,7 @@
 
  var after_debate_obj = new AfterDebateTabWrapper();
 
+ var chat_wrapper_obj = new ChatVM_wrapper();
 
  var participant_table = new ParticipantTableMgr();
  var preparation_time = new PreparationTimer()
@@ -133,7 +134,7 @@ AppMgr.prototype.update_hangout_status = function(event){
     participant_mgr_obj.update_parseid_hangoutid_mapping();
     participant_mgr_obj.update_hangout_participants();  
     participant_table.update_table_from_server();
-    chat_view_model.update();
+    chat_wrapper_obj.update_from_server();
     self.hangout_mapping_changed_counter = get_parse_hangout_mapping_data_counter();
   }
 
@@ -175,13 +176,14 @@ AppMgr.prototype.update_hangout_status = function(event){
       success: function(obj) {
         actual_game_obj = obj;
         participant_mgr_obj.update_parse_data();
+        layout_obj.update_from_server();
+
         title_view_model_wrapper.update_from_server();
 
         video_view_wrapper.update_from_server();
 
-        layout_obj.update_from_server();
 
-        chat_view_model.update();
+        chat_wrapper_obj.update_from_server();
         participant_table.update_table_from_server();
         link_to_teamdisucuss_obj.update_from_server();
 
@@ -233,7 +235,7 @@ AppMgr.prototype.receive_message = function(received_message){
       impression_wrapper_obj.receive_message(message_obj);
     break;
     case "chat":
-      chat_view_model.receive_message(message_obj, sender_hangout_id);
+      chat_wrapper_obj.receive_message(message_obj, sender_hangout_id)
     break;
   }
 }

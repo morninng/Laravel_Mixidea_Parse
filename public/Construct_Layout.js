@@ -61,15 +61,6 @@ Construct_Layout.prototype.construct_common_layout = function(){
   status_bar_element.html(status_bar_html_text);
 
 
-  var Chat_html_Template = _.template($('[data-template="chat_template"]').html());
-  var chat_element = $("#absolute_pain_1");
-  var Chat_html_text = Chat_html_Template();
-  chat_element.html(Chat_html_text);
-
-  chat_view_model = new ChatViewModel();
-  chat_view_model.update();
-  var chat_el = document.getElementById('chat_field');
-  ko.applyBindings(chat_view_model, chat_el);
 
 }
 
@@ -119,7 +110,8 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
 
   $("#container_main_left_above_left").width(300);
   video_view_wrapper.show_defaultView("#container_main_left_above_left_up");
-  
+
+  chat_wrapper_obj.create("#absolute_pain_1");
 }
 
 
@@ -176,6 +168,7 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   $("#container_main_left_above_left").width(300);
   video_view_wrapper.show_defaultView("#container_main_left_above_left_up");
 
+  chat_wrapper_obj.create("#absolute_pain_1");
 }
 
 
@@ -228,6 +221,7 @@ Construct_Layout.prototype.construct_layout_debate = function(){
 
   transcript_box_obj.show("#absolute_pain_2");
 
+  chat_wrapper_obj.create("#absolute_pain_1");
 
 }
 
@@ -245,6 +239,7 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
   impression_wrapper_obj.remove();
   video_view_wrapper.remove_SpeakerView();
   video_view_wrapper.hide_video();
+  chat_wrapper_obj.remove();
 
 /* adjust the structure*/
   $("#container_main_left_above_right").html(null);

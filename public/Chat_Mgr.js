@@ -1,3 +1,58 @@
+function ChatVM_wrapper() {
+
+
+}
+
+ChatVM_wrapper.prototype.create = function(el_name){
+  var self = this;
+
+  if(self.chat_vm_obj){
+    return;
+  }
+
+  var Chat_html_Template = _.template($('[data-template="chat_template"]').html());
+  self.chat_element = $(el_name);
+  var Chat_html_text = Chat_html_Template();
+  self.chat_element.html(Chat_html_text);
+
+  self.chat_vm_obj = new ChatViewModel();
+  self.chat_el = document.getElementById('chat_field');
+  ko.applyBindings(self.chat_vm_obj, self.chat_el);
+
+  self.chat_vm_obj.update();
+
+}
+
+
+ChatVM_wrapper.prototype.remove = function(){
+  var self = this;
+
+  if(!self.chat_vm_obj){
+    return;
+  }
+  ko.cleanNode(self.chat_el);
+  self.chat_element.html(null);
+  self.chat_vm_obj = null;
+  self.chat_el = null;
+}
+
+ChatVM_wrapper.prototype.receive_message = function(received_message, sender_hangout_id){
+  var self = this;
+  if(!self.chat_vm_obj){
+    return;
+  }
+  self.chat_vm_obj.receive_message(received_message, sender_hangout_id);
+}
+
+ChatVM_wrapper.prototype.update_from_server = function(){
+  var self = this;
+  if(!self.chat_vm_obj){
+    return;
+  }
+  self.chat_vm_obj.update();
+}
+
+
 
 function ChatViewModel() {
 
@@ -28,12 +83,6 @@ ChatViewModel.prototype.update = function(){
   }
 
 }
-
-
-
-
-
-
 
 
 ChatViewModel.prototype.click_collapse = function(){
