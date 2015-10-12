@@ -28,6 +28,8 @@
  var actual_game_obj = new Object();
  var participant_mgr_obj = new TeamDiscussion_ParticipantMgr();
  var discussion_note_obj = new DiscussNoteMgr();
+ var appmgr = new AppMgr();
+ var event_handler_obj = new EventHandler();
 
  var discussion_note_setting = {
     Arg:[
@@ -86,7 +88,7 @@ function Hangout_Init() {
 
 
     	gapi.hangout.data.onStateChanged.add(function(event) {
-          discussion_note_obj.update_hangout_status(event);   
+          appmgr.update_hangout_status(event);
         });
 
       gapi.hangout.onParticipantsChanged.add(function(participant_change) {
@@ -95,4 +97,33 @@ function Hangout_Init() {
     }
   });
 }
+
+
+function AppMgr() {
+    var self = this;;
+  self.discuss_note_edit_counter = 0;
+  self.discuss_note_content_counter = 0;
+}
+
+
+
+AppMgr.prototype.update_hangout_status = function(event){
+
+  var self = this;
+
+  if( self.discuss_note_edit_counter != get_hangout_discuss_note_edit_counter()){
+    discussion_note_obj.update_edit_status();
+    self.discuss_note_edit_counter = get_hangout_discuss_note_edit_counter()
+  }
+
+  if( self.discuss_note_content_counter != get_hangout_discuss_note_content_counter()){
+    discussion_note_obj.retrieve_updated_content();
+    event_handler_obj.show_AddArgument();
+    self.discuss_note_content_counter = get_hangout_discuss_note_content_counter();
+
+  }
+
+}
+
+
 

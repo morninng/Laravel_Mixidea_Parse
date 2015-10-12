@@ -59,16 +59,12 @@ ul {
 	font-size: large;
 }
 
-#definition_pain {
-  	background-color: #0000FF;
-  	padding:5px;
-  	width:100%;
-}
+
 
 
 #second_right {
 	display: table-cell;
-	width: 200px;
+	width: 300px;
   	background-color: #F0F0F0;
 	display:flex;
 	flex-direction:column;
@@ -77,14 +73,20 @@ ul {
 #second_right_first {
 	width: 100%;
 	text-align: center;
-	padding:20px;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+#time_spent{
 	font-weight: bold; 
+	color:red;
 	font-size: large;
 }
 #second_right_second {
 	width: 100%;
-  	background-color: #009900;
-  	padding: 20px;
+  	background-color: #FFFF00;
+		text-align: center;
+  	padding-top: 10px;
+  	padding-bottom: 10px;
 }
 
 
@@ -92,7 +94,8 @@ ul {
 	width: 100%;
 	margin-top: auto;
 	text-align: center;
-  	padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
 }
 
 

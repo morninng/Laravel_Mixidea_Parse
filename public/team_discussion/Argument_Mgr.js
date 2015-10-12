@@ -105,15 +105,9 @@ Argument_Mgr.prototype.addArgument = function(){
 	self.argument_game_obj.add(param_name, argument_obj);
 	self.argument_game_obj.save().then(
 		function(obj){
-			team_discussion_appmgr.actual_game_obj = obj;
-//			team_discussion_appmgr.update_argument_from_server();
-
 ////////////counter managmenet////
-
 			util_send_argument_counter(argument_obj,"main",self.team_name, null);
-
 ////////////counter managmenet////
-
 		},
 		function(error) {
 		    // saving the object failed.

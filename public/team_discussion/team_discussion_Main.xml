@@ -31,15 +31,15 @@
     <div id="second_left">
       <div id="motion_pain">motion: <span id="game_motion"></span></div>
       <div id="general_concept_pain"></div>
-      <div id="definition_pain">definition<br></div>
     </div>
     <div id="second_right">
       <div id="second_right_first"><span id="time_spent"></span></div>
       <div id="second_right_second" align="center">
-          <p>You can go back to main discussion area by clicking hangout button again</p>
+          <p>go back to main discussion by clicking here</p>
           <span id="hangout_button"></span>
       </div>
-      <div id="second_right_third"><button onclick = "team_discussion_appmgr.argument_mgr.addArgument()">Add Another Argument</button></div>
+      <div id="second_right_third">
+      </div>
     </div>
   </div>
 
@@ -102,7 +102,7 @@
 
 <script type="text/template" data-template="argument_template">
   <div class = "argument_element">
-    <h2>Argumet</h2>
+    <span class="argument_mark">Argumet</span>
     <div id='Arg_<%= Argument_ID %>'>
 
       <div class="title">
@@ -234,7 +234,6 @@
 
 
       <div  class="arg_comment">
-        <p>Comment</p>
         <ul class="arg_comment_ul" data-bind="foreach:comment_array">
           <li class="arg_comment_list">
             <div class="arg_comment_left">
@@ -293,7 +292,8 @@
 
   <script src="https://mixidea.parseapp.com/team_discussion/DiscussNoteMgr.js"></script>
   <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussion_ParticipantMgr.js"></script>
-  <script src="https://mixidea.parseapp.com/team_discussion/ConstructLayout.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussion_ConstructLayout.js"></script>
+  <script src="https://mixidea.parseapp.com/team_discussion/EventHandler.js"></script>
   <script src="https://mixidea.parseapp.com/team_discussion/TeamDiscussion.js"></script>
 
 

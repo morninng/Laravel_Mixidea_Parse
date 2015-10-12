@@ -581,7 +581,7 @@
 
 <script type="text/template" data-template="argument_template">
   <div class = "argument_element">
-    <h2>Argumet</h2>
+    <span class="argument_mark">Argumet</span>
     <div id='Arg_<%= Argument_ID %>'>
 
       <div class="title">
@@ -590,7 +590,7 @@
 
 <!-- ko ifnot: user_editable -->
 
-             <p>Title: <span class="title_content" data-bind="html:title_content"></span></p>
+          <p>Title: <span class="title_content" data-bind="html:title_content"></span></p>
 <!-- /ko --> 
 <!-- ko if: user_editable -->
 
@@ -717,7 +717,6 @@
 
 
       <div  class="arg_comment">
-        <p>Comment</p>
         <ul class="arg_comment_ul" data-bind="foreach:comment_array">
           <li class="arg_comment_list">
             <div class="arg_comment_left">

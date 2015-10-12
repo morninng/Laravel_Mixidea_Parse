@@ -42,7 +42,6 @@ ConstructLayout.prototype.showHangoutButton = function(){
         hangout_link_str + 
         "'><img src='https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png' style='border:0;width:100px;height:24px'/></a>";
 
-
   var hangout_element = $("#hangout_button");
   hangout_element.html(hangout_link);
 
@@ -82,4 +81,7 @@ ConstructLayout.prototype.show_team_side = function(){
   var self = this;
   $("span#team_category").html("<strong>" + global_team_side + "</strong>");
 }
+
+
+
 
