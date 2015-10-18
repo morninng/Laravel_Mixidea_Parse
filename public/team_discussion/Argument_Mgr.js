@@ -169,8 +169,7 @@ Argument_Mgr.prototype.update_edit_status = function(){
 	var self = this;
 	for(var i=0; i< self.existing_Argument_list.length; i++){
 		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".update_edit_status();");
-		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".show_title();");
-		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".show_main_content();");
+		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".show_context();");
 	}
 
 }

@@ -1,62 +1,4 @@
 
-
-.textarea_wrapper_default{
-	padding:1px;
-	border-style: none;
-	display: inline-block;
-	width:100%;
-	font-size: 12px;
-	position: relative;
-	z-index: 2;
-	background-color:#DCDCDC;
-}
-.textarea_wrapper_focused{
-	padding:0px;
-	border-style: solid;
-  border-width: 2px;
-	border-color: yellow;
-	display: inline-block;
-	width:100%;
-	font-size: 12px;
-	position: relative;
-	z-index: 2;
-	background-color:#DCDCDC;
-}
-.textarea_wrapper_updating{
-	padding:0px;
-	border-style: solid;
-  border-width: 2px;
-	border-color: red;
-	display: inline-block;
-	width:100%;
-	font-size: 12px;
-	position: relative;
-	z-index: 2;
-	background-color:#DCDCDC;
-}
-.textarea_wrapper_saved{
-	padding:0px;
-	border-style: solid;
-  border-width: 2px;
-	border-color: green;
-	display: inline-block;
-	width:100%;
-	font-size: 12px;
-	position: relative;
-	background-color:#DCDCDC;
-}
-.text_area_css{
-	width:100%;
-	z-index: 2;
-}
-.hidden_text {
-	width:100%;
-	visibility:hidden;
-	z-index: 0;
-	position: absolute;
-	top: 0px;
-  left: 0px;
-}
 .arg_edit_footer{
 	display:flex;
 	flex-direction:row-reverse;
@@ -76,8 +18,10 @@
 
 
 .argument_container{
-	width:400px;
 	display:flex;
+	padding: 3px;
+	width:100%;
+	background-color:#DCDCDC;
 }
 
 .save_button{
@@ -86,7 +30,9 @@
 }
 
 .argument_title_css{
-	width:100%;
+	margin-right:10px;
+	margin-left:10px;
+	width:95%;
 }
 
 .save_indicate{
@@ -97,6 +43,10 @@
 	margin-right:30px;
 }
 
+.loading_container{
+	background-color:#DCDCDC;
+
+}
 
 .loading_vertical{
 	width:15px !important;

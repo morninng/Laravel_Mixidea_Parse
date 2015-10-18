@@ -6,63 +6,42 @@ function Argument_VM(){
 	self.user_editable = ko.observable(false);
 	self.argument_title = null;
 	self.argument_context = null;
-	self.link_list = new Array();
-	self.extension_list = new Array();
-	self.refute_list = new Array();
-	self.comment_list = new Array();
 
 	self.title_editor = null;
 	self.title_count = -1;
   self.title_content = ko.observable(""); 
   self.title_input = ko.observable();
-  self.isTitleTextboxFocused = ko.observable(false); 
-  self.is_default_TitleTextboxFocused = ko.observable(false); 
+  self.isTitleFocused = ko.observable(false); 
 
-  self.visible_title_textbox_default = ko.observable();
   self.visible_title_textbox_written = ko.observable();
   self.visible_title_textbox_edit = ko.observable();
-  self.visible_editor_profile = ko.observable();
-  self.editor_pict_src = ko.observable();
-  self.editor_name = ko.observable();
-  self.visible_button_title_save = ko.observable();
-  self.visible_button_title_cancel = ko.observable();
-  self.visible_button_title_edit = ko.observable();
-  self.visible_editing_icon = ko.observable(false);
 
 	self.main_editor = null;
 	self.main_count = -1;
-  // self.main_content_visible = ko.observable(false); 
   self.main_content = ko.observable(""); 
-  // self.main_input_visible = ko.observable(false); 
   self.main_input = ko.observable();
   self.isMainTextboxFocused = ko.observable(false);
-  self.is_default_MainTextboxFocused = ko.observable(false);
 
-  self.visible_MainArg_textbox_default = ko.observable();
+
+	self.hidden_html = ko.observable();
+
   self.visible_MainArg_textbox_written = ko.observable();
   self.visible_MainArg_textbox_edit = ko.observable();
-  self.visible_editor_MainArg_profile = ko.observable();
   self.editor_MainArg_pict_src = ko.observable();
   self.editor_MainArg_name = ko.observable();
   self.visible_button_MainArg_save = ko.observable();
-  self.visible_button_MainArg_cancel = ko.observable();
   self.visible_button_MainArg_edit = ko.observable();
   self.visible_MainArg_editing_icon = ko.observable(false);
+	self.visible_save_indicate = ko.observable(false);
 
-
-
-	self.main_link_array = ko.observableArray();
-  self.main_link_input = ko.observable("http://");
+	self.arg_content_wrapper_css = ko.observable("textarea_wrapper_default");
 
   self.comment_array = ko.observableArray(false); 
-  	// in the content array, content , edit field, edit button exist
   self.comment_input = ko.observable(); 
   self.comment_input_visible = ko.observable(false);
-  self.isCommentInputTextboxFocused = ko.observable();
-
   self.arg_id = null;
 
-
+/*
   self.is_default_TitleTextboxFocused.subscribe( function(focused) {
 	   if (focused) {
 	   		console.log("default title textbox focused");
@@ -80,7 +59,7 @@ function Argument_VM(){
 				util_add_edit_status(self.arg_id, "main");
 		}
 	});
-
+*/
 	self.click_comment_edit_cancel = function(data){
 
 		console.log(data);
@@ -128,13 +107,8 @@ function Argument_VM(){
 		  	obj.save(null, {
 			  success: function(comment_o) {
 ////////counter managemrent////
-
 			util_send_argument_counter(comment_o,"comment",self.team_name, self.arg_id, self.team_name);
-
 ////////counter managemrent////
-
-
-
 			  },
 			  error: function(obj, error) {
 			    console.log("error to save comment")
@@ -186,19 +160,53 @@ function Argument_VM(){
 Argument_VM.prototype.initialize = function(argument_obj, setting){
 
 	var self = this;
-	self.setting = setting;
 	self.team_name = setting.team_name;
 	self.element = setting.element;
-	self.template = setting.template;
 	self.comment_query_team_array = setting.comment_query_array;
-
 	self.user_editable(setting.user_editable);
-
 	self.argument_obj = argument_obj;
 	self.arg_id = argument_obj.id;
-	console.log(self.argument_obj.id);
+	self.root_element_id = "#Arg_" + self.arg_id;
+
+  self.isMainTextboxFocused.subscribe( function(focused) {
+	   		console.log(" text focus called id is" + self.arg_id);
+	   if (focused) {
+	   		this.become_editing_status()
+			}
+	   if (!focused) {
+	   		this.save_input_context();
+			}
+	}, self);
+
+  self.isTitleFocused.subscribe( function(focused) {
+	   console.log(" title focus called id is" + self.arg_id);
+	   if (focused) {
+	   		this.become_editing_status()
+			}
+	   if (!focused) {
+	   		this.save_input_context();
+			}
+	}, self);
+
 	self.show_All();
 }
+
+Argument_VM.prototype.become_editing_status = function(){
+	var self = this;
+
+	this.arg_content_wrapper_css("textarea_wrapper_focused");
+	self.visible_button_MainArg_edit(false);
+	self.visible_button_MainArg_save(true);
+	self.visible_MainArg_textbox_written(false);
+	self.visible_MainArg_textbox_edit(true);
+	self.visible_title_textbox_written(false);
+	self.visible_title_textbox_edit(true);
+	self.visible_MainArg_editing_icon(true);
+
+  global_own_edit_element = self.arg_id;
+	util_add_edit_status(self.arg_id);
+}
+
 
 
 Argument_VM.prototype.update_edit_status = function(){
@@ -207,7 +215,6 @@ Argument_VM.prototype.update_edit_status = function(){
 	var is_api_ready = gapi.hangout.isApiReady();
 	if( !is_api_ready ){
 		self.main_editor = null;
-		self.title_editor = null;
 		return;
 	}_
 
@@ -217,19 +224,13 @@ Argument_VM.prototype.update_edit_status = function(){
 	}
 	var edit_status_obj = JSON.parse(edit_status_str);
 
-	var main_id = self.arg_id + "_main";
-	var title_id = self.arg_id + "_title";
 	self.main_editor = null;
 	self.title_editor = null;
 
 	for (var key in edit_status_obj){
-		if(edit_status_obj[key].id == main_id && is_hangout_exist(edit_status_obj[key].hangout_id)){
+		if(edit_status_obj[key].id == self.arg_id && is_hangout_exist(edit_status_obj[key].hangout_id)){
 			self.main_editor = key;
 			console.log("main editor has set with " + key);
-		}
-		if(edit_status_obj[key].id == title_id && is_hangout_exist(edit_status_obj[key].hangout_id)){
-			self.title_editor = key;
-			console.log("title editor has set with " + key);
 		}
 	}
 }
@@ -246,8 +247,7 @@ Argument_VM.prototype.apply_argument_data_from_server = function(updated_argumen
 
 	self.argument_obj =updated_argument_obj;
 	self.update_edit_status();
-	self.show_title();
-	self.show_main_content();
+	self.show_context();
 	self.show_comment_input();
 }
 
@@ -255,218 +255,106 @@ Argument_VM.prototype.show_All = function(){
 
 	var self = this;
 	self.update_edit_status();
-	self.show_title();
-	self.show_main_content();
+	self.show_context();
 	self.show_all_comment();
 	self.show_comment_input();
 }
 
 	//mainly when user loged in, all data is retrieved and counter is saved on the 
 
-Argument_VM.prototype.show_title = function(){
+
+
+Argument_VM.prototype.show_context = function(){
 	var self = this;
 
 	var title = self.argument_obj.get("title");
-	var count = self.argument_obj.get("title_count");
-	var others_under_editing = false;
-
-	if(self.title_editor && self.title_editor!=global_own_parse_id ){
-		others_under_editing = true;
-	}
-
-	var own_edit_status =  global_own_edit_status;
-	var own_edit_element =  global_own_edit_element;
-	var under_editing_this_element = false;
-	var element_edit_param =  self.arg_id + "_title";;
-	if(element_edit_param == own_edit_element){
-		under_editing_this_element = true;
-	}
-
-/***** title display box *****/	
-
-	if(under_editing_this_element){
-		//do not change anything
-	}else{
-		if(own_edit_status == "default" && !title && !others_under_editing){
-			self.visible_title_textbox_default(true);
-			self.visible_title_textbox_written(false);
-			self.visible_title_textbox_edit(false);
-			self.title_content(title);
-			self.title_input(title);
-		}else{
-			self.visible_title_textbox_default(false);
-			self.visible_title_textbox_written(true);
-			self.visible_title_textbox_edit(false);
-			self.title_content(title);
-			self.title_input(title);
-		}
-	}
-
-
-
-/***** editor picture  *****/
-
-	if(self.title_editor){
-		console.log("editor exist");
-		var editor_profile = participant_mgr_obj.get_user_profile(self.title_editor);
-		if(editor_profile){
-			console.log("show profile");
-			self.editor_pict_src(editor_profile.pict_src); 
-			self.editor_name(editor_profile.first_name);
-			self.visible_editor_profile(true);
-		}
-		self.visible_editing_icon(true)
-	}else{
-		self.editor_pict_src(null);
-		self.editor_name(null);
-		self.visible_editor_profile(false);
-		self.visible_editing_icon(false)
-	}
-
-/***** title button *****/	
-
-	if(under_editing_this_element){
-		//do not change anything
-	}else{
-		if( others_under_editing){
-			self.visible_button_title_save(false);
-			self.visible_button_title_cancel(false);
-			self.visible_button_title_edit(false);
-		}else{
-			switch(own_edit_status){
-			case "default":
-				if(title){
-					self.visible_button_title_save(false);
-					self.visible_button_title_cancel(false);
-					self.visible_button_title_edit(true);
-				}else{
-					self.visible_button_title_save(true);
-					self.visible_button_title_cancel(false);
-					self.visible_button_title_edit(false);
-				}
-			break;
-			case "editing":
-				self.visible_button_title_save(false);
-				self.visible_button_title_cancel(false);
-				self.visible_button_title_edit(false);
-
-			break;
-			case "pending":
-				self.visible_button_title_save(false);
-				self.visible_button_title_cancel(false);
-				self.visible_button_title_edit(true);
-			break;
-			}
-		}
-	}
-
-////////////counter managmenet///////
-	if(title && self.title_count != count){
-
-		    var parse_id = self.argument_obj.id;
-		    var TitleCounter = count;
-		    var obj_type = "title"
-		    var counter_obj = {type:obj_type, count:TitleCounter};
-				global_element_counter[parse_id + "_title"] = counter_obj;			
-	}
-	self.title_count = count;
-////////////counter managmenet//////
-}
-
-
-Argument_VM.prototype.show_main_content = function(){
-	var self = this;
+	var title_set = self.argument_obj.get("title_set");
 	var content = self.argument_obj.get("main_content");
-	var convert_context = null;
-	if(content){
-  		convert_context = add_linebreak_html(content);
-  	}
-	var MainCounter = self.argument_obj.get("main_count");
-	var others_under_editing = false;
+	converted_context = add_linebreak_html(content);
+	var main_content_set = self.argument_obj.get("main_content_set");
 
+	var MainCounter = self.argument_obj.get("main_count");
+
+	var others_under_editing = false;
 	if(self.main_editor && self.main_editor!=global_own_parse_id ){
 		others_under_editing = true;
 	}
 
-	var own_edit_status =  global_own_edit_status;
-	var own_edit_element = global_own_edit_element;
 	var under_editing_this_element = false;
-	var element_edit_param =  self.arg_id + "_main";;
-	if(element_edit_param == own_edit_element){
+	if( global_own_edit_element == self.arg_id){
 		under_editing_this_element = true;
 	}
 
 /***** main content box *****/	
 	if(under_editing_this_element){
 		//do not change anything
-	}else{
-		if(own_edit_status == "default" && !content && !others_under_editing){
-			self.visible_MainArg_textbox_default(true);
-			self.visible_MainArg_textbox_written(false);
-			self.visible_MainArg_textbox_edit(false);
-			self.main_content(convert_context);
-			self.main_input(convert_context);
-		}else{
-			self.visible_MainArg_textbox_default(false);
+	}else if (others_under_editing){
+
 			self.visible_MainArg_textbox_written(true);
 			self.visible_MainArg_textbox_edit(false);
-			self.main_content(convert_context);
-			self.main_input(convert_context);
+			self.main_content(converted_context);
+			self.main_input(content);
+
+			self.visible_title_textbox_written(true);
+			self.visible_title_textbox_edit(false);
+			self.title_content(title);
+			self.title_input(title);
+	}else{
+
+		if(main_content_set){
+			self.visible_MainArg_textbox_written(true);
+			self.visible_MainArg_textbox_edit(false);
+			self.main_content(converted_context);
+			self.main_input(content);
+		}else{
+			self.visible_MainArg_textbox_written(false);
+			self.visible_MainArg_textbox_edit(true);
+			self.main_content(null);
+			self.main_input(null);
+		}
+		if(title_set){
+			self.visible_title_textbox_written(true);
+			self.visible_title_textbox_edit(false);
+			self.title_content(title);
+			self.title_input(title);
+		}else{
+			self.visible_title_textbox_written(false);
+			self.visible_title_textbox_edit(true);
+			self.title_content(null);
+			self.title_input(null);
 		}
 	}
+
 
 /***** editor picture  *****/
 
 	if(self.main_editor){
-		console.log("main editor exist");
 		var editor_profile = participant_mgr_obj.get_user_profile(self.main_editor);
 		if(editor_profile){
-			console.log("show profile");
 			self.editor_MainArg_pict_src(editor_profile.pict_src); 
 			self.editor_MainArg_name(editor_profile.first_name);
-			self.visible_editor_MainArg_profile(true);
 		}
 		self.visible_MainArg_editing_icon(true)
 	}else{
 		self.editor_MainArg_pict_src(null);
 		self.editor_MainArg_name(null);
-		self.visible_editor_MainArg_profile(false);
 		self.visible_MainArg_editing_icon(false)
 	}
 
-/***** main content button *****/	
+/***** save or edit butto *****/	
+
 	if(under_editing_this_element){
 		//do not change anything
-	}else{
-		if( others_under_editing){
-			self.visible_button_MainArg_save(false);
-			self.visible_button_MainArg_cancel(false);
+	}else if (others_under_editing){
 			self.visible_button_MainArg_edit(false);
+			self.visible_button_MainArg_save(false);
+	}else{
+		if(title_set || main_content_set){
+			self.visible_button_MainArg_edit(true);
+			self.visible_button_MainArg_save(false);
 		}else{
-			switch(own_edit_status){
-			case "default":
-				if(content){
-					self.visible_button_MainArg_save(false);
-					self.visible_button_MainArg_cancel(false);
-					self.visible_button_MainArg_edit(true);
-				}else{
-					self.visible_button_MainArg_save(true);
-					self.visible_button_MainArg_cancel(false);
-					self.visible_button_MainArg_edit(false);
-				}
-			break;
-			case "editing":
-				self.visible_button_MainArg_save(false);
-				self.visible_button_MainArg_cancel(false);
-				self.visible_button_MainArg_edit(false);
-
-			break;
-			case "pending":
-				self.visible_button_MainArg_save(false);
-				self.visible_button_MainArg_cancel(false);
-				self.visible_button_MainArg_edit(true);
-			break;
-			}
+			self.visible_button_MainArg_edit(false);
+			self.visible_button_MainArg_save(false);
 		}
 	}
 
@@ -476,85 +364,50 @@ Argument_VM.prototype.show_main_content = function(){
 	    var obj_type = "main";
 	    var counter_obj = {type:obj_type, count:MainCounter};
 			global_element_counter[parse_id + "_main"] = counter_obj;
-		self.main_count = MainCounter;
+			self.main_count = MainCounter;
 	}
 ////////////counter managmenet////
 
 }
 
-Argument_VM.prototype.click_title_edit = function(){
+Argument_VM.prototype.save_input_context = function(){
 
 	var self = this;
+	self.count = 0
 
-/** appearance change **/
-	title = self.argument_obj.get("title");
-	self.title_input(title);
-	self.visible_title_textbox_default(false);
-	self.visible_title_textbox_written(false);
-	self.visible_title_textbox_edit(true);
-	self.isTitleTextboxFocused(true);
+	var context = self.main_input();
+	if(context){
+		if(context.length>0){
+			self.argument_obj.set("main_content_set", true);
+		}
+		self.argument_obj.set("main_content", context);
+	}else{
+		self.argument_obj.set("main_content_set", false);
+		self.argument_obj.set("main_content", null);
+	}
+	var title_context = self.title_input();
+	if(title_context){
+		if(title_context.length>0){
+			self.argument_obj.set("title_set", true);
+		}
+		self.argument_obj.set("title", title_context);
+	}else{
+		self.argument_obj.set("title_set", false);
+		self.argument_obj.set("title", null);
+	}
 
-  	self.visible_button_title_save(true);
-  	self.visible_button_title_cancel(true);
-  	self.visible_button_title_edit(false);
-
-	global_own_edit_status = "editing";
-	global_own_edit_element = self.arg_id + "_" + "title";
-	util_add_edit_status(self.arg_id, "title");
-}
-
-Argument_VM.prototype.click_main_edit = function(){
-
-
-	var self = this;
-/** appearance change **/
-	content = self.argument_obj.get("main_content");
-	self.main_input(content);
-	self.visible_MainArg_textbox_default(false);
-	self.visible_MainArg_textbox_written(false);
-	self.visible_MainArg_textbox_edit(true);
-	self.isMainTextboxFocused(true);
-
-  	self.visible_button_MainArg_save(true);
-  	self.visible_button_MainArg_cancel(true);
-  	self.visible_button_MainArg_edit(false);
-
-	global_own_edit_status = "editing";
-	global_own_edit_element = self.arg_id + "_" + "main";
-	util_add_edit_status(self.arg_id, "main");
-}
-
-
-
-Argument_VM.prototype.click_title_save = function(){
-
-	var self = this;
-
-	var title_content = self.title_input();
-	console.log(title_content);
-
-	self.argument_obj.set("title", title_content);
-	self.argument_obj.increment("title_count");
+	self.argument_obj.increment("main_count");
 	self.argument_obj.save(null, {
 	  success: function(obj) {
 	    console.log("saved");
-	    self.argument_obj = obj;
-
+////////////counter managmenet////
+	 		self.argument_obj = obj
+			util_send_argument_counter(self.argument_obj,"main",self.team_name, null);
 ////////////counter managmenet////
 
-			util_send_argument_counter(self.argument_obj,"title",self.team_name, null);
-
-
-////////////counter managmenet////
-
-/*edit status management*/
-
-		global_own_edit_status = "pending";
-		global_own_edit_element = null;
-		self.title_editor = null;
-
-		util_remove_edit_status();
-
+			self.arg_content_wrapper_css("textarea_wrapper_saved");
+			self.show_save_message();
+			self.check_edit_status();
 	  },
 	  error: function(obj, error) {
 	    alert('Failed to create new object, with error code: ' + error.message);
@@ -563,40 +416,31 @@ Argument_VM.prototype.click_title_save = function(){
 	});
 }
 
-Argument_VM.prototype.click_main_save = function(){
-
+Argument_VM.prototype.check_edit_status = function(){
 	var self = this;
+	var content_focusd = self.isMainTextboxFocused();
+	var title_focused = self.isTitleFocused();
 
-	var context = self.main_input();
-	console.log(context);
-	self.argument_obj.set("main_content", context);
-	self.argument_obj.increment("main_count");
-	self.argument_obj.save(null, {
-	  success: function(argument_obj) {
-	    console.log("saved");
-	 //   team_discussion_appmgr.update_argument_from_server();
-
-	 	self.argument_obj = argument_obj
-
-////////////counter managmenet////
-			util_send_argument_counter(argument_obj,"main",self.team_name, null);
-
-////////////counter managmenet////
-
-/*edit status management*/
-			global_own_edit_status = "pending";
-			global_own_edit_element = null;
-			self.title_editor = null;
+	if(!content_focusd && !title_focused){
+		self.arg_content_wrapper_css("textarea_wrapper_default");
+	  self.visible_MainArg_editing_icon(false);
+		self.visible_button_MainArg_save(false);
+		self.show_context();
+		if(global_own_edit_element == self.arg_id){
 			util_remove_edit_status();
-
-	  },
-	  error: function(obj, error) {
-	    alert('Failed to create new object, with error code: ' + error.message);
-
-	  }
-	});
-
+			global_own_edit_element = null;
+			self.main_editor = null;
+		}
+	}
 }
+
+Argument_VM.prototype.show_save_message = function(){
+	var self = this;
+	self.visible_save_indicate(true);
+	$(".save_message", self.root_element_id ).css('opacity','1');
+	$(".save_message", self.root_element_id ).animate({opacity:0},1500);
+}
+
 
 Argument_VM.prototype.click_comment_Add = function(){
 
@@ -618,7 +462,6 @@ Argument_VM.prototype.click_comment_Add = function(){
 	  //  team_discussion_appmgr.argument_mgr.update_comment_data_from_server(self.arg_id);
 
 ///////////counter management////////////
-
 	    util_send_argument_counter(comment_o,"comment",self.team_name, self.arg_id, self.team_name);
 ///////////counter management////////////
 
@@ -629,30 +472,8 @@ Argument_VM.prototype.click_comment_Add = function(){
 	    alert('Failed to create new object, with error code: ' + error.message);
 	  }
 	});
-
 }
 
-
-
-
-Argument_VM.prototype.click_title_cancel = function(){
-	var self = this;
-
-	global_own_edit_status = "pending";
-	global_own_edit_element = null;
-	self.show_title();
-
-	util_remove_edit_status();
-}
-
-Argument_VM.prototype.click_main_cancel = function(){
-	var self = this;
-	global_own_edit_status = "pending";
-	global_own_edit_element = null;
-	self.show_main_content();
-
-	util_remove_edit_status();
-}
 
 Argument_VM.prototype.show_all_comment = function(){
 
@@ -725,10 +546,7 @@ Argument_VM.prototype.show_all_comment = function(){
 	      if(!comment_existed){
 	      	self.comment_array.push(obj);
 	      }
-
-
 ////////////counter management ///////
-
 		    var parse_id = retrieved_comment.id;
 		    var CommentCounter = retrieved_count;
 		    var obj_type = "comment";
@@ -828,3 +646,72 @@ hangout_obj
 	//更新中のIDを取得し、それは変更不可にする。
 	//それ以外で、自分と同じグループのものは変更可能
 
+
+Argument_VM.prototype.onEnterTitle = function(data, event){
+	var self = this;
+	self.input_data_manage(data, event,"title");
+}
+
+Argument_VM.prototype.onEnterContext = function(data, event){
+	var self = this;
+	self.input_data_manage(data, event,"main");
+}
+
+Argument_VM.prototype.input_data_manage = function(data, event, type){
+
+	var self = this;
+	console.log(event.keyCode);
+	self.visible_button_MainArg_save(true);
+
+	self.arg_content_wrapper_css("textarea_wrapper_updating");
+	if(event.keyCode === 32 && self.prev_keycode != 32){ /*space*/
+		self.count++;
+		console.log("space count up");
+	}
+
+  if((event.keyCode === 13 && self.prev_keycode != 13) /*Enter*/
+  	 || (event.keyCode === 190 && self.prev_keycode != 190) /*period*/
+  	 || (event.keyCode === 188 && self.prev_keycode != 188) /*comma*/
+  	 || (self.count > 2)
+  	 ){
+  	
+  	switch(type){
+  		case "main":
+  			var inputed_value = self.main_input();
+  			var number_row = self.update_height( inputed_value);
+  		break;
+  		case "title":
+  		break;
+  	}
+  	self.save_input_context();
+  	self.count = 0;
+  }
+  self.prev_keycode = event.keyCode;
+
+}
+
+Argument_VM.prototype.update_height = function(text){
+
+	var self = this;	
+
+	converted_text = add_linebreak_html(text);
+	self.hidden_html(converted_text);
+	var hidden_height = $(".hidden_text", self.root_element_id).height();
+	var current_height = $(".MainArg_input_edit", self.root_element_id).height();
+	if(current_height< (hidden_height+ 20)){
+		$(".MainArg_input_edit", self.root_element_id).height(hidden_height + 20);	
+	}
+}
+
+Argument_VM.prototype.click_content_save = function(){
+  var self = this;
+}
+
+Argument_VM.prototype.click_content_edit = function(){
+
+	console.log("edit button clicked");
+  var self = this;
+  self.become_editing_status();
+  self.isTitleFocused(true);
+
+}

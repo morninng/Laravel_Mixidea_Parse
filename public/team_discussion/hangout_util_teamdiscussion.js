@@ -75,13 +75,12 @@ function util_send_argument_counter(obj, obj_type, in_team_name, arg_id){
 }
 
 
-function util_add_edit_status(in_id, in_type){
+function util_add_edit_status(in_id){
 
 
   var own_team_side = participant_mgr_obj.get_own_group_name();
 
-  var obj_id = in_id + "_" + in_type;
-  var user_obj = {id:obj_id,taem:own_team_side, hangout_id:global_own_hangout_id };
+  var user_obj = {id:in_id,taem:own_team_side, hangout_id:global_own_hangout_id };
   console.log(user_obj);
   var new_edit_status_obj = new Object();
   var current_edit_status_obj = gapi.hangout.data.getValue("edit_status");

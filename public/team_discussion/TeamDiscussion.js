@@ -124,6 +124,3 @@ AppMgr.prototype.update_hangout_status = function(event){
   }
 
 }
-
-
-
