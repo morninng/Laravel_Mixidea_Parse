@@ -58,9 +58,13 @@ Parse.Cloud.define("initial_AddArgument", function(request, response) {
 		var argument_obj_1 = new Argument();
 		argument_obj_1.set("main_count",0);
 		argument_obj_1.set("title_count",0);
+		argument_obj_1.set("title_set", false);
+		argument_obj_1.set("main_content_set", false);
 		var argument_obj_2 = new Argument();
 		argument_obj_2.set("main_count",0);
 		argument_obj_2.set("title_count",0);
+		argument_obj_2.set("title_set", false);
+		argument_obj_2.set("main_content_set", false);
 		var param_name = team_name + "_argument";
 		game_obj.add(param_name, argument_obj_1);
 		game_obj.add(param_name, argument_obj_2);

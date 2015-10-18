@@ -100,6 +100,8 @@ Argument_Mgr.prototype.addArgument = function(){
 	var argument_obj = new Argument();
 	argument_obj.set("main_count",0);
 	argument_obj.set("title_count",0);
+	argument_obj.set("title_set", false);
+	argument_obj.set("main_content_set", false);
 
 	var param_name = self.team_name + "_argument";
 	self.argument_game_obj.add(param_name, argument_obj);
