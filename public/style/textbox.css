@@ -1,0 +1,110 @@
+
+
+.textarea_wrapper_default{
+	padding:1px;
+	border-style: none;
+	display: inline-block;
+	width:100%;
+	font-size: 12px;
+	position: relative;
+	z-index: 2;
+	background-color:#DCDCDC;
+}
+.textarea_wrapper_focused{
+	padding:0px;
+	border-style: solid;
+  border-width: 2px;
+	border-color: yellow;
+	display: inline-block;
+	width:100%;
+	font-size: 12px;
+	position: relative;
+	z-index: 2;
+	background-color:#DCDCDC;
+}
+.textarea_wrapper_updating{
+	padding:0px;
+	border-style: solid;
+  border-width: 2px;
+	border-color: red;
+	display: inline-block;
+	width:100%;
+	font-size: 12px;
+	position: relative;
+	z-index: 2;
+	background-color:#DCDCDC;
+}
+.textarea_wrapper_saved{
+	padding:0px;
+	border-style: solid;
+  border-width: 2px;
+	border-color: green;
+	display: inline-block;
+	width:100%;
+	font-size: 12px;
+	position: relative;
+	background-color:#DCDCDC;
+}
+.text_area_css{
+	width:100%;
+	z-index: 2;
+}
+.hidden_text {
+	width:100%;
+	visibility:hidden;
+	z-index: 0;
+	position: absolute;
+	top: 0px;
+  left: 0px;
+}
+.arg_edit_footer{
+	display:flex;
+	flex-direction:row-reverse;
+}
+
+.arg_edit_footer div:last-child{
+	margin-right: auto;
+}
+
+.button_container{
+	text-align:right;
+	padding-top:7px;
+	padding-right:10px;
+	padding-bottom:4px;
+
+}
+
+
+.argument_container{
+	width:400px;
+	display:flex;
+}
+
+.save_button{
+	padding-top:0px;
+	padding-bottom:2px;
+}
+
+.argument_title_css{
+	width:100%;
+}
+
+.save_indicate{
+
+}
+.save_message{
+	color:green;
+	margin-right:30px;
+}
+
+
+.loading_vertical{
+	width:15px !important;
+	text-align:center !important;
+}
+
+.loading_vertical >div{
+	width:5px !important;
+	height:5px !important;
+	margin:5px !important;
+}
