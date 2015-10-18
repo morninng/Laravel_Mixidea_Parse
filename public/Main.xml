@@ -360,22 +360,47 @@
 
 
 <script type="text/template" data-template="NA_Template">
-  <table class='table table-bordered'>
-   <thead><tr><th>Government</th><th>Opposition</th></tr></thead>
-   <tbody>
-   <tr><td><div id='PM_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
-   <td><div id='LO_Container' data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   <tr><td><div id='MG_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
-   <td><div id='MO_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   <tr><td><div id='PMR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
-   <td><div id='LOR_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   </tbody>
-  </table>
+   <p id="debater_list_title">Debaters</p>
+   <div class="team_name_row">
+      <div>
+        <div class="teame_name">Government</div>
+      </div>
+      <div>
+        <div class="teame_name">Opposition</div>
+      </div>
+   </div>
+   <div class="participant_row">
+      <div id='PM_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='LO_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>  
+   <div class="participant_row">
+      <div id='MG_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='MO_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>
+   <div class="participant_row">
+      <div id='PMR_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='LOR_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>  
 
-  <% _.each(list, function(e,i){ %>
-    <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}" style="float:left;"></div>
-  <% }); %>
+   <p id="audience_list_title">Audiences</p>
+   <div id="audience_list">
+     <ul>
+      <% _.each(list, function(e,i){ %>
+        <li>
+          <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}">
+          </div>
+        </li>
+      <% }); %>
+     </ul>
+   </div>
 </script>
+
 
 
 <script type="text/template" data-template="Asian_Template">
@@ -427,26 +452,61 @@
 
 
 <script type="text/template" data-template="BP_Template">
-  <table class='table table-bordered'>
-   <thead><tr><th>OpeningGovernment</th><th>OpeningOpposition</th></tr></thead>
-   <tbody>
-   <tr><td><div id='PM_Container' data-bind="template: {name: 'user_status_template'}"></div></td>
-   		<td><div id='LO_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   <tr><td><div id='DPM_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
-   		<td><div id='DLO_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   </tbody>
-   <thead><tr><th>ClosintGovernment</th><th>ClosingOpposition</th></tr></thead>
-   <tbody>
-   <tr><td><div id='MG_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
-   		<td><div id='MO_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   <tr><td><div id='GW_Container'  data-bind="template: {name: 'user_status_template'}"></div></td>
-   		<td><div id='OW_Container'  data-bind="template: {name: 'user_status_template'}"></div></td></tr>
-   </tbody>
-  </table>
+   <p id="debater_list_title">Debaters</p>
+   <div class="team_name_row">
+      <div>
+        <div class="teame_name">Opening Government</div>
+      </div>
+      <div>
+        <div class="teame_name">Opening Opposition</div>
+      </div>
+   </div>
+   <div class="participant_row">
+      <div id='PM_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='LO_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>  
+   <div class="participant_row">
+      <div id='DPM_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='DLO_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div>  
 
-  <% _.each(list, function(e,i){ %>
-    <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}" style="float:left;"></div>
-  <% }); %>
+   <div class="team_name_row">
+      <div>
+        <div class="teame_name">Closing Government</div>
+      </div>
+      <div>
+        <div class="teame_name">Closing Opposition</div>
+      </div>
+   </div>
+
+   <div class="participant_row">
+      <div id='MG_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='MO_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div> 
+   <div class="participant_row">
+      <div id='GW_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+      <div id='OW_Container' data-bind="template: {name: 'user_status_template'}">
+      </div>
+   </div> 
+
+   <p id="audience_list_title">Audiences</p>
+   <div id="audience_list">
+     <ul>
+      <% _.each(list, function(e,i){ %>
+        <li>
+          <div id= '<%= e.container_name %>'data-bind="template:{name:'user_status_template'}">
+          </div>
+        </li>
+      <% }); %>
+     </ul>
+   </div>
 </script>
 
 
@@ -523,7 +583,7 @@
       <span id="preparation_time_value"></span>
     </div>
     <div class="direction button">
-      <p>Click here! after all attendance came back and preparation has expired</p>
+      <p>Start after all attendance came back </p>
       <button id="start_debate_button" class="btn btn-success"> Start Debate!</button>
     </div>
   </div>

@@ -33,6 +33,8 @@
 	padding:10px;
 	overflow:auto;
 	overflow-x: hidden;
+	  border-left: 2px solid #c9d0da;
+	  border-right: 2px solid #c9d0da;
 }
 .msg_input{
 	width:100%;
@@ -116,4 +118,11 @@
 	text-align:center;
 	font-size:20px;
 
+}
+
+.msg_footer{
+	  border-top: 1px solid #c9d0da;
+	  border-left: 2px solid #c9d0da;
+	  border-right: 2px solid #c9d0da;
+	  border-bottom: 2px solid #c9d0da;
 }

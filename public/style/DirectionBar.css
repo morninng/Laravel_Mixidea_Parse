@@ -14,20 +14,17 @@
 
 
 #direction_container > div:first-child {
-	margin-top:20px;
+	margin-top:10px;
 
 }
 #direction_container > div:last-child {
-	margin-top:10px;
+	margin-top:5px;
 
 }
 
 #direction_container > div{
 	
 	margin-bottom:10px;
-/*
-	padding-bottom:3px;
-	*/
 }
 
 #preparation_time > p{

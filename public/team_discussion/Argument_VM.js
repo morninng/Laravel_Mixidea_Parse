@@ -3,9 +3,7 @@ function Argument_VM(){
 
 	var self = this;
 
-
 	self.user_editable = ko.observable(false);
-
 	self.argument_title = null;
 	self.argument_context = null;
 	self.link_list = new Array();
@@ -234,7 +232,6 @@ Argument_VM.prototype.update_edit_status = function(){
 			console.log("title editor has set with " + key);
 		}
 	}
-
 }
 
 Argument_VM.prototype.apply_comment_data_from_server = function(){
