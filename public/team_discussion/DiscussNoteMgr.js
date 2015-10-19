@@ -318,6 +318,8 @@ DiscussNoteMgr.prototype.retrieve_updated_content = function(){
   var element_updated = new Array();
   var element_added = new Array();
 
+  console.log("updated_element_counter_all");
+  console.log(updated_element_counter_all)
 
 
   for( updated_key  in updated_element_counter_all ){
@@ -343,6 +345,9 @@ DiscussNoteMgr.prototype.retrieve_updated_content = function(){
   var comment_updated_id_array = new Array();
   var already_updated_arg = new Array();
   var already_updated_comment = new Array()
+
+  console.log("element_to_be_update");
+  console.log(element_to_be_update);
 
   for(var i=0; i<element_to_be_update.length; i++ ){
     if( (element_to_be_update[i].type == "main" || element_to_be_update[i].type == "title") && !arg_updated){

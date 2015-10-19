@@ -113,7 +113,7 @@ function RegisterHangoutEvent(){
 }
 
 function AppMgr() {
-    var self = this;;
+  var self = this;;
   self.hangout_mapping_changed_counter = 0;
   self.hangout_speech_status_counter = 0; 
   self.game_obj_counter = 0;
@@ -123,9 +123,8 @@ function AppMgr() {
   self.transcription_counter = 0
   self.AfterDiscuss_counter = 0
   self.first_update_done = false;
+ // self.handleEvent();
 }
-
-
 
 AppMgr.prototype.update_hangout_status = function(event){
 
@@ -146,8 +145,6 @@ AppMgr.prototype.update_hangout_status = function(event){
     video_view_wrapper.update_from_server();
     self.hangout_speech_status_counter = get_hangout_speech_status_counter();
   }
-
-
 
   if( self.transcription_counter != get_transcription_counter()){
     transcript_box_obj.update_status_from_server();
@@ -246,4 +243,19 @@ AppMgr.prototype.receive_message = function(received_message){
     break;
   }
 }
+/*
+AppMgr.prototype.handleEvent = function(){
+  var self = this;
+  var timer = false;
 
+  $(window).on('resize', function(){
+      if (timer !== false) {
+          clearTimeout(timer);
+      }
+      timer = setTimeout(function() {
+          console.log("window resized");
+      }, 200);
+  });
+
+}
+*/

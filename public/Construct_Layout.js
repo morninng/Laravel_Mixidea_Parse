@@ -47,6 +47,8 @@ Construct_Layout.prototype.update_structure = function(){
 
     break;
   }
+  var parent_size = $("#whole").parent().height();
+  $("#inner_whole").height(parent_size);
 }
 
 

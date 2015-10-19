@@ -91,6 +91,10 @@ Argument_Mgr.prototype.ApplyTemplate = function(obj, argument_id, order_num){
   ko.applyBindings(eval("self.argument_vm_" + argument_id) , argument_el);
 	eval("self.argument_vm_" + argument_id + ".initialize(obj, self.setting)");
 	
+	var parent_size = $("#whole").parent().height();
+	var container_top = $(".argument_element").offset().top;
+	var argument_height = parent_size - container_top;
+	$(".argument_element").height(argument_height);
 
 }
 Argument_Mgr.prototype.addArgument = function(){
@@ -171,7 +175,7 @@ Argument_Mgr.prototype.update_edit_status = function(){
 	var self = this;
 	for(var i=0; i< self.existing_Argument_list.length; i++){
 		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".update_edit_status();");
-		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".show_context();");
+		eval("self.argument_vm_" + self.existing_Argument_list[i] + ".show_context('edit');");
 	}
 
 }

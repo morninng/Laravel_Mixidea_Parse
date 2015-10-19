@@ -245,9 +245,10 @@ Argument_VM.prototype.apply_argument_data_from_server = function(updated_argumen
 
 	var self = this;
 
+	console.log("apply_argument_data_from_server");
 	self.argument_obj =updated_argument_obj;
 	self.update_edit_status();
-	self.show_context();
+	self.show_context("data");
 	self.show_comment_input();
 }
 
@@ -255,7 +256,7 @@ Argument_VM.prototype.show_All = function(){
 
 	var self = this;
 	self.update_edit_status();
-	self.show_context();
+	self.show_context("data");
 	self.show_all_comment();
 	self.show_comment_input();
 }
@@ -264,7 +265,7 @@ Argument_VM.prototype.show_All = function(){
 
 
 
-Argument_VM.prototype.show_context = function(){
+Argument_VM.prototype.show_context = function(from_type){
 	var self = this;
 
 	var title = self.argument_obj.get("title");
@@ -359,12 +360,14 @@ Argument_VM.prototype.show_context = function(){
 	}
 
 ////////////counter managmenet////
-	if(self.main_count != MainCounter){
-	    var parse_id =  self.argument_obj.id;
-	    var obj_type = "main";
-	    var counter_obj = {type:obj_type, count:MainCounter};
-			global_element_counter[parse_id + "_main"] = counter_obj;
-			self.main_count = MainCounter;
+	if(from_type =="data"){
+		if(self.main_count != MainCounter){
+		    var parse_id =  self.argument_obj.id;
+		    var obj_type = "main";
+		    var counter_obj = {type:obj_type, count:MainCounter};
+				global_element_counter[parse_id + "_main"] = counter_obj;
+				self.main_count = MainCounter;
+		}
 	}
 ////////////counter managmenet////
 
@@ -425,7 +428,7 @@ Argument_VM.prototype.check_edit_status = function(){
 		self.arg_content_wrapper_css("textarea_wrapper_default");
 	  self.visible_MainArg_editing_icon(false);
 		self.visible_button_MainArg_save(false);
-		self.show_context();
+	//	self.show_context();
 		if(global_own_edit_element == self.arg_id){
 			util_remove_edit_status();
 			global_own_edit_element = null;
@@ -566,10 +569,13 @@ Argument_VM.prototype.show_all_comment = function(){
 
 Argument_VM.prototype.show_comment_input = function(){
 	var self = this;
-	var main_content = self.main_content();
-	var title = self.title_content();
 
-	if(main_content && title && main_content.length >1 && title.length >1){
+	console.log("show_comment_input");
+
+	var title_set = self.argument_obj.get("title_set");
+	var main_content_set = self.argument_obj.get("main_content_set");
+
+	if(title_set && main_content_set){
 		self.comment_input_visible(true);
 	}else{
 		self.comment_input_visible(false);
