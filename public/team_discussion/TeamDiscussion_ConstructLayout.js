@@ -6,6 +6,10 @@ function ConstructLayout(){
   self.show_motion();
   self.showHangoutButton();
   self.count_timer_start();
+
+  
+  var parent_size = $("#whole").parent().height();
+  $("#inner_whole").height(parent_size);
   
 }
 
