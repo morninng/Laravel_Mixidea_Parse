@@ -6,7 +6,7 @@ function ParticipantMgr(){
 	self.audience_obj_array = new Array();
 	self.participants_obj = new Object();
 	self.game_style = null;
-	self.parse_hangout_idmapping_array = new Object();
+	self.parse_hangout_idmapping_array = new Array();
 	self.role_array = new Array();
 }
 
@@ -136,8 +136,20 @@ ParticipantMgr.prototype.update_hangout_participants = function(){
 
 ParticipantMgr.prototype.update_parseid_hangoutid_mapping = function(){
 	var self = this;
-	var parse_hangout_mapping_array = get_parse_hangout_mapping_data();
-	self.parse_hangout_idmapping_array = parse_hangout_mapping_array;
+
+	var mapping_key = new Array();
+	self.parse_hangout_idmapping_array.length = 0;
+	var participants_array = actual_game_obj.get("participants");
+	if(participants_array){
+		for(var i=0; i< participants_array.length; i++){
+			mapping_key[i] = "mapping_" + participants_array[i].id;
+			var mapping_data_str = gapi.hangout.data.getValue(mapping_key[i]);
+			if(mapping_data_str){
+				var mapping_data = JSON.parse(mapping_data_str);
+				self.parse_hangout_idmapping_array.push(mapping_data);
+			}
+		}
+	}
 }
 
 

@@ -201,7 +201,10 @@ user_status_VM.prototype.join = function(){
 	var self = this;
 	self.button_visible(false);
 
-	participant_obj = actual_game_obj.get("participant_role");
+	var participant_obj = actual_game_obj.get("participant_role");
+	if(!participant_obj){
+		participant_obj = new Object();
+	}
 	if(participant_obj[self.role_name]){
 		alert("this role has been already assigned to others");
 		self.button_visible(true);
@@ -209,13 +212,15 @@ user_status_VM.prototype.join = function(){
 	}
 	participant_obj[self.role_name] = global_own_parse_id;
 
-	audience_array = actual_game_obj.get("audience_participants");
+	var audience_array = actual_game_obj.get("audience_participants");
 	if(audience_array){
   	for(var i=0; i< audience_array.length; i++){
   		if(audience_array[i] == self.own_parse_id){
   			var removed = audience_array.splice(i,1);
   		}
   	}
+	}else{
+		audience_array = new Array();
 	}
 	actual_game_obj.set("participant_role",participant_obj);
 	actual_game_obj.set("audience_participants",audience_array);

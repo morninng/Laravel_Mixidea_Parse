@@ -33,6 +33,7 @@
 
  var participant_table = new ParticipantTableMgr();
  var preparation_time = new PreparationTimer()
+ var debater_bar_obj = new DebaterBar();
 
   window.onload = function(){
     Hangout_Init();
@@ -47,7 +48,7 @@ function Mixidea_init(){
     success: function(obj) {
       actual_game_obj = obj;
       participant_mgr_obj.initialize();
-      update_own_state();
+      add_own_hangoutid();
       layout_obj.update_structure();
       game_status_obj.initialize();
       RegisterHangoutEvent();
@@ -59,35 +60,43 @@ function Mixidea_init(){
   });
 }
 
+function add_own_hangoutid(){
 
-function update_own_state(){
-  var parse_hangout_mapping = get_parse_hangout_mapping_data();
-  var parse_hangout_mapping_update = new Array();
-
-  //filter own mapping data
-  for(var i=0; i<parse_hangout_mapping.length; i++){
-    if(parse_hangout_mapping[i].parse_id != global_own_parse_id){
-      parse_hangout_mapping_update.push(parse_hangout_mapping[i]);
-    }
-  }
+  var own_hangoutid_mapping_obj = new Object();
 
   var own_mapping_data = new Object();
-  own_mapping_data["parse_id"] = global_own_parse_id;
-  own_mapping_data["hangout_id"] = global_own_hangout_id;
-  parse_hangout_mapping_update.push(own_mapping_data);
-
-
-  var parse_hangout_mapping_str_update = JSON.stringify(parse_hangout_mapping_update);
+  var own_mapping_key = "mapping_" + global_own_parse_id;
+  var own_mapping_value = {"parse_id":global_own_parse_id, "hangout_id":global_own_hangout_id};
+  var own_mapping_value_str = JSON.stringify(own_mapping_value);
+  own_hangoutid_mapping_obj[own_mapping_key] = own_mapping_value_str;
 
   var hangout_mapping_counter = get_parse_hangout_mapping_data_counter();
   hangout_mapping_counter++;
   var hangout_mapping_counter_str = String(hangout_mapping_counter);
+  own_hangoutid_mapping_obj["parse_hangout_mapping_counter"] = hangout_mapping_counter_str
 
-  gapi.hangout.data.submitDelta({
-      "parse_hangout_mapping": parse_hangout_mapping_str_update,
-      "parse_hangout_mapping_counter": hangout_mapping_counter_str
-  });
+  gapi.hangout.data.submitDelta(own_hangoutid_mapping_obj);
 }
+
+function is_own_hangoutid(){
+
+  var own_mapping_key = "mapping_" + global_own_parse_id;
+  var own_mapping_data_str = gapi.hangout.data.getValue(own_mapping_key);
+  if(!own_mapping_data_str){
+    console.log("mapping data data do not exist");
+    return false;
+  }
+  var own_mapping_data =  JSON.parse(own_mapping_data_str);
+  var hangout_id = own_mapping_data["hangout_id"];
+  if(hangout_id != global_own_hangout_id){
+    console.log("no own mapping data");
+    return false;
+  }
+  console.log("own hangout mapping data exist");
+  return true;
+}
+
+
 
 
 function Hangout_Init() {
@@ -129,6 +138,10 @@ function AppMgr() {
 AppMgr.prototype.update_hangout_status = function(event){
 
   var self = this;
+
+  if(!is_own_hangoutid()){
+    add_own_hangoutid();
+  }
 
   if(self.first_update_done == false ||   self.hangout_mapping_changed_counter != get_parse_hangout_mapping_data_counter()){
 
@@ -173,12 +186,15 @@ AppMgr.prototype.update_hangout_status = function(event){
 
   if(self.first_update_done == false || self.parse_data_changed_counter != get_parse_data_changed_counter()){
 //  if(true){
+    
+
     var Game = Parse.Object.extend("Game");
     var game_query = new Parse.Query(Game);
     game_query.include("participants");
     game_query.get(global_debate_game_id, {
       success: function(obj) {
         actual_game_obj = obj;
+        participant_mgr_obj.update_parseid_hangoutid_mapping();
         participant_mgr_obj.update_parse_data();
         layout_obj.update_from_server();
 
@@ -212,8 +228,8 @@ AppMgr.prototype.participants_change = function(participant_change){
   var game_query = new Parse.Query(Game);
   game_query.include("participants");
   game_query.get(global_debate_game_id, {
-    success: function(actual_game_obj) {
-      actual_game_obj = actual_game_obj;
+    success: function(obj) {
+      actual_game_obj = obj;
       participant_mgr_obj.update_parse_data();  
       participant_table.update_table_from_server();
       video_view_wrapper.update_from_server();

@@ -26,7 +26,8 @@ Construct_Layout.prototype.update_structure = function(){
 
 	if(!self.first_layout_construction){
   	self.construct_common_layout();
-    self.first_layout_construction = true;
+  }else{
+    sound_mgr.play_sound_Cursol();
   }
 
 
@@ -49,6 +50,9 @@ Construct_Layout.prototype.update_structure = function(){
   }
   var parent_size = $("#whole").parent().height();
   $("#inner_whole").height(parent_size);
+
+  self.first_layout_construction = true;
+
 }
 
 
@@ -90,6 +94,7 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   title_view_model_wrapper.remove_fixed_title("#top_left");
   discussion_note_obj.removeAll();
   video_view_wrapper.remove_SpeakerView();
+  debater_bar_obj.Delete();
 
 
   $("#container_main_left_above_right").width(250);
@@ -127,6 +132,7 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   discussion_note_obj.removeAll();
   video_view_wrapper.remove_SpeakerView();
   transcript_box_obj.hide();
+  debater_bar_obj.Delete();
 
 
 /* adjust the structure*/
@@ -224,6 +230,7 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   transcript_box_obj.show("#absolute_pain_2");
 
   chat_wrapper_obj.create("#absolute_pain_1");
+  debater_bar_obj.CreateBar("#absolute_pain_3");
 
 }
 
@@ -242,6 +249,7 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
   video_view_wrapper.remove_SpeakerView();
   video_view_wrapper.hide_video();
   chat_wrapper_obj.remove();
+  debater_bar_obj.Delete();
 
 /* adjust the structure*/
   $("#container_main_left_above_right").html(null);
@@ -268,7 +276,6 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
   var goto_complete_element = $("#top_right");
   var GotoComplete_html_text = GotoComplete_Template();
   goto_complete_element.html(GotoComplete_html_text);
-
 
 
   discussion_note_obj.CreateLayout_reflection("#container_main_right");

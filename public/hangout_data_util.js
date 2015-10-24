@@ -7,26 +7,8 @@ function get_parse_hangout_mapping_data_counter(){
     return counter;
   }
   return 0;
-
-
-  return counter;
 }
 
-function get_parse_hangout_mapping_data(){
-
-  var parse_hangout_mapping_str = gapi.hangout.data.getValue("parse_hangout_mapping");
-  var parse_hangout_mapping_array;
-
-  if(parse_hangout_mapping_str){
-    parse_hangout_mapping_array = JSON.parse(parse_hangout_mapping_str);
-  }else{
-    parse_hangout_mapping_array = new Array();
-  }
-  console.log("parse_hangout_mapping" + parse_hangout_mapping_array)
-
-  return parse_hangout_mapping_array;
-
-}
 
 
 

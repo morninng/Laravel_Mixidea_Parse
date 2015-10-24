@@ -1,0 +1,31 @@
+
+#debater_box{
+	right:0px;
+	top:0px;
+	position:fixed;
+	max-width:40px;
+	height:100%;
+	background-color:#F0FFF0;
+	z-index: 1;
+	border-style: solid;
+	border-width:1px 0px 1px 1px;
+	border-color: #0000FF;
+}
+.side_role_name{
+	font-weight:bold;
+	padding-left:2px;
+}
+
+.side_debater_name{
+	width:100%;
+	font-style:italic;
+	text-align:right;
+	padding-right:3px;
+}
+.side_role_box{
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-top:5px;
+	padding-bottom:5px;
+	border-radius:5px 5px 5px 5px;
+}

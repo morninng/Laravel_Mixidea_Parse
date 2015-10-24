@@ -11,8 +11,10 @@ function SoundMgr(){
 
 SoundMgr.prototype.play_sound_poi = function(){
   var self = this;
+  if(!self.poi_sound){
+    return;
+  }
   self.poi_sound.start(0);
-
   self.poi_sound = self.context.createBufferSource();
   self.poi_sound.buffer = self.poi_persisted_sound_buffer;
   self.poi_sound.connect(self.context.destination);
@@ -20,6 +22,9 @@ SoundMgr.prototype.play_sound_poi = function(){
 
 SoundMgr.prototype.play_sound_heahear = function(){
   var self = this;
+  if(!self.hearhear_sound){
+    return;
+  }
   self.hearhear_sound.start(0);
 
   self.hearhear_sound = self.context.createBufferSource();
@@ -30,8 +35,10 @@ SoundMgr.prototype.play_sound_heahear = function(){
 
 SoundMgr.prototype.play_sound_booboo = function(){
   var self = this;
+  if(!self.booboo_sound){
+    return;
+  }
   self.booboo_sound.start(0);
-
   self.booboo_sound = self.context.createBufferSource();
   self.booboo_sound.buffer = self.booboo_persisted_sound_buffer;
   self.booboo_sound.connect(self.context.destination);
@@ -39,8 +46,10 @@ SoundMgr.prototype.play_sound_booboo = function(){
 
 SoundMgr.prototype.play_sound_poi_finish = function(){
   var self = this;
+  if(!self.poi_finish_sound){
+    return;
+  }
   self.poi_finish_sound.start(0);
-
   self.poi_finish_sound = self.context.createBufferSource();
   self.poi_finish_sound.buffer = self.poi_finish_persisted_sound_buffer;
   self.poi_finish_sound.connect(self.context.destination);
@@ -48,12 +57,70 @@ SoundMgr.prototype.play_sound_poi_finish = function(){
 
 SoundMgr.prototype.play_sound_taken = function(){
   var self = this;
+  if(!self.taken_sound){
+    return;
+  }
   self.taken_sound.start(0);
-
   self.taken_sound = self.context.createBufferSource();
   self.taken_sound.buffer = self.taken_persisted_sound_buffer;
   self.taken_sound.connect(self.context.destination);
 }
+
+SoundMgr.prototype.play_sound_PinOne = function(){
+  var self = this;
+  if(!self.PinOne_sound){
+    return;
+  }
+  self.PinOne_sound.start(0);
+  self.PinOne_sound = self.context.createBufferSource();
+  self.PinOne_sound.buffer = self.PinOne_persisted_sound_buffer;
+  self.PinOne_sound.connect(self.context.destination);
+}
+SoundMgr.prototype.play_sound_PinTwo = function(){
+  var self = this;
+  if(!self.PinTwo_sound){
+    return;
+  }
+  self.PinTwo_sound.start(0);
+  self.PinTwo_sound = self.context.createBufferSource();
+  self.PinTwo_sound.buffer = self.PinTwo_persisted_sound_buffer;
+  self.PinTwo_sound.connect(self.context.destination);
+}
+SoundMgr.prototype.play_sound_PinThree = function(){
+  var self = this;
+  if(!self.PinThree_sound){
+    return;
+  }
+  self.PinThree_sound.start(0);
+  self.PinThree_sound = self.context.createBufferSource();
+  self.PinThree_sound.buffer = self.PinThree_persisted_sound_buffer;
+  self.PinThree_sound.connect(self.context.destination);
+}
+
+SoundMgr.prototype.play_sound_Cursol = function(){
+  var self = this;
+  if(!self.cursol_sound){
+    return;
+  }
+  self.cursol_sound.start(0);
+  self.cursol_sound = self.context.createBufferSource();
+  self.cursol_sound.buffer = self.Cursol_persisted_sound_buffer;
+  self.cursol_sound.connect(self.context.destination);
+}
+
+SoundMgr.prototype.play_sound_speech_start = function(){
+  var self = this;
+  if(!self.SpeechStart_sound){
+    return;
+  }
+  self.SpeechStart_sound.start(0);
+
+  self.SpeechStart_sound = self.context.createBufferSource();
+  self.SpeechStart_sound.buffer = self.SpeechStart_persisted_sound_buffer;
+  self.SpeechStart_sound.connect(self.context.destination);
+}
+
+
 
 SoundMgr.prototype.init = function(){
 
@@ -64,11 +131,16 @@ SoundMgr.prototype.init = function(){
 
   self.bufferLoader = new BufferLoader(
   	self.context,
-    ['https://s3.amazonaws.com/mixidea/poi3.wav',
-     'https://s3.amazonaws.com/mixidea/hearhear.wav',
-     'https://s3.amazonaws.com/mixidea/booboo.wav',
-     'https://s3.amazonaws.com/mixidea/taken.wav',
-     'https://s3.amazonaws.com/mixidea/poi_finish.wav'
+    ['https://s3.amazonaws.com/mixidea/pointofinformation.mp3',
+     'https://s3.amazonaws.com/mixidea/hearhear.mp3',
+     'https://s3.amazonaws.com/mixidea/shame.mp3',
+     'https://s3.amazonaws.com/mixidea/taken.mp3',
+     'https://s3.amazonaws.com/mixidea/gobacktospeaker.mp3',
+     'https://s3.amazonaws.com/mixidea/OnePin.mp3',
+     'https://s3.amazonaws.com/mixidea/TwoPin.mp3',
+     'https://s3.amazonaws.com/mixidea/ThreePin.mp3',
+     'https://s3.amazonaws.com/mixidea/cursor1.mp3',
+     'https://s3.amazonaws.com/mixidea/speech_start.mp3'
      ],
     self.finishedLoading
   );
@@ -84,6 +156,11 @@ SoundMgr.prototype.finishedLoading = function(bufferList) {
   self.booboo_sound = self.context.createBufferSource();
   self.taken_sound = self.context.createBufferSource();
   self.poi_finish_sound = self.context.createBufferSource();
+  self.PinOne_sound = self.context.createBufferSource();
+  self.PinTwo_sound = self.context.createBufferSource();
+  self.PinThree_sound = self.context.createBufferSource();
+  self.cursol_sound = self.context.createBufferSource();
+  self.SpeechStart_sound = self.context.createBufferSource();
 
   self.poi_sound.buffer = bufferList[0];
   self.poi_persisted_sound_buffer = bufferList[0];
@@ -95,12 +172,27 @@ SoundMgr.prototype.finishedLoading = function(bufferList) {
   self.taken_persisted_sound_buffer = bufferList[3];
   self.poi_finish_sound.buffer = bufferList[4];
   self.poi_finish_persisted_sound_buffer = bufferList[4];
+  self.PinOne_sound.buffer = bufferList[5];
+  self.PinOne_persisted_sound_buffer = bufferList[5];
+  self.PinTwo_sound.buffer = bufferList[6];
+  self.PinTwo_persisted_sound_buffer = bufferList[6];
+  self.PinThree_sound.buffer = bufferList[7];
+  self.PinThree_persisted_sound_buffer = bufferList[7];
+  self.cursol_sound.buffer = bufferList[8];
+  self.Cursol_persisted_sound_buffer = bufferList[8];
+  self.SpeechStart_sound.buffer = bufferList[9];
+  self.SpeechStart_persisted_sound_buffer = bufferList[9];
 
   self.poi_sound.connect(self.context.destination);
   self.hearhear_sound.connect(self.context.destination);
   self.booboo_sound.connect(self.context.destination);
   self.taken_sound.connect(self.context.destination);
   self.poi_finish_sound.connect(self.context.destination);
+  self.PinOne_sound.connect(self.context.destination);
+  self.PinTwo_sound.connect(self.context.destination);
+  self.PinThree_sound.connect(self.context.destination);
+  self.cursol_sound.connect(self.context.destination);
+  self.SpeechStart_sound.connect(self.context.destination);
 
 }
 

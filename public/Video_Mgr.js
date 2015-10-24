@@ -11,7 +11,6 @@ VideoViewWrapper.prototype.update_from_server = function(){
     return;
   }
   self.video_speaker_vm.update();
-
 }
 
 
@@ -31,8 +30,6 @@ VideoViewWrapper.prototype.show_defaultView = function(el_name){
 
   self.video_default_vm = new DefultVideoView();
   self.video_default_vm.create(el_name);
-
-
 }
 VideoViewWrapper.prototype.remove_defaultView = function(){
 
@@ -61,12 +58,14 @@ VideoViewWrapper.prototype.show_SpeakerView = function(el_name){
   self.video_speaker_vm.update();
 }
 
+
 VideoViewWrapper.prototype.remove_SpeakerView = function(){
 
   var self = this;
   if(!self.video_speaker_vm){
     return;
   }
+  self.video_speaker_vm.StopTimer();
   ko.cleanNode(self.video_el);
   self.video_element.html(null);
   self.video_element = null
@@ -369,12 +368,15 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.StartTimer( speaker_obj.hangout_id );
     self.show_Speaker(speaker_obj, "speaker");
     self.OthersSpeechHaneler(speaker_obj, "speaker");
+    self.SpeechStart_sound(); 
   }else{
     self.StopTimer();
     self.show_Speaker(null, "discussion");
     self.OwnSpeechHaneler(null, "discussion");
     self.OthersSpeechHaneler(null, "discussion");
+    self.current_speaker_role = null;
   }
+  debater_bar_obj.update_speaker();
 }
 
  VideoViewModel.prototype.OwnSpeechHaneler = function(speaker_obj, type){
@@ -456,8 +458,17 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
       console.log("start timer is" + self.timer);
     }
   }
-
 }
+
+ VideoViewModel.prototype.SpeechStart_sound = function(hangout_id){
+
+  var self = this;
+  if(self.current_speaker != hangout_id){
+    sound_mgr.play_sound_speech_start();
+  }
+}
+
+
 
  VideoViewModel.prototype.get_current_time = function(){
   var self = this;
@@ -482,10 +493,20 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   var timer_str = minutes + "min " + second + "sec";
   //self.speech_time(timer_msg);
 
+  if(minutes == 1 && second == 0|| minutes ==6 && second == 0){
+    sound_mgr.play_sound_PinOne();
+    console.log("one minutes");
+  }else if(minutes ==6 && second == 0){
+    sound_mgr.play_sound_PinOne();
+    console.log("two minutes");
+  }else if(minutes == 7  && second == 0){
+    sound_mgr.play_sound_PinTwo();
+    console.log("seven minutes");
+  }else if(minutes == 7  && second == 30){
+    sound_mgr.play_sound_PinThree();
+    console.log("seven and half minutes");
+  }
   self.timer_value(timer_str);
-
-
-
  }
 
  VideoViewModel.prototype.StopTimer = function(){
@@ -494,7 +515,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   //self.speech_time("");
   self.timer_value("");
   self.timer_prefix("");
-  console.log("clear timer is" + self.timer);
+  console.log("clear timer is called" + self.timer);
   clearInterval(self.timer);
   self.timer = null;
  }
