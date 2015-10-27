@@ -68,7 +68,6 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
         }
       obj["element"] = "#argument_pain" + link_name_list[i];
       obj["team_name"] = link_name_list[i];
-      obj["element"] = "#argument_pain" + link_name_list[i];
       Arg_setting_array.push(obj);
     }
     discussion_note_setting = {Arg:Arg_setting_array};
@@ -78,12 +77,20 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
     for(var i=0; i< link_name_list.length; i++){
 
       var active = "";
+      /*
       if(i==0){
         active = "active";
       }
+      */
       var tab_obj = {name:link_name_list[i],active_str:active};
       tab_obj_array.push(tab_obj);
     }
+
+    var note_take_tab_name = "NoteTaking"
+    var note_take_tab_obj = {name:note_take_tab_name, active_str:"active"};
+    tab_obj_array.push(note_take_tab_obj);
+
+
   //  var data = { team_list:tab_obj_array};
 
     template_name = "discussion_multiple_template";
@@ -100,7 +107,7 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
     Arg:[
         {
           team_name:own_goup_name, 
-          element:"#argument_pain",
+          element:"#argument_pain" + own_goup_name,
           template:"argument_template",
           comment_query_array:[own_goup_name],
           user_editable:true
@@ -108,13 +115,35 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
       ]
     }
 
+
+    var tab_obj_array = new Array();
+    var tab_obj = {name:[own_goup_name],active_str:"active"};
+    tab_obj_array.push(tab_obj);
+
+    var note_take_tab_name = "NoteTaking"
+    var note_take_tab_obj = {name:note_take_tab_name, active_str:""};
+    tab_obj_array.push(note_take_tab_obj);
+
+
 /*create template*/
+
+
+    template_name = "discussion_multiple_template";
+    temp_name = "[data-template='" + template_name + "']";
+    var DiscussTab_Template = _.template($(temp_name).html());
+    self.discussion_element = $(el_name);
+    var discussion_tab_html_text = DiscussTab_Template({list:tab_obj_array});
+    self.discussion_element.html(discussion_tab_html_text);
+
+
+/*
     template_name = "discussion_single_template";
     var temp_name = "[data-template='" + template_name + "']";
     var discussion_Note_Template = _.template($(temp_name).html());
     self.discussion_element = $(el_name);
     var discussion_note_html_text = discussion_Note_Template();
     self.discussion_element.html(discussion_note_html_text);
+*/
   }
 
 
@@ -170,6 +199,10 @@ DiscussNoteWrapper.prototype.CreateLayout_reflection = function(el_name){
     var tab_obj = {name:link_name_list[i],active_str:active};
     tab_obj_array.push(tab_obj);
   }
+
+  var note_take_tab_name = "NoteTaking"
+  var note_take_tab_obj = {name:note_take_tab_name, active_str:""};
+  tab_obj_array.push(note_take_tab_obj);
 
   var summary_tab_name = "PostGameOpinion";
   var summary_tab_obj = {name:summary_tab_name, active_str:"active"};

@@ -92,6 +92,8 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   impression_wrapper_obj.remove();
   link_to_teamdisucuss_obj.remove_Link();
   title_view_model_wrapper.remove_fixed_title("#top_left");
+  after_debate_obj.remove();
+  note_take_obj.remove();
   discussion_note_obj.removeAll();
   video_view_wrapper.remove_SpeakerView();
   debater_bar_obj.Delete();
@@ -129,6 +131,8 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
 /*remove unnecessary object*/
   title_view_model_wrapper.remove_fixed_title("#top_left");
   impression_wrapper_obj.remove();
+  after_debate_obj.remove();
+  note_take_obj.remove();
   discussion_note_obj.removeAll();
   video_view_wrapper.remove_SpeakerView();
   transcript_box_obj.hide();
@@ -198,8 +202,8 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   $("#container_main_left_above_right").css('display','none');
   $("#container_main_left_below").html(null);
   $("#container_main_left_below").css('display','none');
-  $("#container_main").width(1200);
-  $("#container_main_right").width(900);
+  $("#container_main").width(1000);
+  $("#container_main_right").width(700);
 
 
 /*update the status bar*/
@@ -223,6 +227,7 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   impression_wrapper_obj.add("#container_main_left_above_left_below");
 
   discussion_note_obj.CreateLayout_debating("#container_main_right");
+  note_take_obj.createDom("#argument_painNoteTaking");
 
   $("#container_main_left_above_left").width(300);
   video_view_wrapper.show_SpeakerView("#container_main_left_above_left_up");
@@ -260,8 +265,8 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
   $("#container_main_left_above").css('display','none');
  // $("#container_main_left").html(null);
   $("#container_main_left").css('display','none');
-  $("#container_main").width(1200);
-  $("#container_main_right").width(1200);
+  $("#container_main").width('100%');
+  $("#container_main_right").width('100%');
 
 
 /*update the status bar*/
@@ -280,6 +285,7 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
 
   discussion_note_obj.CreateLayout_reflection("#container_main_right");
   after_debate_obj.create("#argument_painPostGameOpinion");
+  note_take_obj.createDom("#argument_painNoteTaking");
 
 
   title_view_model_wrapper.update_fixed_title("#top_left");

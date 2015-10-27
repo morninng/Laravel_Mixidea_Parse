@@ -28,6 +28,7 @@
  var transcript_box_obj = new transcript_box_wrapper();
 
  var after_debate_obj = new AfterDebateTabWrapper();
+ var note_take_obj = new NoteTakingTabWrapper();
 
  var chat_wrapper_obj = new ChatVM_wrapper();
 

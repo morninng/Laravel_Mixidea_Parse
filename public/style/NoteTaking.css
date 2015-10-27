@@ -1,0 +1,155 @@
+
+#after_discuss_container{
+	background-color:#F0F8FF;
+
+}
+.note_take_top{
+	display:flex;
+	padding-right:30px;
+}
+.note_take_top div:last-child{
+	margin-left: auto;
+}
+
+.note_take_title{
+	font-size: large;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.note_take_content_box{
+	display:flex;
+}
+.note_take_edit_box{
+	border:solid 1px;
+	padding:5px;
+}
+
+.note_take_button_style{
+	border:solid 1px;
+	padding:10px;
+}
+.note_take_button_style button:first-child{
+	display:inline-block;
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-left:13px;
+	padding-right:13px;
+	margin-bottom:2px;
+}
+.note_take_button_style button:last-child{
+	display:inline-block;
+	padding-top:2px;
+	padding-bottom:2px;
+	padding-left:1px;
+	padding-right:1px;
+}
+
+
+.note_take_content_style{
+	border:solid 1px;
+	flex:1;
+	padding: 3px;
+}
+.note_take_content_style p{
+	margin-bottom:2px;
+}
+
+.note_take_add_style{
+	display:flex;
+}
+.note_take_edit_style{
+	width:100%;
+	justify-content:flex-end;
+	display:flex;
+	padding-right:30px;
+	padding-top:5px;
+	padding-bottom:10px;
+}
+.note_take_edit_style input{
+	display:inline-block;
+	margin-left:20px !important;
+}
+.note_take_edit_style button{
+	display:inline-block;
+	margin-left:20px !important;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+
+.refute_box p{
+	color:red;
+	font-weight:bold;
+
+}
+.refute_box div:last-child{
+	background-color:#FFF0F5;
+}
+.note_box p{
+	color:blue;
+	font-weight:bold;
+}
+.note_box div:last-child{
+	background-color:#E0FFFF;
+}
+.evaluation_box p{
+	color:green;
+	font-weight:bold;
+}
+.evaluation_box div:last-child{
+	background-color:#98FB98;
+}
+
+.input_note{
+	color:blue;
+	font-weight:bold;
+}
+.input_evaluation{
+	color:green;
+	font-weight:bold;
+}
+.input_refute{
+	color:red;
+	font-weight:bold;
+}
+
+.score_range_input{
+	display:inline-block !important;
+	width:300px !important;
+}
+
+.range_container{
+	width:400px;
+	text-align:center;
+}
+.range_container input{
+	margin-left:20px;
+	margin-right:20px;
+	}
+
+ .score_message_style{
+	text-align:center;
+ }
+
+ .range_score{
+	color:red;
+	font-weight:bold;
+ }
+
+ .score_title{
+ 	font-weight:bold;
+ }
+
+.note_take_textbox_style{
+	padding:10px;
+	border-style: solid;
+	border-width: medium;
+	min-height: 200px;
+	width: 100%;
+	background-color: #FFFFFF;
+}
+
+.own_memo_style{
+	font-style:italic;
+	color:red;
+}

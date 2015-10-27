@@ -377,6 +377,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.current_speaker_role = null;
   }
   debater_bar_obj.update_speaker();
+  note_take_obj.update_speaker();
 }
 
  VideoViewModel.prototype.OwnSpeechHaneler = function(speaker_obj, type){
