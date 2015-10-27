@@ -140,7 +140,7 @@ var convert_table = {
 	LOReply:"LOR",
 	DeptyPrimeMinister:"DPM",
 	DeptyLeaderOpposition:"DLO",
-	GovermentWhip:"GW",
+	GovernmentWhip:"GW",
 	OppositionWhip:"OW",
 	GovermentReply:"GR",
 	OppositionReply:"OR"
