@@ -284,7 +284,7 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
 
 
   discussion_note_obj.CreateLayout_reflection("#container_main_right");
-  after_debate_obj.create("#argument_painPostGameOpinion");
+  after_debate_obj.create("#argument_painReflection");
   note_take_obj.createDom("#argument_painNoteTaking");
 
 

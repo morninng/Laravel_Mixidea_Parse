@@ -8,8 +8,8 @@
   </ModulePrefs>
   <Content type="html">
 
-<![CDATA[ 
 
+<![CDATA[ 
 
 <script type="text/javascript" src="//plus.google.com/hangouts/_/api/v1/hangout.js">
 </script>
@@ -38,6 +38,7 @@
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/AfterDiscuss.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/debater_bar.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/NoteTaking.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/custom_tab.css">
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -112,20 +113,20 @@
 
 <script type="text/template" data-template="discussion_multiple_template">
   <div id="discussion_note_container">
-    <div role="tabpanel">
-      <ul class="nav nav-tabs" role="tablist">
-        <% _.each(list, function(e,i){ %>
-          <li class="<%= e.active_str %> tab_name_font"><a class="own_tab_property" href="#<%= e.name %>" aria-controls="<%= e.name %>" data-toggle="tab"><%= e.name %></a></li>
-        <% });%>
-      </ul>
-      <div class="tab-content">
-        <% _.each(list, function(e,i){ %>
-        <div role="tabpanel" class="tab-pane <%= e.active_str %>" id="<%= e.name %>">
+    <ul class="nav_tabs_custom">
+      <% _.each(list, function(e,i){ %>
+        <li id="<%= e.name %>_tab" class="<%= e.active_str %>">
+          <a  onclick="ChangeTab('#<%= e.name %>_tab', '#<%= e.name %>_content');" ><%= e.tab_description %></a>
+        </li>
+      <% });%>
+    </ul>
+    <div class="tab_content_custom">
+      <% _.each(list, function(e,i){ %>
+        <div class="tab_pane_custom <%= e.active_str %>" id="<%= e.name %>_content">
           <div id="argument_pain<%= e.name %>">
           </div>
         </div>
-        <% });%>
-      </div>
+      <% });%>
     </div>
   </div>
 </script>
@@ -1003,9 +1004,6 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/Construct_Layout.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Game_Status_Mgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Main.js"></script>
-
-
-
 
 ]]>
 

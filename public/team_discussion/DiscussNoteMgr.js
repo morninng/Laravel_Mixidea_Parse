@@ -72,26 +72,17 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
     }
     discussion_note_setting = {Arg:Arg_setting_array};
 
-    /*create template*/
+    /*create tab template*/
     var tab_obj_array = new Array();
     for(var i=0; i< link_name_list.length; i++){
 
-      var active = "";
-      /*
-      if(i==0){
-        active = "active";
-      }
-      */
-      var tab_obj = {name:link_name_list[i],active_str:active};
+      var description = link_name_list[i] + " Argument"
+      var tab_obj = {name:link_name_list[i],tab_description:description,active_str:""};
       tab_obj_array.push(tab_obj);
     }
 
-    var note_take_tab_name = "NoteTaking"
-    var note_take_tab_obj = {name:note_take_tab_name, active_str:"active"};
+    var note_take_tab_obj = {name:"NoteTaking",tab_description:"Own note", active_str:"active"};
     tab_obj_array.push(note_take_tab_obj);
-
-
-  //  var data = { team_list:tab_obj_array};
 
     template_name = "discussion_multiple_template";
     temp_name = "[data-template='" + template_name + "']";
@@ -115,18 +106,14 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
       ]
     }
 
-
+/*create tab template*/
     var tab_obj_array = new Array();
-    var tab_obj = {name:[own_goup_name],active_str:"active"};
+    var description = own_goup_name + " Argument"
+    var tab_obj = {name:own_goup_name,tab_description:description,active_str:""};
     tab_obj_array.push(tab_obj);
 
-    var note_take_tab_name = "NoteTaking"
-    var note_take_tab_obj = {name:note_take_tab_name, active_str:""};
+    var note_take_tab_obj = {name:"NoteTaking",tab_description:"Own note", active_str:"active"};
     tab_obj_array.push(note_take_tab_obj);
-
-
-/*create template*/
-
 
     template_name = "discussion_multiple_template";
     temp_name = "[data-template='" + template_name + "']";
@@ -135,21 +122,8 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
     var discussion_tab_html_text = DiscussTab_Template({list:tab_obj_array});
     self.discussion_element.html(discussion_tab_html_text);
 
-
-/*
-    template_name = "discussion_single_template";
-    var temp_name = "[data-template='" + template_name + "']";
-    var discussion_Note_Template = _.template($(temp_name).html());
-    self.discussion_element = $(el_name);
-    var discussion_note_html_text = discussion_Note_Template();
-    self.discussion_element.html(discussion_note_html_text);
-*/
   }
-
-
-
   self.discussion_note_obj.initialize(discussion_note_setting);
-
 
 }
 
@@ -190,23 +164,17 @@ DiscussNoteWrapper.prototype.CreateLayout_reflection = function(el_name){
   var tab_obj_array = new Array();
   for(var i=0; i< link_name_list.length; i++){
 
-    var active = "";
-    /*
-    if(i==0){
-      active = "active";
-    }
-    */
-    var tab_obj = {name:link_name_list[i],active_str:active};
-    tab_obj_array.push(tab_obj);
+      var description = link_name_list[i] + " Argument"
+      var tab_obj = {name:link_name_list[i],tab_description:description,active_str:""};
+      tab_obj_array.push(tab_obj);
   }
 
-  var note_take_tab_name = "NoteTaking"
-  var note_take_tab_obj = {name:note_take_tab_name, active_str:""};
+  var note_take_tab_obj = {name:"NoteTaking",tab_description:"Own note", active_str:""};
   tab_obj_array.push(note_take_tab_obj);
 
-  var summary_tab_name = "PostGameOpinion";
-  var summary_tab_obj = {name:summary_tab_name, active_str:"active"};
-  tab_obj_array.push(summary_tab_obj);
+
+  var reflection_tab_obj = {name:"Reflection",tab_description:"Reflection Summary", active_str:"active"};
+  tab_obj_array.push(reflection_tab_obj);
 
   template_name = "discussion_multiple_template";
   temp_name = "[data-template='" + template_name + "']";
@@ -423,3 +391,12 @@ self.arg_id, "title" "main"
 
 */
 
+function ChangeTab(tab_name, tab_content_name){
+
+
+  $('.tab_pane_custom' ).removeClass('active');
+  $( tab_content_name ).addClass('active');
+  $('.nav_tabs_custom li' ).removeClass('active');
+  $(tab_name).addClass('active');
+
+}

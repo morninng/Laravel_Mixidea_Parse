@@ -366,9 +366,9 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.current_speaker_role = speaker_obj.role;
     self.OwnSpeechHaneler(speaker_obj, "speaker");
     self.StartTimer( speaker_obj.hangout_id );
+    self.SpeechStart_sound(speaker_obj.hangout_id); 
     self.show_Speaker(speaker_obj, "speaker");
     self.OthersSpeechHaneler(speaker_obj, "speaker");
-    self.SpeechStart_sound(speaker_obj.hangout_id); 
   }else{
     self.StopTimer();
     self.show_Speaker(null, "discussion");
