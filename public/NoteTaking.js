@@ -438,7 +438,7 @@ NoteTaking.prototype.score_input = function(){
 		var score_obj = new Score();
 		score_obj.set("game_id", global_debate_game_id);
 		score_obj.set("scorer_id", global_own_parse_id);
-		score_obj.set("player_id", "AAAA");
+		score_obj.set("player_id", self.speaker_parse_id);
 		score_obj.set("role_name", self.role_name);
 		score_obj.set("score", score);
 		score_obj.save(null, {
