@@ -20,11 +20,19 @@
 	flex-direction:row;
 	margin-bottom:0px;
 	justify-content:space-around;
+	margin-right: auto;
+	padding-left: 10px;
+	flex-wrap:wrap;
 }
 
 #start_speech ul li{
 	display:inline-block;
 	margin:10px;
+}
+#start_speech button{
+	padding-right:2px !important;
+	padding-left:2px !important;
+
 }
 
 
