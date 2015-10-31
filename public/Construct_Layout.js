@@ -48,9 +48,10 @@ Construct_Layout.prototype.update_structure = function(){
 
     break;
   }
-  var parent_size = $("#whole").parent().height();
+  /*
+  var parent_size = $("#whole").parent().height() + ;
   $("#inner_whole").height(parent_size);
-
+*/
   self.first_layout_construction = true;
 
 }
@@ -81,10 +82,20 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   $("#container_main").width(1000);
 
 /*update the status bar*/
-  $("#status_reflec").removeClass("status_bar_element_selected");
-  $("#status_reflec").addClass("status_bar_element");
-  $("#status_intro").removeClass("status_bar_element");
+  $(".status_bar").removeClass("status_bar_element");
+  $(".status_bar").removeClass("status_bar_element_last");
+  $(".status_bar").removeClass("status_bar_element_selected");
+  $(".status_bar").removeClass("status_bar_element_last_selected");
+  $(".status_bar").removeClass("status_bar_element_smaller");
+  $(".status_bar").removeClass("status_bar_element_last_smaller");
+  $(".status_bar").removeClass("status_bar_element_selected_smaller");
+  $(".status_bar").removeClass("status_bar_element_last_selected_smaller");
+
   $("#status_intro").addClass("status_bar_element_selected");
+  $("#status_prep").addClass("status_bar_element");
+  $("#status_debate").addClass("status_bar_element");
+  $("#status_reflec").addClass("status_bar_element");
+  $("#status_complete").addClass("status_bar_element_last");
 
 /*remove unnecessary object*/
   transcript_box_obj.hide();
@@ -146,11 +157,22 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
 
 
 /*update the status bar*/
-  $("#status_intro").removeClass("status_bar_element_selected");
-  $("#status_intro").addClass("status_bar_element");
-  $("#status_prep").removeClass("status_bar_element");
-  $("#status_prep").addClass("status_bar_element_selected");
 
+
+  $(".status_bar").removeClass("status_bar_element");
+  $(".status_bar").removeClass("status_bar_element_last");
+  $(".status_bar").removeClass("status_bar_element_selected");
+  $(".status_bar").removeClass("status_bar_element_last_selected");
+  $(".status_bar").removeClass("status_bar_element_smaller");
+  $(".status_bar").removeClass("status_bar_element_last_smaller");
+  $(".status_bar").removeClass("status_bar_element_selected_smaller");
+  $(".status_bar").removeClass("status_bar_element_last_selected_smaller");
+
+  $("#status_intro").addClass("status_bar_element");
+  $("#status_prep").addClass("status_bar_element_selected");
+  $("#status_debate").addClass("status_bar_element");
+  $("#status_reflec").addClass("status_bar_element");
+  $("#status_complete").addClass("status_bar_element_last");
 
 
   $("#container_main_left_above_right").width(250);
@@ -208,10 +230,21 @@ Construct_Layout.prototype.construct_layout_debate = function(){
 
 /*update the status bar*/
 
-  $("#status_prep").removeClass("status_bar_element_selected");
-  $("#status_prep").addClass("status_bar_element");
-  $("#status_debate").removeClass("status_bar_element");
-  $("#status_debate").addClass("status_bar_element_selected");
+  $(".status_bar").removeClass("status_bar_element");
+  $(".status_bar").removeClass("status_bar_element_last");
+  $(".status_bar").removeClass("status_bar_element_selected");
+  $(".status_bar").removeClass("status_bar_element_last_selected");
+  $(".status_bar").removeClass("status_bar_element_smaller");
+  $(".status_bar").removeClass("status_bar_element_last_smaller");
+  $(".status_bar").removeClass("status_bar_element_selected_smaller");
+  $(".status_bar").removeClass("status_bar_element_last_selected_smaller");
+
+  $("#status_intro").addClass("status_bar_element_smaller");
+  $("#status_prep").addClass("status_bar_element_smaller");
+  $("#status_debate").addClass("status_bar_element_selected_smaller");
+  $("#status_reflec").addClass("status_bar_element_smaller");
+  $("#status_complete").addClass("status_bar_element_last_smaller");
+
 
 
 
@@ -228,6 +261,11 @@ Construct_Layout.prototype.construct_layout_debate = function(){
 
   discussion_note_obj.CreateLayout_debating("#container_main_right");
   note_take_obj.createDom("#argument_painNoteTaking");
+  discussion_note_obj.fit_layout_forScroll();
+  $("#discussion_note_container").scroll(function () {
+    discussion_note_obj.fit_layout_forScroll();
+  });
+
 
   $("#container_main_left_above_left").width(300);
   video_view_wrapper.show_SpeakerView("#container_main_left_above_left_up");
@@ -236,6 +274,9 @@ Construct_Layout.prototype.construct_layout_debate = function(){
 
   chat_wrapper_obj.create("#absolute_pain_1");
   debater_bar_obj.CreateBar("#absolute_pain_3");
+
+
+
 
 }
 
@@ -270,10 +311,22 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
 
 
 /*update the status bar*/
-  $("#status_debate").removeClass("status_bar_element_selected");
-  $("#status_debate").addClass("status_bar_element");
-  $("#status_reflec").removeClass("status_bar_element");
-  $("#status_reflec").addClass("status_bar_element_selected");
+
+  $(".status_bar").removeClass("status_bar_element");
+  $(".status_bar").removeClass("status_bar_element_last");
+  $(".status_bar").removeClass("status_bar_element_selected");
+  $(".status_bar").removeClass("status_bar_element_last_selected");
+  $(".status_bar").removeClass("status_bar_element_smaller");
+  $(".status_bar").removeClass("status_bar_element_last_smaller");
+  $(".status_bar").removeClass("status_bar_element_selected_smaller");
+  $(".status_bar").removeClass("status_bar_element_last_selected_smaller");
+
+  $("#status_intro").addClass("status_bar_element_smaller");
+  $("#status_prep").addClass("status_bar_element_smaller");
+  $("#status_debate").addClass("status_bar_element_smaller");
+  $("#status_reflec").addClass("status_bar_element_selected_smaller");
+  $("#status_complete").addClass("status_bar_element_smaller");
+
 
 
   $("#top_right").width(250);

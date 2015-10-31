@@ -563,20 +563,6 @@
 
 <script type="text/template" data-template="introduction_direction_template">
   <div id="direction_container">
-    <div>
-      <p>set preparation time</p>
-      <select name="prep_duration" size="1">
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="25">25</option>
-      <option value="30" selected>30</option>
-      <option value="40">40</option>
-      <option value="50">50</option>
-      <option value="60">60</option>
-    </select>
-    <button> update </button>
-    </div>
     <div class="direction button">
       <p>when everything is ready, debater should start preparation</p>
       <button id="start_prep_button" class="btn btn-success"> Start Preparation</button>
@@ -592,10 +578,9 @@
  <div id="info_intro">
    <p>What you should do before preparation</p>
    <ul>
-    <li>Introduce each other among participants</li>
     <li>decide motion and update it on the above button</li>
     <li>decide preparation time</li>
-    <li>update the role unless all debaters are not loged in</li>
+    <li>update the debate role </li>
    </ul>
    <p>after these points has been completed, you can start preparation</p>
  </div>
@@ -672,11 +657,11 @@
 
 <script type="text/template" data-template="status_bar_template">
  <div id="staus_bar">
-   <div id="status_intro" class="status_bar_element">introduction</div>
-   <div id="status_prep" class="status_bar_element">preparation</div>
-   <div id="status_debate" class="status_bar_element">debate</div>
-   <div id="status_reflec" class="status_bar_element">reflection</div>
-   <div id="status_complete" class="status_bar_element_last">complete</div>
+   <div id="status_intro" class="status_bar">introduction</div>
+   <div id="status_prep" class="status_bar">preparation</div>
+   <div id="status_debate" class="status_bar">debate</div>
+   <div id="status_reflec" class="status_bar">reflection</div>
+   <div id="status_complete" class="status_bar">complete</div>
   </div>
 </script>
 

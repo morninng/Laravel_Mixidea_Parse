@@ -2,7 +2,6 @@
 #argument_list {
 	width: 100%;
 	display: table;
-	overflow:scroll;
 }
 
 .argument_element{
@@ -13,7 +12,6 @@
 	padding-left: 15px;
 	padding-right: 15px;
 	margin: 4px;
-	overflow: scroll;
 
 }
 

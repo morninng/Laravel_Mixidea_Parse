@@ -8,6 +8,26 @@ function DiscussNoteWrapper(){
   
 }
 
+DiscussNoteWrapper.prototype.fit_layout_forScroll= function(){
+  var self = this;
+  if(!self.discussion_note_obj){
+    return;
+  }
+
+  var top_position = $("#discussion_note_container").offset().top;
+  var parent_height = $("#whole").parent().height();
+  var adjust_height = parent_height - top_position - 10;
+  $("#discussion_note_container").height(adjust_height);
+  $("#discussion_note_container").css("overflow","scroll");
+
+
+  var left_position = $("#discussion_note_container").offset().left;
+  var parent_width = $("#whole").parent().width();
+  var adjust_width = parent_width - left_position - 40;
+  $("#discussion_note_container").width(adjust_width);
+  $("#discussion_note_container").css("overflow","scroll");
+
+}
 
 
 DiscussNoteWrapper.prototype.update_from_server_edit_status = function(){
@@ -90,6 +110,7 @@ DiscussNoteWrapper.prototype.CreateLayout_debating = function(el_name){
     self.discussion_element = $(el_name);
     var discussion_tab_html_text = DiscussTab_Template({list:tab_obj_array});
     self.discussion_element.html(discussion_tab_html_text);
+
 
   }else{
     var own_goup_name = participant_mgr_obj.get_own_group_name();

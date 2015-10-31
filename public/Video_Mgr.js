@@ -366,7 +366,6 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     self.current_speaker_role = speaker_obj.role;
     self.OwnSpeechHaneler(speaker_obj, "speaker");
     self.StartTimer( speaker_obj.hangout_id );
-    self.SpeechStart_sound(speaker_obj.hangout_id); 
     self.show_Speaker(speaker_obj, "speaker");
     self.OthersSpeechHaneler(speaker_obj, "speaker");
   }else{
@@ -457,17 +456,11 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
     if(!self.timer ){
       self.timer = setInterval( function(){self.countTimer()},1000);
       console.log("start timer is" + self.timer);
+    sound_mgr.play_sound_speech_start();
     }
   }
 }
 
- VideoViewModel.prototype.SpeechStart_sound = function(hangout_id){
-
-  var self = this;
-  if(self.current_speaker != hangout_id){
-    sound_mgr.play_sound_speech_start();
-  }
-}
 
 
 
@@ -759,7 +752,7 @@ VideoViewModel.prototype.update_poi_candidate = function(hangout_speech_status){
  VideoViewModel.prototype.add_candidate = function( in_hangout_id){
 
   var self = this;
-  var name = participant_mgr_obj.getName_fromHangoutID(in_hangout_id);
+  var name = participant_mgr_obj.getFirstName_fromHangoutID(in_hangout_id);
   var pict_src = participant_mgr_obj.getPictSrc_fromHangoutID(in_hangout_id);
   var poi_take_visible = false;
   var poi_cancel_visible = false;

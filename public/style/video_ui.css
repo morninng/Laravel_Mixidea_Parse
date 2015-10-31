@@ -3,8 +3,6 @@
 	width:100%;
 	background-color: #F0F8FF;
 	text-align:center;
-	padding-top: 10px;
-	padding-bottom: 10px
 }
 
 #start_speech {
@@ -128,8 +126,8 @@
 	justify-content: flex-end;
 	background-color: #FFF5EE;
 	padding-right:20px;
-	padding-top:5px;
-	padding-bottom:5px;
+	padding-top:2px;
+	padding-bottom:2px;
 }
 #poi_candidate_container ul{
 	list-style:none;
@@ -152,7 +150,7 @@
 	margin-left:10px;
 }
 .poi_profile span{
-	margin-right:20px;
+	margin-right:10px;
 	margin-left:3px;
 }
 

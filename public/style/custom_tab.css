@@ -81,3 +81,7 @@
 .tab_pane_custom{
 
 }
+
+#discussion_note_container{
+	border-left: 1px solid #000000;
+}
