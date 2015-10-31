@@ -32,6 +32,7 @@
 	min-width: 500px;
 	vertical-align: text-bottom;
 }
+
 #event_title_input{
 	min-width: 400px;
 }
@@ -43,6 +44,7 @@
 	display: flex;
 	flex-wrap: nowrap;
 }
+
 #event_title_show_in{
 	padding: 5px;
 	font-weight:normal;
@@ -64,7 +66,7 @@
 
 #text_fixed_title{
 	padding-top:4px;
-	font-size: xx-large;;
+	font-size: xx-large;
 	font-family: sans-serif;
 	text-align:center;
 

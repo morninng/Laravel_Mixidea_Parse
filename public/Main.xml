@@ -257,11 +257,11 @@
               <strong>motion:</strong>
             </div>
             <div id="motion_sentence">
-              <strong><span data-bind="text:title_sentence" id="event_title_show_in"></span></strong>
+              <strong><span data-bind="text:title_sentence,attr:{style:motion_font} " id="event_title_show_in"></span></strong>
             </div>
           </div>
     		  <div data-bind="visible:title_input">
-            <input id="event_title_input" autofocus data-bind=" text:title_sentence, attr:{value:title_value, style:title_width}" type="text">
+            <input value="input motion here" id="event_title_input" autofocus data-bind=" text:title_sentence, attr:{value:title_value, style:title_width}" type="text">
           </div>
     		</div>
     		<div id="event_right">

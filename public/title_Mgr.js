@@ -53,6 +53,14 @@ Title_VM_wrapper.prototype.update_fixed_title = function(el_name){
 	  var title_element = $(el_name);
 	  var Title_html_text = Title_html_Template({motion:title_str});
 	  title_element.html(Title_html_text);
+
+	  if(title_str && title_str.length < 49){
+	  	$("#text_fixed_title").css("font-size","xx-large");
+	  }else if(title_str && title_str.length < 79){
+	  	$("#text_fixed_title").css("font-size","x-large");
+	  }else{
+	  	$("#text_fixed_title").css("font-size","large");
+	  }
 	}
 }
 
@@ -82,6 +90,7 @@ function title_VM(){
 	self.title_value = ko.observable();
 	self.title_width = ko.observable();
 	self.title_count = 0;
+	self.motion_font = ko.observable();
 }
 
 
@@ -92,7 +101,17 @@ title_VM.prototype.update = function(){
 	self.title_show(true);
 	var title = actual_game_obj.get("motion");
 
-	self.title_sentence(title);
+	if(!title || title.length == 0){
+		self.title_sentence("input motion here");
+		self.motion_font("color: red;font-size:xx-large");
+	}else if(title.length < 79){
+		self.title_sentence(title);
+		self.motion_font("color: black;font-size:x-large");
+	}else{
+		self.title_sentence(title);
+		self.motion_font("color: black;font-size:large");
+	}
+
 	var title_width = $("#event_title_show_out").width();
 	var title_width_str = "width:" + String(title_width) + "px"
 	self.title_width(title_width_str);
@@ -150,11 +169,5 @@ title_VM.prototype.send_title = function(){
 
 }
 
-
-title_VM.prototype.update_title_server = function(){
-
-
-
-}
 
 
