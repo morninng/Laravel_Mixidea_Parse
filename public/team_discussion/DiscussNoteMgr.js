@@ -8,7 +8,7 @@ function DiscussNoteWrapper(){
   
 }
 
-DiscussNoteWrapper.prototype.fit_layout_forScroll= function(){
+DiscussNoteWrapper.prototype.fit_layout_forScroll= function(offset_width){
   var self = this;
   if(!self.discussion_note_obj){
     return;
@@ -23,7 +23,7 @@ DiscussNoteWrapper.prototype.fit_layout_forScroll= function(){
 
   var left_position = $("#discussion_note_container").offset().left;
   var parent_width = $("#whole").parent().width();
-  var adjust_width = parent_width - left_position - 40;
+  var adjust_width = parent_width - left_position - offset_width;
   $("#discussion_note_container").width(adjust_width);
   $("#discussion_note_container").css("overflow","scroll");
 

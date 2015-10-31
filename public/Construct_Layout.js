@@ -276,9 +276,10 @@ Construct_Layout.prototype.construct_layout_debate = function(){
 
   discussion_note_obj.CreateLayout_debating("#container_main_right");
   note_take_obj.createDom("#argument_painNoteTaking");
-  discussion_note_obj.fit_layout_forScroll();
+
+  discussion_note_obj.fit_layout_forScroll(40);
   $("#discussion_note_container").scroll(function () {
-    discussion_note_obj.fit_layout_forScroll();
+    discussion_note_obj.fit_layout_forScroll(40);
   });
 
 
@@ -354,6 +355,11 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
   discussion_note_obj.CreateLayout_reflection("#container_main_right");
   after_debate_obj.create("#argument_painReflection");
   note_take_obj.createDom("#argument_painNoteTaking");
+
+  discussion_note_obj.fit_layout_forScroll(0);
+  $("#discussion_note_container").scroll(function () {
+    discussion_note_obj.fit_layout_forScroll(0);
+  });
 
 
   title_view_model_wrapper.update_fixed_title("#top_left");
