@@ -182,11 +182,26 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   PrepDirect_element.html(PrepDirect_html_text);
   preparation_time.show();
 
-  $("#container_main_left_below").width(550);
-  prep_info_html_Template = _.template($('[data-template="prep_info_audience_template"]').html());
-  var prep_info_element = $("#container_main_left_below");
-  var prep_info_html_text = prep_info_html_Template();
-  prep_info_element.html(prep_info_html_text);
+
+
+
+  var is_Audience_yourself = participant_mgr_obj.isAudience_yourself();
+
+  if(is_Audience_yourself){
+
+    $("#container_main_left_below").width(550);
+    prep_info_html_Template = _.template($('[data-template="prep_info_audience_template"]').html());
+    var prep_info_element = $("#container_main_left_below");
+    var prep_info_html_text = prep_info_html_Template();
+    prep_info_element.html(prep_info_html_text);
+  }else{
+
+    $("#container_main_left_below").width(550);
+    prep_info_html_Template = _.template($('[data-template="prep_info_debater_template"]').html());
+    var prep_info_element = $("#container_main_left_below");
+    var prep_info_html_text = prep_info_html_Template();
+    prep_info_element.html(prep_info_html_text);
+  }
 
 
   title_view_model_wrapper.update_editable("#top_left");

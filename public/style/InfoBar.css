@@ -26,14 +26,16 @@
 
 #link_team_room {
 	text-align:center;
-	padding-top:20px;
-	padding-bottom:20px;
-	padding-left:10px;
-	padding-right:10px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	padding-right:5px;
 	background-color: #FFE4E1;
 	float:right;
-	width:200px;
+	width:170px;
 }
 #link_team_room_container ul{
 	list-style:none;
+	margin-right: auto;
+	padding-left: 0;
 }

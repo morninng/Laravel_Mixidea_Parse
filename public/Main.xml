@@ -629,7 +629,22 @@
 
 
 
-
+<script type="text/template" data-template="prep_info_debater_template">
+ <div id="info_prep">
+   <div id="link_team_room"></div>
+   <p>What you should do before debate</p>
+   <ul>
+    <li>Debater should go to <strong> Team Discussion Room </strong> and construct argument with your partner</li>
+   </ul>
+   <p>How to go to <strong> Team Discussion Room</strong></p>
+   <ul>
+    <li>Click HangoutButton on the right</li>
+    <li>After new window has opened, click Join button</li>
+    <li>Following button appear and you should chose right button "Close existing window"</li>
+    <li>Wait your partner to come</li>
+   </ul>
+ </div>
+</script>
 
 
 
@@ -640,7 +655,7 @@
    <p>What you should do before debate</p>
    <ul>
     <li>Audience can remain here and talk with other audiences</li>
-    <li>if you want to see how debater construct the argument you can go to debater <strong> Team Discussion Room </strong>, however audience should be silent and should not write anything there.</li>
+    <li> you can also go to debater's <strong> Team Discussion Room </strong>, for the observation</li>
 
    </ul>
    <p>How to go to <strong> Team Discussion Room</strong></p>
