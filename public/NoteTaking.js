@@ -176,6 +176,7 @@ function NoteTaking(role_name){
 
   self.click_edit_note = function(data){
 
+  	console.log(data);
   	for(var i=0; i< self.note_content_list().length; i++){
   		if(data.id == self.note_content_list()[i].id){
   			var obj = {
@@ -197,6 +198,8 @@ function NoteTaking(role_name){
   	}
   }
   self.click_edit_cancel = function(data){
+
+  	console.log(data);
   	for(var i=0; i< self.note_content_list().length; i++){
   		if(data.id == self.note_content_list()[i].id){
   			var obj = {
@@ -245,9 +248,28 @@ function NoteTaking(role_name){
 
   self.click_edit_update = function(data){
 		console.log("edit save");
+  	console.log(data);
 
 		var updated_text = data.input_edit_data;
 		var converted_updated_text = add_linebreak_html(updated_text);
+		var updated_opinion_type = data.opinion_type_edit;
+		var updated_opinion_title_message = null;
+		var updated_style = null;
+		switch(updated_opinion_type){
+			case "note":
+				updated_opinion_title_message = "speech note";
+				updated_style = "note_box";
+			break;
+			case "evaluation":
+				updated_opinion_title_message = "evaluation comment to speaker";
+				updated_style = "evaluation_box";
+			break;
+			case "refute":
+				updated_opinion_title_message = "refute idea";
+				updated_style = "refute_box";
+			break;
+		}
+
 
 		console.log(data.input_edit_data);
 
@@ -257,6 +279,7 @@ function NoteTaking(role_name){
 		note_query.get(data.id,{
 		  success: function(result) {
 		  	result.set("context",updated_text);
+		  	result.set("type", updated_opinion_type);
 		  	result.save().then(
 		  		function(){
 
@@ -265,13 +288,13 @@ function NoteTaking(role_name){
 				  			var obj = {
 									id:data.id,
 									visible_context:true,
-									note_title:data.note_title,
-									style_note_context:data.style_note_context,
+									note_title:updated_opinion_title_message,
+									style_note_context:updated_style,
 									note_content:converted_updated_text,
 									visible_note_edit_button:true,
 
 									visible_edit_context:false,
-									opinion_type_edit:data.opinion_type_edit,
+									opinion_type_edit:updated_opinion_type,
 									input_edit_data:updated_text,
 									visible_note_save_button:false,
 									visible_radio_selection:data.visible_radio_selection,
