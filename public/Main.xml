@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/debater_bar.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/NoteTaking.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/custom_tab.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/link_explanation.css">
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -102,6 +103,20 @@
 
 
 
+<script type="text/template" data-template="link_explanation_template">
+
+  <div id="explanation_container">
+    <div id="explanation_title">How to go to TeamDiscussion Room</div>
+    <div class="explanation_description">(1) Click Hangout Button</div>
+    <div><img src="https://s3.amazonaws.com/mixidea/infobar/hangout_button.jpg"></div>
+    <div class="explanation_description">(2) After new window appear, click join botton</div>
+    <div><img src="https://s3.amazonaws.com/mixidea/infobar/join_button.jpg"></div>
+    <div class="explanation_description">(3) Click Right Button</div>
+    <div><img src="https://s3.amazonaws.com/mixidea/infobar/ChoiceMark.jpg"></div>
+    </div>
+  </div>
+
+</script>
 
 
 
@@ -993,6 +1008,7 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/LinkToTeamDiscuss.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/AfterDiscussParse.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/NoteTaking.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/DebaterBar.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/DebaterBar.js"></script>
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/DiscussNoteMgr.js"></script>

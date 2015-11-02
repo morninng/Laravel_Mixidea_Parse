@@ -28,14 +28,47 @@ LinkToTeamDiscussWrapper.prototype.show_Link = function(el_name){
 
 }
 
+LinkToTeamDiscussWrapper.prototype.create_explanation = function(el_name, hover_element){
+
+	var self = this;
+
+  var Link_Explanation_html_Template = _.template($('[data-template="link_explanation_template"]').html());
+  self.link_explanation_element = $(el_name);
+  var link_explanation_html_text = Link_Explanation_html_Template();
+  self.link_explanation_element.html(link_explanation_html_text);
+
+	$(hover_element).hover(
+		function(){
+			$("#explanation_container").css('display','block');
+	  },
+	  function(){
+			$("#explanation_container").css('display','none');
+	  }
+
+	);
+
+
+
+}
+
+LinkToTeamDiscussWrapper.prototype.set_handle_event = function(el_name){
+
+}
+
+
+
+
 LinkToTeamDiscussWrapper.prototype.remove_Link = function(el_name){
 
 	var self = this;
 	if(!self.link_team_obj){
 		return;
 	}
+	self.link_explanation_element.html(null);
+	self.link_explanation_element = null;
   ko.cleanNode(self.link_team_el);
-	self.link_team_element.html(null)
+	self.link_team_element.html(null);
+	self.link_team_element = null;
 	self.link_team_obj.delete();
 	self.link_team_obj = null;
 }

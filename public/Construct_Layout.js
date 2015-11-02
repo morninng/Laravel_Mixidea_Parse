@@ -212,6 +212,7 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
 
   $("#link_team_room").width(200);
   link_to_teamdisucuss_obj.show_Link("#link_team_room");
+  link_to_teamdisucuss_obj.create_explanation("#absolute_pain_2", "#info_prep");
 
 
   $("#container_main_left_above_left").width(300);

@@ -1,0 +1,46 @@
+#explanation_container{
+	display:none;
+	padding-top:10px;
+	padding-bottom:20px;
+	width:400px;
+	text-align:center;
+  background-color:rgba(0,0,0,0.8);
+  z-index: 999999;
+  position: absolute;
+	border: solid 2px;
+	border-color:#FFFF00;
+  top: 10px;  
+  left: 580px;  
+
+}
+#explanation_container img{
+	margin-bottom:10px;
+	border: solid 2px;
+	border-color:#8A2BE2;
+}
+#explanation_title{
+	font-weight:bold;
+	background-color:white;
+	padding-right:20px;
+	padding-left:20px;
+	padding-top:3px;
+	padding-bottom:3px;
+	display:inline-block;
+	margin-bottom:20px;
+	text-decoration: underline;
+	width:300px;
+}
+.explanation_description{
+	background-color:white;
+	display:inline-block;
+	padding-right:20px;
+	padding-left:20px;
+	padding-top:3px;
+	padding-bottom:3px;
+	margin-bottom:5px;
+	margin-top:5px;
+	width:300px;
+	text-align:left;
+
+}
+
