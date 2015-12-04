@@ -1,0 +1,150 @@
+
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Skelton">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+
+
+<![CDATA[ 
+
+<script type="text/javascript" src="//plus.google.com/hangouts/_/api/v1/hangout.js">
+</script>
+
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.14.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<script>
+    AWS.config.update({accessKeyId: 'AKIAJMWMLOVKYXV2D76Q', secretAccessKey: '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'});
+    var s3 = new AWS.S3({params: {Bucket:"mixideaspeech"} });
+</script>
+
+
+  <h1>Record to MP3 Test</h1>
+
+  <button onclick="startRecording(this);">record</button>
+  <button onclick="stopRecording(this);" disabled>stop</button>
+
+  <h2>Recordings</h2>
+  <ul id="recordingslist"></ul>
+
+  <h2>Log</h2>
+  <pre id="log"></pre>
+
+
+  <script>
+  function __log(e, data) {
+    log.innerHTML += "\n" + e + " " + (data || '');
+  }
+
+  var audio_context;
+  var recorder;
+
+  function startUserMedia(stream) {
+
+    var input = audio_context.createMediaStreamSource(stream);
+    __log('Media stream created.' );
+	__log("input sample rate " +input.context.sampleRate);
+
+    // Feedback!
+    //input.connect(audio_context.destination);
+    __log('Input connected to audio context destination.');
+
+    recorder = new Recorder(input, {
+                  numChannels: 1
+                });
+    __log('Recorder initialised.');
+  }
+
+  function startRecording(button) {
+    recorder && recorder.record();
+    button.disabled = true;
+    button.nextElementSibling.disabled = false;
+    __log('Recording...');
+  }
+
+  function stopRecording(button) {
+    recorder && recorder.stop();
+    button.disabled = true;
+    button.previousElementSibling.disabled = false;
+    __log('Stopped recording.');
+    if(recorder){
+      recorder.exportWAV(function(blob){});
+    }
+
+    recorder.clear();
+  }
+
+
+  window.onload = function init() {
+    try {
+      // webkit shim
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      navigator.getUserMedia = ( navigator.getUserMedia ||
+                       navigator.webkitGetUserMedia ||
+                       navigator.mozGetUserMedia ||
+                       navigator.msGetUserMedia);
+      window.URL = window.URL || window.webkitURL;
+
+      audio_context = new AudioContext;
+      __log('Audio context set up.');
+      __log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+    } catch (e) {
+      audio_context = null;
+      alert('No web audio support in this browser!');
+    }
+
+    navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+      __log('No live audio input: ' + e);
+    });
+  };
+  </script>
+
+<script type="text/javascript" src="https://mixidea.parseapp.com/recording_test/recordmp3_withoutworker.js"></script>
+
+
+
+
+<input type="text" id="chat_message" placeholder = "enter message">
+<input type="button" id="chat_button" value="send">
+
+
+
+
+<script type="text/javascript" src="https://127.0.0.1:3000/socket.io.js"></script>
+
+
+<script>
+  var socket_io = io.connect('https://127.0.0.1:3000/');
+
+  socket_io.on('connect', function(){
+    console.log("connected");
+    $('#chat_button').on("click", function(e){
+      console.log($('#chat_message').val());
+      socket_io.emit('chat_msg', {name: $('#chat_message').val()});
+      $('#chat_message').val('');
+    });
+
+    socket_io.on('test', function(data){
+      console.log("message from server = " + data);
+    }); 
+
+  });
+
+
+</script>
+
+
+
+
+
+
+]]>
+
+  </Content>
+</Module>

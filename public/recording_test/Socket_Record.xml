@@ -1,0 +1,87 @@
+
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+  <ModulePrefs title="Skelton">
+    <Require feature="rpc"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html">
+
+
+<![CDATA[ 
+
+
+<script type="text/javascript" src="//plus.google.com/hangouts/_/api/v1/hangout.js">
+</script>
+
+
+  <script type="text/javascript" src="https://recording.mixidea.org:3000/socket.io.js"></script>
+  <script type="text/javascript" src="https://recording.mixidea.org:3000/socket.io-stream.js"></script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://recording.mixidea.org:3000/javascripts/recording.js"></script>
+
+
+
+
+<input type="file" id="input_files" name="files[]" multiple />
+<br><br><br>
+
+
+
+<input type="button" id="startRecord" value="Start Recording">
+<input type="button" id="suspendRecord" value="SuspendRecording">
+<input type="button" id="resumeRecord" value="Resume Recording">
+<input type="button" id="stopRecord" value="Stop and save">
+<input type="button" id="stopPolling" value="Stop polling">
+
+
+
+
+<script>
+
+  document.getElementById('startRecord').addEventListener('click', start_record, false);
+  document.getElementById('resumeRecord').addEventListener('click', resume_record, false);
+  document.getElementById('suspendRecord').addEventListener('click', suspend_record, false);
+  document.getElementById('stopRecord').addEventListener('click', stop_record, false);
+
+  document.getElementById('stopPolling').addEventListener('click', stop_polling, false);
+
+
+  var audio_record_obj = new Recording();
+  function start_record(){
+    audio_record_obj.start_record();
+  }
+  function suspend_record(){
+    audio_record_obj.suspend_record();
+  }
+  function resume_record(){
+    audio_record_obj.resume_record();
+  }
+  function stop_record(){
+    audio_record_obj.stop_record();
+  }
+  function stop_polling(){
+    audio_record_obj.finish_audio_polling();
+  }
+  function stop_polling(){
+    audio_record_obj.finish_audio_polling();
+  }
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+]]>
+
+  </Content>
+</Module>
