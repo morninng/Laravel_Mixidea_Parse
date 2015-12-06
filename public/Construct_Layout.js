@@ -293,7 +293,7 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   debater_bar_obj.CreateBar("#absolute_pain_3");
 
 
-
+  recording_wrapper_obj.open();
 
 }
 

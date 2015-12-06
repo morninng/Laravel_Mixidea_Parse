@@ -347,6 +347,9 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
   var speaker_obj = hangout_speech_status.speaker;
   if(speaker_obj){
     speaker_obj = filter_with_existing_hangouID(speaker_obj);
+    if(speaker_obj){
+      self.current_speaker_role = speaker_obj.role;
+    }
   }
 
   var poi_speaker_obj = hangout_speech_status.poi_speaker;
@@ -387,7 +390,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
           console.log("own speech finish");
           self.under_recording = false;
           self.speech_recognition.stop_recognition();
-
+          recording_wrapper_obj.Speech_Finish("discussion");
       }  
       return; 
   }
@@ -399,6 +402,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
           console.log("own speech start");
           var role_name = speaker_obj.role;
           self.speech_recognition.start_recognition(type); 
+          recording_wrapper_obj.Speech_Start(type, self.current_speaker_role);
           return;
       }
   }else{
@@ -406,6 +410,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
           console.log("own speech finish");
           self.under_recording = false;
           self.speech_recognition.stop_recognition();
+          recording_wrapper_obj.Speech_Finish("other");
           return;
       }else{
           return;

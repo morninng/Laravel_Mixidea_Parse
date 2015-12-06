@@ -33,8 +33,9 @@
  var chat_wrapper_obj = new ChatVM_wrapper();
 
  var participant_table = new ParticipantTableMgr();
- var preparation_time = new PreparationTimer()
+ var preparation_time = new PreparationTimer();
  var debater_bar_obj = new DebaterBar();
+ var recording_wrapper_obj = new RecordingWrapper();
 
   window.onload = function(){
     Hangout_Init();

@@ -1014,6 +1014,13 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/DiscussNoteMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/Argument_Mgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/Argument_VM.js"></script>
+
+
+<script src="https://recording.mixidea.org:3000/javascripts/recording.js"></script>https://recording.mixidea.org:3000/socket.io.js"></script>
+<script type="text/javascript" src="https://recording.mixidea.org:3000/socket.io-stream.js"></script>
+
+
+
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/hangout_util_teamdiscussion.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/util/utility_func.js"></script>
 
