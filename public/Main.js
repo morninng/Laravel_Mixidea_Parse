@@ -36,6 +36,7 @@
  var preparation_time = new PreparationTimer();
  var debater_bar_obj = new DebaterBar();
  var recording_wrapper_obj = new RecordingWrapper();
+ var audio_transcript_obj = new AudioTransript();
 
   window.onload = function(){
     Hangout_Init();

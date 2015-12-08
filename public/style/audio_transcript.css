@@ -1,0 +1,60 @@
+
+
+.audio_transcript_containers audio{
+	margin-left:20px;
+	margin-bottom:5px;
+
+}
+.audio_transcript_containers p{
+	text-decoration: underline;
+}
+
+.transcription_role{
+	font-weight:bold;
+	font-size:xx-small;
+}
+.transcription_name{
+	font-weight:bold;
+	font-family: "Times New Roman";
+	font-style: italic;
+}
+
+.transcript_poi{
+	background:#FDE4CE;
+	padding-left:6px;
+	padding-right:5px;
+	padding-bottom:3px;
+	padding-top:4px;
+	min-height:15px;
+	margin-bottom:5px;
+	position:relative;
+	margin-left:20px;
+	border-radius:5px;
+}
+
+.transcript_speaker{
+	position:relative;
+	background:#dbedfe;
+	padding-left:6px;
+	padding-right:5px;
+	padding-bottom:3px;
+	padding-top:1px;
+	min-height:10px;
+	margin-bottom:5px;
+	margin-right:20px;
+	border-radius:5px;
+}
+
+.transcript_body{
+	left:20px; 
+	font-size:12px;
+	overflow:auto;
+	overflow-x: hidden;
+	padding-top:1px;
+}
+
+.transcription_ul {
+	list-style:none;
+	padding-left:20px;
+	padding-right:20px;
+}

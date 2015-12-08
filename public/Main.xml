@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/argument.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/textbox.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/general_concept.css">
-  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/transcription.css">
+  <link rel="stylesheet" href="https://mixidea.parseapp.com/style/audio_transcript.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/AfterDiscuss.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/debater_bar.css">
   <link rel="stylesheet" href="https://mixidea.parseapp.com/style/NoteTaking.css">
@@ -978,6 +978,36 @@
   </div>
 </script>
 
+<script type="text/template" data-template="AudioTranscript_Template">
+<div class="audio_transcript_containers">
+  <p><%= role %></p>
+  <% if(audio_src){ %>
+  <audio src="<%= audio_src %>" controls preload="none"></audio>
+  <% } %>
+  <div class="transcript_containers">
+    <div class="transcript_body">
+      <ul class="transcription_ul">
+          <% _.each(list, function(item){ %>
+            <li>
+              <div class="<%= item.transcription_box_class %>">
+                <span class="transcription_role">
+                  <%= item.speaker_role %>
+                </span>
+                <span class="transcription_name" >
+                  <%= item.speaker_name %>
+                </span>
+                <span class="transcription_message">
+                  <%= item.transcription_message %>
+                </span>
+              </div>
+            </li>
+          <% }); %>
+      </ul>
+    </div>
+  </div>
+</div>
+</script>
+
 
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
@@ -1009,7 +1039,7 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/AfterDiscussParse.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/NoteTaking.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/DebaterBar.js"></script>
-<script type="text/javascript" src="https://mixidea.parseapp.com/DebaterBar.js"></script>
+<script type="text/javascript" src="https://mixidea.parseapp.com/AudioTranscript.js"></script>
 
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/DiscussNoteMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/team_discussion/Argument_Mgr.js"></script>

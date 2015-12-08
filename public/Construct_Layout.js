@@ -356,6 +356,8 @@ Construct_Layout.prototype.construct_layout_reflection = function(){
   discussion_note_obj.CreateLayout_reflection("#container_main_right");
   after_debate_obj.create("#argument_painReflection");
   note_take_obj.createDom("#argument_painNoteTaking");
+  audio_transcript_obj.create("#argument_painAudioTranscript");
+
 
   discussion_note_obj.fit_layout_forScroll(0);
   $("#discussion_note_container").scroll(function () {

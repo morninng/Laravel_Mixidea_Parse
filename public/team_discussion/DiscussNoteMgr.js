@@ -194,8 +194,13 @@ DiscussNoteWrapper.prototype.CreateLayout_reflection = function(el_name){
   tab_obj_array.push(note_take_tab_obj);
 
 
+
   var reflection_tab_obj = {name:"Reflection",tab_description:"Reflection Summary", active_str:"active"};
   tab_obj_array.push(reflection_tab_obj);
+
+
+  var audio_transcription_tab_obj = {name:"AudioTranscript",tab_description:"Audio & Transcription", active_str:""};
+  tab_obj_array.push(audio_transcription_tab_obj);
 
   template_name = "discussion_multiple_template";
   temp_name = "[data-template='" + template_name + "']";
