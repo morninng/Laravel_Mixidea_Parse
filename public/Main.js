@@ -22,10 +22,8 @@
  var sound_mgr = new SoundMgr();
  sound_mgr.init();
  var title_view_model_wrapper = new Title_VM_wrapper();
- var transcription_mgr = null;
  var impression_wrapper_obj = new Impression_wrapper();
  var link_to_teamdisucuss_obj = new LinkToTeamDiscussWrapper();
- var transcript_box_obj = new transcript_box_wrapper();
 
  var after_debate_obj = new AfterDebateTabWrapper();
  var note_take_obj = new NoteTakingTabWrapper();
@@ -132,7 +130,6 @@ function AppMgr() {
   self.parse_data_changed_counter = 0;
   self.discuss_note_edit_counter = 0;
   self.discuss_note_content_counter = 0;
-  self.transcription_counter = 0
   self.AfterDiscuss_counter = 0
   self.first_update_done = false;
  // self.handleEvent();
@@ -162,10 +159,6 @@ AppMgr.prototype.update_hangout_status = function(event){
     self.hangout_speech_status_counter = get_hangout_speech_status_counter();
   }
 
-  if( self.transcription_counter != get_transcription_counter()){
-    transcript_box_obj.update_status_from_server();
-    self.transcription_counter = get_transcription_counter();
-  }
 
 
   if( self.discuss_note_edit_counter != get_hangout_discuss_note_edit_counter()){

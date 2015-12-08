@@ -79,20 +79,7 @@ function  get_parse_data_changed_counter(){
   return counter;
 }
 
-function get_transcription_counter(){
 
-  var counter_str = gapi.hangout.data.getValue("transcription_counter");
-  if(!counter_str){
-    counter_str = "1";
-  }
-  var counter = Number(counter_str);
-
-  if(counter > 99){
-    counter = 1;
-  }
-
-  return counter;
-}
 
 function get_game_status_counter(){
 

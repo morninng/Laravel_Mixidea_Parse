@@ -98,7 +98,6 @@ Construct_Layout.prototype.construct_layout_introduction = function(){
   $("#status_complete").addClass("status_bar_element_last");
 
 /*remove unnecessary object*/
-  transcript_box_obj.hide();
   preparation_time.hide();
   impression_wrapper_obj.remove();
   link_to_teamdisucuss_obj.remove_Link();
@@ -146,7 +145,6 @@ Construct_Layout.prototype.construct_layout_preparation = function(){
   note_take_obj.remove();
   discussion_note_obj.removeAll();
   video_view_wrapper.remove_SpeakerView();
-  transcript_box_obj.hide();
   debater_bar_obj.Delete();
 
 
@@ -287,7 +285,6 @@ Construct_Layout.prototype.construct_layout_debate = function(){
   $("#container_main_left_above_left").width(300);
   video_view_wrapper.show_SpeakerView("#container_main_left_above_left_up");
 
-  transcript_box_obj.show("#absolute_pain_2");
 
   chat_wrapper_obj.create("#absolute_pain_1");
   debater_bar_obj.CreateBar("#absolute_pain_3");

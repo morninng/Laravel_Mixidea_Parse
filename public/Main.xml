@@ -203,44 +203,6 @@
 
 
 
-<script type="text/template" data-template="transcription_template">
-  <div id="transcription_field">
-    <div id="transcript_box" data-bind="visible:visible_transctiption_box" >
-      <div class="transcript_head">
-        <span data-bind="text:transcript_header_title"></span>
-
-        <div class="window_icon_transcript">
-          <div data-bind="event:{click:click_close}">
-            <img src="https://s3.amazonaws.com/mixidea/Close.png">
-          </div>
-        </div>
-        <div class="window_icon_transcript" data-bind="visible:visible_collapse_button">
-          <div data-bind="event:{click:click_collapse}">
-            <img src="https://s3.amazonaws.com/mixidea/minimize.png">
-          </div>
-        </div>
-        <div class="window_icon_transcript" data-bind="visible:visible_maximize_button">
-          <div data-bind="event:{click:click_expand}">
-            <img src="https://s3.amazonaws.com/mixidea/maximize.png">
-          </div>
-        </div>
-      </div>
-      <div id="transcription_wrap">
-        <div class="transcript_body" data-bind="event: { mouseover: mouseover_trans_field, mouseout: mouseout_trans_field }">
-          <ul data-bind="foreach: transcript_message_array">
-            <li>
-                  <div data-bind="css:transcription_box_class">
-                    <span class="transcription_role" data-bind="text:speaker_role"></span>
-                    <span class="transcription_name" data-bind="text:speaker_name"></span>
-                    <span class="transcription_message" data-bind="text:transcription_message"></span>
-                  </div>
-             </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</script>
 
 
 
@@ -1023,7 +985,6 @@
 <script type="text/javascript" src="https://mixidea.parseapp.com/PreparationTimer.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/WebSpeech_Recognition.js"></script>
 
-<script type="text/javascript" src="https://mixidea.parseapp.com/TranscriptionMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Video_Mgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/ParticipantMgr.js"></script>
 <script type="text/javascript" src="https://mixidea.parseapp.com/Participant_TableMgr.js"></script>
