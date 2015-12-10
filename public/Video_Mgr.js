@@ -390,7 +390,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
           console.log("own speech finish");
           self.under_recording = false;
           self.speech_recognition.stop_recognition();
-          recording_wrapper_obj.Speech_Finish("discussion");
+          recording_wrapper_obj.Speech_Finish("discussion" , self.current_speaker_role);
       }  
       return; 
   }
@@ -410,7 +410,7 @@ VideoViewModel.prototype.update_speaker = function(hangout_speech_status){
           console.log("own speech finish");
           self.under_recording = false;
           self.speech_recognition.stop_recognition();
-          recording_wrapper_obj.Speech_Finish("other");
+          recording_wrapper_obj.Speech_Finish("other" , self.current_speaker_role);
           return;
       }else{
           return;

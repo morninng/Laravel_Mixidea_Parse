@@ -2,11 +2,14 @@ function RecordingWrapper(){
 	var self = this;
 	self.under_recording = false;
 	self.store_speech_id = null;
+	self.speaker_role_name = null;
 }
 
 RecordingWrapper.prototype.open = function(){
 	var self = this;
 	self.record_obj = self.record_obj ||  new Recording();
+	var transcription_obj = actual_game_obj.get("speech_transcription");
+  self.speech_transcription_id = transcription_obj.id;
 }
 
 RecordingWrapper.prototype.close = function(){
@@ -24,6 +27,7 @@ RecordingWrapper.prototype.Speech_Start = function(type, speaker_role_name){
 	if(self.record_obj.get_availability()){
 		var game_id = global_debate_game_id;
 		var speech_id = get_speech_id();
+		self.speaker_role_name = speaker_role_name;
 		self.file_name = game_id + speaker_role_name + speech_id;
 		switch(type){
 			case "speaker":
@@ -46,7 +50,7 @@ RecordingWrapper.prototype.Speech_Start = function(type, speaker_role_name){
 
 }
 
-RecordingWrapper.prototype.Speech_Finish = function(type){
+RecordingWrapper.prototype.Speech_Finish = function(type, speaker_role_name ){
 	var self = this;
 	if(!self.record_obj){
 		return;
@@ -56,7 +60,7 @@ RecordingWrapper.prototype.Speech_Finish = function(type){
 	}
 	switch(type){
 		case "discussion":
-			self.record_obj.stop_record_save(self.file_name);
+			self.record_obj.stop_record_save(self.file_name, speaker_role_name , self.speech_transcription_id);
 		break;
 		case "other":
 			self.record_obj.suspend_record(self.file_name);
@@ -190,7 +194,7 @@ Recording.prototype.suspend_record = function(in_file_name){
 	}
 }
 
-Recording.prototype.stop_record_save = function(in_file_name){
+Recording.prototype.stop_record_save = function(in_file_name, in_role_name, in_speech_transcript_id){
 
 	var self = this;
 	if(!self.socket_available || !self.audio_available){
@@ -201,7 +205,7 @@ Recording.prototype.stop_record_save = function(in_file_name){
 		self.recording = false;
 		self.stream.end();
 		self.stream = null;
-		self.socket_io.emit('audio_record_end', {filename:in_file_name});
+		self.socket_io.emit('audio_record_end', {filename:in_file_name, role_name: in_role_name, speech_transcript_id: in_speech_transcript_id });
 	}
 }
 
