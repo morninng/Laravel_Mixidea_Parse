@@ -9,6 +9,23 @@ app.get('/', function(req, res) {
   res.send('It works!');
 });
 
+
+app.get('/test_save', function(req, res) {
+  var Game = Parse.Object.extend("Game");
+  var game_query = new Parse.Query(Game);
+  game_query.get("ayoUOzhTcs", {
+    success: function(game_obj){
+      var aa = game_obj.get("motion");
+      res.send(aa);
+    },
+    error: function(object, error) {
+        res.send("error");  
+    }
+  });
+});
+
+
+
 /*
 app.get('/facebook', function(req, res) {
 	console.log("get facebook webhook called")
@@ -52,8 +69,8 @@ app.get('/facebook', function(req, res) {
 
 
 app.post('/facebook', function(req, res) {
-  console.log('post Facebook webhook is called request 88');
-
+  console.log('post Facebook webhook is called request 95');
+/*
   console.log("body is " + req.body);
   
   if(req.body){
@@ -78,8 +95,8 @@ app.post('/facebook', function(req, res) {
     }
   }
   console.log("------");
-  console.log(req.body.entry["0"].uid);
-
+  console.log("user id is" + req.body.entry["0"].uid);
+*/
   try{
     var user_id = req.body.entry["0"].uid;
   }catch(e){
@@ -87,25 +104,26 @@ app.post('/facebook', function(req, res) {
     res.send(200);
     return;
   }
-
-
-  var User = Parse.Object.extend("User");
-  var user_query = new Parse.Query(User);
-  user_query.equalTo("authData",user_id);
+  console.log(typeof user_id);
+  console.log(user_id);
+  var user_query = new Parse.Query(Parse.User);
+  user_query.equalTo("fb_id", user_id);
   user_query.find({
     success: function(user_obj_array) {
-      var name = user_obj.get("FirstName")
+      console.log("find command succeed");
+      console.log(user_obj_array);
+      for(var i=0; i< user_obj_array.length; i++){
+        var name = user_obj_array[i].get("FirstName");
+        console.log(name);
+      }
+      res.send(200);
     },
     error: function(object, error) {
-
+      console.log("user cannot be found");
+      res.send(200);
     }
   });
 
-
-
-
-  res.send(200);
-  // Process the Facebook updates here
 
 });
 

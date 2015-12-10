@@ -1,0 +1,32 @@
+<html>
+
+<body>
+<script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+
+
+<script>
+  var parse_app_id = "EWPPdrDVaAIqhRazWp8K0ZlmafAAPt93JiOAonvX";
+  var parse_js_key = "US6Lheio8PGcBdIpwGFhFSQVpi5GKunGf6hGq5Ze";
+  Parse.initialize(parse_app_id, parse_js_key);
+  var user_id = "1453973964907873";
+  
+  console.log(typeof user_id);
+  console.log(user_id);
+  var user_query = new Parse.Query(Parse.User);
+  user_query.equalTo("fb_id", user_id);
+  user_query.find({
+    success: function(user_obj_array) {
+      console.log("find command succeed");
+      //var name = user_obj_array[0].get("FirstName");
+      console.log(user_obj_array);
+    },
+    error: function(object, error) {
+      console.log("user cannot be found");
+    }
+  });
+
+
+</script>
+
+</body>
+</html>
