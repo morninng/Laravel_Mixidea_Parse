@@ -10,38 +10,6 @@ app.get('/', function(req, res) {
 });
 
 
-app.get('/test_save', function(req, res) {
-  var Game = Parse.Object.extend("Game");
-  var game_query = new Parse.Query(Game);
-  game_query.get("ayoUOzhTcs", {
-    success: function(game_obj){
-      var aa = game_obj.get("motion");
-      res.send(aa);
-    },
-    error: function(object, error) {
-        res.send("error");  
-    }
-  });
-});
-
-
-
-/*
-app.get('/facebook', function(req, res) {
-	console.log("get facebook webhook called")
-  console.log(req);
-  if (
-    req.param('hub.mode') == 'subscribe' &&
-    req.param('hub.verify_token') == 'morninng'
-  ) {
-  	console.log(req.param('hub.challenge'));
-    res.send(req.param('hub.challenge'));
-  } else {
-  	console.log('error is sent to facebook webhook');
-    res.send(400);
-  }
-});
-*/
 app.get('/facebook', function(req, res) {
   console.log("facebook webhook get called 8");
   console.log(req); 
@@ -59,20 +27,17 @@ app.get('/facebook', function(req, res) {
   } else {
     res.send(400);
   }
-
   for(key in req){
     console.log(key)
   }
-
 });
 
 
 
 app.post('/facebook', function(req, res) {
-  console.log('post Facebook webhook is called request 95');
+  console.log('post Facebook webhook is called request 97');
 /*
   console.log("body is " + req.body);
-  
   if(req.body){
     var body = req.body;
     console.log("----body------");
@@ -106,6 +71,7 @@ app.post('/facebook', function(req, res) {
   }
   console.log(typeof user_id);
   console.log(user_id);
+  Parse.Cloud.useMasterKey();
   var user_query = new Parse.Query(Parse.User);
   user_query.equalTo("fb_id", user_id);
   user_query.find({
@@ -113,20 +79,51 @@ app.post('/facebook', function(req, res) {
       console.log("find command succeed");
       console.log(user_obj_array);
       for(var i=0; i< user_obj_array.length; i++){
-        var name = user_obj_array[i].get("FirstName");
-        console.log(name);
+        var auth_data = user_obj_array[i].get("authData");
+        var facebook_auth_data = auth_data.facebook;
+        if(facebook_auth_data){
+          var token = facebook_auth_data.access_token;
+          RetrieveUpdatedData(user_obj_array[i],token, user_id);
+        }
       }
-      res.send(200);
     },
     error: function(object, error) {
       console.log("user cannot be found");
       res.send(200);
     }
   });
-
-
 });
 
 app.listen();
 
 
+function RetrieveUpdatedData(user_obj, token, fb_id){
+
+  console.log("RetrieveUpdatedData is called");
+
+  Parse.Cloud.httpRequest({
+    url: 'https://graph.facebook.com/v2.3/me?fields=picture,first_name,last_name,email&access_token=' + token
+  }).then(function(httpResponse){
+
+    console.log("graph api has been called");
+
+    var responseData = httpResponse.data;
+    var first_name = responseData.first_name;
+    var last_name = responseData.last_name;
+    var profile_picture = responseData.picture.data.url;
+    user_obj.set("FirstName",first_name);
+    user_obj.set("LastName",last_name);
+    user_obj.set("Profile_picture",profile_picture);
+    console.log("updated profile picture " +  profile_picture);
+    return user_obj.save();
+
+  }).then(function(obj) {
+    console.log("saving user object succeeded");
+    res.send(200);
+
+  },function(httpResponse){
+    console.error("error" + httpResponse.status);
+    res.send(200);
+  });
+
+}
