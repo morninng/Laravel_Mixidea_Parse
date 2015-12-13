@@ -77,8 +77,8 @@ AudioTransript.prototype.OrganizeData = function(){
 
 		var transcript_text_obj = self.transcript_obj.get(self.role_array[j]);
 		var audio_src = self.transcript_obj.get(self.role_array[j] + "_Audio");
-		console.log(transcript_text_obj.id);
 		if(transcript_text_obj){
+			console.log(transcript_text_obj.id);
 			console.log(self.role_array[j]);
 			var transcript_text_array = transcript_text_obj.get("speech_text");
 			if(transcript_text_array){

@@ -74,17 +74,13 @@ app.post('/facebook', function(req, res) {
   Parse.Cloud.useMasterKey();
   var user_query = new Parse.Query(Parse.User);
   user_query.equalTo("fb_id", user_id);
+  user_query.include("ext_data");
   user_query.find({
     success: function(user_obj_array) {
       console.log("find command succeed");
       console.log(user_obj_array);
       for(var i=0; i< user_obj_array.length; i++){
-        var auth_data = user_obj_array[i].get("authData");
-        var facebook_auth_data = auth_data.facebook;
-        if(facebook_auth_data){
-          var token = facebook_auth_data.access_token;
-          RetrieveUpdatedData(user_obj_array[i],token, user_id);
-        }
+        RetrieveUpdatedData(user_obj_array[i], res, "fb_webhook");
       }
     },
     error: function(object, error) {
@@ -97,12 +93,22 @@ app.post('/facebook', function(req, res) {
 app.listen();
 
 
-function RetrieveUpdatedData(user_obj, token, fb_id){
+function RetrieveUpdatedData(user_obj, res, type){
+
 
   console.log("RetrieveUpdatedData is called");
 
+  var auth_data = user_obj.get("authData");
+  var facebook_auth_data = auth_data.facebook;
+  if(!facebook_auth_data){
+    console.log("facebook auth data do not exist")
+    return;
+  }
+  var token = facebook_auth_data.access_token;
+
+  console.log("call graph api with token" +  token);
   Parse.Cloud.httpRequest({
-    url: 'https://graph.facebook.com/v2.3/me?fields=picture,first_name,last_name,email&access_token=' + token
+    url: 'https://graph.facebook.com/v2.1/me?fields=picture,first_name,last_name,email,timezone,link&access_token=' + token
   }).then(function(httpResponse){
 
     console.log("graph api has been called");
@@ -111,19 +117,90 @@ function RetrieveUpdatedData(user_obj, token, fb_id){
     var first_name = responseData.first_name;
     var last_name = responseData.last_name;
     var profile_picture = responseData.picture.data.url;
+    var email = responseData.email;
+    var link = responseData.link;
+    var timezone = responseData.timezone;
+    fb_id = responseData.id;
+
     user_obj.set("FirstName",first_name);
     user_obj.set("LastName",last_name);
     user_obj.set("Profile_picture",profile_picture);
-    console.log("updated profile picture " +  profile_picture);
+    user_obj.set("fb_id",fb_id);
+
+    var ext_data_obj = user_obj.get("ext_data");
+    if(!ext_data_obj){
+      var User_Extension = Parse.Object.extend("User_Extension");
+      ext_data_obj = new User_Extension();
+    }
+    ext_data_obj.set("email", email);
+    ext_data_obj.set("link", link);
+    ext_data_obj.set("timezone", timezone);
+    ext_data_obj.set("user_obj", user_obj);
+    user_obj.set("ext_data",ext_data_obj);
     return user_obj.save();
 
   }).then(function(obj) {
     console.log("saving user object succeeded");
-    res.send(200);
+    switch(type){
+      case "parse_cloud":
+        res.success("updating user data succeed");
+      break;
+      case "fb_webhook":
+        res.send(200);
+      break;
+    }
 
   },function(httpResponse){
-    console.error("error" + httpResponse.status);
-    res.send(200);
+    console.error("error" + httpResponse.status + " " + httpResponse.text);
+    switch(type){
+      case "parse_cloud":
+        res.error("updating user data failed");
+      break;
+      case "fb_webhook":
+        res.send(200);
+      break;
+    }
+  });
+}
+
+
+
+Parse.Cloud.define("update_user_data", function(request, response) {
+
+  console.log("update_user_data has been called");
+  var user_id = request.params.user_id;
+
+  Parse.Cloud.useMasterKey();
+  var user_query = new Parse.Query(Parse.User);
+  user_query.include("ext_data");
+  user_query.get(user_id, {
+    success: function(user_obj) {
+      RetrieveUpdatedData(user_obj, response, "parse_cloud");
+      console.log("after get" + user_obj.id);
+    },
+    error: function(obj, error){
+      console.log("error" + error);
+    }
   });
 
-}
+});
+
+
+Parse.Cloud.define("RetrieveUserId", function(request, response) {
+
+  var user_query = new Parse.Query(Parse.User);
+  user_query.find({
+    success: function(user_obj_array) {
+      var user_id_array = new Array();
+      for(var i=0; i< user_obj_array.length; i++){
+        user_id_array.push(user_obj_array[i].id);
+      }
+      response.success(user_id_array);
+    },
+    error: function(obj, error){
+      response.error("updating user data failed");
+    }
+  });
+
+});
+

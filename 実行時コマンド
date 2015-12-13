@@ -1,0 +1,14 @@
+curl -X POST   -H "X-Parse-Application-Id: EWPPdrDVaAIqhRazWp8K0ZlmafAAPt93JiOAonvX"   -H "X-Parse-REST-API-Key: dHGThFDzjfCqz8TJcju2dfOOybkHj3Wr402PJG0y" -H "Content-Type: application/json"  -d '{"user_id":"oUvyjFCdZo"}'  https://api.parse.com/1/functions/update_user_data
+
+
+curl -X POST   -H "X-Parse-Application-Id: EWPPdrDVaAIqhRazWp8K0ZlmafAAPt93JiOAonvX"   -H "X-Parse-REST-API-Key: dHGThFDzjfCqz8TJcju2dfOOybkHj3Wr402PJG0y" -H "Content-Type: application/json"  -d '{}'  https://api.parse.com/1/functions/RetrieveUserId
+
+
+
+
+curl -X POST   -H "X-Parse-Application-Id: EWPPdrDVaAIqhRazWp8K0ZlmafAAPt93JiOAonvX"   -H "X-Parse-REST-API-Key: dHGThFDzjfCqz8TJcju2dfOOybkHj3Wr402PJG0y" -H "Content-Type: application/json"  -d '{"user_id":"AIjHwyRYbg"}'  https://api.parse.com/1/functions/update_user_data
+
+AIjHwyRYbg
+
+
+
