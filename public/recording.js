@@ -100,8 +100,11 @@ Recording.prototype.socket_communication_start = function(){
 		console.log("socket connected");
 		self.socket_available = true;
 
-		self.socket_io.on('record_complete', function(data){
-			console.log('record complete' + data.filename);
+		self.socket_io.emit('join_room', {'room_name':global_debate_game_id});
+
+		self.socket_io.on('audio_saved', function(data){
+			console.log('record complete' + data.file_saved);
+			audio_transcript_obj.update();
 		});
 
 		self.socket_io.on('disconnect', function(){
@@ -205,7 +208,7 @@ Recording.prototype.stop_record_save = function(in_file_name, in_role_name, in_s
 		self.recording = false;
 		self.stream.end();
 		self.stream = null;
-		self.socket_io.emit('audio_record_end', {filename:in_file_name, role_name: in_role_name, speech_transcript_id: in_speech_transcript_id });
+		self.socket_io.emit('audio_record_end', {filename:in_file_name, role_name: in_role_name, speech_transcript_id: in_speech_transcript_id, room_name: global_debate_game_id });
 	}
 }
 

@@ -1,10 +1,11 @@
 function AudioTransript(){
 	var self = this;
-
+	self.status = "not_exist";
 }
 
 AudioTransript.prototype.create = function(root_element_name){
 	var self = this;
+	self.status = "start_create";
 	self.initialize();
 	self.root_element = $(root_element_name);
 	self.retrieve_data();
@@ -39,9 +40,25 @@ AudioTransript.prototype.delete = function(){
 }
 AudioTransript.prototype.update = function(){
 	var self = this;
-	self.retrieve_data();
-	self.construct_dom();
-	
+
+	var original_status = self.status;
+	self.status = "start_update";
+	switch(original_status){
+		case "not_exist":
+		case "start_create":
+		case "loading":
+			return;
+		break;
+
+		case "loaded":
+		case "creating_dom":
+		case "dom_created":
+			console.log("update the recording information");
+			self.removeAll();
+			self.retrieve_data();	
+		break;
+	}
+
 }
 
 AudioTransript.prototype.retrieve_data = function(){
@@ -52,9 +69,13 @@ AudioTransript.prototype.retrieve_data = function(){
 	for(var i=0; i< self.role_array.length; i++){
 		speech_transcription_query.include(self.role_array[i]);
 	}
-
+	self.status = "loading";
   speech_transcription_query.get(self.transcription_id, {
 	  success: function(transcript_obj) {
+	  	if(self.status !="loading"){
+	  		return;
+	  	}
+			self.status = "loaded";
 	  	self.transcript_obj = transcript_obj;
 	  	self.OrganizeData();
 	  },
@@ -65,13 +86,11 @@ AudioTransript.prototype.retrieve_data = function(){
 }
 
 
-
 AudioTransript.prototype.OrganizeData = function(){
 
 	var self = this;
-
+	self.status = "creating_dom";
 	for(var j=0; j< self.role_array.length; j++){
-
 
 		transcription_each_role = new Array();
 
@@ -137,11 +156,13 @@ AudioTransript.prototype.ConstructDom = function(speaker_role, in_audio_src, tra
 
 	var transcript_html_text = Transcript_Template({role:speaker_role, audio_src:in_audio_src,list:transcription_message_array});
 	self.root_element.append(transcript_html_text);
-
+	self.status = "dom_created";
 }
 
 AudioTransript.prototype.removeAll = function(){
 	var self = this;
+	self.status = null;
+	self.transcript_obj = null;
 	self.root_element.html(null);
 }
 
