@@ -120,7 +120,7 @@ ParticipantTableMgr.prototype.create_rolename_array = function(){
 		break;
 	  case 'BP':
 	  	self.role_array = ["PrimeMinister","LeaderOpposition","DeptyPrimeMinister","DeptyLeaderOpposition",
-                      "MemberGovernment","MemberOpposition","GovermentWhip","OppositionWhip"];
+                      "MemberGovernment","MemberOpposition","GovernmentWhip","OppositionWhip"];
           	self.container_array = ["PM_Container","LO_Container","DPM_Container","DLO_Container",
                             "MG_Container","MO_Container","GW_Container","OW_Container"];
 		break;
