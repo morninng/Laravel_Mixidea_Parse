@@ -141,6 +141,7 @@ var convert_table = {
 	DeptyPrimeMinister:"DPM",
 	DeptyLeaderOpposition:"DLO",
 	GovernmentWhip:"GW",
+	GovermentWhip:"GW",
 	OppositionWhip:"OW",
 	GovermentReply:"GR",
 	OppositionReply:"OR"

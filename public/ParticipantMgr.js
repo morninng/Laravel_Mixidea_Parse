@@ -173,7 +173,7 @@ ParticipantMgr.prototype.setGameData = function(){
 		break;
 	  case 'BP':
 	  	self.role_array = ["PrimeMinister","LeaderOpposition","DeptyPrimeMinister","DeptyLeaderOpposition",
-                      "MemberGovernment","MemberOpposition","GovernmentWhip","OppositionWhip","Audince1","Audince2"];
+                      "MemberGovernment","MemberOpposition","GovermentWhip","OppositionWhip","Audince1","Audince2"];
 		self.role_group_array = {PrimeMinister:"OG",LeaderOpposition:"OO",DeptyPrimeMinister:"OG",DeptyLeaderOpposition:"OO",MemberGovernment:"CG",MemberOpposition:"CO",GovernmentWhip:"CG",OppositionWhip:"CO",audience1:"Aud",audience2:"Aud",audience3:"Aud",audience4:"Aud",audience5:"Aud",audience6:"Aud",audience7:"Aud",audience8:"Aud",audience9:"Aud",audience10:"Aud"};
 		self.group_name_array = ["OG","OO","CG","CO"];
 		break;
