@@ -182,8 +182,8 @@ Parse.Cloud.define("update_user_data", function(request, response) {
       console.log("error" + error);
     }
   });
-
 });
+
 
 
 Parse.Cloud.define("RetrieveUserId", function(request, response) {
@@ -203,4 +203,6 @@ Parse.Cloud.define("RetrieveUserId", function(request, response) {
   });
 
 });
+
+
 

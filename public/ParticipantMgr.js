@@ -17,12 +17,14 @@ ParticipantMgr.prototype.initialize = function(){
 	var participants_array = actual_game_obj.get("participants");
 	if(participants_array){
 		for(var i=0; i< participants_array.length; i++){
-			var parse_id = participants_array[i].id;
-			var FirstName = participants_array[i].get("FirstName");
-			var LastName = participants_array[i].get("LastName");
-			var src = participants_array[i].get("Profile_picture");
-			var obj = {first_name:FirstName, last_name:LastName, pict_src:src };
-			self.participants_obj[parse_id] = obj
+			if(participants_array[i]){
+				var parse_id = participants_array[i].id;
+				var FirstName = participants_array[i].get("FirstName");
+				var LastName = participants_array[i].get("LastName");
+				var src = participants_array[i].get("Profile_picture");
+				var obj = {first_name:FirstName, last_name:LastName, pict_src:src };
+				self.participants_obj[parse_id] = obj
+			}
 		}
 	}
 	self.debater_obj = actual_game_obj.get("participant_role");
@@ -94,12 +96,14 @@ ParticipantMgr.prototype.update_parse_data = function( ){
 	var participants_array = actual_game_obj.get("participants");
 	if(participants_array){
 		for(var i=0; i< participants_array.length; i++){
-			var parse_id = participants_array[i].id;
-			var FirstName = participants_array[i].get("FirstName");
-			var LastName = participants_array[i].get("LastName");
-			var src = participants_array[i].get("Profile_picture");
-			var obj = {first_name:FirstName, last_name:LastName, pict_src:src };
-			self.participants_obj[parse_id] = obj
+			if(participants_array[i]){
+				var parse_id = participants_array[i].id;
+				var FirstName = participants_array[i].get("FirstName");
+				var LastName = participants_array[i].get("LastName");
+				var src = participants_array[i].get("Profile_picture");
+				var obj = {first_name:FirstName, last_name:LastName, pict_src:src };
+				self.participants_obj[parse_id] = obj
+			}
 		}
 	}
 	self.debater_obj = actual_game_obj.get("participant_role");
@@ -142,11 +146,13 @@ ParticipantMgr.prototype.update_parseid_hangoutid_mapping = function(){
 	var participants_array = actual_game_obj.get("participants");
 	if(participants_array){
 		for(var i=0; i< participants_array.length; i++){
-			mapping_key[i] = "mapping_" + participants_array[i].id;
-			var mapping_data_str = gapi.hangout.data.getValue(mapping_key[i]);
-			if(mapping_data_str){
-				var mapping_data = JSON.parse(mapping_data_str);
-				self.parse_hangout_idmapping_array.push(mapping_data);
+			if(participants_array[i]){
+				mapping_key[i] = "mapping_" + participants_array[i].id;
+				var mapping_data_str = gapi.hangout.data.getValue(mapping_key[i]);
+				if(mapping_data_str){
+					var mapping_data = JSON.parse(mapping_data_str);
+					self.parse_hangout_idmapping_array.push(mapping_data);
+				}
 			}
 		}
 	}
